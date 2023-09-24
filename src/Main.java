@@ -3,6 +3,7 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
         //깃 확인용
+        //마스터 브랜치 확인용
         Scanner scanner = new Scanner(System.in);
 
         while (true) {
