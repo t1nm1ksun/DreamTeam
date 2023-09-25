@@ -85,7 +85,7 @@ public class Main {
                     System.out.println("[4.수업 삭제를 선택하셨습니다.]");
                     System.out.println("[수업리스트]");
                     System.out.print("삭제할 수업 코드를 입력하세요 (*공백없이 숫자 4자리를 입력하세요*): ");
-                    int classcode_Delete= scanner.nextInt();
+                    int classcode_Delete = scanner.nextInt();
                     if (classcode_Delete<9999 && classcode_Delete>0){
                         System.out.println("수업 삭제가 완료되었습니다.");
                     }
