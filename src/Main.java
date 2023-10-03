@@ -1,13 +1,14 @@
 import java.util.Scanner;
 
 public class Main {
-    //전역변수 선언
+
+    //전역변수 선언 =================================================================
     public static int choice; //메인 메뉴
-    public static int classMenu;
-    public static int studentMenu;
+    public static int classMenu; //수업 관리 메뉴
+    public static int studentMenu; //학생 관리 메뉴
 
 
-    //함수
+    //함수 선언 =====================================================================
     public static void test(){
         System.out.println("테스트");
     }
@@ -259,6 +260,7 @@ public class Main {
         scanner.close();
     }
 
+    //=============================================================================
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         while (true) {
