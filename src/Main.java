@@ -10,9 +10,6 @@ public class Main {
 
 
     //함수 선언 =====================================================================
-    public static void test(){
-        System.out.println("테스트");
-    }
 
     //메인 메뉴 함수
     public static int menu(){
