@@ -1,4 +1,7 @@
+import java.sql.SQLOutput;
 import java.util.Scanner;
+import java.util.SortedMap;
+
 //master branch
 public class Main {
 
@@ -9,9 +12,19 @@ public class Main {
     public static Scanner scanner = new Scanner(System.in); // 스캐너를 클래스 변수로 선언하고 한 번 열기
 
 
+
+    public static void print() {
+        Students std = new Students();
+        String name1 = std.getName();
+        String number = std.getPhoneNumber();
+        System.out.println(name1);
+        System.out.println(number);
+    }
+
     //함수 선언 =====================================================================
 
     //메인 메뉴 함수
+
     public static int menu(){
         System.out.println("[1.수업 시간표 관리 2.학생 관리 3.종료]");
         System.out.println("-> 언제든 0을 누르면 현재 화면으로 돌아옵니다");
@@ -55,7 +68,7 @@ public class Main {
         }
         System.out.println("수업 등록이 완료되었습니다.");
         }
-
+    //hi!
     //수업 편집 함수
     public static void editClass(){
             System.out.println("[3.수업 편집을 선택하셨습니다.]");
@@ -252,19 +265,20 @@ public class Main {
 
     //=============================================================================
     public static void main(String[] args) {
-        while (true) {
-            menu(); //메인 메뉴
-            if (choice == 1) { //수업 시간표 관리
-                management_Class();
-            } else if (choice == 2) {
-                management_Student();
-            } else if (choice == 3) {
-                System.out.println("[프로그램을 종료합니다.]");
-                break; // 무한 루프 종료
-            } else {
-                System.out.println("오류 : 잘못된 입력 입니다. (1,2,3중 하나의 숫자를 선택해 주세요.) : ");
-            }
-        }
+        print();
+//        while (true) {
+//            menu(); //메인 메뉴
+//            if (choice == 1) { //수업 시간표 관리
+//                management_Class();
+//            } else if (choice == 2) {
+//                management_Student();
+//            } else if (choice == 3) {
+//                System.out.println("[프로그램을 종료합니다.]");
+//                break; // 무한 루프 종료
+//            } else {
+//                System.out.println("오류 : 잘못된 입력 입니다. (1,2,3중 하나의 숫자를 선택해 주세요.) : ");
+//            }
+//        }
         scanner.close();
     }
 }
