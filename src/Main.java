@@ -121,13 +121,20 @@ public class Main {
         System.out.println("[1.조회 2.등록 3.편집 4.삭제]");
         System.out.print("메뉴를 입력하세요 : ");
         classMenu = scanner.nextInt();
-        if (classMenu == 1) {
+        if(classMenu==0){
+            //0눌러서 메인메뉴 가는 함수
+            //            System.out.println("[사용자가 0을 입력하였습니다. 메인메뉴로 이동합니다.]");
+            //            System.out.println("현재까지 입력한 정보는 기억되지 않습니다. 그래도 대메뉴로 이동하시겠습니까? [Y/N] : ");
+        }
+        else if (classMenu == 1) {
             classList();
         } else if (classMenu == 2) {
             addClass();
         } else if (classMenu==3) {
+            classList();
             editClass();
         } else if (classMenu==4) {
+            classList();
             deleteClass();
         } else if (classMenu==0) {
             //메인 메뉴 실행문?? 아니면 루프 탈출문
@@ -250,9 +257,11 @@ public class Main {
         else if(studentMenu==2) {
             addStudent();
         }else if(studentMenu==3){
+            studentList();
             editStudent();
         }
         else if (studentMenu==4) {
+            studentList();
             deleteStudent();
         }
         else if(studentMenu==5){
