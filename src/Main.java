@@ -6,6 +6,7 @@ public class Main {
     public static int choice; //메인 메뉴
     public static int classMenu; //수업 관리 메뉴
     public static int studentMenu; //학생 관리 메뉴
+    public static Scanner scanner = new Scanner(System.in); // 스캐너를 클래스 변수로 선언하고 한 번 열기
 
 
     //함수 선언 =====================================================================
@@ -15,12 +16,12 @@ public class Main {
 
     //메인 메뉴 함수
     public static int menu(){
-        Scanner scanner = new Scanner(System.in);
+
         System.out.println("[1.수업 시간표 관리 2.학생 관리 3.종료]");
         System.out.println("-> 언제든 0을 누르면 현재 화면으로 돌아옵니다");
         System.out.print("메뉴를 입력하세요 : ");
         choice = scanner.nextInt();
-        scanner.close();
+
         return choice;
     }
 
@@ -32,7 +33,7 @@ public class Main {
 
     //수업 추가 함수
     public static void addClass(){
-        Scanner scanner = new Scanner(System.in);
+
         System.out.println("[2.수업 등록을 선택하셨습니다.]");
         System.out.println("[1.수학(1) 2.수학(2) 3.영어(1) 4.영어(2)]");
         System.out.print("개설할 강의를 선택해주세요 : ");
@@ -59,12 +60,12 @@ public class Main {
             System.out.println("오류 : 잘못된 입력입니다. >> 1,2,3,4중 하나의 숫자를 선택해 주세요.");
         }
         System.out.println("수업 등록이 완료되었습니다.");
-        scanner.close(); // 스캐너를 닫아줌
+         // 스캐너를 닫아줌
         }
 
     //수업 편집 함수
     public static void editClass(){
-            Scanner scanner = new Scanner(System.in);
+
             System.out.println("[3.수업 편집을 선택하셨습니다.]");
             System.out.println("[수업 리스트]");
             System.out.print("편집할 수업 코드를 입력해주세요 (*공백없이 숫자 4자리를 입력하세요*): ");
@@ -93,12 +94,12 @@ public class Main {
             } else {
                 System.out.println("[오류 : 등록된 수업이 없거나 잘못된 입력입니다.]");
             }
-            scanner.close(); // 스캐너를 닫아줌
+             // 스캐너를 닫아줌
         }
 
     //수업 삭제 함수
     public static void deleteClass(){
-        Scanner scanner = new Scanner(System.in);
+
         System.out.println("[4.수업 삭제를 선택하셨습니다.]");
         System.out.println("[수업리스트]");
         System.out.print("삭제할 수업 코드를 입력하세요 (*공백없이 숫자 4자리를 입력하세요*): ");
@@ -110,12 +111,12 @@ public class Main {
             System.out.println("[오류 : 등록된 수업이 없거나 잘못된 입력입니다.]");
             System.out.println("삭제할 수업 코드를 입력하세요 (*공백없이 숫자 4자리를 입력하세요*): ");
         }
-        scanner.close();
+
     }
 
     //수업 시간표 관리 함수
     public static void management_Class(){
-        Scanner scanner = new Scanner(System.in);
+
         System.out.println("[1. 수업 시간표 관리를 선택하셨습니다.]");
         System.out.println("[1.조회 2.등록 3.편집 4.삭제]");
         System.out.print("메뉴를 입력하세요 : ");
@@ -133,7 +134,7 @@ public class Main {
         } else {
             System.out.println("[오류 : 잘못된 입력입니다. >> 1,2,3,4중 하나의 숫자를 선택해 주세요.]");
         }
-        scanner.close();
+
     }
 
     //학생 정보 리스트 출력 함수
@@ -144,7 +145,7 @@ public class Main {
 
     //학생 등록 함수
     public static void addStudent(){
-        Scanner scanner = new Scanner(System.in);
+
         System.out.println("[2.학생 등록을 선택하셨습니다.]");
         System.out.print("학생의 이름을 입력하세요 (*2~10글자의 한글을 입력하세요*) : ");
         // 이전 입력 버퍼를 비우기 위해 빈 라인을 읽습니다.
@@ -158,12 +159,12 @@ public class Main {
 //                    System.out.println("[이미 등록되어 있는 정보입니다.]");
 //                  System.out.println("학생의 이름을 입력하세요 (*2~10글자의 한글을 입력하세요*) : ");
 //                    System.out.println("오류 : 잘못된 입력입니다. (*공백이나 '-'없이 11개의 숫자를 한번에 입력하세요*) : ");
-        scanner.close();
+
     }
 
     //학생 편집 함수
     public static void editStudent(){
-        Scanner scanner = new Scanner(System.in);
+
         System.out.println("[3.학생 정보 편집을 선택하셨습니다.]");
         System.out.print("편집하고 싶은 학생 아이디를 입력하세요 (*공백없는 숫자로만 입력하세요*) : ");
         scanner.nextLine();
@@ -214,12 +215,12 @@ public class Main {
             System.out.print("변경하고 싶은 학생 정보를 선택하세요 : ");
             studentdata_Edit = scanner.nextInt();
         }
-        scanner.close(); // 스캐너를 닫아줌
+         // 스캐너를 닫아줌
     }
 
     //학생 삭제 함수
     public static void deleteStudent(){
-        Scanner scanner = new Scanner(System.in);
+
         System.out.println("[4.학생 정보 삭제를 선택하셨습니다.]");
         System.out.print("삭제하고 싶은 학생 아이디를 입력하세요 (*공백없는 숫자로만 입력하세요*) : ");
         scanner.nextLine();
@@ -227,12 +228,12 @@ public class Main {
 //                    System.out.println("해당 학생의 정보가 삭제되었습니다.");
         System.out.println("[오류 : 입력형식이 맞지 않거나 해당 아이디의 학생이 존재하지 않습니다.]");
         System.out.println("삭제하고 싶은 학생 아이디를 입력하세요 (*공백없는 숫자로만 입력하세요*) : ");
-        scanner.close();
+
     }
 
     //학생 관리 함수
     public static void management_Student(){
-        Scanner scanner = new Scanner(System.in);
+
         System.out.println("[2. 학생 관리를 선택하셨습니다.]");
         System.out.println("[1.조회 2.등록 3.편집 4.삭제]");
         System.out.print("메뉴를 입력하세요 : ");
@@ -257,12 +258,11 @@ public class Main {
         else if(studentMenu==5){
             System.out.println("[오류 : 잘못된 입력입니다. >> 1,2,3,4중 하나의 숫자를 선택해 주세요.]");
         }
-        scanner.close();
+
     }
 
     //=============================================================================
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
         while (true) {
             menu(); //메인 메뉴
             if (choice == 1) { //수업 시간표 관리
