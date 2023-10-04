@@ -46,6 +46,7 @@ public class LectureManager {
     public void addLecture() {
         //과목 정보 입력
         String newSubject = "수학;";
+
         //선생님 정보 입력
         String newTeacher = "김창균";
         //요일 정보 입력
