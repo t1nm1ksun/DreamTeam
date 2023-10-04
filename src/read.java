@@ -54,18 +54,18 @@ public class read {
      *String 배열을 받아서 넣기!
      * @param dataList
      */
-    public void writeCSV(String[] dataList) {
+    public void writeCSV(List<String[]> dataList) {
         BufferedWriter bufferedwrite = null;
         String filePath ="src/class.csv";
         try {
             bufferedwrite = Files.newBufferedWriter(Paths.get(filePath));
-
-                String[] data = dataList;
-                String aData = "";
-                aData = data[0] + "," + data[1] + "," + data[2] + "," + data[3] + "," + data[4];
-                bufferedwrite.write(aData);
-                bufferedwrite.newLine();
-
+                for(int i = 0; i<dataList.size();i++) {
+                    String[] data = dataList.get(i);
+                    String aData = "";
+                    aData = data[0] + "," + data[1] + "," + data[2] + "," + data[3] + "," + data[4];
+                    bufferedwrite.write(aData);
+                    bufferedwrite.newLine();
+                }
 
         } catch (IOException e) {
             e.printStackTrace();
