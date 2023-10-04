@@ -252,19 +252,19 @@ public class Main {
 
     //=============================================================================
     public static void main(String[] args) {
-        while (true) {
-            menu(); //메인 메뉴
-            if (choice == 1) { //수업 시간표 관리
-                management_Class();
-            } else if (choice == 2) {
-                management_Student();
-            } else if (choice == 3) {
-                System.out.println("[프로그램을 종료합니다.]");
-                break; // 무한 루프 종료
-            } else {
-                System.out.println("오류 : 잘못된 입력 입니다. (1,2,3중 하나의 숫자를 선택해 주세요.) : ");
-            }
-        }
-        scanner.close();
+//        while (true) {
+//            menu(); //메인 메뉴
+//            if (choice == 1) { //수업 시간표 관리
+//                management_Class();
+//            } else if (choice == 2) {
+//                management_Student();
+//            } else if (choice == 3) {
+//                System.out.println("[프로그램을 종료합니다.]");
+//                break; // 무한 루프 종료
+//            } else {
+//                System.out.println("오류 : 잘못된 입력 입니다. (1,2,3중 하나의 숫자를 선택해 주세요.) : ");
+//            }
+//        }
+//        scanner.close();
     }
 }
