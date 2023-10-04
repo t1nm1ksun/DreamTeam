@@ -113,16 +113,16 @@ public class StudentManager {
             //            System.out.println("현재까지 입력한 정보는 기억되지 않습니다. 그래도 대메뉴로 이동하시겠습니까? [Y/N] : ");
         }
         if(Main.studentMenu == 1){
-       //     studentList();
+//            studentList();
         }
         else if(Main.studentMenu == 2) {
             addStudent();
         }else if(Main.studentMenu == 3) {
-        //    studentList();
+//            studentList();
             editStudent();
         }
         else if (Main.studentMenu == 4) {
-        //    studentList();
+//            studentList();
             deleteStudent();
         }
         else if(Main.studentMenu == 5) {

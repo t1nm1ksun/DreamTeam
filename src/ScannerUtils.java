@@ -24,7 +24,7 @@ public class ScannerUtils {
             String inputText = scanner.next();
 
             if(RegexUtils.checkIsMatchesString(pattern, inputText)){
-                scanner.close();
+//                scanner.close();
                 return inputText;
             }
 

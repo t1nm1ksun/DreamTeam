@@ -16,11 +16,16 @@ public class LectureManager {
     // 모든 수업 목록을 조회하는 메서드
     public void displayLectures() {
         if (lectures.isEmpty()) {
-            System.out.println("등록된 수업이 없습니다.");
+            ScannerUtils.print("등록된 수업이 없습니다.", true);
         } else {
             System.out.println("등록된 수업 목록:");
             for (Lecture lecture : lectures) {
-                System.out.print(lecture.getSubject());
+                ScannerUtils.print("수업 코드: " + lecture.getLectureCode(), true);
+                ScannerUtils.print("과목 코드: " + lecture.getSubject(), true);
+                ScannerUtils.print("선생님 코드: " + lecture.getTeacher(), true);
+                ScannerUtils.print("날짜: " + lecture.getDayOfWeek(), true);
+                ScannerUtils.print("시간: " + lecture.getTime(), true);
+                ScannerUtils.print("", true);
             }
         }
     }
@@ -44,20 +49,32 @@ public class LectureManager {
         }
     }
     public void addLecture() {
+        SubjectManager sm = new SubjectManager();
+        TeacherManager tm = new TeacherManager();
+        String newSubject = "";
+        String newTeacher = "";
         //과목 정보 입력
-        String newSubject = "수학;";
-
+        ScannerUtils.print("추가할 과목을 입력해주세요 ", true);
+        ScannerUtils.print("1) 수학   2) 영어 : ", false);
+        String input = ScannerUtils.scanWithPattern(CommonPattern.LECTURE_DATE, CommonPatternError.LECTURE_TIME);
+        if(input.equals("1")) newSubject = sm.find("수학");
+        else newSubject = sm.find("영어");
         //선생님 정보 입력
-        String newTeacher = "김창균";
+        ScannerUtils.print("추가할 선생 입력해주세요 ", true);
+        ScannerUtils.print("1) 신민석   2) 이기웅 : ", false);
+        input = ScannerUtils.scanWithPattern(CommonPattern.LECTURE_DATE, CommonPatternError.LECTURE_TIME);
+        if(input.equals("1"))  newTeacher = tm.find("신민석");
+        else newTeacher = tm.find("이기웅");
+
         //요일 정보 입력
-        String newDay = "월 수 금;";
+        String newDay = "월 수 금";
         //수업 시간 입력
         String newTime = "2";
 
         //lectures 에 해당 lecture add
-        //여기서 과목 코드 추가
-        String newLecCode = Integer.toString(1000 + lectures.size());
-        Lecture newLec = new Lecture(newSubject, newTeacher, newDay, newTime, newLecCode);
+        //여기서 수업 코드 추가
+        String newLecCode = Integer.toString(2001 + lectures.size());
+        Lecture newLec = new Lecture(newSubject, newTeacher, newLecCode, newDay, newTime);
 
         lectures.add(newLec);
     }
