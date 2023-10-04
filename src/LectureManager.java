@@ -7,7 +7,7 @@ public class LectureManager {
 
     public LectureManager() {
         //파일을 읽어서 수업 class들을 만들기
-        Lecture l1 = new Lecture("영어", "신민석", "월 수 금", "타임1");
+        Lecture l1 = new Lecture("영어", "신민석", "월 수 금", "타임1", "1000");
         lectures = new ArrayList<>();
         lectures.add(l1);
     }
@@ -29,6 +29,26 @@ public class LectureManager {
         }
     }
 
+    public  void deleteLecture(String InputLectureCode) {
+//        String InputLectureCode = ScannerUtils.scanWithPattern("dfs", "Error 유효한 과목 코드 아님");
+        boolean isDeleted = false;
+        displayLectures();
+        for(Lecture lec : lectures) {
+            if(InputLectureCode == lec.getLectureCode()) {
+                //del
+                lectures.remove(lec);
+                isDeleted = true;
+                break;
+            }
+        }
+        displayLectures();
+        if(!isDeleted) {
+            //삭제하고자 하는 강의가 없음
+        } else {
+            //삭제 성공!
+        }
+
+    }
 
 
 }

@@ -3,12 +3,14 @@ public class Lecture {
     private String teacher;     // 선생님
     private String dayOfWeek;  // 요일
     private String time;        // 수업 시간
+    private String LectureCode; // 과목 코드
 
-    public Lecture(String subject, String teacher, String dayOfWeek, String time) {
+    public Lecture(String subject, String teacher, String dayOfWeek, String time, String LectureCode) {
         this.subject = subject;
         this.teacher = teacher;
         this.dayOfWeek = dayOfWeek;
         this.time = time;
+        this.LectureCode = LectureCode;
     }
 
     public void classList(){
@@ -18,6 +20,7 @@ public class Lecture {
         this.teacher = "이승범";
         this.dayOfWeek = "월 수 금";
         this.time = "타임 1";
+        this.LectureCode = "1000";
     }
     // 과목 정보 설정
     public void setSubject(String subject) {
@@ -59,6 +62,7 @@ public class Lecture {
         return time;
     }
 
+    public  String getLectureCode() {return LectureCode;}
     @Override
     public String toString() {
         return "과목: " + subject + ", 선생님: " + teacher + ", 요일: " + dayOfWeek + ", 시간: " + time;
