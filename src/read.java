@@ -9,10 +9,21 @@ import java.util.List;
 import java.util.*;
 public class read {
 
+    /**
+     *  csv 읽기 파일
+     *    List<List<String>> list = Read.readCsvFile();
+     *         for(List<String> item : list){
+     *             Lecture l1 = new Lecture(item.get(0), item.get(1), item.get(2), item.get(3),item.get(4));
+     *             lectures.add(l1);
+     *         }
+     * Lecture class 에 있는것처럼 사용시에 순서대로 초기화됨
+     * 사용시 주의점:csv파일 생성후 연결파일을 반드시 메모장으로!
+     * @return List<List<String>> 배열 item
+     */
     public List<List<String>> readCsvFile() {
         List<List<String>> list = new ArrayList<List<String>>();
         BufferedReader bufferedReader = null;
-        String filePath = "C:\\Users\\cjja0\\Desktop\\과제 모음집\\2-2\\전기프\\class.csv";
+        String filePath = "src/class.csv";
         try {
             bufferedReader = Files.newBufferedReader(Paths.get(filePath));
             String line = "";
@@ -38,18 +49,23 @@ public class read {
         return list;
     }
 
-    public void writeCSV(List<String[]> dataList) {
+    /**
+     * csv 쓰기 파일
+     *String 배열을 받아서 넣기!
+     * @param dataList
+     */
+    public void writeCSV(String[] dataList) {
         BufferedWriter bufferedwrite = null;
-        String filePath ="C:\\Users\\cjja0\\Desktop\\과제 모음집\\2-2\\전기프\\class.csv";
+        String filePath ="src/class.csv";
         try {
             bufferedwrite = Files.newBufferedWriter(Paths.get(filePath));
-            for (int i = 0; i < dataList.size(); i++) {
-                String[] data = dataList.get(i);
+
+                String[] data = dataList;
                 String aData = "";
-                aData = data[0] + "," + data[1] + "," + data[2];
+                aData = data[0] + "," + data[1] + "," + data[2] + "," + data[3] + "," + data[4];
                 bufferedwrite.write(aData);
                 bufferedwrite.newLine();
-            }
+
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -65,33 +81,5 @@ public class read {
         }
 
     }
-    public static void addClass(){
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("[2.수업 등록을 선택하셨습니다.]");
-        System.out.println("[1.수학(1) 2.수학(2) 3.영어(1) 4.영어(2)]");
-        System.out.print("개설할 강의를 선택해주세요 : ");
-        int class_Subject = scanner.nextInt();
 
-        if (class_Subject >= 1 && class_Subject <= 4) {
-            System.out.println("[1.선생님(1) 2.선생님(2) 3.선생님(3) 4.선생님(4)]");
-            System.out.print("선생님을 선택해주세요 : ");
-            int teacher = scanner.nextInt();
-            // 선생님 선택에 따른 로직을 추가하세요.
-        } else {
-            System.out.println("[오류 : 잘못된 입력입니다. >> 1,2,3,4중 하나의 숫자를 선택해 주세요.]");
-        }
-        System.out.println("[1.월 수 금 2.화 목 토]");
-        System.out.print("수업요일을 선택해주세요 : ");
-        int day = scanner.nextInt();
-        if(day!=1&&day!=2){
-            System.out.println("오류 : 잘못된 입력입니다. >> 1,2중 하나의 숫자를 선택해 주세요.");
-        }
-        System.out.println("[1.14:00-16:00 2.16:00-18:00 3.18:00-20:00 4.20:00-22:00]");
-        System.out.print("수업시간을 선택해주세요 : ");
-        int class_Time= scanner.nextInt();
-        if (class_Time <= 1 && class_Time >= 4){
-            System.out.println("오류 : 잘못된 입력입니다. >> 1,2,3,4중 하나의 숫자를 선택해 주세요.");
-        }
-        System.out.println("수업 등록이 완료되었습니다.");
-    }
 }
