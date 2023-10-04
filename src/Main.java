@@ -12,8 +12,9 @@ public class Main {
     public static void main(String[] args) {
         LectureManager Lm = new LectureManager();
 //        Lm.deleteLecture("1000");
-        Lm.addLecture();
-        Lm.displayLectures();
+//        Lm.addLecture();
+//        Lm.displayLectures();
+        Lm.editLecture("gd");
         scanner.close();
     }
 }

@@ -1,6 +1,5 @@
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
 public class LectureManager {
     private List<Lecture> lectures; // 수업 목록을 저장할 리스트
@@ -50,8 +49,11 @@ public class LectureManager {
         }
     }
 
-    public void editLecture() {
+    public void editLecture(String InputLectureCode) {
 
+        ScannerUtils.print("메뉴를 입력하세요.", true);
+        String menu = ScannerUtils.scanWithPattern("^(1|2)$", CommonPatternError.LECTURE_DATE);
+        System.out.println(menu + "를 입력받음");
     }
 
     public void addLecture() {
