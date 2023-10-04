@@ -252,9 +252,11 @@ public class Main {
 
     //=============================================================================
     public static void main(String[] args) {
-        LectureManager Lm = new LectureManager();
-        Lm.displayLectures();
-        scanner.close();
+//        LectureManager Lm = new LectureManager();
+//        Lm.displayLectures();
+//        scanner.close();
+        String phoneNumber = ScannerUtils.scanWithPattern(CommonPattern.PHONE, CommonPatternError.PHONE);
+        ScannerUtils.print("phoneNumber를 정상적으로 입력받았습니다. ", true);
 
     }
 }
