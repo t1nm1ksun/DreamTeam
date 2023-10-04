@@ -255,5 +255,6 @@ public class Main {
         LectureManager Lm = new LectureManager();
         Lm.displayLectures();
         scanner.close();
+
     }
 }
