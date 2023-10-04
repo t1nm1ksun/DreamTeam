@@ -9,6 +9,8 @@ public class LectureManager {
         Lecture l1 = new Lecture("영어", "신민석", "월 수 금", "1", "1000");
         lectures = new ArrayList<>();
         lectures.add(l1);
+
+
     }
 
 
@@ -50,17 +52,35 @@ public class LectureManager {
     }
 
     public void editLecture(String InputLectureCode) {
-
         ScannerUtils.print("메뉴를 입력하세요.", true);
         String menu = ScannerUtils.scanWithPattern("^(1|2)$", CommonPatternError.LECTURE_DATE);
         System.out.println(menu + "를 입력받음");
     }
 
     public void addLecture() {
+        SubjectManager sbm = new SubjectManager();
+        TeacherManager tm = new TeacherManager();
+        String newTeacher = "ㅁ";
+        String newSubject = "ㅇ";
         //과목 정보 입력
-        String newSubject = "수학;";
+        //객관식으로 1.수학 2.영어 일때
+        String menu = ScannerUtils.scanWithPattern("^(1|2)$", CommonPatternError.LECTURE_DATE);
+        if(menu.equals("1")) {
+            newSubject = sbm.find("수학");
+        } else {
+            newSubject = sbm.find("영어");
+        }
+
+
         //선생님 정보 입력
-        String newTeacher = "김창균";
+//        String menu2 = "1";
+        String menu2 = ScannerUtils.scanWithPattern("^(1|2)$", CommonPatternError.LECTURE_DATE);
+        if(menu2.equals("1")) {
+            newTeacher = tm.find("신민석");
+        } else {
+            newTeacher = tm.find("이기웅");
+        }
+
         //요일 정보 입력
         String newDay = "월 수 금;";
         //수업 시간 입력
