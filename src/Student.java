@@ -1,12 +1,12 @@
 import java.util.ArrayList;
 
 public class Student {
-    private int id;
+    private String id;
     private String name;
     private String phoneNum;
     private ArrayList<String> lectureList = new ArrayList<String>();
 
-    public Student(int id, String name, String phoneNum, ArrayList<String> lectureList) {
+    public Student(String id, String name, String phoneNum, ArrayList<String> lectureList) {
         this.id = id;
         this.name = name;
         this.phoneNum = phoneNum;
@@ -14,11 +14,11 @@ public class Student {
     }
 
     // Getter와 Setter 메서드 추가 (필요에 따라)
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -45,5 +45,4 @@ public class Student {
     public void setLectureList(ArrayList<String> lectureList) {
         this.lectureList = lectureList;
     }
-
 }
