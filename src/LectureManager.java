@@ -7,7 +7,7 @@ public class LectureManager {
 
     public LectureManager() {
         //파일을 읽어서 수업 class들을 만들기
-        Lecture l1 = new Lecture("영어", "신민석", "월 수 금", "타임1", "1000");
+        Lecture l1 = new Lecture("영어", "신민석", "월 수 금", "1", "1000");
         lectures = new ArrayList<>();
         lectures.add(l1);
     }
@@ -24,6 +24,7 @@ public class LectureManager {
                 ScannerUtils.print("선생님 : " + lecture.getTeacher(), true);
                 ScannerUtils.print("요일 : " + lecture.getDayOfWeek(), true);
                 ScannerUtils.print("타임 : " + lecture.getTime(), true);
+                ScannerUtils.print("타임 : " + lecture.getLectureCode(), true);
                 ScannerUtils.print("", true);
             }
         }
@@ -35,7 +36,7 @@ public class LectureManager {
         displayLectures();
         for(Lecture lec : lectures) {
             if(InputLectureCode == lec.getLectureCode()) {
-                //del
+                //delete
                 lectures.remove(lec);
                 isDeleted = true;
                 break;
@@ -47,7 +48,28 @@ public class LectureManager {
         } else {
             //삭제 성공!
         }
+    }
 
+    public void editLecture() {
+
+    }
+
+    public void addLecture() {
+        //과목 정보 입력
+        String newSubject = "수학;";
+        //선생님 정보 입력
+        String newTeacher = "김창균";
+        //요일 정보 입력
+        String newDay = "월 수 금;";
+        //수업 시간 입력
+        String newTime = "2";
+
+        //lectures 에 해당 lecture add
+        //여기서 과목 코드 추가
+        String newLecCode = Integer.toString(1000 + lectures.size());
+        Lecture newLec = new Lecture(newSubject, newTeacher, newDay, newTime, newLecCode);
+
+        lectures.add(newLec);
     }
 
 

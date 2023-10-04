@@ -19,7 +19,7 @@ public class Lecture {
         this.subject = "영어";
         this.teacher = "이승범";
         this.dayOfWeek = "월 수 금";
-        this.time = "타임 1";
+        this.time = "1";
         this.LectureCode = "1000";
     }
     // 과목 정보 설정
