@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 public class LectureManager {
     private List<Lecture> lectures; // 수업 목록을 저장할 리스트
@@ -15,11 +16,15 @@ public class LectureManager {
     // 모든 수업 목록을 조회하는 메서드
     public void displayLectures() {
         if (lectures.isEmpty()) {
-            System.out.println("등록된 수업이 없습니다.");
+            ScannerUtils.print("등록된 수업이 없습니다.", true);
         } else {
-            System.out.println("등록된 수업 목록:");
+            ScannerUtils.print("등록된 수업 목록:", true);
             for (Lecture lecture : lectures) {
-                System.out.print(lecture.getSubject());
+                ScannerUtils.print("과목명 : " + lecture.getSubject(), true);
+                ScannerUtils.print("선생님 : " + lecture.getTeacher(), true);
+                ScannerUtils.print("요일 : " + lecture.getDayOfWeek(), true);
+                ScannerUtils.print("타임 : " + lecture.getTime(), true);
+                ScannerUtils.print("", true);
             }
         }
     }
