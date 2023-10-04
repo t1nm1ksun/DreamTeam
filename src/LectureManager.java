@@ -19,12 +19,13 @@ public class LectureManager {
             ScannerUtils.print("등록된 수업이 없습니다.", true);
         } else {
             System.out.println("등록된 수업 목록:");
+            ScannerUtils.print("수업코드     과목코드     선생님코드    날짜      시간", true);
             for (Lecture lecture : lectures) {
-                ScannerUtils.print("수업 코드: " + lecture.getLectureCode(), true);
-                ScannerUtils.print("과목 코드: " + lecture.getSubject(), true);
-                ScannerUtils.print("선생님 코드: " + lecture.getTeacher(), true);
-                ScannerUtils.print("날짜: " + lecture.getDayOfWeek(), true);
-                ScannerUtils.print("시간: " + lecture.getTime(), true);
+                ScannerUtils.print(lecture.getLectureCode()+"       ", false);
+                ScannerUtils.print(lecture.getSubject()+"       ", false);
+                ScannerUtils.print(lecture.getTeacher()+"       ", false);
+                ScannerUtils.print(lecture.getDayOfWeek()+"     ", false);
+                ScannerUtils.print(lecture.getTime(), false);
                 ScannerUtils.print("", true);
             }
         }
@@ -67,7 +68,7 @@ public class LectureManager {
         else newTeacher = tm.find("이기웅");
 
         //요일 정보 입력
-        String newDay = "월 수 금";
+        String newDay = "월수금";
         //수업 시간 입력
         String newTime = "2";
 
