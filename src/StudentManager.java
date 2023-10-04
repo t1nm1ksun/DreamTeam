@@ -2,34 +2,44 @@ import java.util.Scanner;
 
 public class StudentManager {
 
-    //학생 정보 리스트 출력 함수
-    public static void studentList() {
+    /// 학생 정보 리스트 출력 함수
+    public static void showStudentList() {
         System.out.println("[학생 정보 리스트]");
-        // 데이터 파일 접근해서 학생 정보 리스트 출력
+
+        //TODO: 데이터 파일 접근해서 학생 정보 리스트 출력
     }
 
-    //학생 등록 함수
+    /// 학생 등록 함수
     public static void addStudent() {
         System.out.println("[2.학생 등록을 선택하셨습니다.]");
-        System.out.print("학생의 이름을 입력하세요 (*2~10글자의 한글을 입력하세요*) : ");
+        System.out.print("학생의 이름을 입력하세요 (* 2~10자의 한글로 입력하세요 *): ");
+
+        //TODO: 이름 정규식 추가되면 이름으로 수정하기
+
         // 이전 입력 버퍼를 비우기 위해 빈 라인을 읽습니다.
         Main.scanner.nextLine();
-        String student_Name = Main.scanner.nextLine();
-//                    System.out.println("올바르지 않은 입력입니다 (*2~10글자의 한글을 입력하세요*) : ");
-        System.out.print("학생의 전화번호를 입력하세요 (*공백이나 '-'없이 11개의 숫자를 한번에 입력하세요*) : ");
+        String name = ScannerUtils.scanWithPattern(CommonPattern.PHONE, CommonPatternError.PHONE);
 
-        String student_Phone = Main.scanner.nextLine();
+        System.out.print("학생의 전화번호를 입력하세요 (* 공백이나 '-'없이 11개의 숫자를 한 번에 입력하세요 *): ");
+
+        //TODO: 넥스트 라인 필요한지 확인
+        Main.scanner.nextLine();
+        String phoneNum = ScannerUtils.scanWithPattern(CommonPattern.PHONE, CommonPatternError.PHONE);
+
         System.out.println("[학생 등록이 완료되었습니다.]");
-//                    System.out.println("[이미 등록되어 있는 정보입니다.]");
+//                  System.out.println("[이미 등록되어 있는 정보입니다.]");
 //                  System.out.println("학생의 이름을 입력하세요 (*2~10글자의 한글을 입력하세요*) : ");
-//                    System.out.println("오류 : 잘못된 입력입니다. (*공백이나 '-'없이 11개의 숫자를 한번에 입력하세요*) : ");
+//                  System.out.println("오류 : 잘못된 입력입니다. (*공백이나 '-'없이 11개의 숫자를 한번에 입력하세요*) : ");
     }
 
-    //학생 편집 함수
-    public static void editStudent(){
+    /// 학생 편집 함수
+    public static void editStudent() {
         System.out.println("[3.학생 정보 편집을 선택하셨습니다.]");
-        System.out.print("편집하고 싶은 학생 아이디를 입력하세요 (*공백없는 숫자로만 입력하세요*) : ");
+        System.out.print("편집하고 싶은 학생 아이디를 입력하세요 (*공백 없는 숫자로만 입력하세요*) : ");
+
+        //TODO: 넥스트 라인 필요한지 확인, id 정규식 추가되면 id로 추가하기
         Main.scanner.nextLine();
+        String id = ScannerUtils.scanWithPattern(CommonPattern.PHONE, CommonPatternError.PHONE);
         String id_Edit = Main.scanner.nextLine();
 //                    System.out.println("해당 학생의 정보가 삭제되었습니다.");
         System.out.println("[신민석 학생의 정보를 변경합니다.]");
