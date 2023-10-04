@@ -4,9 +4,9 @@ public class Student {
     private int id;
     private String name;
     private String phoneNum;
-    private ArrayList<Integer> lectureList = new ArrayList<Integer>();
+    private ArrayList<String> lectureList = new ArrayList<String>();
 
-    public Student(int id, String name, String phoneNum, ArrayList<Integer> lectureList) {
+    public Student(int id, String name, String phoneNum, ArrayList<String> lectureList) {
         this.id = id;
         this.name = name;
         this.phoneNum = phoneNum;
@@ -38,11 +38,11 @@ public class Student {
         this.phoneNum = phoneNum;
     }
 
-    public ArrayList<Integer> getLectureList() {
+    public ArrayList<String> getLectureList() {
         return lectureList;
     }
 
-    public void setLectureList(ArrayList<Integer> lectureList) {
+    public void setLectureList(ArrayList<String> lectureList) {
         this.lectureList = lectureList;
     }
 
