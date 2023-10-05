@@ -18,13 +18,13 @@ public class ScannerUtils {
      * @return: 정상적으로 입력받은 String 값
      * */
     static String scanWithPattern(String pattern, String error) {
-        Scanner scanner = new Scanner(System.in);
+        ScannerInstance instance = ScannerInstance.getInstance();
+        Scanner scanner = instance.getScanner();
 
         while(true){
             String inputText = scanner.next();
 
             if(RegexUtils.checkIsMatchesString(pattern, inputText)){
-                scanner.close();
                 return inputText;
             }
 
@@ -42,7 +42,9 @@ public class ScannerUtils {
      * @return: 정상적으로 입력받은 int 값
      * */
     static int scanWithListWhitelist(List<Integer> whiteList, String error){
-        Scanner scanner = new Scanner(System.in);
+        ScannerInstance instance = ScannerInstance.getInstance();
+        Scanner scanner = instance.getScanner();
+        scanner.nextLine();
 
         while(true){
             int inputNumber = scanner.nextInt();

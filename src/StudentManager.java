@@ -106,9 +106,9 @@ public class StudentManager {
     public static void deleteStudent(){
         System.out.println("[4.학생 정보 삭제를 선택하셨습니다.]");
         System.out.print("삭제하고 싶은 학생 아이디를 입력하세요 (*공백없는 숫자로만 입력하세요*) : ");
-        Main.scanner.nextLine();
-        String id_Delete = Main.scanner.nextLine();
-//                    System.out.println("해당 학생의 정보가 삭제되었습니다.");
+//        Main.scanner.nextLine();
+//        String id_Delete = Main.scanner.nextLine();
+                    System.out.println("해당 학생의 정보가 삭제되었습니다.");
         System.out.println("[오류 : 입력형식이 맞지 않거나 해당 아이디의 학생이 존재하지 않습니다.]");
         System.out.println("삭제하고 싶은 학생 아이디를 입력하세요 (*공백없는 숫자로만 입력하세요*) : ");
     }
@@ -118,27 +118,27 @@ public class StudentManager {
         System.out.println("[2. 학생 관리를 선택하셨습니다.]");
         System.out.println("[1.조회 2.등록 3.편집 4.삭제]");
         System.out.print("메뉴를 입력하세요 : ");
-        Main.studentMenu = Main.scanner.nextInt();
+//        Main.studentMenu = Main.scanner.nextInt();
 
-        if(Main.studentMenu == 0) {
+        if(Main.manageMenu == 0) {
             //0눌러서 메인메뉴 가는 함수
             //            System.out.println("[사용자가 0을 입력하였습니다. 메인메뉴로 이동합니다.]");
             //            System.out.println("현재까지 입력한 정보는 기억되지 않습니다. 그래도 대메뉴로 이동하시겠습니까? [Y/N] : ");
         }
-        if(Main.studentMenu == 1){
-            studentList();
+        if(Main.manageMenu == 1){
+//            studentList();
         }
-        else if(Main.studentMenu == 2) {
+        else if(Main.manageMenu == 2) {
             addStudent();
-        }else if(Main.studentMenu == 3) {
-            studentList();
+        }else if(Main.manageMenu == 3) {
+//            studentList();
             editStudent();
         }
-        else if (Main.studentMenu == 4) {
-            studentList();
+        else if (Main.manageMenu == 4) {
+//            studentList();
             deleteStudent();
         }
-        else if(Main.studentMenu == 5) {
+        else if(Main.manageMenu == 5) {
             System.out.println("[오류 : 잘못된 입력입니다. >> 1,2,3,4중 하나의 숫자를 선택해 주세요.]");
         }
     }

@@ -1,11 +1,11 @@
-public class    Lecture {
-    private String subject;     // 과목
+public class Lecture {
+    private String subject;     // 과목 코드
     private String teacher;     // 선생님
     private String dayOfWeek;  // 요일
     private String time;        // 수업 시간
-    private String LectureCode; // 과목 코드
+    private String LectureCode; // 수업 코드
 
-    public Lecture(String subject, String teacher, String dayOfWeek, String time, String LectureCode) {
+    public Lecture(String subject, String teacher, String LectureCode, String dayOfWeek, String time) {
         this.subject = subject;
         this.teacher = teacher;
         this.dayOfWeek = dayOfWeek;
