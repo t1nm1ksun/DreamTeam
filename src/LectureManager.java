@@ -50,7 +50,6 @@ public class LectureManager {
                 break;
             }
         }
-        displayLectures();
         if(!isDeleted) {
             //삭제하고자 하는 강의가 없음
         } else {
@@ -109,12 +108,22 @@ public class LectureManager {
         return lectures.size();
     }
 
+    public void editLecture() {
+        displayLectures();
+        String InputLectureCode = ScannerUtils.scanWithPattern(CommonPattern.LECTURE_ID, CommonPatternError.LECTURE_ID);
+
+        //수업이 존재하는지 판단해야함!!!!1
+        while(true) {
+
+        }
+
+    }
     public void saveDataFile() {
-        // 저장된 데이터들을 알맞은 형식의 데이터로 전환한 뒤 저장
+        // 저장된 데이터들을 알맞은 형식의 데이터로 전환한 뒤 저업
         for(Lecture lec : lectures) {
             String[] tmpData = {lec.getSubjectCode(), lec.getTeacher(), lec.getLectureCode(), lec.getDayOfWeek(), lec.getTime()};
             saveData.add(tmpData);
         }
-        read.writeCSV(saveData);
+        read.writeLectureCSV(saveData);
     }
 }
