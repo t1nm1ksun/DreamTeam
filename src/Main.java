@@ -1,12 +1,10 @@
-import java.util.Scanner;
-//master branch
 public class Main {
     /** 첫번째 depth (메인메뉴) 선택 값 */
     public static int mainMenu;
     /** 두번째 depth (관리메뉴) 선택 값 */
     public static int manageMenu;
     /** 세번째 depth (변경메뉴) 선택 값 */
-    public static int studentMenu;
+    public static int editMenu;
 
 
     //=============================================================================
