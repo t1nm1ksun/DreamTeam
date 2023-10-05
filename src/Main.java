@@ -11,12 +11,17 @@ public class Main {
     public static void main(String[] args) {
         LectureManager lectureManager = new LectureManager();
         StudentManager studentManager = new StudentManager();
-
+/*
         while (mainMenu != 3){
             MainMenuHandler.handle();
         }
 
         ScannerInstance instance = ScannerInstance.getInstance();
         instance.dispose();
+
+ */
+        lectureManager.displayLectures();
+        lectureManager.addLecture();
+        lectureManager.displayLectures();
     }
 }

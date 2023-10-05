@@ -2,8 +2,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class LectureManager {
-    //프로그램 종료시 저장파일
-    private List<String[]> saveData = new ArrayList<>();
+
+    private List<String[]> saveData = new ArrayList<>(); //프로그램 종료시 저장파일
     private List<Lecture> lectures = new ArrayList<>(); // 수업 목록을 저장할 리스트
     private read Read = new read();
 
@@ -12,7 +12,7 @@ public class LectureManager {
      * 마지막에 한번에 저장하기 위해 saveData에 순차적 저장
      */
     public LectureManager() {
-        List<List<String>> list = Read.readCsvFile();
+        List<List<String>> list = Read.readCsvFile("src/class.csv");
         for(List<String> item : list){
             Lecture l1 = new Lecture(item.get(0), item.get(1), item.get(2), item.get(3),item.get(4));
             lectures.add(l1);
@@ -72,9 +72,11 @@ public class LectureManager {
 
         //선생님 정보 입력
         ScannerUtils.print("추가할 선생 입력해주세요 ", true);
-        ScannerUtils.print("1) 신민석   2) 이기웅 : ", false);
+        ScannerUtils.print("1) 이승범   2) 신민석    3)김창균   4)이기웅 : ", false);
         input = ScannerUtils.scanWithPattern(CommonPattern.LECTURE_DATE, CommonPatternError.LECTURE_DATE);
-        if(input.equals("1"))  dataList[1] = tm.find("신민석");
+        if(input.equals("1"))  dataList[1] = tm.find("이승범");
+        else if(input.equals("2")) dataList[1] = tm.find("신민석");
+        else if(input.equals("3")) dataList[1] = tm.find("김창균");
         else dataList[1] = tm.find("이기웅");
 
         //여기서 수업 코드 추가
