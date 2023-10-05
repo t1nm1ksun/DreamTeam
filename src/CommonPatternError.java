@@ -13,5 +13,9 @@ public class CommonPatternError {
     public static final String STUDENT_ID = "[오류: 잘못된 입력입니다. (*올바른 형식으로 입력하세요.*)]";
     /** 학생 이름 에러 메세지*/
     public static final String STUDENT_NAME = "[오류: 잘못된 입력입니다. (*2~10글자의 한글을 입력하세요.*)]";
+    /**학생 관리 메뉴 에러 메시지*/
     public static final String STUDENT_MENU = "[오류 : 잘못된 입력입니다. (*1,2,3,4중 하나의 숫자를 선택해 주세요.*)]";
+    /**메인 메뉴 에러 메시지*/
+    public static final String MAIN_MENU = "[오류: 잘못된 입력입니다. (*1,2,3중 하나의 숫자를 입력하세요.*)]";
 }
+

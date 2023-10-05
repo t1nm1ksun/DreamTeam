@@ -107,24 +107,30 @@ public class StudentManager {
         System.out.print("메뉴를 입력하세요 : ");
         Main.studentMenu = ScannerUtils.scanWithPattern(CommonPattern.STUDENT_MENU, CommonPatternError.STUDENT_MENU);
 
-        if(Main.studentMenu.equals("0")) {
+
+        if(Main.manageMenu == 0) {
+
             //0눌러서 메인메뉴 가는 함수
             //System.out.println("[사용자가 0을 입력하였습니다. 메인메뉴로 이동합니다.]");
             //System.out.println("현재까지 입력한 정보는 기억되지 않습니다. 그래도 대메뉴로 이동하시겠습니까? [Y/N] : ");
         }
-        if(Main.studentMenu.equals("1")){
+
+        if(Main.manageMenu == 1){
 //            studentList();
         }
-        else if(Main.studentMenu.equals("2")) {
+        else if(Main.manageMenu == 2) {
             addStudent();
-        }else if(Main.studentMenu.equals("3")) {
+        }else if(Main.manageMenu == 3) {
 //            studentList();
             editStudent();
         }
-        else if (Main.studentMenu.equals("4")) {
-
+        else if (Main.manageMenu == 4) {
 //            studentList();
             deleteStudent();
         }
+        else {
+            System.out.println("[오류 : 잘못된 입력입니다. >> 1,2,3,4중 하나의 숫자를 선택해 주세요.]");
+        }
+
     }
 }
