@@ -91,7 +91,7 @@ public class StudentManager {
             System.out.println("[오류 : 잘못된 입력입니다. >> 1,2,3중 하나의 숫자를 선택해 주세요.]");
             System.out.println("[1.이름 2.전화번호 3.듣는수업]");
             System.out.print("변경하고 싶은 학생 정보를 선택하세요 : ");
-//            studentdata_Edit = Main.scanner.nextInt();
+       //     studentdata_Edit = Main.scanner.nextInt();
         }
     }
 
