@@ -40,6 +40,7 @@ public class LectureManager {
         }
     }
     public  void deleteLecture() {
+        displayLectures();
         String InputLectureCode = ScannerUtils.scanWithPattern(CommonPattern.LECTURE_CODE, CommonPatternError.LECTURE_CODE);
         boolean isDeleted = false;
         displayLectures();
