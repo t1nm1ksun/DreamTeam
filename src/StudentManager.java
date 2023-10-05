@@ -26,6 +26,7 @@ public class StudentManager {
         //TODO: 입력받은 전화번호 set 하기
 
         System.out.println("[학생 등록이 완료되었습니다.]");
+
     }
 
     /// 학생 정보 변경 함수
