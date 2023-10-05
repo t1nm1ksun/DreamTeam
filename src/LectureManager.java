@@ -13,7 +13,7 @@ public class LectureManager {
      */
     public LectureManager() {
         List<List<String>> list = Read.readCsvFile();
-        for(List<String> item : list){
+        for(List<String> item : list) {
             Lecture l1 = new Lecture(item.get(0), item.get(1), item.get(2), item.get(3),item.get(4));
             lectures.add(l1);
             String[] data = new String[]{item.get(0), item.get(1), item.get(2), item.get(3),item.get(4)};
@@ -31,7 +31,7 @@ public class LectureManager {
             ScannerUtils.print("수업코드     과목코드     선생님코드    날짜      시간", true);
             for (Lecture lecture : lectures) {
                 ScannerUtils.print(lecture.getLectureCode()+"       ", false);
-                ScannerUtils.print(lecture.getSubject()+"       ", false);
+                ScannerUtils.print(lecture.getSubjectCode()+"       ", false);
                 ScannerUtils.print(lecture.getTeacher()+"       ", false);
                 ScannerUtils.print(lecture.getDayOfWeek()+"     ", false);
                 ScannerUtils.print(lecture.getTime(), false);
@@ -93,12 +93,21 @@ public class LectureManager {
         input = ScannerUtils.scanWithPattern(CommonPattern.LECTURE_TIME, CommonPatternError.LECTURE_TIME);
         dataList[4] = input;
 
+        //데이터 저장 순서 : 과목코드,선생님코드,수업코드,요일,시간
         //lectures 에 해당 lecture add
         Lecture newLec = new Lecture(dataList[0], dataList[1], dataList[2], dataList[3], dataList[4]);
         lectures.add(newLec);
         //saveData에 해당 lecture add
         String[] data = new String[]{dataList[0], dataList[1], dataList[2], dataList[3], dataList[4]};
         saveData.add(data);
+    }
+
+    public void saveData() {
+        for(Lecture lec : lectures) {
+            String[] data = new String[]{lec.getSubjectCode(), lec.getTeacher(), lec.getLectureCode(), lec.getDayOfWeek(), lec.getTime()};
+            saveData.add(data);
+        }
+        // csv에 데이터를 저장함
     }
 
 }
