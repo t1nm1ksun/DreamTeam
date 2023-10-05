@@ -13,15 +13,6 @@ public class Lecture {
         this.LectureCode = LectureCode;
     }
 
-    public void classList(){
-        System.out.println("[수업 정보 리스트]");
-        // 데이터 파일 접근해서 수업 정보 리스트 출력
-        this.subject = "영어";
-        this.teacher = "이승범";
-        this.dayOfWeek = "월 수 금";
-        this.time = "1";
-        this.LectureCode = "1000";
-    }
     // 과목 정보 설정
     public void setSubject(String subject) {
         this.subject = subject;

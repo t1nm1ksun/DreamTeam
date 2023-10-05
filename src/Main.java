@@ -17,7 +17,7 @@ public class Main {
 
         LectureManager lectureManager = new LectureManager();
         StudentManager studentManager = new StudentManager();
-
+/*
         while (mainMenu != 3){
             MainMenuHandler.handle();
         }
@@ -25,5 +25,10 @@ public class Main {
 
         ScannerInstance instance = ScannerInstance.getInstance();
         instance.dispose();
+
+ */
+        lectureManager.displayLectures();
+        lectureManager.addLecture();
+        lectureManager.displayLectures();
     }
 }
