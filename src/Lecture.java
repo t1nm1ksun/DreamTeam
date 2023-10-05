@@ -1,4 +1,4 @@
-public class Lecture {
+public class    Lecture {
     private String subject;     // 과목
     private String teacher;     // 선생님
     private String dayOfWeek;  // 요일
