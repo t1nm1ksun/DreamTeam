@@ -17,15 +17,13 @@ public class StudentManager {
         System.out.print("학생의 이름을 입력하세요 (* 2~10자, 공백 없이 한글로만 입력하세요 *): ");
 
         //TODO: 넥스트 라인 필요한지 확인
-        Main.scanner.nextLine(); // 이전 입력 버퍼를 비우기 위해 빈 라인을 읽습니다.
         String name = ScannerUtils.scanWithPattern(CommonPattern.STUDENT_NAME, CommonPatternError.STUDENT_NAME);
         //TODO: 입력받은 학생 이름 set 하기
 
         System.out.print("학생의 전화번호를 입력하세요 (* 띄어쓰기나 '-'없이 11개의 숫자를 한 번에 입력하세요 *): ");
 
         //TODO: 넥스트 라인 필요한지 확인
-        Main.scanner.nextLine();
-        String phoneNum = ScannerUtils.scanWithPattern(CommonPattern.PHONE, CommonPatternError.PHONE);
+        String phoneNum = ScannerUtils.scanWithPattern(CommonPattern.PHONE_NUMBER, CommonPatternError.PHONE_NUMBER);
         //TODO: 입력받은 전화번호 set 하기
 
         System.out.println("[학생 등록이 완료되었습니다.]");
@@ -37,7 +35,6 @@ public class StudentManager {
         System.out.print("변경하고 싶은 학생의 아이디를 입력하세요 (* 4자, 공백 없이 숫자로만 입력하세요 *) : ");
 
         //TODO: 넥스트 라인 필요한지 확인
-        Main.scanner.nextLine();
         String id = ScannerUtils.scanWithPattern(CommonPattern.STUDENT_ID, CommonPatternError.STUDENT_ID);
 
         //TODO: studentList에 접근해서 학생 이름 get 하기
@@ -47,7 +44,6 @@ public class StudentManager {
         System.out.print("변경하고 싶은 학생 정보를 선택하세요 (* 1~4 중 원하는 메뉴의 숫자 하나를 입력하세요 *): ");
 
         //TODO: 넥스트 라인 필요한지 확인
-        Main.scanner.nextLine();
         String menuNum = ScannerUtils.scanWithPattern(CommonPattern.LECTURE_TIME, CommonPatternError.LECTURE_TIME); // 임시 정규식
 
         if (menuNum.equals("1")) {
@@ -55,7 +51,6 @@ public class StudentManager {
             System.out.print("새로운 이름을 입력해 주세요: ");
 
             //TODO: 넥스트 라인 필요한지 확인
-            Main.scanner.nextLine();
             String newName = ScannerUtils.scanWithPattern(CommonPattern.STUDENT_NAME, CommonPatternError.STUDENT_NAME);
             //TODO: 기존 이름과 다른지, 중복된 이름인지 확인 후 저장
         } else if (menuNum.equals("2")) {
@@ -63,8 +58,7 @@ public class StudentManager {
             System.out.print("새로운 전화번호를 입력해 주세요: ");
 
             //TODO: 넥스트 라인 필요한지 확인
-            Main.scanner.nextLine();
-            String newPhoneNum = ScannerUtils.scanWithPattern(CommonPattern.PHONE, CommonPatternError.PHONE);
+            String newPhoneNum = ScannerUtils.scanWithPattern(CommonPattern.PHONE_NUMBER, CommonPatternError.PHONE_NUMBER);
             //TODO: 기존 번호와 다른지, 중복된 번호인지 확인 후 저장
         } else if (menuNum.equals("3")) {
             System.out.println("[3. 듣는 수업 목록 편집을 선택하셨습니다.]");
@@ -72,7 +66,6 @@ public class StudentManager {
             System.out.print("수행할 메뉴를 선택하세요 (* 1, 2 중 원하는 메뉴의 숫자 하나를 입력하세요 *): ");
 
             //TODO: 넥스트 라인 필요한지 확인
-            Main.scanner.nextLine();
             String lectureMenuNum = ScannerUtils.scanWithPattern(CommonPattern.LECTURE_DATE, CommonPatternError.LECTURE_DATE); // 임시 정규식
             if(lectureMenuNum.equals("1")) {
                 System.out.println("1. 수업 추가를 선택하셨습니다.");
@@ -80,7 +73,6 @@ public class StudentManager {
                 System.out.print("추가하려는 수업의 코드를 입력하세요 (* 4자, 공백 없이 숫자로만 입력하세요 *): ");
 
                 //TODO: 넥스트 라인 필요한지 확인
-                Main.scanner.nextLine();
                 String lectureID = ScannerUtils.scanWithPattern(CommonPattern.LECTURE_ID, CommonPatternError.LECTURE_ID);
                 //TODO: 기존 수업코드와 다른지, 중복된 번호인지 확인 후 저장
             } else if(lectureMenuNum.equals("2")) {
@@ -89,7 +81,6 @@ public class StudentManager {
                 System.out.print("삭제하려는 수업의 코드를 입력하세요 (* 4자, 공백 없이 숫자로만 입력하세요 *): ");
 
                 //TODO: 넥스트 라인 필요한지 확인
-                Main.scanner.nextLine();
                 String lectureID = ScannerUtils.scanWithPattern(CommonPattern.LECTURE_ID, CommonPatternError.LECTURE_ID);
                 //TODO: 기존 수업코드가 맞는지, 새로운 번호인지 확인 후 삭제
             }
