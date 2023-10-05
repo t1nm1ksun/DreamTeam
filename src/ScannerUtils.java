@@ -8,6 +8,7 @@ public class ScannerUtils {
         else System.out.print(text);
     }
 
+    //TODO: String을 integer로 변환하는 상황의 경우 integer로 변환이 될 수 없는 상황의 경우 Exception 발생함. 처리 필요
     /**
      *  String 값을 입력받는 스캐너.
      *  pattern의 regex가 맞다면 값을 리턴 받고, 틀리다면 error를 내뿜으며 다시 스캔을 받는다.
