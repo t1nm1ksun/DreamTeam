@@ -2,8 +2,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class LectureManager {
-    //프로그램 종료시 저장파일
-    private List<String[]> saveData = new ArrayList<>();
+
+    private List<String[]> saveData = new ArrayList<>(); //프로그램 종료시 저장파일
     private List<Lecture> lectures = new ArrayList<>(); // 수업 목록을 저장할 리스트
     private read Read = new read();
 
@@ -12,8 +12,8 @@ public class LectureManager {
      * 마지막에 한번에 저장하기 위해 saveData에 순차적 저장
      */
     public LectureManager() {
-        List<List<String>> list = Read.readCsvFile();
-        for(List<String> item : list) {
+        List<List<String>> list = Read.readCsvFile("src/class.csv");
+        for(List<String> item : list){
             Lecture l1 = new Lecture(item.get(0), item.get(1), item.get(2), item.get(3),item.get(4));
             lectures.add(l1);
             String[] data = new String[]{item.get(0), item.get(1), item.get(2), item.get(3),item.get(4)};
@@ -31,7 +31,7 @@ public class LectureManager {
             ScannerUtils.print("수업코드     과목코드     선생님코드    날짜      시간", true);
             for (Lecture lecture : lectures) {
                 ScannerUtils.print(lecture.getLectureCode()+"       ", false);
-                ScannerUtils.print(lecture.getSubjectCode()+"       ", false);
+                ScannerUtils.print(lecture.getSubject()+"       ", false);
                 ScannerUtils.print(lecture.getTeacher()+"       ", false);
                 ScannerUtils.print(lecture.getDayOfWeek()+"     ", false);
                 ScannerUtils.print(lecture.getTime(), false);
@@ -39,27 +39,24 @@ public class LectureManager {
             }
         }
     }
-    public  void deleteLecture() {
-        ScannerUtils.print("삭제할 수업 코드를 입력해주세요(*공백없이 4자리 숫자*)", false);
-        String InputLectureCode = ScannerUtils.scanWithPattern(CommonPattern.LECTURE_ID, CommonPatternError.LECTURE_ID);
+    public  void deleteLecture(String InputLectureCode) {
+//        String InputLectureCode = ScannerUtils.scanWithPattern("dfs", "Error 유효한 과목 코드 아님");
         boolean isDeleted = false;
+        displayLectures();
         for(Lecture lec : lectures) {
             if(InputLectureCode.equals(lec.getLectureCode())) {
                 //delete
-                lectures.remove(lec);
+                saveData.remove(Integer.parseInt(InputLectureCode)-2001);
+                lectures.remove(Integer.parseInt(InputLectureCode)-2001);
                 isDeleted = true;
                 break;
             }
         }
+        displayLectures();
         if(!isDeleted) {
             //삭제하고자 하는 강의가 없음
         } else {
-            Integer initCode = 2000;
             //삭제 성공!
-            //성공하면 코드 재설정
-            for(Lecture lec : lectures) {
-                lec.setLectureCode(Integer.toString(initCode++));
-            }
         }
     }
     public void addLecture() {
@@ -75,9 +72,11 @@ public class LectureManager {
 
         //선생님 정보 입력
         ScannerUtils.print("추가할 선생 입력해주세요 ", true);
-        ScannerUtils.print("1) 신민석   2) 이기웅 : ", false);
+        ScannerUtils.print("1) 이승범   2) 신민석    3)김창균   4)이기웅 : ", false);
         input = ScannerUtils.scanWithPattern(CommonPattern.LECTURE_DATE, CommonPatternError.LECTURE_DATE);
-        if(input.equals("1"))  dataList[1] = tm.find("신민석");
+        if(input.equals("1"))  dataList[1] = tm.find("이승범");
+        else if(input.equals("2")) dataList[1] = tm.find("신민석");
+        else if(input.equals("3")) dataList[1] = tm.find("김창균");
         else dataList[1] = tm.find("이기웅");
 
         //여기서 수업 코드 추가
@@ -96,24 +95,15 @@ public class LectureManager {
         input = ScannerUtils.scanWithPattern(CommonPattern.LECTURE_TIME, CommonPatternError.LECTURE_TIME);
         dataList[4] = input;
 
-        //데이터 저장 순서 : 과목코드,선생님코드,수업코드,요일,시간
         //lectures 에 해당 lecture add
         Lecture newLec = new Lecture(dataList[0], dataList[1], dataList[2], dataList[3], dataList[4]);
         lectures.add(newLec);
         //saveData에 해당 lecture add
-//        String[] data = new String[]{dataList[0], dataList[1], dataList[2], dataList[3], dataList[4]};
-//        Read.writeOneCSV(data);
-//        saveData.add(data);
-
+        String[] data = new String[]{dataList[0], dataList[1], dataList[2], dataList[3], dataList[4]};
+        saveData.add(data);
     }
-
-    public void saveDatafile() {
-        for(Lecture lec : lectures) {
-            String[] data = new String[]{lec.getSubjectCode(), lec.getTeacher(), lec.getLectureCode(), lec.getDayOfWeek(), lec.getTime()};
-            saveData.add(data);
-        }
-        // csv에 데이터를 저장함
-        Read.writeCSV(saveData);
+    //수업 개수가100개 이상일시 등록 맡기위한 용도
+    public int LectureSize(){
+        return lectures.size();
     }
-
 }

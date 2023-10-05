@@ -20,10 +20,10 @@ public class read {
      * 사용시 주의점:csv파일 생성후 연결파일을 반드시 메모장으로!
      * @return List<List<String>> 배열 item
      */
-    public List<List<String>> readCsvFile() {
+    public List<List<String>> readCsvFile( String filePath) {
         List<List<String>> list = new ArrayList<List<String>>();
         BufferedReader bufferedReader = null;
-        String filePath = "src/class.csv";
+
         try {
             bufferedReader = Files.newBufferedReader(Paths.get(filePath));
             String line = "";
