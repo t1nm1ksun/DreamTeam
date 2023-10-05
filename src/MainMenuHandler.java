@@ -6,8 +6,16 @@ public class MainMenuHandler {
 
     public static void handle(){
         switch (Main.mainMenu) {
-            case 1 -> clearMainMenu();
-            case 2 -> clearMainMenu();
+            case 1 -> {
+                while(true){
+                    LectureMenuHandler.handle();
+                }
+            }
+            case 2 -> {
+                while(true){
+                    StudentMenuHandler.handle();
+                }
+            }
             case 3 -> clearMainMenu();
             default -> {
                 ScannerUtils.print("[1.수업 시간표 관리 2. 학생 관리 3. 종료]", true);
