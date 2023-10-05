@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.*;
-public class read {
+public class Read {
 
     /**
      *  csv 읽기 파일
@@ -20,10 +20,39 @@ public class read {
      * 사용시 주의점:csv파일 생성후 연결파일을 반드시 메모장으로!
      * @return List<List<String>> 배열 item
      */
-    public List<List<String>> readCsvFile() {
+    public List<List<String>> readCSV( String filePath) {
         List<List<String>> list = new ArrayList<List<String>>();
         BufferedReader bufferedReader = null;
-        String filePath = "src/class.csv";
+
+        try {
+            bufferedReader = Files.newBufferedReader(Paths.get(filePath));
+            String line = "";
+
+            while ((line = bufferedReader.readLine()) != null) {
+
+                List<String> stringList = new ArrayList<>();
+                String stringArray[] = line.split(",");
+
+                stringList = Arrays.asList(stringArray);
+                list.add(stringList);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (bufferedReader != null)
+                    bufferedReader.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return list;
+    }
+
+    public List<List<String>> readStudentCSV( String filePath) {
+        List<List<String>> list = new ArrayList<List<String>>();
+        BufferedReader bufferedReader = null;
+
         try {
             bufferedReader = Files.newBufferedReader(Paths.get(filePath));
             String line = "";
@@ -54,18 +83,18 @@ public class read {
      *String 배열을 받아서 넣기!
      * @param dataList
      */
-    public void writeCSV(String[] dataList) {
+    public void writeCSV(List<String[]> dataList) {
         BufferedWriter bufferedwrite = null;
         String filePath ="src/class.csv";
         try {
             bufferedwrite = Files.newBufferedWriter(Paths.get(filePath));
-
-                String[] data = dataList;
+            for(int i = 0; i<dataList.size();i++) {
+                String[] data = dataList.get(i);
                 String aData = "";
                 aData = data[0] + "," + data[1] + "," + data[2] + "," + data[3] + "," + data[4];
                 bufferedwrite.write(aData);
                 bufferedwrite.newLine();
-
+            }
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -79,7 +108,39 @@ public class read {
                 e.printStackTrace();
             }
         }
-
     }
+
+    public void writeStudentCSV(List<String[]> dataList) {
+        BufferedWriter bufferedwrite = null;
+        String filePath ="src/class.csv";
+        try {
+            bufferedwrite = Files.newBufferedWriter(Paths.get(filePath));
+            for(int i = 0; i<dataList.size();i++) {
+                String[] data = dataList.get(i);
+                String aData = "";
+                aData = data[0] + "," + data[1] + "," + data[2] + "," + data[3] + "," + data[4];
+                bufferedwrite.write(aData);
+                bufferedwrite.newLine();
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (bufferedwrite != null) {
+                    bufferedwrite.flush();
+                    bufferedwrite.close();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+
+
+
+
+
 
 }

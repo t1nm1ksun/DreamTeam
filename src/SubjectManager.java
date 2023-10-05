@@ -2,19 +2,23 @@ import java.util.ArrayList;
 import java.util.List;
 public class SubjectManager {
     private List<Subject> subjects;
+    private  Read read = new Read();
 
     public SubjectManager() {
         //여기서 csv 파일 읽어서 과목들을 생성
         subjects = new ArrayList<>();
-        Subject sbj = new Subject("수학", "1001");
-        Subject sb2 = new Subject("영어", "1002");
-        subjects.add(sbj);
-        subjects.add(sb2);
+        List<List<String>> subjectList = read.readCSV("src/subject.csv");
+
+        for(List<String> item : subjectList){
+            Subject s1 = new Subject(item.get(0),item.get(1));
+            subjects.add(s1);
+        }
     }
 
-    public  String find(String input) {
+    public String find(String input) {
         for(Subject sbj : subjects) {
             if(sbj.getName().equals(input)) {
+                ScannerUtils.print(sbj.getCode(), true);
                 return sbj.getCode();
             }
         }

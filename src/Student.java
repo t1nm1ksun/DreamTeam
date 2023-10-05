@@ -13,7 +13,12 @@ public class Student {
         this.lectureList = lectureList;
     }
 
-    // Getter와 Setter 메서드 추가 (필요에 따라)
+    public Student(String id, String name, String phoneNum) {
+        this.id = id;
+        this.name = name;
+        this.phoneNum = phoneNum;
+    }
+
     public String getId() {
         return id;
     }
