@@ -7,7 +7,6 @@ public class StudentManager {
     /// 학생 정보 리스트 출력 함수
     public static void showStudentList() {
         System.out.println("[학생 정보 리스트]");
-
         //TODO: 데이터 파일 접근해서 학생 정보 리스트 출력
     }
 
@@ -99,7 +98,7 @@ public class StudentManager {
         System.out.print("삭제하고 싶은 학생 아이디를 입력하세요 (*공백없는 숫자로만 입력하세요*) : ");
 //        Main.scanner.nextLine();
 //        String id_Delete = Main.scanner.nextLine();
-                    System.out.println("해당 학생의 정보가 삭제되었습니다.");
+        System.out.println("해당 학생의 정보가 삭제되었습니다.");
         System.out.println("[오류 : 입력형식이 맞지 않거나 해당 아이디의 학생이 존재하지 않습니다.]");
         System.out.println("삭제하고 싶은 학생 아이디를 입력하세요 (*공백없는 숫자로만 입력하세요*) : ");
     }
@@ -129,7 +128,7 @@ public class StudentManager {
 //            studentList();
             deleteStudent();
         }
-        else if(Main.manageMenu == 5) {
+        else {
             System.out.println("[오류 : 잘못된 입력입니다. >> 1,2,3,4중 하나의 숫자를 선택해 주세요.]");
         }
     }

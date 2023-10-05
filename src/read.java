@@ -20,10 +20,10 @@ public class read {
      * 사용시 주의점:csv파일 생성후 연결파일을 반드시 메모장으로!
      * @return List<List<String>> 배열 item
      */
-    public List<List<String>> readCsvFile() {
+    public List<List<String>> readCsvFile( String filePath) {
         List<List<String>> list = new ArrayList<List<String>>();
         BufferedReader bufferedReader = null;
-        String filePath = "src/class.csv";
+
         try {
             bufferedReader = Files.newBufferedReader(Paths.get(filePath));
             String line = "";
@@ -54,18 +54,18 @@ public class read {
      *String 배열을 받아서 넣기!
      * @param dataList
      */
-    public void writeCSV(String[] dataList) {
+    public void writeCSV(List<String[]> dataList) {
         BufferedWriter bufferedwrite = null;
         String filePath ="src/class.csv";
         try {
             bufferedwrite = Files.newBufferedWriter(Paths.get(filePath));
-
-                String[] data = dataList;
-                String aData = "";
-                aData = data[0] + "," + data[1] + "," + data[2] + "," + data[3] + "," + data[4];
-                bufferedwrite.write(aData);
-                bufferedwrite.newLine();
-
+                for(int i = 0; i<dataList.size();i++) {
+                    String[] data = dataList.get(i);
+                    String aData = "";
+                    aData = data[0] + "," + data[1] + "," + data[2] + "," + data[3] + "," + data[4];
+                    bufferedwrite.write(aData);
+                    bufferedwrite.newLine();
+                }
 
         } catch (IOException e) {
             e.printStackTrace();
