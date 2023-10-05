@@ -6,5 +6,5 @@ public class CommonPattern {
     public static final String TEACHER_ID = "^300[1-4]$"; //선생님 아이디 정규식
     public static final String STUDENT_ID = "^40[0-9]{2}$"; //학생 아이디 정규식
     public static final String STUDENT_NAME = "^[가-힣]{2,10}$"; //학생 이름 정규식
-
+    public static final String STUDENT_MENU = "^[1-4]$";
 }
