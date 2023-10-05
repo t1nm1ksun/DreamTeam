@@ -7,12 +7,10 @@ public class Main {
     /** 세번째 depth (변경메뉴) 선택 값 */
     public static int editMenu;
 
+//    public static String choice; //메인 메뉴
+//    public static String classMenu; //수업 관리 메뉴
+//    public static String studentMenu; //학생 관리 메뉴
 
-    public static String choice; //메인 메뉴
-    public static String classMenu; //수업 관리 메뉴
-    public static String studentMenu; //학생 관리 메뉴
-
-    //=============================================================================
     public static void main(String[] args) {
 
         LectureManager lectureManager = new LectureManager();
