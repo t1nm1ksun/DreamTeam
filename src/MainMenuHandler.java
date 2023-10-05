@@ -4,11 +4,11 @@ public class MainMenuHandler {
     ScannerInstance instance = ScannerInstance.getInstance();
     Scanner scanner = instance.getScanner();
 
-    public static void handle(){
+    public static void handle(LectureManager lectureManager, StudentManager studentManager){
         switch (Main.mainMenu) {
             case 1 -> {
                 while(true){
-                    LectureMenuHandler.handle();
+                    LectureMenuHandler.handle(lectureManager);
                 }
             }
             case 2 -> {
