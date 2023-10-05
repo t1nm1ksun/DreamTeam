@@ -31,7 +31,7 @@ public class LectureManager {
             ScannerUtils.print("수업코드     과목코드     선생님코드    날짜      시간", true);
             for (Lecture lecture : lectures) {
                 ScannerUtils.print(lecture.getLectureCode()+"       ", false);
-                ScannerUtils.print(lecture.getSubject()+"       ", false);
+                ScannerUtils.print(lecture.getSubjectCode()+"       ", false);
                 ScannerUtils.print(lecture.getTeacher()+"       ", false);
                 ScannerUtils.print(lecture.getDayOfWeek()+"     ", false);
                 ScannerUtils.print(lecture.getTime(), false);
@@ -39,8 +39,8 @@ public class LectureManager {
             }
         }
     }
-    public  void deleteLecture(String InputLectureCode) {
-//        String InputLectureCode = ScannerUtils.scanWithPattern("dfs", "Error 유효한 과목 코드 아님");
+    public  void deleteLecture() {
+        String InputLectureCode = ScannerUtils.scanWithPattern("dfs", "Error 유효한 과목 코드 아님");
         boolean isDeleted = false;
         displayLectures();
         for(Lecture lec : lectures) {
