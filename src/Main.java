@@ -12,11 +12,10 @@ public class Main {
     public static void main(String[] args) {
         LectureManager Lm = new LectureManager();
 //        Lm.deleteLecture("1000");
-
-        Lm.displayLectures();
-        Lm.deleteLecture("2001");
         Lm.addLecture();
         Lm.displayLectures();
-
+        Lm.deleteLecture("2001");
+        ScannerInstance instance = ScannerInstance.getInstance();
+        instance.dispose();
     }
 }
