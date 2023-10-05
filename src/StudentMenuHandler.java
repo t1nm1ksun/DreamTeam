@@ -10,8 +10,9 @@ public class StudentMenuHandler {
             case 2 -> clearManageMenu();
             case 3 -> clearManageMenu();
             default -> {
+                ScannerUtils.print("[2. 학생 관리를 선택하셨습니다.]",true);
                 ScannerUtils.print("[1. 조회 2. 편집 3. 등록 4. 삭제]", true);
-                ScannerUtils.print("메뉴를 입력하세요", true);
+                ScannerUtils.print("메뉴를 입력하세요 : ", true);
                 // TODO: commonPattern, commonPatternError에 값 추가
                 Main.manageMenu = Integer.parseInt(ScannerUtils.scanWithPattern(CommonPattern.FOUR_MENU, CommonPatternError.FOUR_MENU));
             }
