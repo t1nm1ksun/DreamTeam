@@ -13,7 +13,7 @@ public class MainMenuHandler {
             }
             case 2 -> {
                 while(Main.mainMenu == 2){
-                    StudentMenuHandler.handle();
+                    StudentMenuHandler.handle(studentManager);
                 }
             }
             case 3 -> {}

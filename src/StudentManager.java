@@ -29,7 +29,6 @@ public class StudentManager {
     public void showStudentList() {
         System.out.println("[학생 정보 리스트]");
         //TODO: 데이터 파일 접근해서 학생 정보 리스트 출력
-
         if (student.isEmpty()) {
             ScannerUtils.print("등록된 학생이 없습니다.", true);
         } else {
@@ -49,7 +48,6 @@ public class StudentManager {
     public void addStudent() {
         System.out.println("[2. 학생 등록을 선택하셨습니다.]");
         System.out.print("등록할 학생의 이름을 입력하세요 (* 2~10자, 공백 없이 한글로만 입력하세요 *): ");
-
         //TODO: 넥스트 라인 필요한지 확인
         String name = ScannerUtils.scanWithPattern(CommonPattern.STUDENT_NAME, CommonPatternError.STUDENT_NAME);
         //TODO: 입력받은 학생 이름 set 하기
@@ -66,8 +64,6 @@ public class StudentManager {
     /// 학생 정보 변경 함수
 
     public void editStudent() {
-
-
         System.out.println("[3.학생 정보 편집을 선택하셨습니다.]");
         showStudentList();
         System.out.print("편집하고 싶은 학생 ID를 입력하세요 (* 4자, 공백 없이 숫자로만 입력하세요 *): ");
@@ -132,7 +128,6 @@ public class StudentManager {
     //학생 삭제 함수
     public void deleteStudent(){
         System.out.println("[4.학생 정보 삭제를 선택하셨습니다.]");
-
         showStudentList();
         System.out.print("삭제하고 싶은 학생 ID를 입력하세요 (* 4자, 공백 없이 숫자로만 입력하세요 *): ");
 
@@ -152,26 +147,10 @@ public class StudentManager {
 
     //학생 관리 함수
     public void management_Student(){
+        StudentManager sm = new StudentManager();
+        StudentMenuHandler.handle(sm);
+//        System.out.println(Main.manageMenu);
+        System.out.println("탈출");
 
-        StudentMenuHandler.handle();
-        System.out.println(Main.manageMenu);
-
-        if(Main.manageMenu == 0) {
-//            0눌러서 메인메뉴 가는 함수
-//            System.out.println("[사용자가 0을 입력하였습니다. 메인메뉴로 이동합니다.]");
-//            System.out.println("현재까지 입력한 정보는 기억되지 않습니다. 그래도 대메뉴로 이동하시겠습니까? [Y/N] : ");
-        }
-
-        else if(Main.manageMenu == 1){
-            showStudentList();
-        } else if(Main.manageMenu == 2) {
-            addStudent();
-
-        }else if(Main.manageMenu == 3) {
-            editStudent();
-        }
-        else if (Main.manageMenu == 4) {
-            deleteStudent();
-        }
     }
 }

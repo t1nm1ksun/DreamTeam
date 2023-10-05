@@ -4,16 +4,27 @@ public class StudentMenuHandler {
     ScannerInstance instance = ScannerInstance.getInstance();
     Scanner scanner = instance.getScanner();
 
-    public static void handle(){
+    public static void handle(StudentManager studentManager){
         switch (Main.manageMenu) {
-            case 1 -> clearManageMenu();
-            case 2 -> clearManageMenu();
-            case 3 -> clearManageMenu();
+            case 1 -> {
+                studentManager.showStudentList();
+                clearManageMenu();
+            }
+            case 2 -> {
+                studentManager.addStudent();
+                clearManageMenu();
+            }
+            case 3 -> {
+                studentManager.editStudent();
+                clearManageMenu();
+            }
+            case 4 -> {
+                studentManager.deleteStudent();
+                clearManageMenu();
+            }
             default -> {
-                ScannerUtils.print("[2. 학생 관리를 선택하셨습니다.]",true);
                 ScannerUtils.print("[1. 조회 2. 편집 3. 등록 4. 삭제]", true);
-                ScannerUtils.print("메뉴를 입력하세요 : ", true);
-                // TODO: commonPattern, commonPatternError에 값 추가
+                ScannerUtils.print("메뉴를 입력하세요", true);
                 Main.manageMenu = Integer.parseInt(ScannerUtils.scanWithPattern(CommonPattern.FOUR_CHOICE, CommonPatternError.FOUR_CHOICE));
             }
         }
