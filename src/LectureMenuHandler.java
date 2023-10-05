@@ -20,7 +20,7 @@ public class LectureMenuHandler {
             }
             case 4 -> {
                 //TODO: lectureManager 인풋 메서드 내부에서 처리하도록
-//                lectureManager.deleteLecture();
+                lectureManager.deleteLecture();
                 clearManageMenu();
             }
             default -> {

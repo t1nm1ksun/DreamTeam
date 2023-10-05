@@ -74,6 +74,8 @@ public class LectureManager {
         if(input.equals("1")) dataList[0] = sm.find("수학");
         else dataList[0] = sm.find("영어");
 
+//        ScannerUtils.print(dataList[0], true);
+
         //선생님 정보 입력
         ScannerUtils.print("추가할 선생 입력해주세요 ", true);
         ScannerUtils.print("1) 이승범   2) 신민석    3)김창균   4)이기웅 : ", false);
