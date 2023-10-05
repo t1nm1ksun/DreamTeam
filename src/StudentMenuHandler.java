@@ -13,7 +13,7 @@ public class StudentMenuHandler {
                 ScannerUtils.print("[1. 조회 2. 편집 3. 등록 4. 삭제]", true);
                 ScannerUtils.print("메뉴를 입력하세요", true);
                 // TODO: commonPattern, commonPatternError에 값 추가
-                Main.manageMenu = Integer.parseInt(ScannerUtils.scanWithPattern(CommonPattern.MAIN_MENU, CommonPatternError.MAIN_MENU));
+                Main.manageMenu = Integer.parseInt(ScannerUtils.scanWithPattern(CommonPattern.FOUR_MENU, CommonPatternError.FOUR_MENU));
             }
         }
     }

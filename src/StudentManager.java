@@ -13,7 +13,7 @@ public class StudentManager {
     /// 학생 등록 함수
     public static void addStudent() {
         System.out.println("[2. 학생 등록을 선택하셨습니다.]");
-        System.out.print("학생의 이름을 입력하세요 (* 2~10자, 공백 없이 한글로만 입력하세요 *): ");
+        System.out.print("등록할 학생의 이름을 입력하세요 (* 2~10자, 공백 없이 한글로만 입력하세요 *): ");
 
         //TODO: 넥스트 라인 필요한지 확인
         String name = ScannerUtils.scanWithPattern(CommonPattern.STUDENT_NAME, CommonPatternError.STUDENT_NAME);
@@ -31,10 +31,12 @@ public class StudentManager {
 
     /// 학생 정보 변경 함수
     public static void editStudent() {
-        System.out.println("[3. 학생 정보 변경을 선택하셨습니다.]");
-        System.out.print("변경하고 싶은 학생의 아이디를 입력하세요 (* 4자, 공백 없이 숫자로만 입력하세요 *) : ");
 
-        //TODO: 넥스트 라인 필요한지 확인
+        System.out.println("[3.학생 정보 편집을 선택하셨습니다.]");
+        showStudentList();
+        System.out.print("편집하고 싶은 학생 아이디를 입력하세요 (*공백 없는 숫자로만 입력하세요*) : ");
+        //TODO: 넥스트 라인 필요한지 확인, id 정규식 추가되면 id로 추가하기
+
         String id = ScannerUtils.scanWithPattern(CommonPattern.STUDENT_ID, CommonPatternError.STUDENT_ID);
 
         //TODO: studentList에 접근해서 학생 이름 get 하기
@@ -96,7 +98,9 @@ public class StudentManager {
     //학생 삭제 함수
     public static void deleteStudent(){
         System.out.println("[4.학생 정보 삭제를 선택하셨습니다.]");
+        showStudentList();
         System.out.print("삭제하고 싶은 학생 아이디를 입력하세요 (*공백없는 숫자로만 입력하세요*) : ");
+        String id = ScannerUtils.scanWithPattern(CommonPattern.STUDENT_ID, CommonPatternError.STUDENT_ID);
 //        Main.scanner.nextLine();
 //        String id_Delete = Main.scanner.nextLine();
         System.out.println("해당 학생의 정보가 삭제되었습니다.");
@@ -109,7 +113,7 @@ public class StudentManager {
         System.out.println("[2. 학생 관리를 선택하셨습니다.]");
         System.out.println("[1.조회 2.등록 3.편집 4.삭제]");
         System.out.print("메뉴를 입력하세요 : ");
-//        Main.studentMenu = Main.scanner.nextInt();
+        StudentMenuHandler.handle();
 
         if(Main.manageMenu == 0) {
             //0눌러서 메인메뉴 가는 함수
