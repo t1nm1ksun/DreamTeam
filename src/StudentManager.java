@@ -23,8 +23,7 @@ public class StudentManager {
 
         System.out.print("학생의 전화번호를 입력하세요 (* 띄어쓰기나 '-'없이 11개의 숫자를 한 번에 입력하세요 *): ");
 
-        //TODO: 넥스트 라인 필요한지 확인
-        Main.scanner.nextLine();
+
         String phoneNum = ScannerUtils.scanWithPattern(CommonPattern.PHONE, CommonPatternError.PHONE);
         //TODO: 입력받은 전화번호 set 하기
 
@@ -89,15 +88,16 @@ public class StudentManager {
             System.out.print("변경하고 싶은 학생 정보를 선택하세요 : ");
             studentdata_Edit = Main.scanner.nextInt();
         }
+
     }
 
     //학생 삭제 함수
     public static void deleteStudent(){
         System.out.println("[4.학생 정보 삭제를 선택하셨습니다.]");
         System.out.print("삭제하고 싶은 학생 아이디를 입력하세요 (*공백없는 숫자로만 입력하세요*) : ");
-        Main.scanner.nextLine();
-        String id_Delete = Main.scanner.nextLine();
-//                    System.out.println("해당 학생의 정보가 삭제되었습니다.");
+//        Main.scanner.nextLine();
+//        String id_Delete = Main.scanner.nextLine();
+                    System.out.println("해당 학생의 정보가 삭제되었습니다.");
         System.out.println("[오류 : 입력형식이 맞지 않거나 해당 아이디의 학생이 존재하지 않습니다.]");
         System.out.println("삭제하고 싶은 학생 아이디를 입력하세요 (*공백없는 숫자로만 입력하세요*) : ");
     }
@@ -124,6 +124,7 @@ public class StudentManager {
             editStudent();
         }
         else if (Main.studentMenu.equals("4")) {
+
 //            studentList();
             deleteStudent();
         }
