@@ -14,7 +14,7 @@ public class Main {
 //        Lm.deleteLecture("1000");
 
         Lm.displayLectures();
-        Lm.deleteLecture("2001");
+//        Lm.deleteLecture("2001");
         Lm.addLecture();
         Lm.displayLectures();
 
