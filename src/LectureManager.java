@@ -15,11 +15,11 @@ public class LectureManager {
     public LectureManager() {
         List<List<String>> list = read.readCSV("src/class.csv");
         for(List<String> item : list){
+            //csv 파일들을 읽어와서 강의들을 생성함
             if(Integer.parseInt(item.get(2)) > maxCode) maxCode = Integer.parseInt(item.get(2));
             Lecture l1 = new Lecture(item.get(0), item.get(1), item.get(2), item.get(3),item.get(4));
             lectures.add(l1);
         }
-        //파일을 읽어서 수업 class들을 만들기
     }
 
     // 모든 수업 목록을 조회하는 메서드
@@ -45,9 +45,8 @@ public class LectureManager {
         boolean isDeleted = false;
         displayLectures();
         for(Lecture lec : lectures) {
+            //삭제할 강의가 존재한다면 lectures 에서 삭제하고 maxCode를 낮춤
             if(InputLectureCode.equals(lec.getLectureCode())) {
-                //delete
-//                saveData.remove(Integer.parseInt(InputLectureCode)-2001);
                 lectures.remove(lec);
                 isDeleted = true;
                 maxCode--;
@@ -57,7 +56,7 @@ public class LectureManager {
         if(!isDeleted) {
             //삭제하고자 하는 강의가 없음
         } else {
-            //삭제 성공!
+            //삭제가 성공했을시 과목들의 코드를 재할당함
             Integer initCode = 2000;
             for(Lecture lec : lectures) {
                 lec.setLectureCode(initCode.toString(initCode++));
@@ -68,14 +67,13 @@ public class LectureManager {
         SubjectManager sm = new SubjectManager();
         TeacherManager tm = new TeacherManager();
         String[] dataList = new String[5];
+
         //과목 정보 입력
         ScannerUtils.print("추가할 과목을 입력해주세요 ", true);
         ScannerUtils.print("1) 수학   2) 영어 : ", false);
         String input = ScannerUtils.scanWithPattern(CommonPattern.LECTURE_DATE, CommonPatternError.LECTURE_TIME);
         if(input.equals("1")) dataList[0] = sm.find("수학");
         else dataList[0] = sm.find("영어");
-
-//        ScannerUtils.print(dataList[0], true);
 
         //선생님 정보 입력
         ScannerUtils.print("추가할 선생 입력해주세요 ", true);
@@ -86,7 +84,7 @@ public class LectureManager {
         else if(input.equals("3")) dataList[1] = tm.find("김창균");
         else dataList[1] = tm.find("이기웅");
 
-        //여기서 수업 코드 추가
+        //수업 코드 동적 할당
         dataList[2] = Integer.toString(++maxCode);
 
         //요일 정보 입력
@@ -102,24 +100,23 @@ public class LectureManager {
         input = ScannerUtils.scanWithPattern(CommonPattern.LECTURE_TIME, CommonPatternError.LECTURE_TIME);
         dataList[4] = input;
 
-        //lectures 에 해당 lecture add
+        //lectures 에 해당 새로운 강의 추가
         Lecture newLec = new Lecture(dataList[0], dataList[1], dataList[2], dataList[3], dataList[4]);
         lectures.add(newLec);
-        //saveData에 해당 lecture add
-//        String[] data = new String[]{dataList[0], dataList[1], dataList[2], dataList[3], dataList[4]};
-//        saveData.add(data);
     }
+
     //수업 개수가100개 이상일시 등록 맡기위한 용도
     public int LectureSize(){
         return lectures.size();
     }
 
     public void editLecture() {
-        //수업이 존재하는지 판단해야함!!!!1
+        //편집 메뉴 핸들러 호출
        LectureEditMenuHandler.handle();
     }
 
     public static void editDate(String inputCode) {
+        //변경할 요일 선택
         ScannerUtils.print("변경할 수업 요일을 선택하세요", true);
         ScannerUtils.print("1. 월수금 2. 화목토", true);
         String newDate = ScannerUtils.scanWithPattern(CommonPattern.LECTURE_DATE, CommonPatternError.LECTURE_DATE);
@@ -129,10 +126,12 @@ public class LectureManager {
             newDate = "화 목 토";
         }
 
+        //변경할 시간 선택
         ScannerUtils.print("변경할 수업 시간을 선택하세요", true);
         ScannerUtils.print("1. 14-16 2. 16-18 3. 18-20 4.20-22", true);
         String newTime = ScannerUtils.scanWithPattern(CommonPattern.LECTURE_TIME, CommonPatternError.LECTURE_TIME);
 
+        //변경할 강의를 찾아서 요일과 시간을 바꿔줌
         for (Lecture lec : lectures) {
             if(lec.getLectureCode().equals(inputCode)) {
                 lec.setTime(newTime);
@@ -142,7 +141,7 @@ public class LectureManager {
 
     }
     public void saveDataFile() {
-        // 저장된 데이터들을 알맞은 형식의 데이터로 전환한 뒤 저업
+        //lectures 들을 알맞은 형식의 데이터로 전환한 뒤 파일에 저장
         for(Lecture lec : lectures) {
             String[] tmpData = {lec.getSubjectCode(), lec.getTeacher(), lec.getLectureCode(), lec.getDayOfWeek(), lec.getTime()};
             saveData.add(tmpData);
