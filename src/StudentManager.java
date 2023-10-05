@@ -61,15 +61,16 @@ public class StudentManager {
         //TODO: 입력받은 전화번호 set 하기
 
         System.out.println("[학생 등록이 완료되었습니다.]");
-
     }
 
     /// 학생 정보 변경 함수
+
     public void editStudent() {
+
 
         System.out.println("[3.학생 정보 편집을 선택하셨습니다.]");
         showStudentList();
-        System.out.print("편집하고 싶은 학생 아이디를 입력하세요 (*공백 없는 숫자로만 입력하세요*) : ");
+        System.out.print("편집하고 싶은 학생 ID를 입력하세요 (* 4자, 공백 없이 숫자로만 입력하세요 *): ");
         //TODO: 넥스트 라인 필요한지 확인, id 정규식 추가되면 id로 추가하기
 
         String id = ScannerUtils.scanWithPattern(CommonPattern.STUDENT_ID, CommonPatternError.STUDENT_ID);
@@ -106,36 +107,38 @@ public class StudentManager {
             String lectureMenuNum = ScannerUtils.scanWithPattern(CommonPattern.LECTURE_DATE, CommonPatternError.LECTURE_DATE); // 임시 정규식
             if(lectureMenuNum.equals("1")) {
                 System.out.println("1. 수업 추가를 선택하셨습니다.");
-                System.out.println("[수업 목록 리스트]");
+                //TODO: 수업 목록 리스트 보여주기
                 System.out.print("추가하려는 수업의 코드를 입력하세요 (* 4자, 공백 없이 숫자로만 입력하세요 *): ");
 
                 //TODO: 넥스트 라인 필요한지 확인
-                String lectureID = ScannerUtils.scanWithPattern(CommonPattern.LECTURE_ID, CommonPatternError.LECTURE_ID);
+                String lectureID = ScannerUtils.scanWithPattern(CommonPattern.LECTURE_CODE, CommonPatternError.LECTURE_CODE);
                 //TODO: 기존 수업코드와 다른지, 중복된 번호인지 확인 후 저장
             } else if(lectureMenuNum.equals("2")) {
                 System.out.println("2. 수업 삭제를 선택하셨습니다.");
-                System.out.println("[수업 목록 리스트]");
+                //TODO: 수업 목록 리스트 보여주기
                 System.out.print("삭제하려는 수업의 코드를 입력하세요 (* 4자, 공백 없이 숫자로만 입력하세요 *): ");
 
                 //TODO: 넥스트 라인 필요한지 확인
-                String lectureID = ScannerUtils.scanWithPattern(CommonPattern.LECTURE_ID, CommonPatternError.LECTURE_ID);
+                String lectureID = ScannerUtils.scanWithPattern(CommonPattern.LECTURE_CODE, CommonPatternError.LECTURE_CODE);
                 //TODO: 기존 수업코드가 맞는지, 새로운 번호인지 확인 후 삭제
             }
         }
         else {
-            System.out.println("[오류 : 잘못된 입력입니다. >> 1,2,3중 하나의 숫자를 선택해 주세요.]");
-            System.out.println("[1.이름 2.전화번호 3.듣는수업]");
-            System.out.print("변경하고 싶은 학생 정보를 선택하세요 : ");
-
+            System.out.println("[4. 나가기를 선택하셨습니다.]");
         }
     }
+
 
     //학생 삭제 함수
     public void deleteStudent(){
         System.out.println("[4.학생 정보 삭제를 선택하셨습니다.]");
+
         showStudentList();
-        System.out.print("삭제하고 싶은 학생 아이디를 입력하세요 (*공백없는 숫자로만 입력하세요*) : ");
+        System.out.print("삭제하고 싶은 학생 ID를 입력하세요 (* 4자, 공백 없이 숫자로만 입력하세요 *): ");
+
+        //TODO: 넥스트 라인 필요한지 확인
         String id = ScannerUtils.scanWithPattern(CommonPattern.STUDENT_ID, CommonPatternError.STUDENT_ID);
+
         //TODO: 데이터 파일에 해당 학생이 있는지 확인
 //        if(id in dataFile){
 //            dataFile.delete(id)
@@ -146,22 +149,24 @@ public class StudentManager {
 //        }
     }
 
+
     //학생 관리 함수
     public void management_Student(){
 
         StudentMenuHandler.handle();
-
         System.out.println(Main.manageMenu);
+
         if(Main.manageMenu == 0) {
-            //0눌러서 메인메뉴 가는 함수
-            //            System.out.println("[사용자가 0을 입력하였습니다. 메인메뉴로 이동합니다.]");
-            //            System.out.println("현재까지 입력한 정보는 기억되지 않습니다. 그래도 대메뉴로 이동하시겠습니까? [Y/N] : ");
+//            0눌러서 메인메뉴 가는 함수
+//            System.out.println("[사용자가 0을 입력하였습니다. 메인메뉴로 이동합니다.]");
+//            System.out.println("현재까지 입력한 정보는 기억되지 않습니다. 그래도 대메뉴로 이동하시겠습니까? [Y/N] : ");
         }
+
         else if(Main.manageMenu == 1){
             showStudentList();
-        }
-        else if(Main.manageMenu == 2) {
+        } else if(Main.manageMenu == 2) {
             addStudent();
+
         }else if(Main.manageMenu == 3) {
             editStudent();
         }

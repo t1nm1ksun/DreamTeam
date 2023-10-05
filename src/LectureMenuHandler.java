@@ -25,7 +25,7 @@ public class LectureMenuHandler {
             default -> {
                 ScannerUtils.print("[1. 조회 2. 편집 3. 등록 4. 삭제]", true);
                 ScannerUtils.print("메뉴를 입력하세요", true);
-                Main.manageMenu = Integer.parseInt(ScannerUtils.scanWithPattern(CommonPattern.LECTURE_MENU, CommonPatternError.LECTURE_MENU));
+                Main.manageMenu = Integer.parseInt(ScannerUtils.scanWithPattern(CommonPattern.FOUR_CHOICE, CommonPatternError.FOUR_CHOICE));
             }
         }
     }
