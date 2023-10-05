@@ -110,13 +110,14 @@ public class LectureManager {
 
     public void editLecture() {
         displayLectures();
-        String InputLectureCode = ScannerUtils.scanWithPattern(CommonPattern.LECTURE_ID, CommonPatternError.LECTURE_ID);
+//        String InputLectureCode = ScannerUtils.scanWithPattern(CommonPattern.LECTURE_ID, CommonPatternError.LECTURE_ID);
 
         //수업이 존재하는지 판단해야함!!!!1
-        while(true) {
+       LectureEditMenuHandler.handle();
+    }
 
-        }
-
+    public static void editDate() {
+        ScannerUtils.print("hi", true);
     }
     public void saveDataFile() {
         // 저장된 데이터들을 알맞은 형식의 데이터로 전환한 뒤 저업
