@@ -4,7 +4,7 @@ import java.util.List;
 public class LectureManager {
 
     private List<String[]> saveData = new ArrayList<>(); //프로그램 종료시 저장파일
-    private List<Lecture> lectures = new ArrayList<>(); // 수업 목록을 저장할 리스트
+    private static List<Lecture> lectures = new ArrayList<>(); // 수업 목록을 저장할 리스트
     private Read read = new Read();
 
     /**
@@ -21,7 +21,7 @@ public class LectureManager {
     }
 
     // 모든 수업 목록을 조회하는 메서드
-    public void displayLectures() {
+    public static void displayLectures() {
         if (lectures.isEmpty()) {
             ScannerUtils.print("등록된 수업이 없습니다.", true);
         } else {
@@ -109,15 +109,25 @@ public class LectureManager {
     }
 
     public void editLecture() {
-        displayLectures();
-//        String InputLectureCode = ScannerUtils.scanWithPattern(CommonPattern.LECTURE_ID, CommonPatternError.LECTURE_ID);
-
         //수업이 존재하는지 판단해야함!!!!1
        LectureEditMenuHandler.handle();
     }
 
-    public static void editDate() {
-        ScannerUtils.print("hi", true);
+    public static void editDate(String inputCode) {
+        ScannerUtils.print("변경할 수업 요일을 선택하세요", true);
+        ScannerUtils.print("1. 월수금 2. 화목토", true);
+        String newDate = ScannerUtils.scanWithPattern(CommonPattern.LECTURE_DATE, CommonPatternError.LECTURE_DATE);
+        ScannerUtils.print("변경할 수업 시간을 선택하세요", true);
+        ScannerUtils.print("1. 14-16 2. 16-18 3. 18-20 4.20-22", true);
+        String newtime = ScannerUtils.scanWithPattern(CommonPattern.LECTURE_TIME, CommonPatternError.LECTURE_TIME);
+
+        for (Lecture lec : lectures) {
+            if(lec.getLectureCode().equals(inputCode)) {
+                lec.setTime(newtime);
+                lec.setDayOfWeek(newDate);
+            }
+        }
+
     }
     public void saveDataFile() {
         // 저장된 데이터들을 알맞은 형식의 데이터로 전환한 뒤 저업
@@ -125,6 +135,6 @@ public class LectureManager {
             String[] tmpData = {lec.getSubjectCode(), lec.getTeacher(), lec.getLectureCode(), lec.getDayOfWeek(), lec.getTime()};
             saveData.add(tmpData);
         }
-        read.writeLectureCSV(saveData);
+        read.writeCSV(saveData);
     }
 }
