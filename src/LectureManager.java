@@ -38,7 +38,7 @@ public class LectureManager {
         }
     }
     public  void deleteLecture() {
-        String InputLectureCode = ScannerUtils.scanWithPattern(CommonPattern.LECTURE_ID, CommonPatternError.LECTURE_ID);
+        String InputLectureCode = ScannerUtils.scanWithPattern(CommonPattern.LECTURE_CODE, CommonPatternError.LECTURE_CODE);
         boolean isDeleted = false;
         displayLectures();
         for(Lecture lec : lectures) {

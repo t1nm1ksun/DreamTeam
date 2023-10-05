@@ -49,12 +49,41 @@ public class Read {
         return list;
     }
 
+    public List<List<String>> readStudentCsvFile( String filePath) {
+        List<List<String>> list = new ArrayList<List<String>>();
+        BufferedReader bufferedReader = null;
+
+        try {
+            bufferedReader = Files.newBufferedReader(Paths.get(filePath));
+            String line = "";
+
+            while ((line = bufferedReader.readLine()) != null) {
+
+                List<String> stringList = new ArrayList<>();
+                String stringArray[] = line.split(",");
+
+                stringList = Arrays.asList(stringArray);
+                list.add(stringList);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (bufferedReader != null)
+                    bufferedReader.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return list;
+    }
+
     /**
      * csv 쓰기 파일
      *String 배열을 받아서 넣기!
      * @param dataList
      */
-    public void writeLectureCSV(List<String[]> dataList) {
+    public void writeCSV(List<String[]> dataList) {
         BufferedWriter bufferedwrite = null;
         String filePath ="src/class.csv";
         try {
@@ -80,5 +109,38 @@ public class Read {
             }
         }
     }
+
+    public void writeStudentCSV(List<String[]> dataList) {
+        BufferedWriter bufferedwrite = null;
+        String filePath ="src/class.csv";
+        try {
+            bufferedwrite = Files.newBufferedWriter(Paths.get(filePath));
+            for(int i = 0; i<dataList.size();i++) {
+                String[] data = dataList.get(i);
+                String aData = "";
+                aData = data[0] + "," + data[1] + "," + data[2] + "," + data[3] + "," + data[4];
+                bufferedwrite.write(aData);
+                bufferedwrite.newLine();
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (bufferedwrite != null) {
+                    bufferedwrite.flush();
+                    bufferedwrite.close();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+
+
+
+
+
 
 }
