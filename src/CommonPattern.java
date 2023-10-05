@@ -1,5 +1,6 @@
 public class CommonPattern {
     public static final String PHONE = "^010[0-9]{8}$"; //전화번호 정규식
+    public static final String MAIN_MENU = "^[1-3]$"; //수업 요일 정규식
     public static final String LECTURE_DATE = "^[1-2]$"; //수업 요일 정규식
     public static final String LECTURE_TIME = "^[1-4]$"; //수업 시간 정규식
     public static final String LECTURE_ID = "^20([0-1][0-9]|2[0-3])$"; //수업 아이디 정규식
