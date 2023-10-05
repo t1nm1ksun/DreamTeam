@@ -7,12 +7,12 @@ public class MainMenuHandler {
     public static void handle(LectureManager lectureManager, StudentManager studentManager){
         switch (Main.mainMenu) {
             case 1 -> {
-                while(true){
+                while(Main.mainMenu == 1){
                     LectureMenuHandler.handle(lectureManager);
                 }
             }
             case 2 -> {
-                while(true){
+                while(Main.mainMenu == 2){
                     StudentMenuHandler.handle();
                 }
             }
