@@ -20,11 +20,10 @@ public class StudentManager {
         System.out.print("학생의 전화번호를 입력하세요 (* 공백이나 '-'없이 11개의 숫자를 한 번에 입력하세요 *): ");
 
         String phoneNum = ScannerUtils.scanWithPattern(CommonPattern.PHONE, CommonPatternError.PHONE);
-
+        
+        //TODO: 등록되어 있는 학생인지 확인
         System.out.println("[학생 등록이 완료되었습니다.]");
-//                  System.out.println("[이미 등록되어 있는 정보입니다.]");
-//                  System.out.println("학생의 이름을 입력하세요 (*2~10글자의 한글을 입력하세요*) : ");
-//                  System.out.println("오류 : 잘못된 입력입니다. (*공백이나 '-'없이 11개의 숫자를 한번에 입력하세요*) : ");
+
     }
 
     /// 학생 편집 함수
