@@ -91,7 +91,7 @@ public class StudentManager {
             System.out.println("[오류 : 잘못된 입력입니다. >> 1,2,3중 하나의 숫자를 선택해 주세요.]");
             System.out.println("[1.이름 2.전화번호 3.듣는수업]");
             System.out.print("변경하고 싶은 학생 정보를 선택하세요 : ");
-            studentdata_Edit = Main.scanner.nextInt();
+
         }
     }
 
@@ -101,40 +101,37 @@ public class StudentManager {
         showStudentList();
         System.out.print("삭제하고 싶은 학생 아이디를 입력하세요 (*공백없는 숫자로만 입력하세요*) : ");
         String id = ScannerUtils.scanWithPattern(CommonPattern.STUDENT_ID, CommonPatternError.STUDENT_ID);
-//        Main.scanner.nextLine();
-//        String id_Delete = Main.scanner.nextLine();
-        System.out.println("해당 학생의 정보가 삭제되었습니다.");
-        System.out.println("[오류 : 입력형식이 맞지 않거나 해당 아이디의 학생이 존재하지 않습니다.]");
-        System.out.println("삭제하고 싶은 학생 아이디를 입력하세요 (*공백없는 숫자로만 입력하세요*) : ");
+        //TODO: 데이터 파일에 해당 학생이 있는지 확인
+//        if(id in dataFile){
+//            dataFile.delete(id)
+//            System.out.println("해당 학생의 정보가 삭제되었습니다.");
+//        }
+//        else{
+//            System.out.println("[오류 : 입력형식이 맞지 않거나 해당 아이디의 학생이 존재하지 않습니다.]");
+//        }
     }
 
     //학생 관리 함수
     public static void management_Student(){
-        System.out.println("[2. 학생 관리를 선택하셨습니다.]");
-        System.out.println("[1.조회 2.등록 3.편집 4.삭제]");
-        System.out.print("메뉴를 입력하세요 : ");
-        StudentMenuHandler.handle();
 
+        StudentMenuHandler.handle();
         if(Main.manageMenu == 0) {
             //0눌러서 메인메뉴 가는 함수
             //            System.out.println("[사용자가 0을 입력하였습니다. 메인메뉴로 이동합니다.]");
             //            System.out.println("현재까지 입력한 정보는 기억되지 않습니다. 그래도 대메뉴로 이동하시겠습니까? [Y/N] : ");
         }
         if(Main.manageMenu == 1){
-//            studentList();
+            showStudentList();
         }
         else if(Main.manageMenu == 2) {
             addStudent();
         }else if(Main.manageMenu == 3) {
-//            studentList();
+            showStudentList();
             editStudent();
         }
         else if (Main.manageMenu == 4) {
-//            studentList();
+            showStudentList();
             deleteStudent();
-        }
-        else {
-            System.out.println("[오류 : 잘못된 입력입니다. >> 1,2,3,4중 하나의 숫자를 선택해 주세요.]");
         }
     }
 }
