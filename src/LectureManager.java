@@ -100,5 +100,8 @@ public class LectureManager {
         String[] data = new String[]{dataList[0], dataList[1], dataList[2], dataList[3], dataList[4]};
         saveData.add(data);
     }
-
+    //수업 개수가100개 이상일시 등록 맡기위한 용도
+    public int LectureSize(){
+        return lectures.size();
+    }
 }
