@@ -3,6 +3,7 @@ import java.util.List;
 
 public class LectureManager {
 
+    public static Integer maxCode = 2000;
     private List<String[]> saveData = new ArrayList<>(); //프로그램 종료시 저장파일
     private static List<Lecture> lectures = new ArrayList<>(); // 수업 목록을 저장할 리스트
     private Read read = new Read();
@@ -14,6 +15,7 @@ public class LectureManager {
     public LectureManager() {
         List<List<String>> list = read.readCsvFile("src/class.csv");
         for(List<String> item : list){
+            if(Integer.parseInt(item.get(2)) > maxCode) maxCode = Integer.parseInt(item.get(2));
             Lecture l1 = new Lecture(item.get(0), item.get(1), item.get(2), item.get(3),item.get(4));
             lectures.add(l1);
         }
@@ -117,13 +119,19 @@ public class LectureManager {
         ScannerUtils.print("변경할 수업 요일을 선택하세요", true);
         ScannerUtils.print("1. 월수금 2. 화목토", true);
         String newDate = ScannerUtils.scanWithPattern(CommonPattern.LECTURE_DATE, CommonPatternError.LECTURE_DATE);
+        if(newDate.equals("1")) {
+            newDate = "월 수 금";
+        } else {
+            newDate = "화 목 토";
+        }
+
         ScannerUtils.print("변경할 수업 시간을 선택하세요", true);
         ScannerUtils.print("1. 14-16 2. 16-18 3. 18-20 4.20-22", true);
-        String newtime = ScannerUtils.scanWithPattern(CommonPattern.LECTURE_TIME, CommonPatternError.LECTURE_TIME);
+        String newTime = ScannerUtils.scanWithPattern(CommonPattern.LECTURE_TIME, CommonPatternError.LECTURE_TIME);
 
         for (Lecture lec : lectures) {
             if(lec.getLectureCode().equals(inputCode)) {
-                lec.setTime(newtime);
+                lec.setTime(newTime);
                 lec.setDayOfWeek(newDate);
             }
         }
