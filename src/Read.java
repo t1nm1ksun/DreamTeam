@@ -20,7 +20,7 @@ public class Read {
      * 사용시 주의점:csv파일 생성후 연결파일을 반드시 메모장으로!
      * @return List<List<String>> 배열 item
      */
-    public List<List<String>> readCsvFile( String filePath) {
+    public List<List<String>> readCSV( String filePath) {
         List<List<String>> list = new ArrayList<List<String>>();
         BufferedReader bufferedReader = null;
 
@@ -49,7 +49,7 @@ public class Read {
         return list;
     }
 
-    public List<List<String>> readStudentCsvFile( String filePath) {
+    public List<List<String>> readStudentCSV( String filePath) {
         List<List<String>> list = new ArrayList<List<String>>();
         BufferedReader bufferedReader = null;
 

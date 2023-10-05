@@ -1,17 +1,52 @@
 import java.util.ArrayList;
+import java.util.List;
 
 public class StudentManager {
 
     private ArrayList<Student> studentList = new ArrayList<Student>();
 
+
+    private List<String[]> saveData = new ArrayList<>(); //프로그램 종료시 저장파일
+    private List<Student> student = new ArrayList<>(); // 수업 목록을 저장할 리스트
+    private Read read = new Read();
+
+    /**
+     * csv로부터 읽어온파일들을 순서대로 lectures에 저장
+     * 마지막에 한번에 저장하기 위해 saveData에 순차적 저장
+     */
+    public StudentManager() {
+        List<List<String>> list = read.readCSV("src/student.csv");
+        for(List<String> item : list){
+            Student s1 = new Student(item.get(0), item.get(1), item.get(2));
+            student.add(s1);
+        }
+        //파일을 읽어서 학생 class들을 만들기
+    }
+
+
+
     /// 학생 정보 리스트 출력 함수
-    public static void showStudentList() {
+    public void showStudentList() {
         System.out.println("[학생 정보 리스트]");
         //TODO: 데이터 파일 접근해서 학생 정보 리스트 출력
+
+        if (student.isEmpty()) {
+            ScannerUtils.print("등록된 학생이 없습니다.", true);
+        } else {
+            System.out.println("등록된 수업 목록:");
+            ScannerUtils.print("학생ID    이름    휴대폰 번호    수강 중인 수업 ", true);
+            for (Student students : student) {
+                ScannerUtils.print(students.getId()+"       ", false);
+                ScannerUtils.print(students.getName()+"       ", false);
+                ScannerUtils.print(students.getPhoneNum()+"       ", false);
+                ScannerUtils.print(students.getLectureList()+"     ", false);
+                ScannerUtils.print("", true);
+            }
+        }
     }
 
     /// 학생 등록 함수
-    public static void addStudent() {
+    public void addStudent() {
         System.out.println("[2. 학생 등록을 선택하셨습니다.]");
         System.out.print("등록할 학생의 이름을 입력하세요 (* 2~10자, 공백 없이 한글로만 입력하세요 *): ");
 
@@ -30,7 +65,7 @@ public class StudentManager {
     }
 
     /// 학생 정보 변경 함수
-    public static void editStudent() {
+    public void editStudent() {
 
         System.out.println("[3.학생 정보 편집을 선택하셨습니다.]");
         showStudentList();
@@ -96,7 +131,7 @@ public class StudentManager {
     }
 
     //학생 삭제 함수
-    public static void deleteStudent(){
+    public void deleteStudent(){
         System.out.println("[4.학생 정보 삭제를 선택하셨습니다.]");
         showStudentList();
         System.out.print("삭제하고 싶은 학생 아이디를 입력하세요 (*공백없는 숫자로만 입력하세요*) : ");
@@ -112,25 +147,25 @@ public class StudentManager {
     }
 
     //학생 관리 함수
-    public static void management_Student(){
+    public void management_Student(){
 
         StudentMenuHandler.handle();
+
+        System.out.println(Main.manageMenu);
         if(Main.manageMenu == 0) {
             //0눌러서 메인메뉴 가는 함수
             //            System.out.println("[사용자가 0을 입력하였습니다. 메인메뉴로 이동합니다.]");
             //            System.out.println("현재까지 입력한 정보는 기억되지 않습니다. 그래도 대메뉴로 이동하시겠습니까? [Y/N] : ");
         }
-        if(Main.manageMenu == 1){
+        else if(Main.manageMenu == 1){
             showStudentList();
         }
         else if(Main.manageMenu == 2) {
             addStudent();
         }else if(Main.manageMenu == 3) {
-            showStudentList();
             editStudent();
         }
         else if (Main.manageMenu == 4) {
-            showStudentList();
             deleteStudent();
         }
     }
