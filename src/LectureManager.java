@@ -13,7 +13,7 @@ public class LectureManager {
      * 마지막에 한번에 저장하기 위해 saveData에 순차적 저장
      */
     public LectureManager() {
-        List<List<String>> list = read.readCsvFile("src/class.csv");
+        List<List<String>> list = read.readCSV("src/class.csv");
         for(List<String> item : list){
             if(Integer.parseInt(item.get(2)) > maxCode) maxCode = Integer.parseInt(item.get(2));
             Lecture l1 = new Lecture(item.get(0), item.get(1), item.get(2), item.get(3),item.get(4));
