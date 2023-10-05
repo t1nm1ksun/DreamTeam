@@ -49,6 +49,7 @@ public class LectureManager {
 //                saveData.remove(Integer.parseInt(InputLectureCode)-2001);
                 lectures.remove(lec);
                 isDeleted = true;
+                maxCode--;
                 break;
             }
         }
@@ -83,7 +84,7 @@ public class LectureManager {
         else dataList[1] = tm.find("이기웅");
 
         //여기서 수업 코드 추가
-        dataList[2] = Integer.toString(2001 + lectures.size());
+        dataList[2] = Integer.toString(++maxCode);
 
         //요일 정보 입력
         ScannerUtils.print("수강할 날짜를 입력해주세요", true);
