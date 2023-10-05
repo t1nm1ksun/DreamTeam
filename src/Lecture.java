@@ -56,9 +56,6 @@ public class Lecture {
     }
 
     public  String getLectureCode() {return LectureCode;}
-    @Override
-    public String toString() {
-        return "과목: " + subjectCode + ", 선생님: " + teacher + ", 요일: " + dayOfWeek + ", 시간: " + time;
-    }
+
 
 }

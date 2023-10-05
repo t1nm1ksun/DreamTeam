@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.*;
-public class read {
+public class Read {
 
     /**
      *  csv 읽기 파일
@@ -59,13 +59,13 @@ public class read {
         String filePath ="src/class.csv";
         try {
             bufferedwrite = Files.newBufferedWriter(Paths.get(filePath));
-                for(int i = 0; i<dataList.size();i++) {
-                    String[] data = dataList.get(i);
-                    String aData = "";
-                    aData = data[0] + "," + data[1] + "," + data[2] + "," + data[3] + "," + data[4];
-                    bufferedwrite.write(aData);
-                    bufferedwrite.newLine();
-                }
+            for(int i = 0; i<dataList.size();i++) {
+                String[] data = dataList.get(i);
+                String aData = "";
+                aData = data[0] + "," + data[1] + "," + data[2] + "," + data[3] + "," + data[4];
+                bufferedwrite.write(aData);
+                bufferedwrite.newLine();
+            }
 
         } catch (IOException e) {
             e.printStackTrace();
