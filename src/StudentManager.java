@@ -30,9 +30,8 @@ public class StudentManager {
     public static void editStudent() {
         System.out.println("[3.학생 정보 편집을 선택하셨습니다.]");
         System.out.print("편집하고 싶은 학생 아이디를 입력하세요 (*공백 없는 숫자로만 입력하세요*) : ");
-
         //TODO: 넥스트 라인 필요한지 확인, id 정규식 추가되면 id로 추가하기
-        String id = ScannerUtils.scanWithPattern(CommonPattern.PHONE, CommonPatternError.PHONE);
+        String id = ScannerUtils.scanWithPattern(CommonPattern.STUDENT_ID, CommonPatternError.STUDENT_ID);
 
     }
 
@@ -40,6 +39,7 @@ public class StudentManager {
     public static void deleteStudent(){
         System.out.println("[4.학생 정보 삭제를 선택하셨습니다.]");
         System.out.print("삭제하고 싶은 학생 아이디를 입력하세요 (*공백없는 숫자로만 입력하세요*) : ");
+        String id = ScannerUtils.scanWithPattern(CommonPattern.STUDENT_ID, CommonPatternError.STUDENT_ID);
 //        Main.scanner.nextLine();
 //        String id_Delete = Main.scanner.nextLine();
         System.out.println("해당 학생의 정보가 삭제되었습니다.");
