@@ -79,7 +79,32 @@ public class read {
                 e.printStackTrace();
             }
         }
+    }
 
+    public void writeOneCSV(String[] data) {
+        BufferedWriter bufferedwrite = null;
+        String filePath ="src/class.csv";
+        try {
+            bufferedwrite = Files.newBufferedWriter(Paths.get(filePath));
+
+            String aData = "";
+            aData = data[0] + "," + data[1] + "," + data[2] + "," + data[3] + "," + data[4];
+            ScannerUtils.print(aData, true);
+            bufferedwrite.write(aData);
+            bufferedwrite.newLine();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (bufferedwrite != null) {
+                    bufferedwrite.flush();
+                    bufferedwrite.close();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
 }

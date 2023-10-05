@@ -39,24 +39,27 @@ public class LectureManager {
             }
         }
     }
-    public  void deleteLecture(String InputLectureCode) {
-//        String InputLectureCode = ScannerUtils.scanWithPattern("dfs", "Error 유효한 과목 코드 아님");
+    public  void deleteLecture() {
+        ScannerUtils.print("삭제할 수업 코드를 입력해주세요(*공백없이 4자리 숫자*)", false);
+        String InputLectureCode = ScannerUtils.scanWithPattern(CommonPattern.LECTURE_ID, CommonPatternError.LECTURE_ID);
         boolean isDeleted = false;
-        displayLectures();
         for(Lecture lec : lectures) {
             if(InputLectureCode.equals(lec.getLectureCode())) {
                 //delete
-                saveData.remove(Integer.parseInt(InputLectureCode)-2001);
-                lectures.remove(Integer.parseInt(InputLectureCode)-2001);
+                lectures.remove(lec);
                 isDeleted = true;
                 break;
             }
         }
-        displayLectures();
         if(!isDeleted) {
             //삭제하고자 하는 강의가 없음
         } else {
+            Integer initCode = 2000;
             //삭제 성공!
+            //성공하면 코드 재설정
+            for(Lecture lec : lectures) {
+                lec.setLectureCode(Integer.toString(initCode++));
+            }
         }
     }
     public void addLecture() {
@@ -98,16 +101,19 @@ public class LectureManager {
         Lecture newLec = new Lecture(dataList[0], dataList[1], dataList[2], dataList[3], dataList[4]);
         lectures.add(newLec);
         //saveData에 해당 lecture add
-        String[] data = new String[]{dataList[0], dataList[1], dataList[2], dataList[3], dataList[4]};
-        saveData.add(data);
+//        String[] data = new String[]{dataList[0], dataList[1], dataList[2], dataList[3], dataList[4]};
+//        Read.writeOneCSV(data);
+//        saveData.add(data);
+
     }
 
-    public void saveData() {
+    public void saveDatafile() {
         for(Lecture lec : lectures) {
             String[] data = new String[]{lec.getSubjectCode(), lec.getTeacher(), lec.getLectureCode(), lec.getDayOfWeek(), lec.getTime()};
             saveData.add(data);
         }
         // csv에 데이터를 저장함
+        Read.writeCSV(saveData);
     }
 
 }

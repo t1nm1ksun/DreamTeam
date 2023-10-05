@@ -33,6 +33,8 @@ public class Lecture {
         this.time = time;
     }
 
+    // 수업 코드 정보 설정
+    public void setLectureCode(String lectureCode) { this.LectureCode = lectureCode; }
     // 과목 정보 반환
     public String getSubjectCode() {
         return subjectCode;

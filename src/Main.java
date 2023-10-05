@@ -11,8 +11,12 @@ public class Main {
     //=============================================================================
     public static void main(String[] args) {
         LectureManager Lm = new LectureManager();
-        Lm.addLecture();
         Lm.displayLectures();
+//        Lm.addLecture();
+        Lm.deleteLecture();
+        Lm.displayLectures();
+//        Lm.saveDatafile();
+//        Lm.displayLectures();
         ScannerInstance instance = ScannerInstance.getInstance();
         instance.dispose();
     }
