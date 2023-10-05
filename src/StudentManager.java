@@ -7,7 +7,6 @@ public class StudentManager {
     /// 학생 정보 리스트 출력 함수
     public static void showStudentList() {
         System.out.println("[학생 정보 리스트]");
-
         //TODO: 데이터 파일 접근해서 학생 정보 리스트 출력
     }
 
@@ -22,11 +21,10 @@ public class StudentManager {
         //TODO: 입력받은 학생 이름 set 하기
 
         System.out.print("학생의 전화번호를 입력하세요 (* 띄어쓰기나 '-'없이 11개의 숫자를 한 번에 입력하세요 *): ");
-
-
         String phoneNum = ScannerUtils.scanWithPattern(CommonPattern.PHONE, CommonPatternError.PHONE);
         //TODO: 입력받은 전화번호 set 하기
 
+        //TODO: 이미 등록 되어있는 학생인지 확인
         System.out.println("[학생 등록이 완료되었습니다.]");
     }
 
@@ -54,7 +52,7 @@ public class StudentManager {
             System.out.print("변경하고자 하는 이름을 입력해 주세요: ");
             Main.scanner.nextLine();
             String name_Edit = Main.scanner.nextLine();
-        } else if (menuNum == 3) {
+        } else if (menuNum.equals("3")) {
             System.out.println("[3.듣는 수업 편집을 선택하셨습니다.]");
             System.out.println("[1.수업 추가 2.수업 삭제]");
             System.out.print("편집할 수업메뉴를 선택하세요 : ");
@@ -95,7 +93,7 @@ public class StudentManager {
     public static void deleteStudent(){
         System.out.println("[4.학생 정보 삭제를 선택하셨습니다.]");
         System.out.print("삭제하고 싶은 학생 아이디를 입력하세요 (*공백없는 숫자로만 입력하세요*) : ");
-//        Main.scanner.nextLine();
+        Main.scanner.nextLine();
 //        String id_Delete = Main.scanner.nextLine();
                     System.out.println("해당 학생의 정보가 삭제되었습니다.");
         System.out.println("[오류 : 입력형식이 맞지 않거나 해당 아이디의 학생이 존재하지 않습니다.]");
@@ -111,8 +109,8 @@ public class StudentManager {
 
         if(Main.studentMenu.equals("0")) {
             //0눌러서 메인메뉴 가는 함수
-            //            System.out.println("[사용자가 0을 입력하였습니다. 메인메뉴로 이동합니다.]");
-            //            System.out.println("현재까지 입력한 정보는 기억되지 않습니다. 그래도 대메뉴로 이동하시겠습니까? [Y/N] : ");
+            //System.out.println("[사용자가 0을 입력하였습니다. 메인메뉴로 이동합니다.]");
+            //System.out.println("현재까지 입력한 정보는 기억되지 않습니다. 그래도 대메뉴로 이동하시겠습니까? [Y/N] : ");
         }
         if(Main.studentMenu.equals("1")){
 //            studentList();
