@@ -35,7 +35,7 @@ public class StudentManager {
             ScannerUtils.print("등록된 학생이 없습니다.", true);
         } else {
             System.out.println("등록된 수업 목록:");
-            ScannerUtils.print("   [학생ID]     [이름]      [휴대폰 번호]     [수강 중인 수업] ", true);
+            ScannerUtils.print("   [학생ID]     [이름]       [휴대폰 번호]     [수강 중인 수업] ", true);
             for (Student students : student) {
                 ScannerUtils.print("|   "+students.getId()+"       ", false);
                 ScannerUtils.print(students.getName()+"       ", false);
