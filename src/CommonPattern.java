@@ -13,6 +13,8 @@ public class CommonPattern {
     public static final String PHONE_NUMBER = "^010[0-9]{8}$"; // 전화번호 정규식
     /** 학생 이름 정규식 */
     public static final String STUDENT_NAME = "^[가-힣]{2,10}$"; // 학생 이름 정규식
+    /** 보기 5개짜리 정규식 */
+    public static final String FIVE_CHOICE = "^[1-5]$"; // 보기 5개짜리 정규식
     /** 보기 4개짜리 정규식 */
     public static final String FOUR_CHOICE = "^[1-4]$"; // 보기 4개짜리 정규식
     /** 보기 3개짜리 정규식 */
