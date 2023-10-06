@@ -23,7 +23,7 @@ public class LectureManager {
     }
 
     // 모든 수업 목록을 조회하는 메서드
-    public static void displayLectures() {
+    public void displayLectures() {
         if (lectures.isEmpty()) {
             ScannerUtils.print("등록된 수업이 없습니다.", true);
         } else {
@@ -112,12 +112,7 @@ public class LectureManager {
         return lectures.size();
     }
 
-    public void editLecture() {
-        //편집 메뉴 핸들러 호출
-       LectureEditMenuHandler.handle();
-    }
-
-    public static void editDate(String inputCode) {
+    public void editDate(String inputCode) {
         //변경할 요일 선택
         ScannerUtils.print("변경할 수업 요일을 선택하세요", true);
         ScannerUtils.print("1. 월수금 2. 화목토", true);

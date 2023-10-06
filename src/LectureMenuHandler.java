@@ -11,7 +11,7 @@ public class LectureMenuHandler {
                 clearManageMenu();
             }
             case 2 -> {
-                lectureManager.editLecture();
+                LectureEditMenuHandler.handle(lectureManager);
                 clearManageMenu();
             }
             case 3 -> {
