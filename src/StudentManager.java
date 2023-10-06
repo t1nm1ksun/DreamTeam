@@ -63,7 +63,16 @@ public class StudentManager {
         String phoneNum = ScannerUtils.scanWithPattern(CommonPattern.PHONE_NUMBER, CommonPatternError.PHONE_NUMBER);
         //TODO: 입력받은 전화번호 set 하기
         dataList[2]=phoneNum;
-        dataList[0]="1111";
+        // 학생 리스트가 비어있지 않은 경우에만 가장 마지막 학생의 ID에 1을 더한 값을 dataList[0]에 넣습니다.
+        if (!student.isEmpty()) {
+            // 가장 마지막 학생을 가져옵니다.
+            Student lastStudent = student.get(student.size() - 1);
+            int lastStudentId = Integer.parseInt(lastStudent.getId());
+            dataList[0] = String.valueOf(lastStudentId + 1);
+        } else {
+            // 학생 리스트가 비어있을 경우, 첫 번째 학생의 ID는 "2001"로 설정합니다.
+            dataList[0] = "4001";
+        }
         Student student2 = new Student(dataList[0],dataList[1],dataList[2]);
         student.add(student2);
         System.out.println("[학생 등록이 완료되었습니다.]");
