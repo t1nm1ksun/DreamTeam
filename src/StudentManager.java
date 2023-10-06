@@ -37,7 +37,7 @@ public class StudentManager {
             for (Student students : student) {
                 ScannerUtils.print("|   "+students.getId()+"       ", false);
                 ScannerUtils.print(students.getName()+"       ", false);
-                ScannerUtils.print(students.getPhoneNum()+"       ", false);
+                ScannerUtils.print(students.getPhoneNum()+"         ", false);
                 ScannerUtils.print(students.getLectureList()+"          |", false);
                 ScannerUtils.print("", true);
             }
@@ -46,18 +46,24 @@ public class StudentManager {
 
     /// 학생 등록 함수
     public void addStudent() {
+        String[] dataList = new String[3];
+
         System.out.println("[2. 학생 등록을 선택하셨습니다.]");
         System.out.print("등록할 학생의 이름을 입력하세요 (* 2~10자, 공백 없이 한글로만 입력하세요 *): ");
         //TODO: 넥스트 라인 필요한지 확인
         String name = ScannerUtils.scanWithPattern(CommonPattern.STUDENT_NAME, CommonPatternError.STUDENT_NAME);
         //TODO: 입력받은 학생 이름 set 하기
+        dataList[1]=name;
 
         System.out.print("학생의 전화번호를 입력하세요 (* 띄어쓰기나 '-'없이 11개의 숫자를 한 번에 입력하세요 *): ");
 
         //TODO: 넥스트 라인 필요한지 확인
         String phoneNum = ScannerUtils.scanWithPattern(CommonPattern.PHONE_NUMBER, CommonPatternError.PHONE_NUMBER);
         //TODO: 입력받은 전화번호 set 하기
-
+        dataList[2]=phoneNum;
+        dataList[0]="1111";
+        Student student2 = new Student(dataList[0],dataList[1],dataList[2]);
+        student.add(student2);
         System.out.println("[학생 등록이 완료되었습니다.]");
     }
 

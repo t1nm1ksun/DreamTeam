@@ -25,7 +25,7 @@ public class ScannerUtils {
         while(true){
             String inputText = scanner.nextLine();
 
-            if(Integer.parseInt(inputText) == 0){
+            if(inputText.equals("0")){
                 Main.editMenu = -1;
                 Main.mainMenu = -1;
                 Main.manageMenu = -1;
