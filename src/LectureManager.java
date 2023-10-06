@@ -48,6 +48,10 @@ public class LectureManager {
 
         ScannerUtils.print("삭제할 수업 코드를 입력해주세요", true);
         String InputLectureCode = ScannerUtils.scanWithPattern(CommonPattern.LECTURE_CODE, CommonPatternError.LECTURE_CODE);
+        while(Integer.parseInt(InputLectureCode) > maxCode) {
+            ScannerUtils.print("존재하지 않는 수업 코드입니다 다시 입력 바랍니다.", true);
+            InputLectureCode = ScannerUtils.scanWithPattern(CommonPattern.LECTURE_CODE, CommonPatternError.LECTURE_CODE);
+        }
         boolean isDeleted = false;
 
         for(Lecture lec : lectures) {
