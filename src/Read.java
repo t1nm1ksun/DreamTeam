@@ -118,7 +118,7 @@ public class Read {
             for(int i = 0; i<dataList.size();i++) {
                 String[] data = dataList.get(i);
                 String aData = "";
-                aData = data[1] + "," + data[2];
+                aData = data[0]+","+data[1] + "," + data[2];
                 bufferedwrite.write(aData);
                 bufferedwrite.newLine();
             }

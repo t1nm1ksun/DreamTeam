@@ -17,8 +17,10 @@ public class StudentManager {
     public StudentManager() {
         List<List<String>> list = read.readCSV("src/student.csv");
         for(List<String> item : list){
-            Student s1 = new Student(item.get(0), item.get(1), item.get(2));
-            student.add(s1);
+            if(item.size()>=3){
+                Student s1 = new Student(item.get(0), item.get(1), item.get(2));
+                student.add(s1);
+            }
         }
         //파일을 읽어서 학생 class들을 만들기
     }
@@ -148,6 +150,15 @@ public class StudentManager {
 //        else{
 //            System.out.println("[오류 : 입력형식이 맞지 않거나 해당 아이디의 학생이 존재하지 않습니다.]");
 //        }
+    }
+
+    public void saveDataFile() {
+        //lectures 들을 알맞은 형식의 데이터로 전환한 뒤 파일에 저장
+        for(Student stu : student) {
+            String[] tmpData = {stu.getId(),stu.getName(),stu.getPhoneNum()};
+            saveData.add(tmpData);
+        }
+        read.writeStudentCSV(saveData);
     }
 
 

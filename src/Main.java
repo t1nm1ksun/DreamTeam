@@ -16,6 +16,7 @@ public class Main {
             MainMenuHandler.handle(lectureManager, studentManager);
         }
         lectureManager.saveDataFile();
+        studentManager.saveDataFile();
         ScannerUtils.print("프로그램 종료", true);
 
         ScannerInstance instance = ScannerInstance.getInstance();
