@@ -41,9 +41,11 @@ public class LectureManager {
     }
     public  void deleteLecture() {
         displayLectures();
+
+        ScannerUtils.print("삭제할 수업 코드를 입력해주세요", true);
         String InputLectureCode = ScannerUtils.scanWithPattern(CommonPattern.LECTURE_CODE, CommonPatternError.LECTURE_CODE);
         boolean isDeleted = false;
-        displayLectures();
+
         for(Lecture lec : lectures) {
             //삭제할 강의가 존재한다면 lectures 에서 삭제하고 maxCode를 낮춤
             if(InputLectureCode.equals(lec.getLectureCode())) {
@@ -78,7 +80,7 @@ public class LectureManager {
         //선생님 정보 입력
         ScannerUtils.print("추가할 선생 입력해주세요 ", true);
         ScannerUtils.print("1) 이승범   2) 신민석    3)김창균   4)이기웅 : ", false);
-        input = ScannerUtils.scanWithPattern(CommonPattern.LECTURE_DATE, CommonPatternError.LECTURE_DATE);
+        input = ScannerUtils.scanWithPattern(CommonPattern.FOUR_CHOICE, CommonPatternError.FOUR_CHOICE);
         if(input.equals("1"))  dataList[1] = tm.find("이승범");
         else if(input.equals("2")) dataList[1] = tm.find("신민석");
         else if(input.equals("3")) dataList[1] = tm.find("김창균");
