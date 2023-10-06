@@ -9,6 +9,7 @@ public class LectureEditMenuHandler {
             if(Main.editMenu == 1) {
                 lecturemanager.editDate(input);
                 clearEditMenu();
+                break;
             } else if(Main.editMenu == 2) {
                 clearEditMenu();
                 break;

@@ -5,7 +5,7 @@ public class LectureManager {
 
     public static Integer maxCode = 2000;
     private List<String[]> saveData = new ArrayList<>(); //프로그램 종료시 저장파일
-    private static List<Lecture> lectures = new ArrayList<>(); // 수업 목록을 저장할 리스트
+    private List<Lecture> lectures = new ArrayList<>(); // 수업 목록을 저장할 리스트
     private Read read = new Read();
 
     /**

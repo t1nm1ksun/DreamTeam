@@ -13,16 +13,23 @@ public class LectureMenuHandler {
                     clearManageMenu();
                 }
                 case 2 -> {
+                    lectureManager.displayLectures();
                     LectureEditMenuHandler.handle(lectureManager);
+                    ScannerUtils.print("수업이 성공적으로 변경되었습니다!", true);
+
                     clearManageMenu();
                 }
                 case 3 -> {
                     lectureManager.addLecture();
+                    ScannerUtils.print("수업이 성공적으로 추가되었습니다!", true);
+
                     clearManageMenu();
                 }
                 case 4 -> {
                     //TODO: lectureManager 인풋 메서드 내부에서 처리하도록
                     lectureManager.deleteLecture();
+                    ScannerUtils.print("수업이 성공적으로 삭제되었습니다!", true);
+
                     clearManageMenu();
                 }
                 case 5 -> {
