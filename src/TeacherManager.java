@@ -24,4 +24,8 @@ public class TeacherManager {
         }
         return "";
     }
+
+    public List<Teacher> getTeachers(){
+        return teachers;
+    }
 }
