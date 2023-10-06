@@ -24,4 +24,7 @@ public class SubjectManager {
         }
         return "";
     }
+    public List<Subject> getSubjectss(){
+        return subjects;
+    }
 }

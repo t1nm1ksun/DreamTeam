@@ -49,6 +49,10 @@ public class Lecture {
     public String getDayOfWeek() {
         return dayOfWeek;
     }
+    public int getDay() {
+        if(dayOfWeek.equals("월 수 금")) return 1;
+        else return 2;
+    }
 
     // 수업 시간 정보 반환
     public String getTime() {
