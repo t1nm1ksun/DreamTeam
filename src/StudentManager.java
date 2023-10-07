@@ -59,9 +59,9 @@ public class StudentManager {
 
         System.out.print("학생의 전화번호를 입력하세요 (* 띄어쓰기나 '-'없이 11개의 숫자를 한 번에 입력하세요 *): ");
 
-        //TODO: 넥스트 라인 필요한지 확인
+
         String phoneNum = ScannerUtils.scanWithPattern(CommonPattern.PHONE_NUMBER, CommonPatternError.PHONE_NUMBER);
-        //TODO: 입력받은 전화번호 set 하기
+        //TODO: 이미 등록 되어있는 번호인지 확인, 입력받은 전화번호 set 하기
         dataList[2]=phoneNum;
         // 학생 리스트가 비어있지 않은 경우에만 가장 마지막 학생의 ID에 1을 더한 값을 dataList[0]에 넣습니다.
         if (!student.isEmpty()) {
@@ -70,7 +70,7 @@ public class StudentManager {
             int lastStudentId = Integer.parseInt(lastStudent.getId());
             dataList[0] = String.valueOf(lastStudentId + 1);
         } else {
-            // 학생 리스트가 비어있을 경우, 첫 번째 학생의 ID는 "2001"로 설정합니다.
+            // 학생 리스트가 비어있을 경우, 첫 번째 학생의 ID는 "4001"로 설정합니다.
             dataList[0] = "4001";
         }
         Student student2 = new Student(dataList[0],dataList[1],dataList[2]);
@@ -78,68 +78,71 @@ public class StudentManager {
         System.out.println("[학생 등록이 완료되었습니다.]");
     }
 
+    /**학생 아이디로 등록된 학생인지 찾는것*/
+    public Student findStudentById(String id) {
+        for (Student student : student) {
+            if (student.getId().equals(id)) {
+                return student; // 학생 ID가 일치하는 학생을 반환합니다.
+            }
+        }
+        return null; // 학생 ID가 일치하는 학생을 찾지 못한 경우 null을 반환합니다.
+    }
+
+    /**등록된 번호 읹지 찾는것*/
+    public boolean findPhoneNum(String num) {
+        for (Student student : student) {
+            if (student.getPhoneNum().equals(num)) {
+                return true; // 등록 되어있으면 true
+            }
+        }
+        return false; // 등록 안되어있으면 false
+    }
+
+
     /// 학생 정보 변경 함수
 
     public void editStudent() {
-        System.out.println("[3.학생 정보 편집을 선택하셨습니다.]");
+        System.out.println("[3. 학생 정보 편집을 선택하셨습니다.]");
         showStudentList();
         System.out.print("편집하고 싶은 학생 ID를 입력하세요 (* 4자, 공백 없이 숫자로만 입력하세요 *): ");
-        //TODO: 넥스트 라인 필요한지 확인, id 정규식 추가되면 id로 추가하기
-
         String id = ScannerUtils.scanWithPattern(CommonPattern.STUDENT_ID, CommonPatternError.STUDENT_ID);
 
-        //TODO: studentList에 접근해서 학생 이름 get 하기
-        System.out.print("~~~"); // 학생 이름 임시로
-        System.out.println(" 학생의 정보를 변경합니다.]");
-        System.out.println("[1. 이름  2. 전화번호  3. 수업 목록  4. 나가기]");
-        System.out.print("변경하고 싶은 학생 정보를 선택하세요 (* 1~4 중 원하는 메뉴의 숫자 하나를 입력하세요 *): ");
+        // 학생 ID로 학생을 찾습니다.
+        Student studentToEdit = findStudentById(id);
 
-        //TODO: 넥스트 라인 필요한지 확인
-        String menuNum = ScannerUtils.scanWithPattern(CommonPattern.LECTURE_TIME, CommonPatternError.LECTURE_TIME); // 임시 정규식
+        if (studentToEdit != null) {
+            System.out.println(studentToEdit.getName() + " 학생의 정보를 변경합니다.");
+            System.out.println("[1. 이름  2. 전화번호  3. 수업 목록  4. 나가기]");
+            System.out.print("변경하고 싶은 학생 정보를 선택하세요 (* 1~4 중 원하는 메뉴의 숫자 하나를 입력하세요 *): ");
+            String menuNum = ScannerUtils.scanWithPattern(CommonPattern.FOUR_CHOICE, CommonPatternError.FOUR_CHOICE);
 
-        if (menuNum.equals("1")) {
-            System.out.println("[1. 이름 변경을 선택하셨습니다.]");
-            System.out.print("새로운 이름을 입력해 주세요: ");
-
-            //TODO: 넥스트 라인 필요한지 확인
-            String newName = ScannerUtils.scanWithPattern(CommonPattern.STUDENT_NAME, CommonPatternError.STUDENT_NAME);
-            //TODO: 기존 이름과 다른지, 중복된 이름인지 확인 후 저장
-        } else if (menuNum.equals("2")) {
-            System.out.println("[2. 전화번호 변경을 선택하셨습니다.]");
-            System.out.print("새로운 전화번호를 입력해 주세요: ");
-
-            //TODO: 넥스트 라인 필요한지 확인
-            String newPhoneNum = ScannerUtils.scanWithPattern(CommonPattern.PHONE_NUMBER, CommonPatternError.PHONE_NUMBER);
-            //TODO: 기존 번호와 다른지, 중복된 번호인지 확인 후 저장
-        } else if (menuNum.equals("3")) {
-            System.out.println("[3. 듣는 수업 목록 편집을 선택하셨습니다.]");
-            System.out.println("[1. 수업 추가 2. 수업 삭제]");
-            System.out.print("수행할 메뉴를 선택하세요 (* 1, 2 중 원하는 메뉴의 숫자 하나를 입력하세요 *): ");
-
-            //TODO: 넥스트 라인 필요한지 확인
-            String lectureMenuNum = ScannerUtils.scanWithPattern(CommonPattern.LECTURE_DATE, CommonPatternError.LECTURE_DATE); // 임시 정규식
-            if(lectureMenuNum.equals("1")) {
-                System.out.println("1. 수업 추가를 선택하셨습니다.");
-                //TODO: 수업 목록 리스트 보여주기
-                System.out.print("추가하려는 수업의 코드를 입력하세요 (* 4자, 공백 없이 숫자로만 입력하세요 *): ");
-
-                //TODO: 넥스트 라인 필요한지 확인
-                String lectureID = ScannerUtils.scanWithPattern(CommonPattern.LECTURE_CODE, CommonPatternError.LECTURE_CODE);
-                //TODO: 기존 수업코드와 다른지, 중복된 번호인지 확인 후 저장
-            } else if(lectureMenuNum.equals("2")) {
-                System.out.println("2. 수업 삭제를 선택하셨습니다.");
-                //TODO: 수업 목록 리스트 보여주기
-                System.out.print("삭제하려는 수업의 코드를 입력하세요 (* 4자, 공백 없이 숫자로만 입력하세요 *): ");
-
-                //TODO: 넥스트 라인 필요한지 확인
-                String lectureID = ScannerUtils.scanWithPattern(CommonPattern.LECTURE_CODE, CommonPatternError.LECTURE_CODE);
-                //TODO: 기존 수업코드가 맞는지, 새로운 번호인지 확인 후 삭제
+            // 변경 작업을 수행합니다.
+            if (menuNum.equals("1")) {
+                // 이름 변경
+                System.out.println("[1. 이름 변경을 선택하셨습니다.]");
+                System.out.print("새로운 이름을 입력해 주세요: ");
+                String newName = ScannerUtils.scanWithPattern(CommonPattern.STUDENT_NAME, CommonPatternError.STUDENT_NAME);
+                studentToEdit.setName(newName);
+                System.out.println("이름이 변경되었습니다.");
+            } else if (menuNum.equals("2")) {
+                // 전화번호 변경
+                System.out.println("[2. 전화번호 변경을 선택하셨습니다.]");
+                System.out.print("새로운 전화번호를 입력해 주세요: ");
+                String newPhoneNum = ScannerUtils.scanWithPattern(CommonPattern.PHONE_NUMBER, CommonPatternError.PHONE_NUMBER);
+                studentToEdit.setPhoneNum(newPhoneNum);
+                System.out.println("전화번호가 변경되었습니다.");
+            } else if (menuNum.equals("3")) {
+                // 수업 목록 편집
+                System.out.println("[3. 듣는 수업 목록 편집을 선택하셨습니다.]");
+                // TODO: 수업 추가 또는 삭제 작업 수행
+            } else {
+                System.out.println("[4. 나가기를 선택하셨습니다.]");
             }
-        }
-        else {
-            System.out.println("[4. 나가기를 선택하셨습니다.]");
+        } else {
+            System.out.println("해당 학생을 찾을 수 없습니다.");
         }
     }
+
 
 
     //학생 삭제 함수
