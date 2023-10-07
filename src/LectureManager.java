@@ -35,6 +35,26 @@ public class LectureManager {
         }
     }
 
+    public Lecture hasLecture(String lectureCode) {
+        for(Lecture lecture: lectures) {
+            if(lecture.getLectureCode().equals(lectureCode)) {
+                return lecture;
+            }
+        }
+        return null;
+    }
+
+    // StudentManager에서 학생이 수강 중인 수업을 조회하기 위한 메서드
+    public void displayLecture(String lectureCode) {
+        if(!lectures.isEmpty() && hasLecture(lectureCode) != null) {
+            ScannerUtils.print("|    " + hasLecture(lectureCode).getLectureCode()+"       ", false);
+            ScannerUtils.print(hasLecture(lectureCode).getSubjectCode()+"         ", false);
+            ScannerUtils.print(hasLecture(lectureCode).getTeacher()+"       ", false);
+            ScannerUtils.print(hasLecture(lectureCode).getDayOfWeek()+"      ", false);
+            ScannerUtils.print(hasLecture(lectureCode).getTime(), true);
+        }
+    }
+
     // 모든 수업 목록을 조회하는 메서드
     public void displayLectures() {
         if(lectures.isEmpty()) {
@@ -48,19 +68,19 @@ public class LectureManager {
                 ScannerUtils.print(lecture.getSubjectCode()+"       ", false);
                 ScannerUtils.print(lecture.getTeacher()+"       ", false);
                 ScannerUtils.print(lecture.getDayOfWeek()+"     ", false);
-                ScannerUtils.print(lecture.getTime(), false);
-                ScannerUtils.print("", true);
+                ScannerUtils.print(lecture.getTime(), true);
             }
         }
     }
+
     public void deleteLecture() {
         displayLectures();
 
-        ScannerUtils.print("삭제할 수업 코드를 입력해 주세요", true);
+        ScannerUtils.print("삭제할 수업 코드를 입력해 주세요: ", false);
         String InputLectureCode = ScannerUtils.scanWithPattern(CommonPattern.LECTURE_CODE, CommonPatternError.LECTURE_CODE);
 
         while(Integer.parseInt(InputLectureCode) > maxCode) {
-            ScannerUtils.print("존재하지 않는 수업 코드입니다 다시 입력 바랍니다.", true);
+            ScannerUtils.print("존재하지 않는 수업 코드입니다. 다시 입력 바랍니다.", true);
             InputLectureCode = ScannerUtils.scanWithPattern(CommonPattern.LECTURE_CODE, CommonPatternError.LECTURE_CODE);
         }
 
@@ -159,7 +179,7 @@ public class LectureManager {
         lectures.add(newLec);
     }
 
-    //수업 개수가100개 이상일시 등록 맡기위한 용도
+    //수업 개수가 100개 이상일 시 등록 막기 위한 용도
     public int LectureSize(){
         return lectures.size();
     }
