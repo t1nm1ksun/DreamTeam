@@ -56,9 +56,10 @@ public class LectureManager {
     }
 
     // 모든 수업 목록을 조회하는 메서드
-    public void displayLectures() {
+    public boolean displayLectures() {
         if(lectures.isEmpty()) {
             ScannerUtils.print("등록된 수업이 없습니다.", true);
+            return false;
         } else {
             System.out.println("등록된 수업 목록:");
             ScannerUtils.print("수업코드     과목코드     선생님코드    날짜      시간", true);
@@ -71,10 +72,10 @@ public class LectureManager {
                 ScannerUtils.print(lecture.getTime(), true);
             }
         }
+        return true;
     }
-
-    public void deleteLecture() {
-        displayLectures();
+    public boolean deleteLecture() {
+        if(!displayLectures()) return false;
 
         ScannerUtils.print("삭제할 수업 코드를 입력해 주세요: ", false);
         String InputLectureCode = ScannerUtils.scanWithPattern(CommonPattern.LECTURE_CODE, CommonPatternError.LECTURE_CODE);
@@ -96,15 +97,14 @@ public class LectureManager {
             }
         }
 
-        if(!isDeleted) {
-            //삭제하고자 하는 강의가 없음
-        } else {
+        if(isDeleted) {
             //삭제가 성공했을시 과목들의 코드를 재할당함
             Integer initCode = 2000;
             for(Lecture lec: lectures) {
                 lec.setLectureCode(initCode.toString(initCode++));
             }
         }
+        return true;
     }
     public void addLecture() {
         SubjectManager sm = new SubjectManager();
@@ -185,6 +185,14 @@ public class LectureManager {
     }
 
     public void editDate(String inputCode) {
+        ScannerUtils.print("변경할 수업 코드를 선택하시오", true);
+        String input = ScannerUtils.scanWithPattern(CommonPattern.LECTURE_CODE, CommonPatternError.LECTURE_CODE);
+
+        while (Integer.parseInt(input) > LectureManager.maxCode) {
+            ScannerUtils.print("존재하지 않습니다. 재입력 바랍니다.", true);
+            input = ScannerUtils.scanWithPattern(CommonPattern.LECTURE_CODE, CommonPatternError.LECTURE_CODE);
+        }
+
         String newDate,newTime;
         int duplicateTime;
         //변경할 요일 선택
