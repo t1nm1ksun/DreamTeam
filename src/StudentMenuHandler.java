@@ -23,9 +23,9 @@ public class StudentMenuHandler {
                 clearManageMenu();
             }
             default -> {
-                ScannerUtils.print("[1. 조회 2. 등록 3. 편집 4. 삭제]", true);
-                ScannerUtils.print("메뉴를 입력하세요", true);
-                Main.manageMenu = ScannerUtils.scanWithPatternInteger(CommonPattern.FOUR_CHOICE, CommonPatternError.FOUR_CHOICE);
+                ScannerUtils.print("[1.조회 2.등록 3.편집 4.삭제]", true);
+                ScannerUtils.print("메뉴를 입력하세요: ", false);
+                Main.manageMenu = ScannerUtils.scanWithPatternIntegerForMenu(CommonPattern.FOUR_CHOICE, CommonPatternError.FOUR_CHOICE);
             }
         }
     }

@@ -24,13 +24,6 @@ public class ScannerUtils {
         while(true){
             String inputText = scanner.nextLine();
 
-            if(inputText.equals("0")){
-                Main.editMenu = -1;
-                Main.mainMenu = -1;
-                Main.manageMenu = -1;
-                return "-1";
-            }
-
             if(RegexUtils.checkIsMatchesString(pattern, inputText)){
                 return inputText;
             }
@@ -46,16 +39,31 @@ public class ScannerUtils {
         while(true){
             String inputText = scanner.nextLine();
 
+            if(!RegexUtils.checkIsNumber(inputText)){
+                ScannerUtils.print(error, true);
+                continue;
+            }
+
+            if(RegexUtils.checkIsMatchesString(pattern, inputText)){
+                return Integer.parseInt(inputText);
+            }
+
+            ScannerUtils.print(error, true);
+        }
+    }
+
+    static int scanWithPatternIntegerForMenu(String pattern, String error) {
+        ScannerInstance instance = ScannerInstance.getInstance();
+        Scanner scanner = instance.getScanner();
+
+        while(true){
+            String inputText = scanner.nextLine();
+
             if(inputText.equals("0")){
                 Main.editMenu = -1;
                 Main.mainMenu = -1;
                 Main.manageMenu = -1;
                 return -1;
-            }
-
-            if(!RegexUtils.checkIsNumber(inputText)){
-                ScannerUtils.print(error, true);
-                continue;
             }
 
             if(RegexUtils.checkIsMatchesString(pattern, inputText)){

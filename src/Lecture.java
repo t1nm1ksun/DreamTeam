@@ -34,7 +34,10 @@ public class Lecture {
     }
 
     // 수업 코드 정보 설정
-    public void setLectureCode(String lectureCode) { this.LectureCode = lectureCode; }
+    public void setLectureCode(String lectureCode) {
+        this.LectureCode = lectureCode;
+    }
+
     // 과목 정보 반환
     public String getSubjectCode() {
         return subjectCode;
@@ -49,9 +52,13 @@ public class Lecture {
     public String getDayOfWeek() {
         return dayOfWeek;
     }
+
     public int getDay() {
-        if(dayOfWeek.equals("월 수 금")) return 1;
-        else return 2;
+        if(dayOfWeek.equals("월 수 금")) {
+            return 1;
+        } else {
+            return 2;
+        }
     }
 
     // 수업 시간 정보 반환
@@ -59,7 +66,7 @@ public class Lecture {
         return time;
     }
 
-    public  String getLectureCode() {return LectureCode;}
-
-
+    public String getLectureCode() {
+        return LectureCode;
+    }
 }

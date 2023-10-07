@@ -4,7 +4,8 @@ public class LectureEditMenuHandler {
     ScannerInstance instance = ScannerInstance.getInstance();
     Scanner scanner = instance.getScanner();
     public static String input = "";
-    public static void handle(LectureManager lecturemanager){
+
+    public static void handle(LectureManager lecturemanager) {
         while(true) {
             if(Main.editMenu == 1) {
                 lecturemanager.editDate(input);
@@ -17,18 +18,20 @@ public class LectureEditMenuHandler {
 //                LectureManager.displayLectures();
                 ScannerUtils.print("변경할 수업 코드를 선택하시오", true);
                 input = ScannerUtils.scanWithPattern(CommonPattern.LECTURE_CODE, CommonPatternError.LECTURE_CODE);
+
                 while(Integer.parseInt(input) > LectureManager.maxCode) {
                     ScannerUtils.print("존재하지 않습니다. 재입력 바랍니다.", true);
                     input = ScannerUtils.scanWithPattern(CommonPattern.LECTURE_CODE, CommonPatternError.LECTURE_CODE);
                 }
+
                 ScannerUtils.print("[1. 수업 시간 변경 2. 나가기]", true);
                 ScannerUtils.print("메뉴를 입력하세요", true);
-                Main.editMenu = ScannerUtils.scanWithPatternInteger(CommonPattern.TWO_CHOICE, CommonPatternError.TWO_CHOICE);
+                Main.editMenu = ScannerUtils.scanWithPatternIntegerForMenu(CommonPattern.TWO_CHOICE, CommonPatternError.TWO_CHOICE);
             }
         }
     }
 
-    public static void clearEditMenu(){
+    public static void clearEditMenu() {
         Main.editMenu = -1;
     }
 }

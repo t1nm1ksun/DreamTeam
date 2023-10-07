@@ -17,7 +17,7 @@ public class Main {
         }
         lectureManager.saveDataFile();
         studentManager.saveDataFile();
-        ScannerUtils.print("프로그램 종료", true);
+        ScannerUtils.print("프로그램이 종료되었습니다.", true);
 
         ScannerInstance instance = ScannerInstance.getInstance();
         instance.dispose();
