@@ -8,7 +8,6 @@ public class ScannerUtils {
         else System.out.print(text);
     }
 
-    //TODO: String을 integer로 변환하는 상황의 경우 integer로 변환이 될 수 없는 상황의 경우 Exception 발생함. 처리 필요
     /**
      *  String 값을 입력받는 스캐너.
      *  pattern의 regex가 맞다면 값을 리턴 받고, 틀리다면 error를 내뿜으며 다시 스캔을 받는다.
@@ -34,6 +33,33 @@ public class ScannerUtils {
 
             if(RegexUtils.checkIsMatchesString(pattern, inputText)){
                 return inputText;
+            }
+
+            ScannerUtils.print(error, true);
+        }
+    }
+
+    static int scanWithPatternInteger(String pattern, String error){
+        ScannerInstance instance = ScannerInstance.getInstance();
+        Scanner scanner = instance.getScanner();
+
+        while(true){
+            String inputText = scanner.nextLine();
+
+            if(inputText.equals("0")){
+                Main.editMenu = -1;
+                Main.mainMenu = -1;
+                Main.manageMenu = -1;
+                return -1;
+            }
+
+            if(!RegexUtils.checkIsNumber(inputText)){
+                ScannerUtils.print(error, true);
+                continue;
+            }
+
+            if(RegexUtils.checkIsMatchesString(pattern, inputText)){
+                return Integer.parseInt(inputText);
             }
 
             ScannerUtils.print(error, true);
