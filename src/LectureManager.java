@@ -93,8 +93,8 @@ public class LectureManager {
         int duplicateTime = 0;
 
         //과목 정보 입력
-        ScannerUtils.print("추가할 과목을 입력해주세요 ", true);
-        for(int i = 0 ;i < sm.getSubjectss().size();i++) {
+        ScannerUtils.print("추가할 과목을 입력해 주세요 ", true);
+        for(int i = 0 ; i < sm.getSubjectss().size(); i++) {
             Subject sj = sm.getSubjectss().get(i);
             ScannerUtils.print((i+1) + ")" + sj.getName() + "(" + sj.getCode() + ")     " ,false);
         }
