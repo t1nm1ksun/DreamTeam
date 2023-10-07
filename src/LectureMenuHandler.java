@@ -5,8 +5,8 @@ public class LectureMenuHandler {
     Scanner scanner = instance.getScanner();
 
     public static void handle(LectureManager lectureManager){
-        boolean isBreak = false;
-        while (!isBreak) {
+
+
             switch (Main.manageMenu) {
                 case 1 -> {
                     lectureManager.displayLectures();
@@ -34,9 +34,6 @@ public class LectureMenuHandler {
                 }
                 case 5 -> {
                     clearManageMenu();
-                    isBreak = true;
-                    Main.mainMenu = -1;
-                    break;
                 }
                 default -> {
                     ScannerUtils.print("[1.조회 2.편집 3.등록 4.삭제 5.나가기]", true);
@@ -44,7 +41,7 @@ public class LectureMenuHandler {
                     Main.manageMenu = ScannerUtils.scanWithPatternIntegerForMenu(CommonPattern.FIVE_CHOICE, CommonPatternError.FIVE_CHOICE);
                 }
             }
-        }
+
     }
 
     public static void clearManageMenu(){
