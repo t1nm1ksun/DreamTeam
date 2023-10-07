@@ -24,6 +24,21 @@ public class ScannerUtils {
         while(true){
             String inputText = scanner.nextLine();
 
+            if(RegexUtils.checkIsMatchesString(pattern, inputText)){
+                return inputText;
+            }
+
+            ScannerUtils.print(error, true);
+        }
+    }
+
+    static String scanWithPatternForMenu(String pattern, String error) {
+        ScannerInstance instance = ScannerInstance.getInstance();
+        Scanner scanner = instance.getScanner();
+
+        while(true){
+            String inputText = scanner.nextLine();
+
             if(inputText.equals("0")){
                 Main.editMenu = -1;
                 Main.mainMenu = -1;

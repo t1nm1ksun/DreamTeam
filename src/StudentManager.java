@@ -5,19 +5,19 @@ public class StudentManager {
 
     private ArrayList<Student> studentList = new ArrayList<Student>();
 
-
     private List<String[]> saveData = new ArrayList<>(); //프로그램 종료시 저장파일
     private List<Student> student = new ArrayList<>(); // 수업 목록을 저장할 리스트
     private Read read = new Read();
 
     /**
-     * csv로부터 읽어온파일들을 순서대로 lectures에 저장
+     * csv로부터 읽어온 파일들을 순서대로 lectures에 저장
      * 마지막에 한번에 저장하기 위해 saveData에 순차적 저장
      */
     public StudentManager() {
         List<List<String>> list = read.readCSV("src/student.csv");
-        for(List<String> item : list){
-            if(item.size()>=3){
+
+        for(List<String> item: list) {
+            if(item.size() >= 3) {
                 Student s1 = new Student(item.get(0), item.get(1), item.get(2));
                 student.add(s1);
             }
@@ -25,23 +25,20 @@ public class StudentManager {
         //파일을 읽어서 학생 class들을 만들기
     }
 
-
-
     /// 학생 정보 리스트 출력 함수
     public void showStudentList() {
         System.out.println("[학생 정보 리스트]");
-        //TODO: 데이터 파일 접근해서 학생 정보 리스트 출력
+        // 데이터 파일 접근해서 학생 정보 리스트 출력
+        //TODO: 수강 중인 수업 가져오기
         if (student.isEmpty()) {
             ScannerUtils.print("등록된 학생이 없습니다.", true);
         } else {
-            System.out.println("등록된 수업 목록:");
-            ScannerUtils.print("   [학생ID]     [이름]       [휴대폰 번호]     [수강 중인 수업] ", true);
+            ScannerUtils.print("   [학생 ID]    [이름]     [휴대폰 번호]     [수강 중인 수업] ", true);
             for (Student students : student) {
-                ScannerUtils.print("|   "+students.getId()+"       ", false);
-                ScannerUtils.print(students.getName()+"       ", false);
-                ScannerUtils.print(students.getPhoneNum()+"         ", false);
-                ScannerUtils.print(students.getLectureList()+"          |", false);
-                ScannerUtils.print("", true);
+                ScannerUtils.print("|    "+students.getId()+"      ", false);
+                ScannerUtils.print(students.getName()+"     ", false);
+                ScannerUtils.print(students.getPhoneNum()+"          ", false);
+                ScannerUtils.print(students.getLectureList()+"       |", true);
             }
         }
     }
@@ -52,14 +49,11 @@ public class StudentManager {
 
         System.out.println("[2. 학생 등록을 선택하셨습니다.]");
         System.out.print("등록할 학생의 이름을 입력하세요 (* 2~10자, 공백 없이 한글로만 입력하세요 *): ");
-        //TODO: 넥스트 라인 필요한지 확인
         String name = ScannerUtils.scanWithPattern(CommonPattern.STUDENT_NAME, CommonPatternError.STUDENT_NAME);
-        //TODO: 입력받은 학생 이름 set 하기
-        dataList[1]=name;
+        // 입력받은 학생 이름 set 하기
+        dataList[1] = name;
 
         System.out.print("학생의 전화번호를 입력하세요 (* 띄어쓰기나 '-'없이 11개의 숫자를 한 번에 입력하세요 *): ");
-
-
         String phoneNum = ScannerUtils.scanWithPattern(CommonPattern.PHONE_NUMBER, CommonPatternError.PHONE_NUMBER);
         //TODO: 이미 등록 되어있는 번호인지 확인, 입력받은 전화번호 set 하기
         dataList[2]=phoneNum;
@@ -73,8 +67,8 @@ public class StudentManager {
             // 학생 리스트가 비어있을 경우, 첫 번째 학생의 ID는 "4001"로 설정합니다.
             dataList[0] = "4001";
         }
-        Student student2 = new Student(dataList[0],dataList[1],dataList[2]);
-        student.add(student2);
+        Student newStudent = new Student(dataList[0],dataList[1],dataList[2]);
+        student.add(newStudent);
         System.out.println("[학생 등록이 완료되었습니다.]");
     }
 
@@ -114,7 +108,7 @@ public class StudentManager {
             System.out.println(studentToEdit.getName() + " 학생의 정보를 변경합니다.");
             System.out.println("[1. 이름  2. 전화번호  3. 수업 목록  4. 나가기]");
             System.out.print("변경하고 싶은 학생 정보를 선택하세요 (* 1~4 중 원하는 메뉴의 숫자 하나를 입력하세요 *): ");
-            String menuNum = ScannerUtils.scanWithPattern(CommonPattern.FOUR_CHOICE, CommonPatternError.FOUR_CHOICE);
+            String menuNum = ScannerUtils.scanWithPatternForMenu(CommonPattern.FOUR_CHOICE, CommonPatternError.FOUR_CHOICE);
 
             // 변경 작업을 수행합니다.
             if (menuNum.equals("1")) {
@@ -185,6 +179,5 @@ public class StudentManager {
         StudentMenuHandler.handle(sm);
 //        System.out.println(Main.manageMenu);
         System.out.println("탈출");
-
     }
 }

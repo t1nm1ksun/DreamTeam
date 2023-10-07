@@ -39,7 +39,7 @@ public class LectureMenuHandler {
                     break;
                 }
                 default -> {
-                    ScannerUtils.print("[1. 조회 2. 편집 3. 등록 4. 삭제 5. 나가기]", true);
+                    ScannerUtils.print("[1.조회 2.편집 3.등록 4.삭제 5.나가기]", true);
                     ScannerUtils.print("메뉴를 입력하세요", true);
                     Main.manageMenu = ScannerUtils.scanWithPatternInteger(CommonPattern.FIVE_CHOICE, CommonPatternError.FIVE_CHOICE);
                 }
