@@ -5,7 +5,7 @@ public class StudentManager {
 
     private ArrayList<Student> studentList = new ArrayList<Student>();
 
-    private List<String[]> saveData = new ArrayList<>(); //프로그램 종료시 저장파일
+    private List<String[]> saveData = new ArrayList<>(); //프로그램 종료시 저장 파일
     private List<Student> student = new ArrayList<>(); // 수업 목록을 저장할 리스트
     private Read read = new Read();
 
@@ -50,13 +50,20 @@ public class StudentManager {
         System.out.println("[2. 학생 등록을 선택하셨습니다.]");
         System.out.print("등록할 학생의 이름을 입력하세요 (* 2~10자, 공백 없이 한글로만 입력하세요 *): ");
         String name = ScannerUtils.scanWithPattern(CommonPattern.STUDENT_NAME, CommonPatternError.STUDENT_NAME);
-        // 입력받은 학생 이름 set 하기
+        // 입력 받은 학생 이름 set 하기
         dataList[1] = name;
 
-        System.out.print("학생의 전화번호를 입력하세요 (* 띄어쓰기나 '-'없이 11개의 숫자를 한 번에 입력하세요 *): ");
-        String phoneNum = ScannerUtils.scanWithPattern(CommonPattern.PHONE_NUMBER, CommonPatternError.PHONE_NUMBER);
-        //TODO: 이미 등록 되어있는 번호인지 확인, 입력받은 전화번호 set 하기
-        dataList[2]=phoneNum;
+        while(true) {
+            System.out.print("학생의 전화번호를 입력하세요 (* 띄어쓰기나 '-'없이 11개의 숫자를 한 번에 입력하세요 *): ");
+            String phoneNum = ScannerUtils.scanWithPattern(CommonPattern.PHONE_NUMBER, CommonPatternError.PHONE_NUMBER);
+            // 이미 등록 되어 있는 번호인지 확인 후 입력 받은 전화번호 set 하기
+            if (!findPhoneNum(phoneNum)) {
+                dataList[2] = phoneNum;
+                break;
+            } else {
+                System.out.println("이미 등록된 번호입니다.");
+            }
+        }
         // 비어 있는 ID 중 가장 작은 ID를 할당해 줍니다.
         if (!student.isEmpty()) { // 학생 리스트가 비어 있지 않은 경우
             int newStudentId = 0;
@@ -103,18 +110,17 @@ public class StudentManager {
     public boolean findPhoneNum(String num) {
         for (Student student : student) {
             if (student.getPhoneNum().equals(num)) {
-                return true; // 등록 되어있으면 true
+                return true; // 등록 되어 있으면 true
             }
         }
-        return false; // 등록 안되어있으면 false
+        return false; // 등록 안 되어 있으면 false
     }
-
 
     /** 학생 정보 변경 함수 */
     public void editStudent() {
         System.out.println("[3. 학생 정보 편집을 선택하셨습니다.]");
         showStudentList();
-        System.out.print("편집하고 싶은 학생 ID를 입력하세요 (* 4자, 공백 없이 숫자로만 입력하세요 *): ");
+        System.out.print("편집하고 싶은 학생의 ID를 입력하세요 (* 4자, 공백 없이 숫자로만 입력하세요 *): ");
         String id = ScannerUtils.scanWithPattern(CommonPattern.STUDENT_ID, CommonPatternError.STUDENT_ID);
 
         // 학생 ID로 학생을 찾습니다.
@@ -137,10 +143,19 @@ public class StudentManager {
             } else if (menuNum.equals("2")) {
                 // 전화번호 변경
                 System.out.println("[2. 전화번호 변경을 선택하셨습니다.]");
-                System.out.print("새로운 전화번호를 입력해 주세요: ");
-                String newPhoneNum = ScannerUtils.scanWithPattern(CommonPattern.PHONE_NUMBER, CommonPatternError.PHONE_NUMBER);
-                studentToEdit.setPhoneNum(newPhoneNum);
-                System.out.println("전화번호가 변경되었습니다.");
+
+                while(true) {
+                    System.out.print("새로운 전화번호를 입력해 주세요: ");
+                    String newPhoneNum = ScannerUtils.scanWithPattern(CommonPattern.PHONE_NUMBER, CommonPatternError.PHONE_NUMBER);
+                    // 이미 등록 되어 있는 번호인지 확인 후 입력 받은 전화번호 set 하기
+                    if (!findPhoneNum(newPhoneNum)) {
+                        studentToEdit.setPhoneNum(newPhoneNum);
+                        System.out.println("전화번호가 변경되었습니다.");
+                        break;
+                    } else {
+                        System.out.println("이미 등록된 번호입니다.");
+                    }
+                }
             } else if (menuNum.equals("3")) {
                 // 수업 목록 편집
                 System.out.println("[3. 듣는 수업 목록 편집을 선택하셨습니다.]");
@@ -149,11 +164,9 @@ public class StudentManager {
                 System.out.println("[4. 나가기를 선택하셨습니다.]");
             }
         } else {
-            System.out.println("해당 학생을 찾을 수 없습니다.");
+            System.out.println("존재하지 않는 학생ID 입니다.");
         }
     }
-
-
 
     /** 학생 삭제 함수 */
     public void deleteStudent() {
@@ -170,14 +183,10 @@ public class StudentManager {
             // 학생을 학생 리스트에서 삭제합니다.
             student.remove(studentToDelete);
             System.out.println("해당 학생의 정보가 삭제되었습니다.");
-
-            // TODO: 데이터 파일에서도 해당 학생을 삭제하는 코드를 추가하세요.
-            // dataFile.delete(id);
         } else {
             System.out.println("[오류: 입력 형식이 맞지 않거나 해당 아이디의 학생이 존재하지 않습니다.]");
         }
     }
-
 
     public void saveDataFile() {
         //lectures 들을 알맞은 형식의 데이터로 전환한 뒤 파일에 저장
@@ -187,7 +196,6 @@ public class StudentManager {
         }
         read.writeStudentCSV(saveData);
     }
-
 
     /** 학생 관리 함수 */
     public void management_Student(){
