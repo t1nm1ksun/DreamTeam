@@ -146,23 +146,28 @@ public class StudentManager {
 
 
     //학생 삭제 함수
-    public void deleteStudent(){
-        System.out.println("[4.학생 정보 삭제를 선택하셨습니다.]");
+    public void deleteStudent() {
+        System.out.println("[4. 학생 정보 삭제를 선택하셨습니다.]");
         showStudentList();
         System.out.print("삭제하고 싶은 학생 ID를 입력하세요 (* 4자, 공백 없이 숫자로만 입력하세요 *): ");
 
-        //TODO: 넥스트 라인 필요한지 확인
         String id = ScannerUtils.scanWithPattern(CommonPattern.STUDENT_ID, CommonPatternError.STUDENT_ID);
 
-        //TODO: 데이터 파일에 해당 학생이 있는지 확인
-//        if(id in dataFile){
-//            dataFile.delete(id)
-//            System.out.println("해당 학생의 정보가 삭제되었습니다.");
-//        }
-//        else{
-//            System.out.println("[오류 : 입력형식이 맞지 않거나 해당 아이디의 학생이 존재하지 않습니다.]");
-//        }
+        // 학생 ID로 학생을 찾습니다.
+        Student studentToDelete = findStudentById(id);
+
+        if (studentToDelete != null) {
+            // 학생을 학생 리스트에서 삭제합니다.
+            student.remove(studentToDelete);
+            System.out.println("해당 학생의 정보가 삭제되었습니다.");
+
+            // TODO: 데이터 파일에서도 해당 학생을 삭제하는 코드를 추가하세요.
+            // dataFile.delete(id);
+        } else {
+            System.out.println("[오류: 입력 형식이 맞지 않거나 해당 아이디의 학생이 존재하지 않습니다.]");
+        }
     }
+
 
     public void saveDataFile() {
         //lectures 들을 알맞은 형식의 데이터로 전환한 뒤 파일에 저장
