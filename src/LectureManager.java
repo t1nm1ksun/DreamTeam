@@ -21,7 +21,7 @@ public class LectureManager {
             if(Integer.parseInt(item.get(2)) > maxCode) maxCode = Integer.parseInt(item.get(2));
             Lecture l1 = new Lecture(item.get(0), item.get(1), item.get(2), item.get(3),item.get(4));
             lectures.add(l1);
-            if(item.get(3).equals("월 수 금")) timeCheck[1*Integer.parseInt(item.get(4))] = true;
+            if(item.get(3).equals("월 수 금")) timeCheck[1*Integer.parseInt(item.get(4))] = true; //시간 중복 체크
             else timeCheck[4+Integer.parseInt(item.get(4))] = true;
         }
     }
@@ -81,7 +81,7 @@ public class LectureManager {
 
         //과목 정보 입력
         ScannerUtils.print("추가할 과목을 입력해주세요 ", true);
-        for(int i = 0 ;i<sm.getSubjectss().size();i++) {
+        for(int i = 0 ;i < sm.getSubjectss().size();i++) {
             Subject sj = sm.getSubjectss().get(i);
             ScannerUtils.print((i+1) + ")" + sj.getName() + "(" + sj.getCode() + ")     " ,false);
         }
@@ -91,7 +91,7 @@ public class LectureManager {
 
         //선생님 정보 입력
         ScannerUtils.print("추가할 선생 입력해주세요 ", true);
-        for(int i = 0 ;i<tm.getTeachers().size();i++) {
+        for(int i = 0 ;i < tm.getTeachers().size();i++) {
             Teacher tj = tm.getTeachers().get(i);
             ScannerUtils.print((i+1) + ")" + tj.getName() + "(" + tj.getCode() + ")     " ,false);
         }
