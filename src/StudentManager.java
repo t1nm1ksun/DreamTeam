@@ -59,10 +59,25 @@ public class StudentManager {
         dataList[2]=phoneNum;
         // 학생 리스트가 비어있지 않은 경우에만 가장 마지막 학생의 ID에 1을 더한 값을 dataList[0]에 넣습니다.
         if (!student.isEmpty()) {
-            // 가장 마지막 학생을 가져옵니다.
-            Student lastStudent = student.get(student.size() - 1);
-            int lastStudentId = Integer.parseInt(lastStudent.getId());
-            dataList[0] = String.valueOf(lastStudentId + 1);
+            int newStudentId = 0;
+            // 4001부터 4100까지의 학생 ID를 순차적으로 검사합니다.
+            for (int i = 4001; i <= 4100; i++) {
+                boolean idExists = false;
+
+                // 현재 학생 리스트에 있는 학생들의 ID와 비교합니다.
+                for (Student existingStudent : student) {
+                    if (existingStudent.getId().equals(String.valueOf(i))) {
+                        idExists = true;
+                        break; // 이미 사용 중인 ID를 찾으면 루프 종료
+                    }
+                }
+                // 사용 중이지 않은 ID를 찾으면 그 ID를 사용합니다.
+                if (!idExists) {
+                    newStudentId = i;
+                    break; // 사용 가능한 ID를 찾으면 루프 종료
+                }
+            }
+            dataList[0] = String.valueOf(newStudentId);
         } else {
             // 학생 리스트가 비어있을 경우, 첫 번째 학생의 ID는 "4001"로 설정합니다.
             dataList[0] = "4001";
