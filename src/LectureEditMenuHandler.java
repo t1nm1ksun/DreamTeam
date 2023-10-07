@@ -26,7 +26,7 @@ public class LectureEditMenuHandler {
 
                 ScannerUtils.print("[1. 수업 시간 변경 2. 나가기]", true);
                 ScannerUtils.print("메뉴를 입력하세요", true);
-                Main.editMenu = ScannerUtils.scanWithPatternInteger(CommonPattern.TWO_CHOICE, CommonPatternError.TWO_CHOICE);
+                Main.editMenu = ScannerUtils.scanWithPatternIntegerForMenu(CommonPattern.TWO_CHOICE, CommonPatternError.TWO_CHOICE);
             }
         }
     }

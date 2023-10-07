@@ -25,7 +25,7 @@ public class StudentManager {
         //파일을 읽어서 학생 class들을 만들기
     }
 
-    /// 학생 정보 리스트 출력 함수
+    /** 학생 정보 리스트 출력 함수 */
     public void showStudentList() {
         System.out.println("[학생 정보 리스트]");
         // 데이터 파일 접근해서 학생 정보 리스트 출력
@@ -43,7 +43,7 @@ public class StudentManager {
         }
     }
 
-    /// 학생 등록 함수
+    /** 학생 등록 함수 */
     public void addStudent() {
         String[] dataList = new String[3];
 
@@ -57,12 +57,29 @@ public class StudentManager {
         String phoneNum = ScannerUtils.scanWithPattern(CommonPattern.PHONE_NUMBER, CommonPatternError.PHONE_NUMBER);
         //TODO: 이미 등록 되어있는 번호인지 확인, 입력받은 전화번호 set 하기
         dataList[2]=phoneNum;
-        // 학생 리스트가 비어있지 않은 경우에만 가장 마지막 학생의 ID에 1을 더한 값을 dataList[0]에 넣습니다.
-        if (!student.isEmpty()) {
-            // 가장 마지막 학생을 가져옵니다.
-            Student lastStudent = student.get(student.size() - 1);
-            int lastStudentId = Integer.parseInt(lastStudent.getId());
-            dataList[0] = String.valueOf(lastStudentId + 1);
+        // 비어 있는 ID 중 가장 작은 ID를 할당해 줍니다.
+        if (!student.isEmpty()) { // 학생 리스트가 비어 있지 않은 경우
+            int newStudentId = 0;
+
+            // 4001부터 4100까지의 학생 ID를 순차적으로 검사합니다.
+            for (int i = 4001; i < 4100; i++) {
+                boolean idExists = false;
+
+                // 현재 학생 리스트에 있는 학생들의 ID와 비교합니다.
+                for (Student existingStudent : student) {
+                    if (existingStudent.getId().equals(String.valueOf(i))) {
+                        idExists = true;
+                        break; // 이미 사용 중인 ID를 찾으면 루프 종료
+                    }
+                }
+
+                // 사용 중이지 않은 ID를 찾으면 그 ID를 사용합니다.
+                if (!idExists) {
+                    newStudentId = i;
+                    break; // 사용 가능한 ID를 찾으면 루프 종료
+                }
+            }
+            dataList[0] = String.valueOf(newStudentId);
         } else {
             // 학생 리스트가 비어있을 경우, 첫 번째 학생의 ID는 "4001"로 설정합니다.
             dataList[0] = "4001";
@@ -72,7 +89,7 @@ public class StudentManager {
         System.out.println("[학생 등록이 완료되었습니다.]");
     }
 
-    /**학생 아이디로 등록된 학생인지 찾는것*/
+    /** 학생 아이디로 등록된 학생인지 찾는 함수 */
     public Student findStudentById(String id) {
         for (Student student : student) {
             if (student.getId().equals(id)) {
@@ -82,7 +99,7 @@ public class StudentManager {
         return null; // 학생 ID가 일치하는 학생을 찾지 못한 경우 null을 반환합니다.
     }
 
-    /**등록된 번호 읹지 찾는것*/
+    /** 이미 등록된 번호인지 찾는 함수 */
     public boolean findPhoneNum(String num) {
         for (Student student : student) {
             if (student.getPhoneNum().equals(num)) {
@@ -93,8 +110,7 @@ public class StudentManager {
     }
 
 
-    /// 학생 정보 변경 함수
-
+    /** 학생 정보 변경 함수 */
     public void editStudent() {
         System.out.println("[3. 학생 정보 편집을 선택하셨습니다.]");
         showStudentList();
@@ -108,7 +124,7 @@ public class StudentManager {
             System.out.println(studentToEdit.getName() + " 학생의 정보를 변경합니다.");
             System.out.println("[1. 이름  2. 전화번호  3. 수업 목록  4. 나가기]");
             System.out.print("변경하고 싶은 학생 정보를 선택하세요 (* 1~4 중 원하는 메뉴의 숫자 하나를 입력하세요 *): ");
-            String menuNum = ScannerUtils.scanWithPatternForMenu(CommonPattern.FOUR_CHOICE, CommonPatternError.FOUR_CHOICE);
+            String menuNum = ScannerUtils.scanWithPattern(CommonPattern.FOUR_CHOICE, CommonPatternError.FOUR_CHOICE);
 
             // 변경 작업을 수행합니다.
             if (menuNum.equals("1")) {
@@ -139,7 +155,7 @@ public class StudentManager {
 
 
 
-    //학생 삭제 함수
+    /** 학생 삭제 함수 */
     public void deleteStudent() {
         System.out.println("[4. 학생 정보 삭제를 선택하셨습니다.]");
         showStudentList();
@@ -173,7 +189,7 @@ public class StudentManager {
     }
 
 
-    //학생 관리 함수
+    /** 학생 관리 함수 */
     public void management_Student(){
         StudentManager sm = new StudentManager();
         StudentMenuHandler.handle(sm);
