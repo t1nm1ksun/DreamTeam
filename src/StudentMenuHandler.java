@@ -1,8 +1,4 @@
-import java.util.Scanner;
-
 public class StudentMenuHandler {
-    ScannerInstance instance = ScannerInstance.getInstance();
-    Scanner scanner = instance.getScanner();
 
     public static void handle(StudentManager studentManager){
         switch (Main.manageMenu) {
