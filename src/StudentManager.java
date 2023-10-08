@@ -78,7 +78,7 @@ public class StudentManager {
             int newStudentId = 0;
 
             // 4001부터 4100까지의 학생 ID를 순차적으로 검사합니다.
-            for (int i = 4001; i < 4100; i++) {
+            for (int i = 4000; i < 4100; i++) {
                 boolean idExists = false;
 
                 // 현재 학생 리스트에 있는 학생들의 ID와 비교합니다.
@@ -98,7 +98,7 @@ public class StudentManager {
             dataList[0] = String.valueOf(newStudentId);
         } else {
             // 학생 리스트가 비어있을 경우, 첫 번째 학생의 ID는 "4001"로 설정합니다.
-            dataList[0] = "4001";
+            dataList[0] = "4000";
         }
         Student newStudent = new Student(dataList[0], dataList[1], dataList[2]);
         studentList.add(newStudent);
