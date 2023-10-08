@@ -162,109 +162,112 @@ public class StudentManager {
     public void editStudent() {
         System.out.println("[3. 학생 정보 편집을 선택하셨습니다.]");
         showStudentList();
-        System.out.print("편집하고 싶은 학생의 ID를 입력하세요 (* 4자, 공백 없이 숫자로만 입력하세요 *): ");
-        String id = ScannerUtils.scanWithPattern(CommonPattern.STUDENT_ID, CommonPatternError.STUDENT_ID);
 
-        // 학생 ID로 학생을 찾습니다.
-        Student studentToEdit = findStudentById(id);
+        if (!studentList.isEmpty()) {
+            System.out.print("편집하고 싶은 학생의 ID를 입력하세요 (* 4자, 공백 없이 숫자로만 입력하세요 *): ");
+            String id = ScannerUtils.scanWithPattern(CommonPattern.STUDENT_ID, CommonPatternError.STUDENT_ID);
 
-        if (studentToEdit != null) {
-            System.out.println(studentToEdit.getName() + " 학생의 정보를 변경합니다.");
-            System.out.println("[1.이름  2.전화번호  3.수업 목록  4.나가기]");
-            System.out.print("변경하고 싶은 학생 정보를 선택하세요 (* 1~4 중 원하는 메뉴의 숫자 하나를 입력하세요 *): ");
-            String menuNum = ScannerUtils.scanWithPattern(CommonPattern.FOUR_CHOICE, CommonPatternError.FOUR_CHOICE);
+            // 학생 ID로 학생을 찾습니다.
+            Student studentToEdit = findStudentById(id);
 
-            // 변경 작업을 수행합니다.
-            switch (menuNum) {
-                case "1" -> {
-                    // 이름 변경
-                    System.out.println("[1. 이름 변경을 선택하셨습니다.]");
-                    System.out.print("새로운 이름을 입력해 주세요: ");
-                    String newName = ScannerUtils.scanWithPattern(CommonPattern.STUDENT_NAME, CommonPatternError.STUDENT_NAME);
-                    studentToEdit.setName(newName);
-                    System.out.println("이름이 변경되었습니다.");
-                }
-                case "2" -> {
-                    // 전화번호 변경
-                    System.out.println("[2. 전화번호 변경을 선택하셨습니다.]");
-                    System.out.print("새로운 전화번호를 입력해 주세요: ");
-                    String newPhoneNum = ScannerUtils.scanWithPattern(CommonPattern.PHONE_NUMBER, CommonPatternError.PHONE_NUMBER);
-                    // 이미 등록 되어 있는 번호인지 확인 후 입력 받은 전화번호 set 하기
-                    if (!findPhoneNum(newPhoneNum)) {
-                        studentToEdit.setPhoneNum(newPhoneNum);
-                        System.out.println("전화번호가 변경되었습니다.");
-                    } else {
-                        System.out.println("이미 등록된 번호입니다.");
+            if (studentToEdit != null) {
+                System.out.println(studentToEdit.getName() + " 학생의 정보를 변경합니다.");
+                System.out.println("[1.이름  2.전화번호  3.수업 목록  4.나가기]");
+                System.out.print("변경하고 싶은 학생 정보를 선택하세요 (* 1~4 중 원하는 메뉴의 숫자 하나를 입력하세요 *): ");
+                String menuNum = ScannerUtils.scanWithPattern(CommonPattern.FOUR_CHOICE, CommonPatternError.FOUR_CHOICE);
+
+                // 변경 작업을 수행합니다.
+                switch (menuNum) {
+                    case "1" -> {
+                        // 이름 변경
+                        System.out.println("[1. 이름 변경을 선택하셨습니다.]");
+                        System.out.print("새로운 이름을 입력해 주세요: ");
+                        String newName = ScannerUtils.scanWithPattern(CommonPattern.STUDENT_NAME, CommonPatternError.STUDENT_NAME);
+                        studentToEdit.setName(newName);
+                        System.out.println("이름이 변경되었습니다.");
                     }
-                }
-                case "3" -> {
-                    // 수업 목록 편집
-                    System.out.println("[3. 듣는 수업 목록 편집을 선택하셨습니다.]");
-                    System.out.println("[수강 중인 수업 리스트]");
-                    LectureManager lectureManager = new LectureManager();
-
-                    if (showLectureList(id) != null) {
-                        ScannerUtils.print("   [수업코드]    [과목코드]    [선생님 ID]     [날짜]     [시간]", true);
-
-                        for (String lectureID : showLectureList(id)) {
-                            lectureManager.displayLecture(lectureID);
-                        }
-                    } else {
-                        System.out.println("수강 중인 수업이 없습니다.");
-                    }
-
-                    // 수업 추가 또는 삭제 작업 수행
-                    System.out.println("[1.수업 추가 2.수업 삭제]");
-                    System.out.print("수행할 메뉴를 선택하세요 (* 1,2 중 원하는 메뉴의 숫자 하나를 입력하세요 *): ");
-                    String lectureMenuNum = ScannerUtils.scanWithPattern(CommonPattern.TWO_CHOICE, CommonPatternError.TWO_CHOICE);
-                    if (lectureMenuNum.equals("1")) {
-                        System.out.println("1. 수업 추가를 선택하셨습니다.");
-                        System.out.println("[전체 수업 목록 리스트]");
-                        lectureManager.displayLectures();
-                        System.out.print("추가하려는 수업의 코드를 입력하세요 (* 4자, 공백 없이 숫자로만 입력하세요 *): ");
-                        String lectureCode = ScannerUtils.scanWithPattern(CommonPattern.LECTURE_CODE, CommonPatternError.LECTURE_CODE);
-
-                        if (lectureManager.hasLecture(lectureCode) != null) { // 존재하는 수업코드인지 확인
-                            if (findLectureCode(studentToEdit, lectureCode) == null) { // 수강 중이지 않던 수업이 맞는지 확인
-                                studentToEdit.addLectureList(lectureCode);
-                                System.out.println("수업이 추가되었습니다.");
-                            } else {
-                                System.out.println("이미 수강 중인 수업입니다.");
-                            }
+                    case "2" -> {
+                        // 전화번호 변경
+                        System.out.println("[2. 전화번호 변경을 선택하셨습니다.]");
+                        System.out.print("새로운 전화번호를 입력해 주세요: ");
+                        String newPhoneNum = ScannerUtils.scanWithPattern(CommonPattern.PHONE_NUMBER, CommonPatternError.PHONE_NUMBER);
+                        // 이미 등록 되어 있는 번호인지 확인 후 입력 받은 전화번호 set 하기
+                        if (!findPhoneNum(newPhoneNum)) {
+                            studentToEdit.setPhoneNum(newPhoneNum);
+                            System.out.println("전화번호가 변경되었습니다.");
                         } else {
-                            System.out.println("존재하지 않는 수업입니다.");
+                            System.out.println("이미 등록된 번호입니다.");
                         }
-                    } else if (lectureMenuNum.equals("2")) {
-                        System.out.println("2. 수업 삭제를 선택하셨습니다.");
+                    }
+                    case "3" -> {
+                        // 수업 목록 편집
+                        System.out.println("[3. 듣는 수업 목록 편집을 선택하셨습니다.]");
                         System.out.println("[수강 중인 수업 리스트]");
+                        LectureManager lectureManager = new LectureManager();
 
                         if (showLectureList(id) != null) {
+                            ScannerUtils.print("   [수업코드]    [과목코드]    [선생님 ID]     [날짜]     [시간]", true);
+
                             for (String lectureID : showLectureList(id)) {
                                 lectureManager.displayLecture(lectureID);
-                            }
-
-                            System.out.print("삭제하려는 수업의 코드를 입력하세요 (* 4자, 공백 없이 숫자로만 입력하세요 *): ");
-                            String lectureCode = ScannerUtils.scanWithPattern(CommonPattern.LECTURE_CODE, CommonPatternError.LECTURE_CODE);
-
-                            if (lectureManager.hasLecture(lectureCode) != null) { // 존재하는 수업코드인지 확인
-                                if (findLectureCode(studentToEdit, lectureCode) != null) { // 수강 중이던 수업이 맞는지 확인
-                                    studentToEdit.deleteLecture(lectureCode);
-                                    System.out.println("수업이 삭제되었습니다.");
-                                } else {
-                                    System.out.println("수강 중인 수업이 아닙니다.");
-                                }
-                            } else {
-                                System.out.println("존재하지 않는 수업입니다.");
                             }
                         } else {
                             System.out.println("수강 중인 수업이 없습니다.");
                         }
+
+                        // 수업 추가 또는 삭제 작업 수행
+                        System.out.println("[1.수업 추가 2.수업 삭제]");
+                        System.out.print("수행할 메뉴를 선택하세요 (* 1,2 중 원하는 메뉴의 숫자 하나를 입력하세요 *): ");
+                        String lectureMenuNum = ScannerUtils.scanWithPattern(CommonPattern.TWO_CHOICE, CommonPatternError.TWO_CHOICE);
+                        if (lectureMenuNum.equals("1")) {
+                            System.out.println("1. 수업 추가를 선택하셨습니다.");
+                            System.out.println("[전체 수업 목록 리스트]");
+                            lectureManager.displayLectures();
+                            System.out.print("추가하려는 수업의 코드를 입력하세요 (* 4자, 공백 없이 숫자로만 입력하세요 *): ");
+                            String lectureCode = ScannerUtils.scanWithPattern(CommonPattern.LECTURE_CODE, CommonPatternError.LECTURE_CODE);
+
+                            if (lectureManager.hasLecture(lectureCode) != null) { // 존재하는 수업코드인지 확인
+                                if (findLectureCode(studentToEdit, lectureCode) == null) { // 수강 중이지 않던 수업이 맞는지 확인
+                                    studentToEdit.addLectureList(lectureCode);
+                                    System.out.println("수업이 추가되었습니다.");
+                                } else {
+                                    System.out.println("이미 수강 중인 수업입니다.");
+                                }
+                            } else {
+                                System.out.println("존재하지 않는 수업입니다.");
+                            }
+                        } else if (lectureMenuNum.equals("2")) {
+                            System.out.println("2. 수업 삭제를 선택하셨습니다.");
+                            System.out.println("[수강 중인 수업 리스트]");
+
+                            if (showLectureList(id) != null) {
+                                for (String lectureID : showLectureList(id)) {
+                                    lectureManager.displayLecture(lectureID);
+                                }
+
+                                System.out.print("삭제하려는 수업의 코드를 입력하세요 (* 4자, 공백 없이 숫자로만 입력하세요 *): ");
+                                String lectureCode = ScannerUtils.scanWithPattern(CommonPattern.LECTURE_CODE, CommonPatternError.LECTURE_CODE);
+
+                                if (lectureManager.hasLecture(lectureCode) != null) { // 존재하는 수업코드인지 확인
+                                    if (findLectureCode(studentToEdit, lectureCode) != null) { // 수강 중이던 수업이 맞는지 확인
+                                        studentToEdit.deleteLecture(lectureCode);
+                                        System.out.println("수업이 삭제되었습니다.");
+                                    } else {
+                                        System.out.println("수강 중인 수업이 아닙니다.");
+                                    }
+                                } else {
+                                    System.out.println("존재하지 않는 수업입니다.");
+                                }
+                            } else {
+                                System.out.println("수강 중인 수업이 없습니다.");
+                            }
+                        }
                     }
+                    default -> System.out.println("[나가기를 선택하셨습니다.]");
                 }
-                default -> System.out.println("[나가기를 선택하셨습니다.]");
+            } else {
+                System.out.println("존재하지 않는 학생ID 입니다.");
             }
-        } else {
-            System.out.println("존재하지 않는 학생ID 입니다.");
         }
     }
 
