@@ -22,15 +22,22 @@ public class StudentMenuHandler {
                 studentManager.deleteStudent();
                 clearManageMenu();
             }
+            case 5 -> {
+                escapeToMainMenu();
+            }
             default -> {
-                ScannerUtils.print("[1.조회 2.등록 3.편집 4.삭제]", true);
+                ScannerUtils.print("[1.조회 2.등록 3.편집 4.삭제 5.나가기]", true);
                 ScannerUtils.print("메뉴를 입력하세요: ", false);
-                Main.manageMenu = ScannerUtils.scanWithPatternIntegerForMenu(CommonPattern.FOUR_CHOICE, CommonPatternError.FOUR_CHOICE);
+                Main.manageMenu = ScannerUtils.scanWithPatternIntegerForMenu(CommonPattern.FIVE_CHOICE, CommonPatternError.FIVE_CHOICE);
             }
         }
     }
 
     public static void clearManageMenu(){
         Main.manageMenu = -1;
+    }
+    public static void escapeToMainMenu(){
+        Main.manageMenu = -1;
+        Main.mainMenu = -1;
     }
 }

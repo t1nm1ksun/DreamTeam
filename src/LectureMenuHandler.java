@@ -6,7 +6,6 @@ public class LectureMenuHandler {
 
     public static void handle(LectureManager lectureManager){
 
-
             switch (Main.manageMenu) {
                 case 1 -> {
                     lectureManager.displayLectures();
@@ -25,7 +24,6 @@ public class LectureMenuHandler {
                     clearManageMenu();
                 }
                 case 4 -> {
-                    //TODO: lectureManager 인풋 메서드 내부에서 처리하도록
                     if(lectureManager.deleteLecture()) {
                         ScannerUtils.print("수업이 성공적으로 삭제되었습니다!", true);
                     }
@@ -33,7 +31,7 @@ public class LectureMenuHandler {
                     clearManageMenu();
                 }
                 case 5 -> {
-                    clearManageMenu();
+                    escapeToMainMenu();
                 }
                 default -> {
                     ScannerUtils.print("[1.조회 2.편집 3.등록 4.삭제 5.나가기]", true);
@@ -46,5 +44,9 @@ public class LectureMenuHandler {
 
     public static void clearManageMenu(){
         Main.manageMenu = -1;
+    }
+    public static void escapeToMainMenu(){
+        Main.manageMenu = -1;
+        Main.mainMenu = -1;
     }
 }
