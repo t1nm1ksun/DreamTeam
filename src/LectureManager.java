@@ -5,6 +5,7 @@ import java.util.List;
 public class LectureManager {
 
     public static Integer maxCode = 2000;
+    private int maxLecture = 0; //수업 생성 막기
     private List<String[]> saveData = new ArrayList<>(); //프로그램 종료 시 저장 파일
     private List<Lecture> lectures = new ArrayList<>(); // 수업 목록을 저장할 리스트
     private Read read = new Read();
@@ -32,6 +33,7 @@ public class LectureManager {
             else {
                 timeCheck[4 + Integer.parseInt(item.get(4))] = true;
             }
+            maxLecture++;
         }
     }
 
@@ -107,76 +109,80 @@ public class LectureManager {
         return true;
     }
     public void addLecture() {
-        SubjectManager sm = new SubjectManager();
-        TeacherManager tm = new TeacherManager();
-        String[] dataList = new String[5];
-        int duplicateTime = 0;
+        if(maxLecture == 8){
+            ScannerUtils.print("수업이 꽉차 수업 추가가 불가능합니다.",true);
+        }else {
+            SubjectManager sm = new SubjectManager();
+            TeacherManager tm = new TeacherManager();
+            String[] dataList = new String[5];
+            int duplicateTime = 0;
 
-        //과목 정보 입력
-        ScannerUtils.print("추가할 과목을 입력해 주세요 ", true);
-        for(int i = 0 ; i < sm.getSubjectss().size(); i++) {
-            Subject sj = sm.getSubjectss().get(i);
-            ScannerUtils.print((i+1) + ")" + sj.getName() + "(" + sj.getCode() + ")     " ,false);
-        }
-
-        String input = ScannerUtils.scanWithPattern(CommonPattern.LECTURE_DATE, CommonPatternError.LECTURE_TIME);
-
-        if(input.equals("1")) {
-            dataList[0] = sm.find("수학");
-        } else {
-            dataList[0] = sm.find("영어");
-        }
-
-        //선생님 정보 입력
-        ScannerUtils.print("추가할 선생님을 입력해 주세요 ", true);
-
-        for(int i = 0; i < tm.getTeachers().size(); i++) {
-            Teacher tj = tm.getTeachers().get(i);
-            ScannerUtils.print((i+1) + ")" + tj.getName() + "(" + tj.getCode() + ")     " ,false);
-        }
-
-        input = ScannerUtils.scanWithPattern(CommonPattern.FOUR_CHOICE, CommonPatternError.FOUR_CHOICE);
-
-        if(input.equals("1")) {
-            dataList[1] = tm.find("이승범");
-        } else if(input.equals("2")) {
-            dataList[1] = tm.find("신민석");
-        } else if(input.equals("3")) {
-            dataList[1] = tm.find("김창균");
-        } else {
-            dataList[1] = tm.find("이기웅");
-        }
-
-        //수업 코드 동적 할당
-        dataList[2] = Integer.toString(++maxCode);
-
-        //요일 정보 입력
-        while(true) {
-            ScannerUtils.print("수강할 날짜를 입력해주세요", true);
-            ScannerUtils.print("1) 월 수 금   2) 화 목 토 : ", false);
-            input = ScannerUtils.scanWithPattern(CommonPattern.LECTURE_DATE, CommonPatternError.LECTURE_DATE);
-            duplicateTime = (Integer.parseInt(input) -1) * 4;
-            if (input.equals("1")) dataList[3] = "월 수 금";
-            else dataList[3] = "화 목 토";
-
-            //수업 시간 입력
-            ScannerUtils.print("수강할 시간을 입력해주세요", true);
-            ScannerUtils.print("1) 14:00~16:00   2) 16:00~18:00   3)18:00~20:00    4)20:00~22:00 :  ", false);
-            input = ScannerUtils.scanWithPattern(CommonPattern.LECTURE_TIME, CommonPatternError.LECTURE_TIME);
-            duplicateTime += Integer.parseInt(input);
-
-            if(!timeCheck[duplicateTime]) {
-                dataList[4] = input;
-                timeCheck[duplicateTime] = true;
-                break;
-            } else {
-                ScannerUtils.print("해당 시간에는 이미 수업이 존재합니다", true);
+            //과목 정보 입력
+            ScannerUtils.print("추가할 과목을 입력해 주세요 ", true);
+            for (int i = 0; i < sm.getSubjectss().size(); i++) {
+                Subject sj = sm.getSubjectss().get(i);
+                ScannerUtils.print((i + 1) + ")" + sj.getName() + "(" + sj.getCode() + ")     ", false);
             }
-        }
 
-        //lectures 에 해당 새로운 강의 추가
-        Lecture newLec = new Lecture(dataList[0], dataList[1], dataList[2], dataList[3], dataList[4]);
-        lectures.add(newLec);
+            String input = ScannerUtils.scanWithPattern(CommonPattern.LECTURE_DATE, CommonPatternError.LECTURE_TIME);
+
+            if (input.equals("1")) {
+                dataList[0] = sm.find("수학");
+            } else {
+                dataList[0] = sm.find("영어");
+            }
+
+            //선생님 정보 입력
+            ScannerUtils.print("추가할 선생님을 입력해 주세요 ", true);
+
+            for (int i = 0; i < tm.getTeachers().size(); i++) {
+                Teacher tj = tm.getTeachers().get(i);
+                ScannerUtils.print((i + 1) + ")" + tj.getName() + "(" + tj.getCode() + ")     ", false);
+            }
+
+            input = ScannerUtils.scanWithPattern(CommonPattern.FOUR_CHOICE, CommonPatternError.FOUR_CHOICE);
+
+            if (input.equals("1")) {
+                dataList[1] = tm.find("이승범");
+            } else if (input.equals("2")) {
+                dataList[1] = tm.find("신민석");
+            } else if (input.equals("3")) {
+                dataList[1] = tm.find("김창균");
+            } else {
+                dataList[1] = tm.find("이기웅");
+            }
+
+            //수업 코드 동적 할당
+            dataList[2] = Integer.toString(++maxCode);
+
+            //요일 정보 입력
+            while (true) {
+                ScannerUtils.print("수강할 날짜를 입력해주세요", true);
+                ScannerUtils.print("1) 월 수 금   2) 화 목 토 : ", false);
+                input = ScannerUtils.scanWithPattern(CommonPattern.LECTURE_DATE, CommonPatternError.LECTURE_DATE);
+                duplicateTime = (Integer.parseInt(input) - 1) * 4;
+                if (input.equals("1")) dataList[3] = "월 수 금";
+                else dataList[3] = "화 목 토";
+
+                //수업 시간 입력
+                ScannerUtils.print("수강할 시간을 입력해주세요", true);
+                ScannerUtils.print("1) 14:00~16:00   2) 16:00~18:00   3)18:00~20:00    4)20:00~22:00 :  ", false);
+                input = ScannerUtils.scanWithPattern(CommonPattern.LECTURE_TIME, CommonPatternError.LECTURE_TIME);
+                duplicateTime += Integer.parseInt(input);
+
+                if (!timeCheck[duplicateTime]) {
+                    dataList[4] = input;
+                    timeCheck[duplicateTime] = true;
+                    break;
+                } else {
+                    ScannerUtils.print("해당 시간에는 이미 수업이 존재합니다", true);
+                }
+            }
+
+            //lectures 에 해당 새로운 강의 추가
+            Lecture newLec = new Lecture(dataList[0], dataList[1], dataList[2], dataList[3], dataList[4]);
+            lectures.add(newLec);
+        }
     }
 
     //수업 개수가 100개 이상일 시 등록 막기 위한 용도
@@ -239,4 +245,5 @@ public class LectureManager {
         }
         read.writeCSV(saveData);
     }
+    public int getMaxLecture(){ return maxLecture; }
 }
