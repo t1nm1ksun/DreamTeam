@@ -135,7 +135,7 @@ public class LectureManager {
             }
 
             //선생님 정보 입력
-            ScannerUtils.print("추가할 선생님을 입력해 주세요 ", true);
+            ScannerUtils.print("선생님을 선택해주세요 ", true);
 
             for (int i = 0; i < tm.getTeachers().size(); i++) {
                 Teacher tj = tm.getTeachers().get(i);
@@ -159,16 +159,16 @@ public class LectureManager {
 
             //요일 정보 입력
             while (true) {
-                ScannerUtils.print("수강할 날짜를 입력해주세요", true);
-                ScannerUtils.print("1) 월 수 금   2) 화 목 토 : ", false);
+                ScannerUtils.print("수업 요일을 선택해주세요", true);
+                ScannerUtils.print("1) 월 수 금   2) 화 목 토   ", false);
                 input = ScannerUtils.scanWithPattern(CommonPattern.LECTURE_DATE, CommonPatternError.LECTURE_DATE);
                 duplicateTime = (Integer.parseInt(input) - 1) * 4;
                 if (input.equals("1")) dataList[3] = "월 수 금";
                 else dataList[3] = "화 목 토";
 
                 //수업 시간 입력
-                ScannerUtils.print("수강할 시간을 입력해주세요", true);
-                ScannerUtils.print("1) 14:00~16:00   2) 16:00~18:00   3)18:00~20:00    4)20:00~22:00 :  ", false);
+                ScannerUtils.print("수업시간을 입력해주세요", true);
+                ScannerUtils.print("1) 14:00~16:00   2) 16:00~18:00   3)18:00~20:00    4)20:00~22:00   ", false);
                 input = ScannerUtils.scanWithPattern(CommonPattern.LECTURE_TIME, CommonPatternError.LECTURE_TIME);
                 duplicateTime += Integer.parseInt(input);
 
