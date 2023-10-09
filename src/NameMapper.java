@@ -2,21 +2,21 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class Constants {
-    private static Constants instance;
+public class NameMapper {
+    private static NameMapper instance;
     private static final Map<Integer, String> LECTURE_TIMES = new HashMap<Integer, String>();
     private static final Map<Integer, String> LECTURE_DATE = new HashMap<Integer, String>();
     private static final Map<Integer, String> TEACHERS = new HashMap<Integer, String>();
 
-    private Constants(){
+    private NameMapper(){
         initializeLectureTimes();
         initializeLectureDates();
         initializeTeachers();
     }
 
-    public static synchronized Constants getInstance(){
+    public static synchronized NameMapper getInstance(){
         if(instance == null){
-            instance = new Constants();
+            instance = new NameMapper();
         }
         return instance;
     }
