@@ -1,8 +1,4 @@
-import java.util.Scanner;
-
 public class LectureEditMenuHandler {
-    ScannerInstance instance = ScannerInstance.getInstance();
-    Scanner scanner = instance.getScanner();
     public static String input = "";
 
     public static boolean handle(LectureManager lecturemanager) {

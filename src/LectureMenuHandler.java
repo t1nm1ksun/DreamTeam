@@ -1,8 +1,4 @@
-import java.util.Scanner;
-
 public class LectureMenuHandler {
-    ScannerInstance instance = ScannerInstance.getInstance();
-    Scanner scanner = instance.getScanner();
 
     public static void handle(LectureManager lectureManager){
 

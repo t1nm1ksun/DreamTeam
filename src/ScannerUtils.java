@@ -59,6 +59,11 @@ public class ScannerUtils {
         while(true){
             String inputText = scanner.nextLine();
 
+            if(!RegexUtils.checkIsNumber(inputText)){
+                ScannerUtils.print(error, true);
+                continue;
+            }
+
             if(inputText.equals("0")){
                 Main.editMenu = -1;
                 Main.mainMenu = -1;
