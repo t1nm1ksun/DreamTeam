@@ -7,11 +7,13 @@ public class NameMapper {
     private static final Map<Integer, String> LECTURE_TIMES = new HashMap<Integer, String>();
     private static final Map<Integer, String> LECTURE_DATE = new HashMap<Integer, String>();
     private static final Map<Integer, String> TEACHERS = new HashMap<Integer, String>();
+    private static final Map<Integer, String> SUBJECTS = new HashMap<Integer, String>();
 
     private NameMapper(){
         initializeLectureTimes();
         initializeLectureDates();
         initializeTeachers();
+        initializeSubjects();
     }
 
     public static synchronized NameMapper getInstance(){
@@ -33,6 +35,17 @@ public class NameMapper {
         LECTURE_DATE.clear();
         LECTURE_DATE.put(1,"월 수 금");
         LECTURE_DATE.put(2,"화 목 토");
+    }
+
+    private void initializeSubjects(){
+        SUBJECTS.clear();
+
+        Read read = new Read();
+        List<List<String>> subjectList = read.readCSV("src/subject.csv");
+
+        for(List<String> item: subjectList){
+            SUBJECTS.put(Integer.parseInt(item.get(1)), item.get(0));
+        }
     }
 
     private void initializeTeachers(){
@@ -57,5 +70,7 @@ public class NameMapper {
     public String getTeacher(int key){
         return TEACHERS.get(key);
     }
+
+    public String getSubject(int key){ return SUBJECTS.get(key);}
 
 }
