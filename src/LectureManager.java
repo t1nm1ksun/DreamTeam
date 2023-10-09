@@ -193,16 +193,16 @@ public class LectureManager {
         return lectures.size();
     }
 
-    public void editDate(String inputCode) {
+    public void editDate() {
         if(maxLecture == 8){
             ScannerUtils.print("수업이 꽉차 수업 시간 변경이 불가능합니다.",true);
         }else {
             ScannerUtils.print("변경할 수업 코드를 선택하시오", true);
-            String input = ScannerUtils.scanWithPattern(CommonPattern.LECTURE_CODE, CommonPatternError.LECTURE_CODE);
+            LectureEditMenuHandler.input = ScannerUtils.scanWithPattern(CommonPattern.LECTURE_CODE, CommonPatternError.LECTURE_CODE);
 
-            while (Integer.parseInt(input) > LectureManager.maxCode) {
+            while (Integer.parseInt( LectureEditMenuHandler.input) > LectureManager.maxCode) {
                 ScannerUtils.print("존재하지 않습니다. 재입력 바랍니다.", true);
-                input = ScannerUtils.scanWithPattern(CommonPattern.LECTURE_CODE, CommonPatternError.LECTURE_CODE);
+                LectureEditMenuHandler.input = ScannerUtils.scanWithPattern(CommonPattern.LECTURE_CODE, CommonPatternError.LECTURE_CODE);
             }
 
             String newDate, newTime;
@@ -234,11 +234,13 @@ public class LectureManager {
                 }
             }
             //변경할 강의를 찾아서 요일과 시간을 바꿔줌
+            System.out.println( LectureEditMenuHandler.input);
             for (Lecture lec : lectures) {
-                if (lec.getLectureCode().equals(inputCode)) {
+                if (lec.getLectureCode().equals( LectureEditMenuHandler.input)) {
                     timeCheck[Integer.parseInt(lec.getTime()) * lec.getDay()] = false;
                     lec.setTime(newTime);
                     lec.setDayOfWeek(newDate);
+                    System.out.println(newTime + newDate);
                 }
             }
         }

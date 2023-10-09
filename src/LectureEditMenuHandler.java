@@ -4,7 +4,7 @@ public class LectureEditMenuHandler {
     public static boolean handle(LectureManager lecturemanager) {
         switch (Main.editMenu) {
             case 1:
-                lecturemanager.editDate(input);
+                lecturemanager.editDate();
                 clearEditMenu();
                 break;
             case 2:
