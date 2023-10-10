@@ -20,7 +20,7 @@ public class LectureManager {
 
         for(List<String> item : list) {
             //csv 파일들을 읽어와서 강의들을 생성함
-            if(Integer.parseInt(item.get(2)) > maxCode) {
+            if(Integer.parseInt(item.get(2)) >= maxCode) {
                 maxCode = Integer.parseInt(item.get(2));
             }
 
