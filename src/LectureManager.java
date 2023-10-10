@@ -71,7 +71,23 @@ public class LectureManager {
                 ScannerUtils.print(lecture.getSubjectCode()+"       ", false);
                 ScannerUtils.print(lecture.getTeacher()+"       ", false);
                 ScannerUtils.print(lecture.getDayOfWeek()+"     ", false);
-                ScannerUtils.print(lecture.getTime(), true);
+                switch (lecture.getTime()) {
+                    case "1":
+                        ScannerUtils.print("14:00~16:00", true);
+                        break;
+                    case "2":
+                        ScannerUtils.print("16:00~18:00", true);
+                        break;
+                    case "3":
+                        ScannerUtils.print("18:00~20:00", true);
+                        break;
+                    case "4":
+                        ScannerUtils.print("20:00~22:00", true);
+                        break;
+//                default:
+//                    ScannerUtils.print(hasLecture(lectureCode).getTime(), true);
+//                    break;
+                }
             }
         }
         return true;
