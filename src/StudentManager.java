@@ -296,6 +296,7 @@ public class StudentManager {
         //lectures 들을 알맞은 형식의 데이터로 전환한 뒤 파일에 저장
         for (Student stu : studentList) {
             String[] tmpData = {stu.getId(), stu.getName(), stu.getPhoneNum()};
+            //TODO: 수업리스트 저장 추가 해야댐
             saveData.add(tmpData);
         }
         read.writeStudentCSV(saveData);

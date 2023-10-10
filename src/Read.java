@@ -48,34 +48,7 @@ public class Read {
         return list;
     }
 
-    public List<List<String>> readStudentCSV(String filePath) {
-        List<List<String>> list = new ArrayList<List<String>>();
-        BufferedReader bufferedReader = null;
 
-        try {
-            bufferedReader = Files.newBufferedReader(Paths.get(filePath));
-            String line = "";
-
-            while ((line = bufferedReader.readLine()) != null) {
-
-                List<String> stringList = new ArrayList<>();
-                String stringArray[] = line.split(",");
-
-                stringList = Arrays.asList(stringArray);
-                list.add(stringList);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                if (bufferedReader != null)
-                    bufferedReader.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        return list;
-    }
 
     /**
      * csv 쓰기 파일

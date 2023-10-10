@@ -18,7 +18,6 @@ public class SubjectManager {
     public String find(String input) {
         for(Subject sbj : subjects) {
             if(sbj.getName().equals(input)) {
-                ScannerUtils.print(sbj.getCode(), true);
                 return sbj.getCode();
             }
         }

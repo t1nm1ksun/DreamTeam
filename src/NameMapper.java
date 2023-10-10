@@ -2,21 +2,23 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class Constants {
-    private static Constants instance;
+public class NameMapper {
+    private static NameMapper instance;
     private static final Map<Integer, String> LECTURE_TIMES = new HashMap<Integer, String>();
     private static final Map<Integer, String> LECTURE_DATE = new HashMap<Integer, String>();
     private static final Map<Integer, String> TEACHERS = new HashMap<Integer, String>();
+    private static final Map<Integer, String> SUBJECTS = new HashMap<Integer, String>();
 
-    private Constants(){
+    private NameMapper(){
         initializeLectureTimes();
         initializeLectureDates();
         initializeTeachers();
+        initializeSubjects();
     }
 
-    public static synchronized Constants getInstance(){
+    public static synchronized NameMapper getInstance(){
         if(instance == null){
-            instance = new Constants();
+            instance = new NameMapper();
         }
         return instance;
     }
@@ -33,6 +35,17 @@ public class Constants {
         LECTURE_DATE.clear();
         LECTURE_DATE.put(1,"월 수 금");
         LECTURE_DATE.put(2,"화 목 토");
+    }
+
+    private void initializeSubjects(){
+        SUBJECTS.clear();
+
+        Read read = new Read();
+        List<List<String>> subjectList = read.readCSV("src/subject.csv");
+
+        for(List<String> item: subjectList){
+            SUBJECTS.put(Integer.parseInt(item.get(1)), item.get(0));
+        }
     }
 
     private void initializeTeachers(){
@@ -57,5 +70,7 @@ public class Constants {
     public String getTeacher(int key){
         return TEACHERS.get(key);
     }
+
+    public String getSubject(int key){ return SUBJECTS.get(key);}
 
 }
