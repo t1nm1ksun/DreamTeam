@@ -188,11 +188,6 @@ public class LectureManager {
         }
     }
 
-    //수업 개수가 100개 이상일 시 등록 막기 위한 용도
-    public int LectureSize(){
-        return lectures.size();
-    }
-
     public void editDate() {
         if(maxLecture == 8){
             ScannerUtils.print("수업이 꽉차 수업 시간 변경이 불가능합니다.",true);

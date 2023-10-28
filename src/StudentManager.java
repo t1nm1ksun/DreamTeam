@@ -145,8 +145,7 @@ public class StudentManager {
      * 이미 등록된 수업인지 찾는 함수
      */
     public List<String> findLectureCode(Student studentToEdit, String lectureCode) {
-        List<String> lectureList = new ArrayList<>();
-        lectureList = studentToEdit.getLectureList();
+        List<String> lectureList = studentToEdit.getLectureList();
 
         for (String code : lectureList) {
             if (lectureCode.equals(code)) {
