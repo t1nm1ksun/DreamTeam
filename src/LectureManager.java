@@ -10,7 +10,10 @@ public class LectureManager {
     private List<Lecture> lectures = new ArrayList<>(); // 수업 목록을 저장할 리스트
     private Read read = new Read();
     private boolean[] timeCheck = new boolean[9];// 이미 고른 시간 체크
-
+    SubjectManager sm = new SubjectManager();
+    TeacherManager tm = new TeacherManager();
+    LectureRoomManager lr = new LectureRoomManager();
+    TimeTableManager ttm = new TimeTableManager();
     /**
      * csv로부터 읽어온파일들을 순서대로 lectures에 저장
      * 마지막에 한번에 저장하기 위해 saveData에 순차적 저장
@@ -23,10 +26,15 @@ public class LectureManager {
             if(Integer.parseInt(item.get(2)) > maxCode) {
                 maxCode = Integer.parseInt(item.get(2));
             }
-            ArrayList<String> table = new ArrayList<>();
+            List<TimeTable> table = new ArrayList<>();
             for(int i = 5;i<item.size();i++){
-                table.add(item.get(i));
-            }
+                for(TimeTable t : ttm.geTimetable()){
+                    if(t.getCode().equals(item.get(i))){
+                        table.add(t);
+                        break;
+                    }
+                }
+            }//노가다 table 생성 및 초기화..
             Lecture l1 = new Lecture(item.get(0), item.get(1), item.get(2), item.get(3),item.get(4),table);
             lectures.add(l1);
 
@@ -67,14 +75,16 @@ public class LectureManager {
             return false;
         } else {
             System.out.println("등록된 수업 목록:");
-            ScannerUtils.print("수업코드     과목코드     선생님코드    날짜      시간", true);
+            ScannerUtils.print("수업코드     과목코드     선생님 ID    강의실, 날짜 및 시간", true);
 
             for (Lecture lecture : lectures) {
                 ScannerUtils.print(lecture.getLectureCode()+"       ", false);
                 ScannerUtils.print(lecture.getSubjectCode()+"       ", false);
                 ScannerUtils.print(lecture.getTeacher()+"       ", false);
-                ScannerUtils.print(lecture.getDayOfWeek()+"     ", false);
-                ScannerUtils.print(lecture.getTime(), true);
+                for(TimeTable t : lecture.getTimetable()){
+                    ScannerUtils.print(t.getCode() + " " + t.getRoomId() + " " + t.getLecture_days() + " " + t.getLectuer_time()+ " / ",false);
+                }
+                ScannerUtils.print("", true);
             }
         }
         return true;
@@ -117,9 +127,6 @@ public class LectureManager {
         if(maxLecture == 8){
             ScannerUtils.print("수업이 꽉차 수업 추가가 불가능합니다.",true);
         }else {
-            SubjectManager sm = new SubjectManager();
-            TeacherManager tm = new TeacherManager();
-            LectureRoomManager lr = new LectureRoomManager();
             String[] dataList = new String[5];
 
             String rooms;
@@ -139,27 +146,19 @@ public class LectureManager {
             //선생님 정보 입력
             ScannerUtils.print("선생님을 선택해주세요 ", true);
             int tnum = 1;
+            int[] whichTeacher = new int[tm.getTeachers().size()+1];
             for (int i = 0; i < tm.getTeachers().size(); i++) {
                 Teacher tj = tm.getTeachers().get(i);
                 if(tj.getSubjectCode().equals(dataList[0])) {
-                    ScannerUtils.print((++tnum) + ")" + tj.getName() + "(" + tj.getCode() + ")     ", false);
+                    ScannerUtils.print((tnum) + ")" + tj.getName() + "(" + tj.getCode() + ")     ", false);
+                    whichTeacher[++tnum] = i;
                 }
             }
 
             input = ScannerUtils.scanWithPattern(CommonPattern.FOUR_CHOICE, CommonPatternError.FOUR_CHOICE);
-
-            rooms = input; // 저장할 강의실의 목록
-            //강의실 목록은 띄워놨습니다
-            if (input.equals("1")) {
-                dataList[1] = tm.find("이승범");
-            } else if (input.equals("2")) {
-                dataList[1] = tm.find("신민석");
-            } else if (input.equals("3")) {
-                dataList[1] = tm.find("김창균");
-            } else {
-                dataList[1] = tm.find("이기웅");
-            }
-
+            //TODO 여기서 예외출력어떻게할지
+            dataList[1] = tm.getTeachers().get(whichTeacher[Integer.parseInt(input)]).getName();
+            //선생님 선택
             ScannerUtils.print("강의실을 선택해주세요 ", true);
             for (int i = 0; i < lr.getRoom().size(); i++) {
                 LectureRoom room = lr.getRoom().get(i);
@@ -167,7 +166,8 @@ public class LectureManager {
             }
 
             input = ScannerUtils.scanWithPattern(CommonPattern.THREE_CHOICE, CommonPatternError.THREE_CHOICE);
-
+            rooms = input; // 저장할 강의실의 목록
+            //강의실 목록은 띄워놨습니다
 
             //수업 코드 동적 할당
             dataList[2] = Integer.toString(++maxCode);
@@ -269,9 +269,6 @@ public class LectureManager {
 
     //id같을경우 종료하는 함수
     public boolean checkSameID(){
-        SubjectManager sm = new SubjectManager();
-        TeacherManager tm = new TeacherManager();
-
         String subjectecode = "100";
         String lecturecode = "200";
         String teachercode = "300";
@@ -289,6 +286,7 @@ public class LectureManager {
                 return false;
             }
         }
+        i = 0;
         for(Teacher tec: tm.getTeachers()){
             if(!tec.getCode().equals(teachercode+(++i))){
                 ScannerUtils.print("특정 ID가 중복 조회되고 있습니다. csv 파일을 확인해주세요.", true);
