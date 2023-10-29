@@ -19,7 +19,16 @@ public class TimeTable {
         return lecture_days;
     }
     public String getLectuer_time(){
-        return lecture_time;
+        if(lecture_time.equals("1")){
+            return "12:00~14:00";
+        } else if (lecture_time.equals("2")) {
+            return "14:00~16:00";
+        } else if (lecture_time.equals("23")) {
+            return "16:00~18:00";
+        } else {
+            return "18:00~20:00";
+        }
+
     }
     public String getRoomId(){
         return roomId;

@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.List;
 public class Lecture {
     private String subjectCode;     // 과목 코드
     private String teacher;     // 선생님
@@ -6,9 +7,9 @@ public class Lecture {
     private String dayOfWeek;  // 요일
     private String time;        // 수업 시간
     private String LectureCode; // 수업 코드
-    private ArrayList<String> timetable = new ArrayList<>();
+    private List<TimeTable> timetable = new ArrayList<>();
 
-    public Lecture(String subjectCode, String teacher, String LectureCode, String dayOfWeek, String time,ArrayList<String> timetable) {
+    public Lecture(String subjectCode, String teacher, String LectureCode, String dayOfWeek, String time,List<TimeTable> timetable) {
         this.subjectCode = subjectCode;
         this.teacher = teacher;
         this.dayOfWeek = dayOfWeek;
@@ -76,7 +77,7 @@ public class Lecture {
     public String getlectureRoom() {
         return lectureRoom;
     }
-    public ArrayList getTimetable() {
+    public List<TimeTable> getTimetable() {
         return timetable;
     }
 }

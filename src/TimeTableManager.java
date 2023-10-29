@@ -56,4 +56,8 @@ public class TimeTableManager {
         }
         read.writeCSV(saveData);
     }
+
+    public List<TimeTable> geTimetable() {
+        return timetables;
+    }
 }
