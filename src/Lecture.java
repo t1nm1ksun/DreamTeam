@@ -1,16 +1,20 @@
+import java.util.ArrayList;
 public class Lecture {
     private String subjectCode;     // 과목 코드
     private String teacher;     // 선생님
+    private String lectureRoom;//강의실
     private String dayOfWeek;  // 요일
     private String time;        // 수업 시간
     private String LectureCode; // 수업 코드
+    private ArrayList<String> timetable = new ArrayList<>();
 
-    public Lecture(String subjectCode, String teacher, String LectureCode, String dayOfWeek, String time) {
+    public Lecture(String subjectCode, String teacher, String LectureCode, String dayOfWeek, String time,ArrayList<String> timetable) {
         this.subjectCode = subjectCode;
         this.teacher = teacher;
         this.dayOfWeek = dayOfWeek;
         this.time = time;
         this.LectureCode = LectureCode;
+        this.timetable = timetable;
     }
 
     // 과목 정보 설정
@@ -68,5 +72,11 @@ public class Lecture {
 
     public String getLectureCode() {
         return LectureCode;
+    }
+    public String getlectureRoom() {
+        return lectureRoom;
+    }
+    public ArrayList getTimetable() {
+        return timetable;
     }
 }
