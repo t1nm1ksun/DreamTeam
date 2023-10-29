@@ -16,15 +16,18 @@ public class LectureManager {
      * 마지막에 한번에 저장하기 위해 saveData에 순차적 저장
      */
     public LectureManager() {
-        List<List<String>> list = read.readCSV("src/class.csv");
+        List<List<String>> list = read.readCSV("src/lecture.csv");
 
         for(List<String> item : list) {
             //csv 파일들을 읽어와서 강의들을 생성함
             if(Integer.parseInt(item.get(2)) > maxCode) {
                 maxCode = Integer.parseInt(item.get(2));
             }
-
-            Lecture l1 = new Lecture(item.get(0), item.get(1), item.get(2), item.get(3),item.get(4));
+            ArrayList<String> table = new ArrayList<>();
+            for(int i = 5;i<item.size();i++){
+                table.add(item.get(i));
+            }
+            Lecture l1 = new Lecture(item.get(0), item.get(1), item.get(2), item.get(3),item.get(4),table);
             lectures.add(l1);
 
             if(item.get(3).equals("월 수 금")) {
@@ -116,7 +119,10 @@ public class LectureManager {
         }else {
             SubjectManager sm = new SubjectManager();
             TeacherManager tm = new TeacherManager();
+            LectureRoomManager lr = new LectureRoomManager();
             String[] dataList = new String[5];
+
+            String rooms;
             int duplicateTime = 0;
 
             //과목 정보 입력
@@ -128,22 +134,22 @@ public class LectureManager {
 
             String input = ScannerUtils.scanWithPattern(CommonPattern.LECTURE_DATE, CommonPatternError.LECTURE_TIME);
 
-            if (input.equals("1")) {
-                dataList[0] = sm.find("수학");
-            } else {
-                dataList[0] = sm.find("영어");
-            }
+            dataList[0] = "100"+ (Integer.parseInt(input)-1);//과목코드 넣는법 변경
 
             //선생님 정보 입력
             ScannerUtils.print("선생님을 선택해주세요 ", true);
-
+            int tnum = 1;
             for (int i = 0; i < tm.getTeachers().size(); i++) {
                 Teacher tj = tm.getTeachers().get(i);
-                ScannerUtils.print((i + 1) + ")" + tj.getName() + "(" + tj.getCode() + ")     ", false);
+                if(tj.getSubjectCode().equals(dataList[0])) {
+                    ScannerUtils.print((++tnum) + ")" + tj.getName() + "(" + tj.getCode() + ")     ", false);
+                }
             }
 
             input = ScannerUtils.scanWithPattern(CommonPattern.FOUR_CHOICE, CommonPatternError.FOUR_CHOICE);
 
+            rooms = input; // 저장할 강의실의 목록
+            //강의실 목록은 띄워놨습니다
             if (input.equals("1")) {
                 dataList[1] = tm.find("이승범");
             } else if (input.equals("2")) {
@@ -153,6 +159,15 @@ public class LectureManager {
             } else {
                 dataList[1] = tm.find("이기웅");
             }
+
+            ScannerUtils.print("강의실을 선택해주세요 ", true);
+            for (int i = 0; i < lr.getRoom().size(); i++) {
+                LectureRoom room = lr.getRoom().get(i);
+                ScannerUtils.print((i + 1) + ")" + room.getCode() + "(제한인원:" + room.getLimit() + ")     ", false);
+            }
+
+            input = ScannerUtils.scanWithPattern(CommonPattern.THREE_CHOICE, CommonPatternError.THREE_CHOICE);
+
 
             //수업 코드 동적 할당
             dataList[2] = Integer.toString(++maxCode);
@@ -181,8 +196,9 @@ public class LectureManager {
                     ScannerUtils.print("해당 시간에는 이미 수업이 존재합니다", true);
                 }
             }
-
+            //TODO timetablemanager에서 boolean으로 timetable여부 확인하고 추가함수있으니까 사용!
             //lectures 에 해당 새로운 강의 추가
+            //TODO 여기에 timetable loop로 만든 ArrayList추가하면 될듯하네요!
             Lecture newLec = new Lecture(dataList[0], dataList[1], dataList[2], dataList[3], dataList[4]);
             lectures.add(newLec);
         }
@@ -250,4 +266,35 @@ public class LectureManager {
         read.writeCSV(saveData);
     }
     public int getMaxLecture(){ return maxLecture; }
+
+    //id같을경우 종료하는 함수
+    public boolean checkSameID(){
+        SubjectManager sm = new SubjectManager();
+        TeacherManager tm = new TeacherManager();
+
+        String subjectecode = "100";
+        String lecturecode = "200";
+        String teachercode = "300";
+        int i = 0;
+        for(Lecture lec: lectures ){
+            if(!lec.getLectureCode().equals(lecturecode+(++i))){
+                ScannerUtils.print("특정 ID가 중복 조회되고 있습니다. csv 파일을 확인해주세요.", true);
+                return false;
+            }
+        }
+        i = 0;
+        for(Subject sub: sm.getSubjectss() ){
+            if(!sub.getCode().equals(subjectecode+(++i))){
+                ScannerUtils.print("특정 ID가 중복 조회되고 있습니다. csv 파일을 확인해주세요.", true);
+                return false;
+            }
+        }
+        for(Teacher tec: tm.getTeachers()){
+            if(!tec.getCode().equals(teachercode+(++i))){
+                ScannerUtils.print("특정 ID가 중복 조회되고 있습니다. csv 파일을 확인해주세요.", true);
+                return false;
+            }
+        }
+        return true;
+    }
 }

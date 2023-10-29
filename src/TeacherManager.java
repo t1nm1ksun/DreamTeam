@@ -10,7 +10,7 @@ public class TeacherManager {
         List<List<String>> teacherlist = read.readCSV("src/teacher.csv");
 
         for(List<String> item : teacherlist){
-            Teacher t1 = new Teacher(item.get(0),item.get(1));
+            Teacher t1 = new Teacher(item.get(0),item.get(1),item.get(2));
             teachers.add(t1);
         }
 
