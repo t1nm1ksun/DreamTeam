@@ -14,7 +14,7 @@ public class CommonPattern {
     /**
      * 수업 요일 정규식
      */
-    public static final String LECTURE_DATE = "^[1-2]$"; // 수업 요일 정규식
+    public static final String LECTURE_DATE = "^[1-6]$"; // 수업 요일 정규식
     /**
      * 수업 시간 정규식
      */

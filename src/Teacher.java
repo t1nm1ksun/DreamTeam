@@ -25,12 +25,12 @@ public class Teacher {
         return name;
     }
 
-    public String getSubjectCode() {
-        return subjectCode;
-    }
-
     // name 필드의 setter 메서드
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getSubjectCode() {
+        return subjectCode;
     }
 }

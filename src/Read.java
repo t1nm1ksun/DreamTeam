@@ -18,7 +18,7 @@ public class Read {
     public List<List<String>> readCSV(String filePath) {
         List<List<String>> list = new ArrayList<List<String>>();
         BufferedReader bufferedReader = null;
-        
+
         try {
             bufferedReader = Files.newBufferedReader(Paths.get(filePath));
             String line = "";
@@ -53,6 +53,7 @@ public class Read {
      */
     public void writeCSV(List<String[]> dataList) {
         BufferedWriter bufferedwrite = null;
+        //TODO: Lecture 생성자 형태에 맞춰서 바꾸기 (승범, 성종)
         String filePath = "src/class.csv";
         try {
             bufferedwrite = Files.newBufferedWriter(Paths.get(filePath));
@@ -104,6 +105,4 @@ public class Read {
             }
         }
     }
-
-
 }

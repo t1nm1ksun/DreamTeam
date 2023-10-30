@@ -14,5 +14,4 @@ public class LectureRoom {
     public String getLimit() {
         return limit;
     }
-
 }

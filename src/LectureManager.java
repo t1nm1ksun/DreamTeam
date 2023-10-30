@@ -8,7 +8,7 @@ public class LectureManager {
     private List<String[]> saveData = new ArrayList<>(); //프로그램 종료 시 저장 파일
     private List<Lecture> lectures = new ArrayList<>(); // 수업 목록을 저장할 리스트
     private Read read = new Read();
-    private boolean[] timeCheck = new boolean[9];// 이미 고른 시간 체크
+    private boolean[] timeCheck = new boolean[9];// 이미 고른 시간 체크 //TODO: 이거 뭐임? 확인해보고 이제 안쓰면 지우기 (성종, 승범)
     SubjectManager sm = new SubjectManager();
     TeacherManager tm = new TeacherManager();
     LectureRoomManager lr = new LectureRoomManager();
@@ -27,16 +27,18 @@ public class LectureManager {
             }
             List<TimeTable> table = new ArrayList<>();
             for (int i = 5; i < item.size(); i++) {
-                for (TimeTable t : ttm.geTimetable()) {
-                    if (t.getCode().equals(item.get(i))) {
+                for (TimeTable t : ttm.getTimetable()) {
+                    if (t.getRoomId().equals(item.get(i))) {
                         table.add(t);
                         break;
                     }
                 }
             }//노가다 table 생성 및 초기화..
+            //TODO: Lecture 생성자 형태에 맞춰서 바꾸기 (승범, 성종)
             Lecture l1 = new Lecture(item.get(0), item.get(1), item.get(2), item.get(3), item.get(4), table);
             lectures.add(l1);
 
+            //TODO: 이거 없애기, 필요 시 timeTableManager를 통해 접근해서 요일이랑 시간 가져오기 (타임체크가 뭔지 몰라서 못건듦) (승범, 성종)
             if (item.get(3).equals("월 수 금")) {
                 timeCheck[1 * Integer.parseInt(item.get(4))] = true;
             } else {
@@ -58,6 +60,7 @@ public class LectureManager {
     // StudentManager에서 학생이 수강 중인 수업을 조회하기 위한 메서드
     public void displayLecture(String lectureCode) {
         if (!lectures.isEmpty() && hasLecture(lectureCode) != null) {
+            //TODO: Lecture 형식에 맞춰서 수정하기, timeTableManager로 수업 정보 가져오기 (창균, 민석)
             ScannerUtils.print("|    " + hasLecture(lectureCode).getLectureCode() + "       ", false);
             ScannerUtils.print(hasLecture(lectureCode).getSubjectCode() + "         ", false);
             ScannerUtils.print(hasLecture(lectureCode).getTeacher() + "       ", false);
@@ -75,13 +78,14 @@ public class LectureManager {
             System.out.println("등록된 수업 목록:");
             ScannerUtils.print("수업코드     과목코드     선생님 ID    강의실, 날짜 및 시간", true);
 
+            //TODO: 여기 틀린 부분 있으면 고치기 (승범, 성종)
             for (Lecture lecture : lectures) {
                 ScannerUtils.print(lecture.getLectureCode() + "       ", false);
                 ScannerUtils.print(lecture.getSubjectCode() + "       ", false);
                 ScannerUtils.print(lecture.getTeacher() + "       ", false);
                 for (TimeTable t : lecture.getTimetable()) {
                     ScannerUtils.print(
-                            t.getCode() + " " + t.getRoomId() + " " + t.getLecture_days() + " " + t.getLectuer_time()
+                            t.getRoomId() + " " + t.getLecture_days() + " " + t.showLecture_time()
                                     + " / ", false);
                 }
                 ScannerUtils.print("", true);
@@ -110,6 +114,7 @@ public class LectureManager {
         for (Lecture lec : lectures) {
             //삭제할 강의가 존재한다면 lectures 에서 삭제하고 maxCode를 낮춤
             if (InputLectureCode.equals(lec.getLectureCode())) {
+                //TODO: 이거 timeTableManager를 통해 접근해서 요일이랑 시간 가져오기 (승범, 성종)
                 timeCheck[lec.getDay() * Integer.parseInt(lec.getTime())] = false;
                 lectures.remove(lec);
                 isDeleted = true;
@@ -130,13 +135,15 @@ public class LectureManager {
     }
 
     public void addLecture() {
-        if (maxLecture == 8) {
+        if (maxLecture == ttm.getTimetable().size()) {
             ScannerUtils.print("수업이 꽉차 수업 추가가 불가능합니다.", true);
         } else {
-            String[] dataList = new String[5];
+            String[] dataList = new String[3];
+            List<TimeTable> timetable = new ArrayList<>();
 
-            String rooms;
-            int duplicateTime = 0;
+            String room;
+            String day;
+            String time;
 
             //과목 정보 입력
             ScannerUtils.print("추가할 과목을 입력해 주세요 ", true);
@@ -150,7 +157,7 @@ public class LectureManager {
             dataList[0] = "100" + (Integer.parseInt(input) - 1);//과목코드 넣는법 변경
 
             //선생님 정보 입력
-            ScannerUtils.print("선생님을 선택해주세요 ", true);
+            ScannerUtils.print("선생님을 선택해 주세요", true);
             int tnum = 1;
             int[] whichTeacher = new int[tm.getTeachers().size() + 1];
             for (int i = 0; i < tm.getTeachers().size(); i++) {
@@ -161,54 +168,61 @@ public class LectureManager {
                 }
             }
 
+            // 선생님 선택
+            // TODO: 여기서 예외 처리 어떻게 할지 (선생님 숫자가 달라지면 정규식도 바껴야 함)
             input = ScannerUtils.scanWithPattern(CommonPattern.FOUR_CHOICE, CommonPatternError.FOUR_CHOICE);
-            //TODO 여기서 예외출력어떻게할지
+
             dataList[1] = tm.getTeachers().get(whichTeacher[Integer.parseInt(input)]).getName();
-            //선생님 선택
-            ScannerUtils.print("강의실을 선택해주세요 ", true);
-            for (int i = 0; i < lr.getRoom().size(); i++) {
-                LectureRoom room = lr.getRoom().get(i);
-                ScannerUtils.print((i + 1) + ")" + room.getCode() + "(제한인원:" + room.getLimit() + ")     ", false);
-            }
 
-            input = ScannerUtils.scanWithPattern(CommonPattern.THREE_CHOICE, CommonPatternError.THREE_CHOICE);
-            rooms = input; // 저장할 강의실의 목록
-            //강의실 목록은 띄워놨습니다
-
-            //수업 코드 동적 할당
+            // 수업 코드 동적 할당
             dataList[2] = Integer.toString(++maxCode);
 
-            //요일 정보 입력
-            while (true) {
-                ScannerUtils.print("수업 요일을 선택해주세요", true);
-                ScannerUtils.print("1) 월 수 금   2) 화 목 토   ", false);
+            // 강의실 선택
+            ScannerUtils.print("   강의실 번호    수용 가능 인원", true);
+            for (int i = 0; i < lr.getRoom().size(); i++) {
+                LectureRoom rooms = lr.getRoom().get(i);
+                ScannerUtils.print((i + 1) + ") " + rooms.getCode() + "         " + rooms.getLimit(), true);
+            }
+            ScannerUtils.print("수업할 강의실을 선택해 주세요", true);
+
+            // TODO: 여기서 예외 처리 어떻게 할지 (강의실 갯수가 달라지면 정규식도 바껴야 함)
+            input = ScannerUtils.scanWithPattern(CommonPattern.THREE_CHOICE, CommonPatternError.THREE_CHOICE);
+            room = input;
+
+            boolean check;
+
+            // 요일 정보 입력
+            do {
+                ttm.displayTimeTable(room);
+
+                ScannerUtils.print("1) 월요일   2) 화요일   3) 수요일   4) 목요일   5) 금요일   6) 토요일", true);
+                ScannerUtils.print("수업 요일을 선택해 주세요", true);
+
                 input = ScannerUtils.scanWithPattern(CommonPattern.LECTURE_DATE, CommonPatternError.LECTURE_DATE);
-                duplicateTime = (Integer.parseInt(input) - 1) * 4;
-                if (input.equals("1")) {
-                    dataList[3] = "월 수 금";
-                } else {
-                    dataList[3] = "화 목 토";
-                }
+                day = input;
 
                 //수업 시간 입력
-                ScannerUtils.print("수업시간을 입력해주세요", true);
-                ScannerUtils.print("1) 14:00~16:00   2) 16:00~18:00   3)18:00~20:00    4)20:00~22:00   ", false);
-                input = ScannerUtils.scanWithPattern(CommonPattern.LECTURE_TIME, CommonPatternError.LECTURE_TIME);
-                duplicateTime += Integer.parseInt(input);
+                ScannerUtils.print("1) 14:00~16:00   2) 16:00~18:00   3)18:00~20:00   4)20:00~22:00", true);
+                ScannerUtils.print("수업 시간을 입력해 주세요", true);
 
-                if (!timeCheck[duplicateTime]) {
-                    dataList[4] = input;
-                    timeCheck[duplicateTime] = true;
-                    maxLecture++;
-                    break;
+                input = ScannerUtils.scanWithPattern(CommonPattern.LECTURE_TIME, CommonPatternError.LECTURE_TIME);
+                time = input;
+
+                if (ttm.findTable(room, day, time)) {
+                    ttm.addTimeTable(room, day, time);
+                    timetable.add(new TimeTable(room, day, time));
+                    ScannerUtils.print("수업 시간이 추가되었습니다.", true);
                 } else {
                     ScannerUtils.print("해당 시간에는 이미 수업이 존재합니다", true);
                 }
-            }
-            //TODO timetablemanager에서 boolean으로 timetable여부 확인하고 추가함수있으니까 사용!
-            //lectures 에 해당 새로운 강의 추가
-            //TODO 여기에 timetable loop로 만든 ArrayList추가하면 될듯하네요!
-            Lecture newLec = new Lecture(dataList[0], dataList[1], dataList[2], dataList[3], dataList[4]);
+
+                ScannerUtils.print("추가로 다른 요일에 해당 수업을 추가하려면 1, 이대로 수업 추가를 종료하려면 2를 입력해 주세요.", true);
+                input = ScannerUtils.scanWithPattern(CommonPattern.TWO_CHOICE, CommonPatternError.TWO_CHOICE);
+
+                check = input.equals("1");
+            } while (check);
+
+            Lecture newLec = new Lecture(dataList[0], dataList[1], dataList[2], timetable);
             lectures.add(newLec);
         }
     }
@@ -231,6 +245,7 @@ public class LectureManager {
             int duplicateTime;
             //변경할 요일 선택
             while (true) {
+                //TODO: 여기 timetable 형식으로 갈아엎기 (성종, 승범)
                 ScannerUtils.print("변경할 수업 요일을 선택하세요", true);
                 ScannerUtils.print("1) 월 수 금   2) 화 목 토  : ", true);
                 newDate = ScannerUtils.scanWithPattern(CommonPattern.LECTURE_DATE, CommonPatternError.LECTURE_DATE);
@@ -259,6 +274,7 @@ public class LectureManager {
             System.out.println(LectureEditMenuHandler.input);
             for (Lecture lec : lectures) {
                 if (lec.getLectureCode().equals(LectureEditMenuHandler.input)) {
+                    //TODO: 여기 timetable 형식으로 갈아엎기 (성종, 승범)
                     timeCheck[Integer.parseInt(lec.getTime()) * lec.getDay()] = false;
                     lec.setTime(newTime);
                     lec.setDayOfWeek(newDate);
@@ -272,6 +288,7 @@ public class LectureManager {
     public void saveDataFile() {
         //lectures 들을 알맞은 형식의 데이터로 전환한 뒤 파일에 저장
         for (Lecture lec : lectures) {
+            //TODO: Lecture 생성자 형태에 맞춰서 바꾸기 (승범, 성종)
             String[] tmpData = {lec.getSubjectCode(), lec.getTeacher(), lec.getLectureCode(), lec.getDayOfWeek(),
                     lec.getTime()};
             saveData.add(tmpData);
