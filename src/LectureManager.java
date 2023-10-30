@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class LectureManager {
@@ -14,34 +13,33 @@ public class LectureManager {
     TeacherManager tm = new TeacherManager();
     LectureRoomManager lr = new LectureRoomManager();
     TimeTableManager ttm = new TimeTableManager();
+
     /**
-     * csv로부터 읽어온파일들을 순서대로 lectures에 저장
-     * 마지막에 한번에 저장하기 위해 saveData에 순차적 저장
+     * csv로부터 읽어온파일들을 순서대로 lectures에 저장 마지막에 한번에 저장하기 위해 saveData에 순차적 저장
      */
     public LectureManager() {
         List<List<String>> list = read.readCSV("src/lecture.csv");
 
-        for(List<String> item : list) {
+        for (List<String> item : list) {
             //csv 파일들을 읽어와서 강의들을 생성함
-            if(Integer.parseInt(item.get(2)) > maxCode) {
+            if (Integer.parseInt(item.get(2)) > maxCode) {
                 maxCode = Integer.parseInt(item.get(2));
             }
             List<TimeTable> table = new ArrayList<>();
-            for(int i = 5;i<item.size();i++){
-                for(TimeTable t : ttm.geTimetable()){
-                    if(t.getCode().equals(item.get(i))){
+            for (int i = 5; i < item.size(); i++) {
+                for (TimeTable t : ttm.geTimetable()) {
+                    if (t.getCode().equals(item.get(i))) {
                         table.add(t);
                         break;
                     }
                 }
             }//노가다 table 생성 및 초기화..
-            Lecture l1 = new Lecture(item.get(0), item.get(1), item.get(2), item.get(3),item.get(4),table);
+            Lecture l1 = new Lecture(item.get(0), item.get(1), item.get(2), item.get(3), item.get(4), table);
             lectures.add(l1);
 
-            if(item.get(3).equals("월 수 금")) {
+            if (item.get(3).equals("월 수 금")) {
                 timeCheck[1 * Integer.parseInt(item.get(4))] = true;
-            }
-            else {
+            } else {
                 timeCheck[4 + Integer.parseInt(item.get(4))] = true;
             }
             maxLecture++;
@@ -49,8 +47,8 @@ public class LectureManager {
     }
 
     public Lecture hasLecture(String lectureCode) {
-        for(Lecture lecture: lectures) {
-            if(lecture.getLectureCode().equals(lectureCode)) {
+        for (Lecture lecture : lectures) {
+            if (lecture.getLectureCode().equals(lectureCode)) {
                 return lecture;
             }
         }
@@ -59,18 +57,18 @@ public class LectureManager {
 
     // StudentManager에서 학생이 수강 중인 수업을 조회하기 위한 메서드
     public void displayLecture(String lectureCode) {
-        if(!lectures.isEmpty() && hasLecture(lectureCode) != null) {
-            ScannerUtils.print("|    " + hasLecture(lectureCode).getLectureCode()+"       ", false);
-            ScannerUtils.print(hasLecture(lectureCode).getSubjectCode()+"         ", false);
-            ScannerUtils.print(hasLecture(lectureCode).getTeacher()+"       ", false);
-            ScannerUtils.print(hasLecture(lectureCode).getDayOfWeek()+"      ", false);
+        if (!lectures.isEmpty() && hasLecture(lectureCode) != null) {
+            ScannerUtils.print("|    " + hasLecture(lectureCode).getLectureCode() + "       ", false);
+            ScannerUtils.print(hasLecture(lectureCode).getSubjectCode() + "         ", false);
+            ScannerUtils.print(hasLecture(lectureCode).getTeacher() + "       ", false);
+            ScannerUtils.print(hasLecture(lectureCode).getDayOfWeek() + "      ", false);
             ScannerUtils.print(hasLecture(lectureCode).getTime(), true);
         }
     }
 
     // 모든 수업 목록을 조회하는 메서드
     public boolean displayLectures() {
-        if(lectures.isEmpty()) {
+        if (lectures.isEmpty()) {
             ScannerUtils.print("등록된 수업이 없습니다.", true);
             return false;
         } else {
@@ -78,33 +76,40 @@ public class LectureManager {
             ScannerUtils.print("수업코드     과목코드     선생님 ID    강의실, 날짜 및 시간", true);
 
             for (Lecture lecture : lectures) {
-                ScannerUtils.print(lecture.getLectureCode()+"       ", false);
-                ScannerUtils.print(lecture.getSubjectCode()+"       ", false);
-                ScannerUtils.print(lecture.getTeacher()+"       ", false);
-                for(TimeTable t : lecture.getTimetable()){
-                    ScannerUtils.print(t.getCode() + " " + t.getRoomId() + " " + t.getLecture_days() + " " + t.getLectuer_time()+ " / ",false);
+                ScannerUtils.print(lecture.getLectureCode() + "       ", false);
+                ScannerUtils.print(lecture.getSubjectCode() + "       ", false);
+                ScannerUtils.print(lecture.getTeacher() + "       ", false);
+                for (TimeTable t : lecture.getTimetable()) {
+                    ScannerUtils.print(
+                            t.getCode() + " " + t.getRoomId() + " " + t.getLecture_days() + " " + t.getLectuer_time()
+                                    + " / ", false);
                 }
                 ScannerUtils.print("", true);
             }
         }
         return true;
     }
+
     public boolean deleteLecture() {
-        if(!displayLectures()) return false;
+        if (!displayLectures()) {
+            return false;
+        }
 
         ScannerUtils.print("삭제할 수업 코드를 입력해 주세요: ", false);
-        String InputLectureCode = ScannerUtils.scanWithPattern(CommonPattern.LECTURE_CODE, CommonPatternError.LECTURE_CODE);
+        String InputLectureCode = ScannerUtils.scanWithPattern(CommonPattern.LECTURE_CODE,
+                CommonPatternError.LECTURE_CODE);
 
-        while(Integer.parseInt(InputLectureCode) > maxCode) {
+        while (Integer.parseInt(InputLectureCode) > maxCode) {
             ScannerUtils.print("존재하지 않는 수업 코드입니다. 다시 입력 바랍니다.", true);
-            InputLectureCode = ScannerUtils.scanWithPattern(CommonPattern.LECTURE_CODE, CommonPatternError.LECTURE_CODE);
+            InputLectureCode = ScannerUtils.scanWithPattern(CommonPattern.LECTURE_CODE,
+                    CommonPatternError.LECTURE_CODE);
         }
 
         boolean isDeleted = false;
 
-        for(Lecture lec: lectures) {
+        for (Lecture lec : lectures) {
             //삭제할 강의가 존재한다면 lectures 에서 삭제하고 maxCode를 낮춤
-            if(InputLectureCode.equals(lec.getLectureCode())) {
+            if (InputLectureCode.equals(lec.getLectureCode())) {
                 timeCheck[lec.getDay() * Integer.parseInt(lec.getTime())] = false;
                 lectures.remove(lec);
                 isDeleted = true;
@@ -114,19 +119,20 @@ public class LectureManager {
             }
         }
 
-        if(isDeleted) {
+        if (isDeleted) {
             //삭제가 성공했을시 과목들의 코드를 재할당함
             Integer initCode = 2000;
-            for(Lecture lec: lectures) {
+            for (Lecture lec : lectures) {
                 lec.setLectureCode(initCode.toString(initCode++));
             }
         }
         return true;
     }
+
     public void addLecture() {
-        if(maxLecture == 8){
-            ScannerUtils.print("수업이 꽉차 수업 추가가 불가능합니다.",true);
-        }else {
+        if (maxLecture == 8) {
+            ScannerUtils.print("수업이 꽉차 수업 추가가 불가능합니다.", true);
+        } else {
             String[] dataList = new String[5];
 
             String rooms;
@@ -141,15 +147,15 @@ public class LectureManager {
 
             String input = ScannerUtils.scanWithPattern(CommonPattern.LECTURE_DATE, CommonPatternError.LECTURE_TIME);
 
-            dataList[0] = "100"+ (Integer.parseInt(input)-1);//과목코드 넣는법 변경
+            dataList[0] = "100" + (Integer.parseInt(input) - 1);//과목코드 넣는법 변경
 
             //선생님 정보 입력
             ScannerUtils.print("선생님을 선택해주세요 ", true);
             int tnum = 1;
-            int[] whichTeacher = new int[tm.getTeachers().size()+1];
+            int[] whichTeacher = new int[tm.getTeachers().size() + 1];
             for (int i = 0; i < tm.getTeachers().size(); i++) {
                 Teacher tj = tm.getTeachers().get(i);
-                if(tj.getSubjectCode().equals(dataList[0])) {
+                if (tj.getSubjectCode().equals(dataList[0])) {
                     ScannerUtils.print((tnum) + ")" + tj.getName() + "(" + tj.getCode() + ")     ", false);
                     whichTeacher[++tnum] = i;
                 }
@@ -178,8 +184,11 @@ public class LectureManager {
                 ScannerUtils.print("1) 월 수 금   2) 화 목 토   ", false);
                 input = ScannerUtils.scanWithPattern(CommonPattern.LECTURE_DATE, CommonPatternError.LECTURE_DATE);
                 duplicateTime = (Integer.parseInt(input) - 1) * 4;
-                if (input.equals("1")) dataList[3] = "월 수 금";
-                else dataList[3] = "화 목 토";
+                if (input.equals("1")) {
+                    dataList[3] = "월 수 금";
+                } else {
+                    dataList[3] = "화 목 토";
+                }
 
                 //수업 시간 입력
                 ScannerUtils.print("수업시간을 입력해주세요", true);
@@ -205,15 +214,17 @@ public class LectureManager {
     }
 
     public void editDate() {
-        if(maxLecture == 8){
-            ScannerUtils.print("수업이 꽉차 수업 시간 변경이 불가능합니다.",true);
-        }else {
+        if (maxLecture == 8) {
+            ScannerUtils.print("수업이 꽉차 수업 시간 변경이 불가능합니다.", true);
+        } else {
             ScannerUtils.print("변경할 수업 코드를 선택하시오", true);
-            LectureEditMenuHandler.input = ScannerUtils.scanWithPattern(CommonPattern.LECTURE_CODE, CommonPatternError.LECTURE_CODE);
+            LectureEditMenuHandler.input = ScannerUtils.scanWithPattern(CommonPattern.LECTURE_CODE,
+                    CommonPatternError.LECTURE_CODE);
 
-            while (Integer.parseInt( LectureEditMenuHandler.input) > LectureManager.maxCode) {
+            while (Integer.parseInt(LectureEditMenuHandler.input) > LectureManager.maxCode) {
                 ScannerUtils.print("존재하지 않습니다. 재입력 바랍니다.", true);
-                LectureEditMenuHandler.input = ScannerUtils.scanWithPattern(CommonPattern.LECTURE_CODE, CommonPatternError.LECTURE_CODE);
+                LectureEditMenuHandler.input = ScannerUtils.scanWithPattern(CommonPattern.LECTURE_CODE,
+                        CommonPatternError.LECTURE_CODE);
             }
 
             String newDate, newTime;
@@ -245,9 +256,9 @@ public class LectureManager {
                 }
             }
             //변경할 강의를 찾아서 요일과 시간을 바꿔줌
-            System.out.println( LectureEditMenuHandler.input);
+            System.out.println(LectureEditMenuHandler.input);
             for (Lecture lec : lectures) {
-                if (lec.getLectureCode().equals( LectureEditMenuHandler.input)) {
+                if (lec.getLectureCode().equals(LectureEditMenuHandler.input)) {
                     timeCheck[Integer.parseInt(lec.getTime()) * lec.getDay()] = false;
                     lec.setTime(newTime);
                     lec.setDayOfWeek(newDate);
@@ -257,38 +268,43 @@ public class LectureManager {
         }
 
     }
+
     public void saveDataFile() {
         //lectures 들을 알맞은 형식의 데이터로 전환한 뒤 파일에 저장
-        for(Lecture lec : lectures) {
-            String[] tmpData = {lec.getSubjectCode(), lec.getTeacher(), lec.getLectureCode(), lec.getDayOfWeek(), lec.getTime()};
+        for (Lecture lec : lectures) {
+            String[] tmpData = {lec.getSubjectCode(), lec.getTeacher(), lec.getLectureCode(), lec.getDayOfWeek(),
+                    lec.getTime()};
             saveData.add(tmpData);
         }
         read.writeCSV(saveData);
     }
-    public int getMaxLecture(){ return maxLecture; }
+
+    public int getMaxLecture() {
+        return maxLecture;
+    }
 
     //id같을경우 종료하는 함수
-    public boolean checkSameID(){
+    public boolean checkSameID() {
         String subjectecode = "100";
         String lecturecode = "200";
         String teachercode = "300";
         int i = 0;
-        for(Lecture lec: lectures ){
-            if(!lec.getLectureCode().equals(lecturecode+(++i))){
+        for (Lecture lec : lectures) {
+            if (!lec.getLectureCode().equals(lecturecode + (++i))) {
                 ScannerUtils.print("특정 ID가 중복 조회되고 있습니다. csv 파일을 확인해주세요.", true);
                 return false;
             }
         }
         i = 0;
-        for(Subject sub: sm.getSubjectss() ){
-            if(!sub.getCode().equals(subjectecode+(++i))){
+        for (Subject sub : sm.getSubjectss()) {
+            if (!sub.getCode().equals(subjectecode + (++i))) {
                 ScannerUtils.print("특정 ID가 중복 조회되고 있습니다. csv 파일을 확인해주세요.", true);
                 return false;
             }
         }
         i = 0;
-        for(Teacher tec: tm.getTeachers()){
-            if(!tec.getCode().equals(teachercode+(++i))){
+        for (Teacher tec : tm.getTeachers()) {
+            if (!tec.getCode().equals(teachercode + (++i))) {
                 ScannerUtils.print("특정 ID가 중복 조회되고 있습니다. csv 파일을 확인해주세요.", true);
                 return false;
             }

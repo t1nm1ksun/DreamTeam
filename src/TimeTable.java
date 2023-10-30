@@ -1,4 +1,3 @@
-
 public class TimeTable {
     private String code;
     private String lecture_days;
@@ -15,11 +14,13 @@ public class TimeTable {
     public String getCode() {
         return code;
     }
-    public String getLecture_days(){
+
+    public String getLecture_days() {
         return lecture_days;
     }
-    public String getLectuer_time(){
-        if(lecture_time.equals("1")){
+
+    public String getLectuer_time() {
+        if (lecture_time.equals("1")) {
             return "12:00~14:00";
         } else if (lecture_time.equals("2")) {
             return "14:00~16:00";
@@ -30,7 +31,8 @@ public class TimeTable {
         }
 
     }
-    public String getRoomId(){
+
+    public String getRoomId() {
         return roomId;
     }
 }

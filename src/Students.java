@@ -2,7 +2,7 @@ public class Students {
     protected static String name;
     protected static String phoneNumber;
 
-    public Students () {
+    public Students() {
         this.name = "신민석";
         this.phoneNumber = "01012345678";
     }
@@ -12,7 +12,7 @@ public class Students {
     }
 
     public String getName() {
-        return  name;
+        return name;
     }
 
 }

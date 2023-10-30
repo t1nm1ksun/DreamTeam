@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.List;
+
 public class Lecture {
     private String subjectCode;     // 과목 코드
     private String teacher;     // 선생님
@@ -9,7 +10,8 @@ public class Lecture {
     private String LectureCode; // 수업 코드
     private List<TimeTable> timetable = new ArrayList<>();
 
-    public Lecture(String subjectCode, String teacher, String LectureCode, String dayOfWeek, String time,List<TimeTable> timetable) {
+    public Lecture(String subjectCode, String teacher, String LectureCode, String dayOfWeek, String time,
+                   List<TimeTable> timetable) {
         this.subjectCode = subjectCode;
         this.teacher = teacher;
         this.dayOfWeek = dayOfWeek;
@@ -59,7 +61,7 @@ public class Lecture {
     }
 
     public int getDay() {
-        if(dayOfWeek.equals("월 수 금")) {
+        if (dayOfWeek.equals("월 수 금")) {
             return 1;
         } else {
             return 2;
@@ -74,9 +76,11 @@ public class Lecture {
     public String getLectureCode() {
         return LectureCode;
     }
+
     public String getlectureRoom() {
         return lectureRoom;
     }
+
     public List<TimeTable> getTimetable() {
         return timetable;
     }

@@ -4,11 +4,11 @@ public class ScannerInstance {
     private static ScannerInstance instance;
     private final Scanner scanner;
 
-    private ScannerInstance(){
+    private ScannerInstance() {
         scanner = new Scanner(System.in);
     }
 
-    public Scanner getScanner(){
+    public Scanner getScanner() {
         return scanner;
     }
 
@@ -19,7 +19,7 @@ public class ScannerInstance {
         return instance;
     }
 
-    public void dispose(){
+    public void dispose() {
         scanner.close();
     }
 }
