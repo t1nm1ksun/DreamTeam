@@ -223,22 +223,26 @@ public class StudentManager {
                                 CommonPatternError.TWO_CHOICE);
                         if (lectureMenuNum.equals("1")) {
                             System.out.println("1. 수업 추가를 선택하셨습니다.");
-                            System.out.println("[전체 수업 목록 리스트]");
-                            lectureManager.displayLectures();
-                            System.out.print("추가하려는 수업의 코드를 입력하세요 (* 4자, 공백 없이 숫자로만 입력하세요 *): ");
-                            String lectureCode = ScannerUtils.scanWithPattern(CommonPattern.LECTURE_CODE,
-                                    CommonPatternError.LECTURE_CODE);
+                            System.out.println("[추가할 수 있는 수업 목록 리스트]");
 
-                            if (lectureManager.hasLecture(lectureCode) != null) { // 존재하는 수업코드인지 확인
-                                if (findLectureCode(studentToEdit, lectureCode) == null) { // 수강 중이지 않던 수업이 맞는지 확인
-                                    studentToEdit.addLectureList(lectureCode);
-                                    System.out.println("수업이 추가되었습니다.");
-                                } else {
-                                    System.out.println("이미 수강 중인 수업입니다.");
+                            List<Lecture> lectures = new ArrayList<>();
+
+                            for(String lectureCode : studentToEdit.getLectureList()) {
+                                Lecture tmpLec = lectureManager.getLectureByCode(lectureCode);
+                                if(tmpLec != null) {
+                                    // 학생이 듣는 수업 리스트 생성
+                                    lectures.add(tmpLec);
                                 }
-                            } else {
-                                System.out.println("존재하지 않는 수업입니다.");
                             }
+                            // 추가할 수 있는 수업 리스트를 보여줌
+                            lectureManager.showAddableLectures(lectures);
+
+                            System.out.print("추가하려는 수업의 코드를 입력하세요 (* 4자, 공백 없이 숫자로만 입력하세요 *): ");
+                            String lectureCode = ScannerUtils.scanWithPattern(CommonPattern.LECTURE_CODE, CommonPatternError.LECTURE_CODE);
+
+
+
+
                         } else if (lectureMenuNum.equals("2")) {
                             System.out.println("2. 수업 삭제를 선택하셨습니다.");
                             System.out.println("[수강 중인 수업 리스트]");
