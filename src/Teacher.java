@@ -2,8 +2,9 @@ public class Teacher {
     private String code;
     private String name;
     private String subjectCode;
+
     //과목코드 추가!
-    public Teacher(String name, String code,String subjectCode) {
+    public Teacher(String name, String code, String subjectCode) {
         this.code = code;
         this.name = name;
         this.subjectCode = subjectCode;
@@ -24,12 +25,12 @@ public class Teacher {
         return name;
     }
 
-    public String getSubjectCode() {
-        return subjectCode;
-    }
-
     // name 필드의 setter 메서드
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getSubjectCode() {
+        return subjectCode;
     }
 }

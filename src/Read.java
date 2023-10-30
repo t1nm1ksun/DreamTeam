@@ -9,15 +9,11 @@ import java.util.List;
 
 public class Read {
     /**
-     *  csv 읽기 파일
-     *    List<List<String>> list = Read.readCsvFile();
-     *         for(List<String> item : list){
-     *             Lecture l1 = new Lecture(item.get(0), item.get(1), item.get(2), item.get(3),item.get(4));
-     *             lectures.add(l1);
-     *         }
-     * Lecture class에 있는 것처럼 사용시에 순서대로 초기화됨
-     * 사용시 주의점: csv파일 생성 후 연결파일을 반드시 메모장으로!
-     * @return List<List<String>> 배열 item
+     * csv 읽기 파일 List<List<String>> list = Read.readCsvFile(); for(List<String> item : list){ Lecture l1 = new
+     * Lecture(item.get(0), item.get(1), item.get(2), item.get(3),item.get(4)); lectures.add(l1); } Lecture class에 있는
+     * 것처럼 사용시에 순서대로 초기화됨 사용시 주의점: csv파일 생성 후 연결파일을 반드시 메모장으로!
+     *
+     * @return List<List < String>> 배열 item
      */
     public List<List<String>> readCSV(String filePath) {
         List<List<String>> list = new ArrayList<List<String>>();
@@ -39,8 +35,9 @@ public class Read {
             e.printStackTrace();
         } finally {
             try {
-                if (bufferedReader != null)
+                if (bufferedReader != null) {
                     bufferedReader.close();
+                }
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -49,18 +46,18 @@ public class Read {
     }
 
 
-
     /**
-     * csv 쓰기 파일
-     *String 배열을 받아서 넣기!
+     * csv 쓰기 파일 String 배열을 받아서 넣기!
+     *
      * @param dataList
      */
     public void writeCSV(List<String[]> dataList) {
         BufferedWriter bufferedwrite = null;
-        String filePath ="src/class.csv";
+        //TODO: Lecture 생성자 형태에 맞춰서 바꾸기 (승범, 성종)
+        String filePath = "src/class.csv";
         try {
             bufferedwrite = Files.newBufferedWriter(Paths.get(filePath));
-            for(int i = 0; i<dataList.size();i++) {
+            for (int i = 0; i < dataList.size(); i++) {
                 String[] data = dataList.get(i);
                 String aData = "";
                 aData = data[0] + "," + data[1] + "," + data[2] + "," + data[3] + "," + data[4];
@@ -84,13 +81,13 @@ public class Read {
 
     public void writeStudentCSV(List<String[]> dataList) {
         BufferedWriter bufferedwrite = null;
-        String filePath ="src/student.csv";
+        String filePath = "src/student.csv";
         try {
             bufferedwrite = Files.newBufferedWriter(Paths.get(filePath));
-            for(int i = 0; i<dataList.size();i++) {
+            for (int i = 0; i < dataList.size(); i++) {
                 String[] data = dataList.get(i);
                 String aData = "";
-                aData = data[0]+","+data[1] + "," + data[2];
+                aData = data[0] + "," + data[1] + "," + data[2];
                 bufferedwrite.write(aData);
                 bufferedwrite.newLine();
             }
@@ -108,11 +105,4 @@ public class Read {
             }
         }
     }
-
-
-
-
-
-
-
 }
