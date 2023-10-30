@@ -232,16 +232,41 @@ public class StudentManager {
                                 if(tmpLec != null) {
                                     // 학생이 듣는 수업 리스트 생성
                                     lectures.add(tmpLec);
+                                } else {
+                                    // 학생이 듣는 수업 리스트 생성 실패시
+                                    ScannerUtils.print("수업 추가에 실패했습니다.", true);
+                                    break;
                                 }
                             }
+
+
                             // 추가할 수 있는 수업 리스트를 보여줌
                             lectureManager.showAddableLectures(lectures);
 
-                            System.out.print("추가하려는 수업의 코드를 입력하세요 (* 4자, 공백 없이 숫자로만 입력하세요 *): ");
+                            ScannerUtils.print("추가하려는 수업의 코드를 입력하세요 (* 4자, 공백 없이 숫자로만 입력하세요 *): ", false);
                             String lectureCode = ScannerUtils.scanWithPattern(CommonPattern.LECTURE_CODE, CommonPatternError.LECTURE_CODE);
 
+                            LectureRoomManager lectureRoomManager = new LectureRoomManager();
 
+                            Lecture addingLecture = lectureManager.getLectureByCode(lectureCode);
+                            boolean isSuccess = true;
 
+                            // 선택한 수업에 대해 강의실들의 수강 제한인원을 넘는지 체크
+                            for(TimeTable timeTable : addingLecture.getTimetable()) {
+                                // 해당 강의실의 남는 자리가 0개 이하일 시 추가할 수 없음.
+                                if(lectureRoomManager.checkRoomLeft(timeTable.getRoomId()) <= 0) {
+                                    isSuccess = false;
+                                    break;
+                                }
+                            }
+
+                            if(isSuccess) {
+                                // 해당 학생의 수업 리스트에 수업 추가
+                                studentToEdit.addLecture(lectureCode);
+                                ScannerUtils.print("성공적으로 추가되었습니다.", true);
+                            } else {
+                                ScannerUtils.print("수업 추가에 실패했습니다.", true);
+                            }
 
                         } else if (lectureMenuNum.equals("2")) {
                             System.out.println("2. 수업 삭제를 선택하셨습니다.");

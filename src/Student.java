@@ -48,6 +48,10 @@ public class Student {
         return lectureList;
     }
 
+    public void addLecture(String lectureCode) {
+        this.lectureList.add(lectureCode);
+    }
+
     public void setLectureList(List<String> lectureList) {
         this.lectureList = lectureList;
     }
