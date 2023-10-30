@@ -223,65 +223,59 @@ public class LectureManager {
             } while (check);
 
             Lecture newLec = new Lecture(dataList[0], dataList[1], dataList[2], timetable);
+
             lectures.add(newLec);
         }
     }
 
     public void editDate() {
-        if (maxLecture == 8) {
-            ScannerUtils.print("수업이 꽉차 수업 시간 변경이 불가능합니다.", true);
-        } else {
-            ScannerUtils.print("변경할 수업 코드를 선택하시오", true);
+        ScannerUtils.print("변경할 수업 코드를 선택하시오", true);
+        LectureEditMenuHandler.input = ScannerUtils.scanWithPattern(CommonPattern.LECTURE_CODE,CommonPatternError.LECTURE_CODE);
+        while (Integer.parseInt(LectureEditMenuHandler.input) > LectureManager.maxCode) {
+            ScannerUtils.print("존재하지 않습니다. 재입력 바랍니다.", true);
             LectureEditMenuHandler.input = ScannerUtils.scanWithPattern(CommonPattern.LECTURE_CODE,
-                    CommonPatternError.LECTURE_CODE);
-
-            while (Integer.parseInt(LectureEditMenuHandler.input) > LectureManager.maxCode) {
-                ScannerUtils.print("존재하지 않습니다. 재입력 바랍니다.", true);
-                LectureEditMenuHandler.input = ScannerUtils.scanWithPattern(CommonPattern.LECTURE_CODE,
                         CommonPatternError.LECTURE_CODE);
             }
 
-            String newDate, newTime;
-            int duplicateTime;
-            //변경할 요일 선택
-            while (true) {
-                //TODO: 여기 timetable 형식으로 갈아엎기 (성종, 승범)
-                ScannerUtils.print("변경할 수업 요일을 선택하세요", true);
-                ScannerUtils.print("1) 월 수 금   2) 화 목 토  : ", true);
-                newDate = ScannerUtils.scanWithPattern(CommonPattern.LECTURE_DATE, CommonPatternError.LECTURE_DATE);
-                duplicateTime = (Integer.parseInt(newDate) - 1) * 4;
-                if (newDate.equals("1")) {
-                    newDate = "월 수 금";
-                } else {
-                    newDate = "화 목 토";
-                }
+        //타임 테이블 출력
+        ScannerUtils.print("변경할 요일의 수업을 선택하세요", true);
+        TimeTable tb_toEdit = ScannerUtils.scanWithPattern(); // TODO : 바꿀 타임테이블 입력받기 (민석)
+        //받아
+        String room = "";
+        String day = "";
+        String time = "";
 
-                //변경할 시간 선택
-                ScannerUtils.print("변경할 수업 시간을 선택하세요", true);
-                ScannerUtils.print("1) 14:00~16:00   2) 16:00~18:00   3)18:00~20:00    4)20:00~22:00 : ", true);
-                newTime = ScannerUtils.scanWithPattern(CommonPattern.LECTURE_TIME, CommonPatternError.LECTURE_TIME);
-
-                duplicateTime += Integer.parseInt(newTime);
-
-                if (!timeCheck[duplicateTime]) {
-                    timeCheck[duplicateTime] = true;
-                    break;
-                } else {
-                    ScannerUtils.print("해당 시간에는 이미 수업이 존재합니다", true);
-                }
+        ScannerUtils.print("1) 수업 요일 변경   2) 수업 시간 변경",true);
+        ScannerUtils.print("변경할 정보를 선택하세요 : ",true);
+        int data_toEdit = ScannerUtils.scanWithPatternIntegerForMenu(CommonPattern.TWO_CHOICE,CommonPatternError.TWO_CHOICE);
+        switch (data_toEdit){
+            case 1:{
+                ScannerUtils.print("수업 요일 변경을 선택하셨습니다.",true);
+                // TODO : 타임테이블에서 수업중인 요일을 확인하고 그 요일들 제외한 요일들 중 하나 고르게함
+                ScannerUtils.print("1) 월요일   2) 화요일   3) 수요일   4) 목요일   5) 금요일   6) 토요일", true);
+                ScannerUtils.print("수업 요일을 선택해 주세요", true);
+                day = ScannerUtils.scanWithPattern(CommonPattern.LECTURE_DATE, CommonPatternError.LECTURE_DATE);
+                break;
             }
-            //변경할 강의를 찾아서 요일과 시간을 바꿔줌
-            System.out.println(LectureEditMenuHandler.input);
-            for (Lecture lec : lectures) {
-                if (lec.getLectureCode().equals(LectureEditMenuHandler.input)) {
-                    //TODO: 여기 timetable 형식으로 갈아엎기 (성종, 승범)
-                    timeCheck[Integer.parseInt(lec.getTime()) * lec.getDay()] = false;
-                    lec.setTime(newTime);
-                    lec.setDayOfWeek(newDate);
-                    System.out.println(newTime + newDate);
-                }
+            case 2: {
+                ScannerUtils.print("수업 시간 변경을 선택하셨습니다.", true);
+                // TODO : 타임테이블에서 해당 요일중 수업중인 교시 빼고 하나 고르게함
+                ScannerUtils.print("1) 14:00~16:00   2) 16:00~18:00   3)18:00~20:00   4)20:00~22:00", true);
+                ScannerUtils.print("수업 시간을 입력해 주세요", true);
+                time = ScannerUtils.scanWithPattern(CommonPattern.LECTURE_TIME, CommonPatternError.LECTURE_TIME);
+
+                break;
             }
         }
+
+        //TODO : 타임테이블 빈자리 있으면 그대로 저장 빈자리 없으면 도루묵
+        if (ttm.findTable(room, day, time)) {
+            //TODO : timetable.day = day  timetable.time = time  이렇게
+            ScannerUtils.print("수업 시간이 변경되었습니다.", true);
+        }else {
+            ScannerUtils.print("해당 시간에는 이미 수업이 존재합니다", true);
+        }
+
 
     }
 
