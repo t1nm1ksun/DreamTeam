@@ -58,7 +58,7 @@ public class LectureManager {
             ScannerUtils.print(hasLecture(lectureCode).getTeacher() + "       ", false);
             for (TimeTable t : hasLecture(lectureCode).getTimetable()) {
                 ScannerUtils.print(
-                        t.getRoomId() + " " + t.getLecture_days() + " " + t.showLecture_time()
+                        t.getRoomId() + " " + t.getLectureDays() + " " + t.showLectureTime()
                                 + " / ", false);
             }
             ScannerUtils.print("", true);
