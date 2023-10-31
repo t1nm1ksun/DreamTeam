@@ -1,5 +1,5 @@
 public class MainMenuHandler {
-
+    
     public static void handle(LectureManager lectureManager, StudentManager studentManager) {
         switch (Main.mainMenu) {
             case 1 -> {
