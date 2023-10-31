@@ -61,11 +61,11 @@ public class TimeTableManager {
         return true;
     }
 
-    public Integer addTimeTable(String roomId, String day, String lectureTime) { // timetable 추가
-        TimeTable t1 = new TimeTable(Integer.toString(maxTimetable), roomId, day, lectureTime);
+    public String addTimeTable(String roomId, String day, String lectureTime) {// 타임테이블 추가
+        TimeTable t1 = new TimeTable(Integer.toString(maxTimetable),roomId, day, lectureTime);
         maxTimetable++;
         timetables.add(t1);
-        return maxTimetable;
+        return Integer.toString(maxTimetable-1);
     }
 
     public void deleteTimeTable(String code) { // timetable 삭제
