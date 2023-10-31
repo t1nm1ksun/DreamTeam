@@ -11,7 +11,9 @@ public class TimeTable {
         this.lectureDays = lectureDays;
         this.lectureTime = lectureTime;
     }
-
+    public String getCode() {
+        return code;
+    }
     public String getRoomId() {
         return roomId;
     }

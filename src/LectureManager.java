@@ -114,6 +114,11 @@ public class LectureManager {
         for (Lecture lec : lectures) {
             //삭제할 강의가 존재한다면 lectures 에서 삭제함
             if (InputLectureCode.equals(lec.getLectureCode())) {
+                // 해당 강의의 timetable 삭제
+                for(TimeTable deleteTimeTable : lec.getTimetable()) {
+                    ttm.deleteTimeTable(deleteTimeTable.getCode());
+                }
+
                 lectures.remove(lec);
                 isDeleted = true;
                 break;
@@ -131,7 +136,7 @@ public class LectureManager {
     }
 
     public void addLecture() {
-        if (maxLecture == ttm.getTimetable().size()) {
+        if (ttm.getTimetable().size() == 120) {
             ScannerUtils.print("수업이 꽉차 수업 추가가 불가능합니다.", true);
         } else {
             String[] dataList = new String[3];
