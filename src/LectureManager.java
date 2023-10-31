@@ -90,7 +90,7 @@ public class LectureManager {
         return true;
     }
 
-    public void displayTimetable(TimeTable timetable){
+    public void displayTimetable(Lecture lecture){
         for (TimeTable t : lecture.getTimetable()) {
             ScannerUtils.print(
                     t.getRoomId() + " " + t.getLectureDays() + " " + t.showLectureTime()
@@ -246,12 +246,13 @@ public class LectureManager {
         System.out.println(hasLecture(LectureEditMenuHandler.input).getTimetable());
 
         //타임 테이블 출력
-        ScannerUtils.print("변경할 요일의 수업을 선택하세요", true);
-        TimeTable tb_toEdit = ScannerUtils.scanWithPattern(); // TODO : 바꿀 타임테이블 입력받기 (민석)
+        ScannerUtils.print("변경할 요일의 타임테이블ID 입력하세요 (예시: 6000): ", true);
+        String code_toEdit = ScannerUtils.scanWithPattern(CommonPattern.TIMETABLE_CODE,CommonPatternError.TIMETABLE_CODE); // TODO : 바꿀 타임테이블 입력받기 (민석)
         //받아
-        String room = "";
-        String day = "";
-        String time = "";
+        TimeTable tb_toEdit= 
+        String room = tb_toEdit.getRoomId();
+        String day = tb_toEdit.getLectureDays();
+        String time = tb_toEdit.getLectureTime();
 
         ScannerUtils.print("1) 수업 요일 변경   2) 수업 시간 변경", true);
         ScannerUtils.print("변경할 정보를 선택하세요 : ", true);
