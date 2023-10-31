@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class LectureManager {
@@ -281,10 +282,14 @@ public class LectureManager {
     public void saveDataFile() {
         //lectures 들을 알맞은 형식의 데이터로 전환한 뒤 파일에 저장
         for (Lecture lec : lectures) {
-            //TODO: Lecture 생성자 형태에 맞춰서 바꾸기 (승범, 성종)
-            String[] tmpData = {lec.getSubjectCode(), lec.getTeacher(), lec.getLectureCode(), lec.getDayOfWeek(),
-                    lec.getTime()};
-            saveData.add(tmpData);
+            List<String> tmpData = Arrays.asList(lec.getSubjectCode(), lec.getTeacher(), lec.getLectureCode());
+            for(TimeTable timeTable : lec.getTimetable()) {
+                tmpData.add(timeTable.getCode());
+            }
+
+            int size = tmpData.size();
+            String data[] = tmpData.toArray(new String[size]);
+            saveData.add(data);
         }
         read.writeCSV(saveData);
     }
