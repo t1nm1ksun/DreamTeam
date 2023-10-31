@@ -46,6 +46,6 @@ public class CommonPattern {
     /**
      * 타임테이블 코드 정규식
      */
-    public static final String TIMETABLE_CODE = "^[6000-6120]$"; // 타임테이블 정규식
+    public static final String TIMETABLE_CODE = "^(600[0-9]|601[0-9]|60[2-9][0-9]|610[0-9]|611[0-9]|6120)$"; // 타임테이블 정규식
 
 }

@@ -24,6 +24,14 @@ public class TimeTable {
         return lectureDays;
     }
 
+    public void setLectureDays(String day){
+        this.lectureDays=day;
+
+    }
+    public void setLectureTime(String time){
+        this.lectureTime=time;
+    }
+
     public String getLectureTime() {
         return lectureTime;
     }

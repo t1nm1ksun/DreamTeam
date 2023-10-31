@@ -107,7 +107,5 @@ public class TimeTableManager {
     public List<TimeTable> getTimetable() {
         return timetables;
     }
-    public TimeTable getTimeTableData(String code) {
-        timetables.
-    }
+
 }

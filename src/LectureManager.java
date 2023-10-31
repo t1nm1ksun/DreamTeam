@@ -250,7 +250,13 @@ public class LectureManager {
         //타임 테이블 출력
         ScannerUtils.print("변경할 요일의 타임테이블 코드를 입력하세요 (예시: 6000): ", true);
         String code_toEdit = ScannerUtils.scanWithPattern(CommonPattern.TIMETABLE_CODE,CommonPatternError.TIMETABLE_CODE); // TODO : 바꿀 타임테이블 입력받기 (민석)
-        //받아
+        //받아'
+        TimeTable tb_toEdit=null;
+        for(TimeTable tab : hasLecture(LectureEditMenuHandler.input).getTimetable()){
+            if(tab.getCode().equals(code_toEdit)){
+                tb_toEdit = tab;
+            }
+        }
 
         String room = tb_toEdit.getRoomId();
         String day = tb_toEdit.getLectureDays();
@@ -283,6 +289,8 @@ public class LectureManager {
         //TODO : 타임테이블 빈자리 있으면 그대로 저장 빈자리 없으면 도루묵
         if (timeTableManager.findTable(room, day, time)) {
             //TODO : timetable.day = day  timetable.time = time  이렇게
+            tb_toEdit.setLectureDays(day);
+            tb_toEdit.setLectureTime(time);
             ScannerUtils.print("수업 시간이 변경되었습니다.", true);
         } else {
             ScannerUtils.print("해당 시간에는 이미 수업이 존재합니다", true);
