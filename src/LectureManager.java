@@ -91,11 +91,8 @@ public class LectureManager {
         return true;
     }
 
-<<<<<<< HEAD
+
     public void displayTimetable(Lecture lecture){
-=======
-    public void displayTimetable(Lecture lecture) {
->>>>>>> d90f1d888442af4191e17d81be64097a8dc037f0
         for (TimeTable t : lecture.getTimetable()) {
             ScannerUtils.print(
                     t.getRoomId() + " " + t.getLectureDays() + " " + t.showLectureTime()
