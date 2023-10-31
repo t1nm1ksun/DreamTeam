@@ -22,6 +22,18 @@ public class TimeTableManager {
         }
     }
 
+    private String displayLectureTime(int lectureTime) {
+        if (lectureTime == 0) {
+            return "12:00~14:00";
+        } else if (lectureTime == 1) {
+            return "14:00~16:00";
+        } else if (lectureTime == 2) {
+            return "16:00~18:00";
+        } else {
+            return "18:00~20:00";
+        }
+    }
+
     public void displayTimeTable(String roomId) {
         String[][] tt = {
                 {"X", "X", "X", "X", "X", "X"},
@@ -37,9 +49,9 @@ public class TimeTableManager {
         }
 
         ScannerUtils.print(roomId + "번 강의실의 시간표입니다.", true);
-        ScannerUtils.print("    월    화    수    목    금    토", true);
+        ScannerUtils.print("            월    화    수    목    금    토", true);
         for (int i = 0; i < 4; i++) {
-            ScannerUtils.print("|   ", false);
+            ScannerUtils.print(displayLectureTime(i) + "   ", false);
             for (int j = 0; j < 6; j++) {
                 ScannerUtils.print(tt[i][j] + "    ", false);
             }
