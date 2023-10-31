@@ -32,10 +32,14 @@ public class NameMapper {
     }
 
     private void initializeLectureDates() {
-        //TODO: 여기 바뀐 형식에 맞춰서 수정해 주세용 (기웅이형)
+
         LECTURE_DATE.clear();
-        LECTURE_DATE.put(1, "월 수 금");
-        LECTURE_DATE.put(2, "화 목 토");
+        LECTURE_DATE.put(1, "월");
+        LECTURE_DATE.put(2, "화");
+        LECTURE_DATE.put(3, "수");
+        LECTURE_DATE.put(4, "목");
+        LECTURE_DATE.put(5, "금");
+        LECTURE_DATE.put(6, "토");
     }
 
     private void initializeSubjects() {
