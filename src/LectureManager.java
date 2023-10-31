@@ -215,7 +215,7 @@ public class LectureManager {
                 time = input;
 
                 if (timeTableManager.findTable(room, day, time)) {
-                    timeTableManager.addTimeTable(code, room, day, time);
+                    int code = timeTableManager.addTimeTable(room, day, time);
                     timetable.add(new TimeTable(code, room, day, time));
                     ScannerUtils.print("수업 시간이 추가되었습니다.", true);
                 } else {

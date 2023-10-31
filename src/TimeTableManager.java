@@ -8,9 +8,8 @@ public class TimeTableManager {
     private List<TimeTable> timetables = new ArrayList<>(); // 강의실목록을 저장할 리스트
     private Read read = new Read();
     private List<String[]> saveData = new ArrayList<>(); //프로그램 종료 시 저장 파일
-    private LectureRoomManager roomManager = new LectureRoomManager();
-
-    private Integer timeTableLimit = roomManager.getRoomNumber() * 6 * 4;
+    private LectureRoomManager lectureRoomManager = new LectureRoomManager();
+    private Integer timeTableLimit = lectureRoomManager.getRoomNumber() * 6 * 4;
 
     public TimeTableManager() {
         List<List<String>> list = read.readCSV("src/timetable.csv");
@@ -62,8 +61,8 @@ public class TimeTableManager {
         return true;
     }
 
-    public Integer addTimeTable(String roomId, String day, String lectureTime) {// 타임테이블 추가
-        TimeTable t1 = new TimeTable(Integer.toString(maxTimetable),roomId, day, lectureTime);
+    public Integer addTimeTable(String roomId, String day, String lectureTime) { // timetable 추가
+        TimeTable t1 = new TimeTable(Integer.toString(maxTimetable), roomId, day, lectureTime);
         maxTimetable++;
         timetables.add(t1);
         return maxTimetable;
@@ -97,13 +96,13 @@ public class TimeTableManager {
     }
 
     public boolean checkTimeTableMax() {
-        return timeTableLimit == roomManager.getRoomNumber();
+        return timeTableLimit == lectureRoomManager.getRoomNumber();
     }
 
     public Integer getTimeTableLimit() {
         return timeTableLimit;
     }
-    
+
     public List<TimeTable> getTimetable() {
         return timetables;
     }
