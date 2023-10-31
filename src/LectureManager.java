@@ -232,6 +232,7 @@ public class LectureManager {
             LectureEditMenuHandler.input = ScannerUtils.scanWithPattern(CommonPattern.LECTURE_CODE,
                         CommonPatternError.LECTURE_CODE);
             }
+        LectureEditMenuHandler.input
 
         //타임 테이블 출력
         ScannerUtils.print("변경할 요일의 수업을 선택하세요", true);
