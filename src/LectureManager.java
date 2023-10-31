@@ -3,7 +3,7 @@ import java.util.List;
 
 public class LectureManager {
 
-    public static Integer maxCode = 2000;
+    private static Integer maxCode = 2000;
     private int maxLecture = 0; //수업 생성 막기
     private List<String[]> saveData = new ArrayList<>(); //프로그램 종료 시 저장 파일
     private List<Lecture> lectures = new ArrayList<>(); // 수업 목록을 저장할 리스트
@@ -81,7 +81,7 @@ public class LectureManager {
                 ScannerUtils.print(lecture.getTeacher() + "       ", false);
                 for (TimeTable t : lecture.getTimetable()) {
                     ScannerUtils.print(
-                            t.getRoomId() + " " + t.getLecture_days() + " " + t.showLecture_time()
+                            t.getRoomId() + " " + t.getLectureDays() + " " + t.showLectureTime()
                                     + " / ", false);
                 }
                 ScannerUtils.print("", true);
@@ -222,13 +222,13 @@ public class LectureManager {
 
     public void editDate() {
         ScannerUtils.print("변경할 수업 코드를 선택하시오", true);
-        LectureEditMenuHandler.input = ScannerUtils.scanWithPattern(CommonPattern.LECTURE_CODE,CommonPatternError.LECTURE_CODE);
+        LectureEditMenuHandler.input = ScannerUtils.scanWithPattern(CommonPattern.LECTURE_CODE,
+                CommonPatternError.LECTURE_CODE);
         while (Integer.parseInt(LectureEditMenuHandler.input) > LectureManager.maxCode) {
             ScannerUtils.print("존재하지 않습니다. 재입력 바랍니다.", true);
             LectureEditMenuHandler.input = ScannerUtils.scanWithPattern(CommonPattern.LECTURE_CODE,
-                        CommonPatternError.LECTURE_CODE);
-            }
-        LectureEditMenuHandler.input
+                    CommonPatternError.LECTURE_CODE);
+        }
 
         //타임 테이블 출력
         ScannerUtils.print("변경할 요일의 수업을 선택하세요", true);
@@ -238,12 +238,13 @@ public class LectureManager {
         String day = "";
         String time = "";
 
-        ScannerUtils.print("1) 수업 요일 변경   2) 수업 시간 변경",true);
-        ScannerUtils.print("변경할 정보를 선택하세요 : ",true);
-        int data_toEdit = ScannerUtils.scanWithPatternIntegerForMenu(CommonPattern.TWO_CHOICE,CommonPatternError.TWO_CHOICE);
-        switch (data_toEdit){
-            case 1:{
-                ScannerUtils.print("수업 요일 변경을 선택하셨습니다.",true);
+        ScannerUtils.print("1) 수업 요일 변경   2) 수업 시간 변경", true);
+        ScannerUtils.print("변경할 정보를 선택하세요 : ", true);
+        int data_toEdit = ScannerUtils.scanWithPatternIntegerForMenu(CommonPattern.TWO_CHOICE,
+                CommonPatternError.TWO_CHOICE);
+        switch (data_toEdit) {
+            case 1: {
+                ScannerUtils.print("수업 요일 변경을 선택하셨습니다.", true);
                 // TODO : 타임테이블에서 수업중인 요일을 확인하고 그 요일들 제외한 요일들 중 하나 고르게함
                 ScannerUtils.print("1) 월요일   2) 화요일   3) 수요일   4) 목요일   5) 금요일   6) 토요일", true);
                 ScannerUtils.print("수업 요일을 선택해 주세요", true);
@@ -265,7 +266,7 @@ public class LectureManager {
         if (ttm.findTable(room, day, time)) {
             //TODO : timetable.day = day  timetable.time = time  이렇게
             ScannerUtils.print("수업 시간이 변경되었습니다.", true);
-        }else {
+        } else {
             ScannerUtils.print("해당 시간에는 이미 수업이 존재합니다", true);
         }
 
@@ -322,24 +323,28 @@ public class LectureManager {
 
         // 전체 강의들 중 학생이 수강중인 강의들의 timeTable과 겹치지 않는 강의들만 출력
         // 즉, 새로 추가할 수 있는 강의들만 출력
-        for(Lecture lecture : lectures) {
+        for (Lecture lecture : lectures) {
             boolean isAddable = true;
-            for(TimeTable tt : lecture.getTimetable()) {
+            for (TimeTable tt : lecture.getTimetable()) {
                 for (Lecture cmpLecture : cmpLectures) {
                     for (TimeTable cmptt : cmpLecture.getTimetable()) {
                         if ((tt.getRoomId() == cmptt.getRoomId())
-                                || (tt.getLecture_days() == cmptt.getLecture_days())
-                                || (tt.getLecture_time() == cmptt.getLecture_time())) {
+                                || (tt.getLectureDays() == cmptt.getLectureDays())
+                                || (tt.getLectureTime() == cmptt.getLectureTime())) {
                             isAddable = false;
                             break;
                         }
-                        if (!isAddable) break;
+                        if (!isAddable) {
+                            break;
+                        }
                     }
-                    if (!isAddable) break;
+                    if (!isAddable) {
+                        break;
+                    }
                 }
             }
 
-            if(isAddable) {
+            if (isAddable) {
                 ScannerUtils.print("수업 코드 : " + lecture.getLectureCode() + " ", false);
                 ScannerUtils.print("과목 코드 : " + lecture.getSubjectCode() + " ", false);
                 ScannerUtils.print("선생님 : " + lecture.getTeacher() + " ", false);
@@ -350,8 +355,10 @@ public class LectureManager {
 
     public Lecture getLectureByCode(String lectureCode) {
 
-        for(Lecture lecture : lectures) {
-            if(lecture.getLectureCode().equals(lectureCode)) return lecture;
+        for (Lecture lecture : lectures) {
+            if (lecture.getLectureCode().equals(lectureCode)) {
+                return lecture;
+            }
         }
         return null;
     }

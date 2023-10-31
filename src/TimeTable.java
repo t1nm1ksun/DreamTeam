@@ -1,36 +1,38 @@
 public class TimeTable {
 
+    private String code;
     private String roomId;
-    private String lecture_days;
-    private String lecture_time;
+    private String lectureDays;
+    private String lectureTime;
 
-    public TimeTable(String roomId, String lectuer_days, String lectuer_time) {
+    public TimeTable(String code, String roomId, String lectureDays, String lectureTime) {
+        this.code = code;
         this.roomId = roomId;
-        this.lecture_days = lectuer_days;
-        this.lecture_time = lectuer_time;
+        this.lectureDays = lectureDays;
+        this.lectureTime = lectureTime;
     }
 
     public String getRoomId() {
         return roomId;
     }
 
-    public String getLecture_days() {
-        return lecture_days;
+    public String getLectureDays() {
+        return lectureDays;
     }
 
-    public String showLecture_time() {
-        if (lecture_time.equals("1")) {
+    public String showLectureTime() {
+        if (lectureTime.equals("1")) {
             return "12:00~14:00";
-        } else if (lecture_time.equals("2")) {
+        } else if (lectureTime.equals("2")) {
             return "14:00~16:00";
-        } else if (lecture_time.equals("3")) {
+        } else if (lectureTime.equals("3")) {
             return "16:00~18:00";
         } else {
             return "18:00~20:00";
         }
     }
 
-    public String getLecture_time() {
-        return lecture_time;
+    public String getLectureTime() {
+        return lectureTime;
     }
 }
