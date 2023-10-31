@@ -90,6 +90,15 @@ public class LectureManager {
         return true;
     }
 
+    public void displayTimetable(TimeTable timetable){
+        for (TimeTable t : lecture.getTimetable()) {
+            ScannerUtils.print(
+                    t.getRoomId() + " " + t.getLectureDays() + " " + t.showLectureTime()
+                            + " / ", false);
+        }
+        ScannerUtils.print("", true);
+    }
+
     public boolean deleteLecture() {
         if (!displayLectures()) {
             return false;
@@ -110,6 +119,11 @@ public class LectureManager {
         for (Lecture lec : lectures) {
             //삭제할 강의가 존재한다면 lectures 에서 삭제함
             if (InputLectureCode.equals(lec.getLectureCode())) {
+                // 해당 강의의 timetable 삭제
+                for(TimeTable deleteTimeTable : lec.getTimetable()) {
+                    ttm.deleteTimeTable(deleteTimeTable.getCode());
+                }
+
                 lectures.remove(lec);
                 isDeleted = true;
                 break;
@@ -127,7 +141,7 @@ public class LectureManager {
     }
 
     public void addLecture() {
-        if (maxLecture == ttm.getTimetable().size()) {
+        if (ttm.checkTimeTableMax()) {
             ScannerUtils.print("수업이 꽉차 수업 추가가 불가능합니다.", true);
         } else {
             String[] dataList = new String[3];
@@ -227,8 +241,9 @@ public class LectureManager {
         while (Integer.parseInt(LectureEditMenuHandler.input) > LectureManager.maxCode) {
             ScannerUtils.print("존재하지 않습니다. 재입력 바랍니다.", true);
             LectureEditMenuHandler.input = ScannerUtils.scanWithPattern(CommonPattern.LECTURE_CODE,
-                    CommonPatternError.LECTURE_CODE);
-        }
+                        CommonPatternError.LECTURE_CODE);
+            }
+        System.out.println(hasLecture(LectureEditMenuHandler.input).getTimetable());
 
         //타임 테이블 출력
         ScannerUtils.print("변경할 요일의 수업을 선택하세요", true);
