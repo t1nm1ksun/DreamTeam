@@ -132,7 +132,7 @@ public class LectureManager {
     }
 
     public void addLecture() {
-        if (ttm.getTimetable().size() == 120) {
+        if (ttm.checkTimeTableMax()) {
             ScannerUtils.print("수업이 꽉차 수업 추가가 불가능합니다.", true);
         } else {
             String[] dataList = new String[3];
