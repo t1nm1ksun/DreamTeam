@@ -43,4 +43,9 @@ public class CommonPattern {
      * 보기 2개짜리 정규식
      */
     public static final String TWO_CHOICE = "^[1-2]$"; // 보기 2개짜리 정규식
+    /**
+     * 타임테이블 코드 정규식
+     */
+    public static final String TIMETABLE_CODE = "^[6000-6120]$"; // 타임테이블 정규식
+
 }

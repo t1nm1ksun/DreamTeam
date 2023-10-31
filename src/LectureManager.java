@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class LectureManager {
@@ -90,7 +91,8 @@ public class LectureManager {
         return true;
     }
 
-    public void displayTimetable(Lecture lecture) {
+
+    public void displayTimetable(Lecture lecture){
         for (TimeTable t : lecture.getTimetable()) {
             ScannerUtils.print(
                     t.getRoomId() + " " + t.getLectureDays() + " " + t.showLectureTime()
@@ -246,12 +248,13 @@ public class LectureManager {
         System.out.println(hasLecture(LectureEditMenuHandler.input).getTimetable());
 
         //타임 테이블 출력
-        ScannerUtils.print("변경할 요일의 수업을 선택하세요", true);
-        TimeTable tb_toEdit = ScannerUtils.scanWithPattern(); // TODO : 바꿀 타임테이블 입력받기 (민석)
+        ScannerUtils.print("변경할 요일의 타임테이블 코드를 입력하세요 (예시: 6000): ", true);
+        String code_toEdit = ScannerUtils.scanWithPattern(CommonPattern.TIMETABLE_CODE,CommonPatternError.TIMETABLE_CODE); // TODO : 바꿀 타임테이블 입력받기 (민석)
         //받아
-        String room = "";
-        String day = "";
-        String time = "";
+
+        String room = tb_toEdit.getRoomId();
+        String day = tb_toEdit.getLectureDays();
+        String time = tb_toEdit.getLectureTime();
 
         ScannerUtils.print("1) 수업 요일 변경   2) 수업 시간 변경", true);
         ScannerUtils.print("변경할 정보를 선택하세요 : ", true);
@@ -291,10 +294,14 @@ public class LectureManager {
     public void saveDataFile() {
         //lectures 들을 알맞은 형식의 데이터로 전환한 뒤 파일에 저장
         for (Lecture lec : lectures) {
-            //TODO: Lecture 생성자 형태에 맞춰서 바꾸기 (승범, 성종)
-            String[] tmpData = {lec.getSubjectCode(), lec.getTeacher(), lec.getLectureCode(), lec.getDayOfWeek(),
-                    lec.getTime()};
-            saveData.add(tmpData);
+            List<String> tmpData = Arrays.asList(lec.getSubjectCode(), lec.getTeacher(), lec.getLectureCode());
+            for(TimeTable timeTable : lec.getTimetable()) {
+                tmpData.add(timeTable.getCode());
+            }
+
+            int size = tmpData.size();
+            String data[] = tmpData.toArray(new String[size]);
+            saveData.add(data);
         }
         read.writeCSV(saveData);
     }
