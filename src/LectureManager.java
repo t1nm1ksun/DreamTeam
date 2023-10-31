@@ -112,14 +112,10 @@ public class LectureManager {
         boolean isDeleted = false;
 
         for (Lecture lec : lectures) {
-            //삭제할 강의가 존재한다면 lectures 에서 삭제하고 maxCode를 낮춤
+            //삭제할 강의가 존재한다면 lectures 에서 삭제함
             if (InputLectureCode.equals(lec.getLectureCode())) {
-                //TODO: 이거 timeTableManager를 통해 접근해서 요일이랑 시간 가져오기 (승범, 성종)
-                timeCheck[lec.getDay() * Integer.parseInt(lec.getTime())] = false;
                 lectures.remove(lec);
                 isDeleted = true;
-                maxCode--;
-                maxLecture--;
                 break;
             }
         }
