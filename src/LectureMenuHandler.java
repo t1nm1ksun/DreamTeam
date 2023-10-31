@@ -1,7 +1,7 @@
 public class LectureMenuHandler {
 
     public static void handle(LectureManager lectureManager) {
-
+        
         switch (Main.manageMenu) {
             case 1 -> {
                 lectureManager.displayLectures();

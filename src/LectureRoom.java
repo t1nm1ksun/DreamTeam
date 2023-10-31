@@ -12,18 +12,28 @@ public class LectureRoom {
     public Integer getLeft() {
         return Integer.parseInt(limit) - Integer.parseInt(count);
     }
+
     public boolean isFull() {
         return limit == count;
     }
+
     public void plusCount() {
         Integer tmp = Integer.parseInt(count) + 1;
-        if(Integer.parseInt(limit) >= tmp) this.count = tmp.toString();
+        if (Integer.parseInt(limit) >= tmp) {
+            this.count = tmp.toString();
+        }
     }
+
     public void minusCount() {
         Integer tmp = Integer.parseInt(count) - 1;
-        if(tmp > 0) this.count = tmp.toString();
+        if (tmp > 0) {
+            this.count = tmp.toString();
+        }
     }
-    public String getCount() {return count;}
+
+    public String getCount() {
+        return count;
+    }
 
     public String getCode() {
         return code;
