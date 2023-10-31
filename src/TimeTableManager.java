@@ -13,7 +13,7 @@ public class TimeTableManager {
         List<List<String>> list = read.readCSV("src/timetable.csv");
 
         for (List<String> item : list) {
-            //csv 파일들을 읽어와서 강의들을 생성함
+            // csv 파일들을 읽어와서 강의들을 생성함
 
             TimeTable l1 = new TimeTable(item.get(0), item.get(1), item.get(2), item.get(3));
             timetables.add(l1);
@@ -46,7 +46,7 @@ public class TimeTableManager {
         ScannerUtils.print("O: 이미 수업이 존재하는 타임, X: 수업이 존재하지 않음", true);
     }
 
-    public boolean findTable(String roomId, String day, String lectureTime) { // 타임테이블 포함여부 판단
+    public boolean findTable(String roomId, String day, String lectureTime) { // timetable 포함 여부 판단
         for (TimeTable tab : timetables) {
             if (roomId.equals(tab.getRoomId())) {
                 if (day.equals(tab.getLectureDays())) {
@@ -59,7 +59,7 @@ public class TimeTableManager {
         return true;
     }
 
-    public void addTimeTable(String code, String roomId, String day, String lectureTime) {// 타임테이블 추가
+    public void addTimeTable(String code, String roomId, String day, String lectureTime) {// timetable 추가
         TimeTable t1 = new TimeTable(code, roomId, day, lectureTime);
         timetables.add(t1);
     }
@@ -85,7 +85,7 @@ public class TimeTableManager {
         //lectures 들을 알맞은 형식의 데이터로 전환한 뒤 파일에 저장
         for (TimeTable lec : timetables) {
             //TODO: 이거 timetable 인자 갯수 바뀌면서  바뀐 부분 체크해 주세요 (승범)
-            String[] tmpData = {lec.getRoomId(), lec.getLectureDays(), lec.showLectureTime(), lec.getRoomId()};
+            String[] tmpData = {lec.getCode(), lec.getLectureDays(), lec.showLectureTime(), lec.getRoomId()};
             saveData.add(tmpData);
         }
         read.writeCSV(saveData);

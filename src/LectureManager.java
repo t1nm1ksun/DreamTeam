@@ -11,7 +11,7 @@ public class LectureManager {
     private boolean[] timeCheck = new boolean[9];// 이미 고른 시간 체크 //TODO: 이거 뭐임? 확인해보고 이제 안쓰면 지우기 (성종, 승범)
     SubjectManager sm = new SubjectManager();
     TeacherManager tm = new TeacherManager();
-    LectureRoomManager lr = new LectureRoomManager();
+    LectureRoomManager lrm = new LectureRoomManager();
     TimeTableManager ttm = new TimeTableManager();
 
     /**
@@ -35,7 +35,7 @@ public class LectureManager {
                 }
             }//노가다 table 생성 및 초기화..
             //TODO: Lecture 생성자 형태에 맞춰서 바꾸기 (승범, 성종)
-            Lecture l1 = new Lecture(item.get(0), item.get(1), item.get(2), item.get(3), item.get(4), table);
+            Lecture l1 = new Lecture(item.get(0), item.get(1), item.get(2), table);
             lectures.add(l1);
 
             //TODO: 이거 없애기, 필요 시 timeTableManager를 통해 접근해서 요일이랑 시간 가져오기 (타임체크가 뭔지 몰라서 못건듦) (승범, 성종)
@@ -175,8 +175,8 @@ public class LectureManager {
 
             // 강의실 선택
             ScannerUtils.print("   강의실 번호    수용 가능 인원", true);
-            for (int i = 0; i < lr.getRoom().size(); i++) {
-                LectureRoom rooms = lr.getRoom().get(i);
+            for (int i = 0; i < lrm.getRoom().size(); i++) {
+                LectureRoom rooms = lrm.getRoom().get(i);
                 ScannerUtils.print((i + 1) + ") " + rooms.getCode() + "         " + rooms.getLimit(), true);
             }
             ScannerUtils.print("수업할 강의실을 선택해 주세요", true);
@@ -205,8 +205,8 @@ public class LectureManager {
                 time = input;
 
                 if (ttm.findTable(room, day, time)) {
-                    ttm.addTimeTable(room, day, time);
-                    timetable.add(new TimeTable(room, day, time));
+                    ttm.addTimeTable(code, room, day, time);
+                    timetable.add(new TimeTable(code, room, day, time));
                     ScannerUtils.print("수업 시간이 추가되었습니다.", true);
                 } else {
                     ScannerUtils.print("해당 시간에는 이미 수업이 존재합니다", true);

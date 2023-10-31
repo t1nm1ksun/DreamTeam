@@ -12,12 +12,20 @@ public class TimeTable {
         this.lectureTime = lectureTime;
     }
 
+    public String getCode() {
+        return code;
+    }
+
     public String getRoomId() {
         return roomId;
     }
 
     public String getLectureDays() {
         return lectureDays;
+    }
+
+    public String getLectureTime() {
+        return lectureTime;
     }
 
     public String showLectureTime() {
@@ -32,7 +40,27 @@ public class TimeTable {
         }
     }
 
-    public String getLectureTime() {
-        return lectureTime;
+    public String showLectureDays() {
+        switch (lectureDays) {
+            case "1" -> {
+                return "월요일";
+            }
+            case "2" -> {
+                return "화요일";
+            }
+            case "3" -> {
+                return "수요일";
+            }
+            case "4" -> {
+                return "목요일";
+            }
+            case "5" -> {
+                return "금요일";
+            }
+            case "6" -> {
+                return "토요일";
+            }
+        }
+        return null;
     }
 }
