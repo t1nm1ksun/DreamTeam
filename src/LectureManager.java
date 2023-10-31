@@ -246,10 +246,10 @@ public class LectureManager {
         System.out.println(hasLecture(LectureEditMenuHandler.input).getTimetable());
 
         //타임 테이블 출력
-        ScannerUtils.print("변경할 요일의 타임테이블ID 입력하세요 (예시: 6000): ", true);
+        ScannerUtils.print("변경할 요일의 타임테이블 코드를 입력하세요 (예시: 6000): ", true);
         String code_toEdit = ScannerUtils.scanWithPattern(CommonPattern.TIMETABLE_CODE,CommonPatternError.TIMETABLE_CODE); // TODO : 바꿀 타임테이블 입력받기 (민석)
         //받아
-        TimeTable tb_toEdit= 
+
         String room = tb_toEdit.getRoomId();
         String day = tb_toEdit.getLectureDays();
         String time = tb_toEdit.getLectureTime();
