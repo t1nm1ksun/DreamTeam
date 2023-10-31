@@ -217,8 +217,8 @@ public class LectureManager {
                 time = input;
 
                 if (timeTableManager.findTable(room, day, time)) {
-                    String tcode = timeTableManager.addTimeTable(room, day, time);
-                    timetable.add(new TimeTable(tcode, room, day, time));
+                    String code = timeTableManager.addTimeTable(room, day, time);
+                    timetable.add(new TimeTable(code, room, day, time));
                     ScannerUtils.print("수업 시간이 추가되었습니다.", true);
                 } else {
                     ScannerUtils.print("해당 시간에는 이미 수업이 존재합니다", true);

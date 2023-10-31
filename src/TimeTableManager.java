@@ -8,9 +8,8 @@ public class TimeTableManager {
     private List<TimeTable> timetables = new ArrayList<>(); // 강의실목록을 저장할 리스트
     private Read read = new Read();
     private List<String[]> saveData = new ArrayList<>(); //프로그램 종료 시 저장 파일
-    private LectureRoomManager roomManager = new LectureRoomManager();
-
-    private Integer timeTableLimit = roomManager.getRoomNumber() * 6 * 4;
+    private LectureRoomManager lectureRoomManager = new LectureRoomManager();
+    private Integer timeTableLimit = lectureRoomManager.getRoomNumber() * 6 * 4;
 
     public TimeTableManager() {
         List<List<String>> list = read.readCSV("src/timetable.csv");
@@ -20,6 +19,18 @@ public class TimeTableManager {
 
             TimeTable l1 = new TimeTable(item.get(0), item.get(1), item.get(2), item.get(3));
             timetables.add(l1);
+        }
+    }
+
+    private String displayLectureTime(int lectureTime) {
+        if (lectureTime == 0) {
+            return "12:00~14:00";
+        } else if (lectureTime == 1) {
+            return "14:00~16:00";
+        } else if (lectureTime == 2) {
+            return "16:00~18:00";
+        } else {
+            return "18:00~20:00";
         }
     }
 
@@ -38,9 +49,9 @@ public class TimeTableManager {
         }
 
         ScannerUtils.print(roomId + "번 강의실의 시간표입니다.", true);
-        ScannerUtils.print("    월    화    수    목    금    토", true);
+        ScannerUtils.print("            월    화    수    목    금    토", true);
         for (int i = 0; i < 4; i++) {
-            ScannerUtils.print("|   ", false);
+            ScannerUtils.print(displayLectureTime(i) + "   ", false);
             for (int j = 0; j < 6; j++) {
                 ScannerUtils.print(tt[i][j] + "    ", false);
             }
@@ -97,13 +108,13 @@ public class TimeTableManager {
     }
 
     public boolean checkTimeTableMax() {
-        return timeTableLimit == roomManager.getRoomNumber();
+        return timeTableLimit == lectureRoomManager.getRoomNumber();
     }
 
     public Integer getTimeTableLimit() {
         return timeTableLimit;
     }
-    
+
     public List<TimeTable> getTimetable() {
         return timetables;
     }
