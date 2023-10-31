@@ -102,6 +102,7 @@ public class TimeTableManager {
     public Integer getTimeTableLimit() {
         return timeTableLimit;
     }
+    
     public List<TimeTable> getTimetable() {
         return timetables;
     }
