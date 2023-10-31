@@ -30,4 +30,8 @@ public class LectureRoomManager {
     public List<LectureRoom> getRoom() {
         return rooms;
     }
+
+    public int getRoomNumber() {
+        return this.rooms.size();
+    }
 }

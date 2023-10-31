@@ -8,7 +8,6 @@ public class LectureManager {
     private List<String[]> saveData = new ArrayList<>(); //프로그램 종료 시 저장 파일
     private List<Lecture> lectures = new ArrayList<>(); // 수업 목록을 저장할 리스트
     private Read read = new Read();
-    private boolean[] timeCheck = new boolean[9];// 이미 고른 시간 체크 //TODO: 이거 뭐임? 확인해보고 이제 안쓰면 지우기 (성종, 승범)
     SubjectManager sm = new SubjectManager();
     TeacherManager tm = new TeacherManager();
     LectureRoomManager lr = new LectureRoomManager();
@@ -26,7 +25,7 @@ public class LectureManager {
                 maxCode = Integer.parseInt(item.get(2));
             }
             List<TimeTable> table = new ArrayList<>();
-            for (int i = 5; i < item.size(); i++) {
+            for (int i = 3; i < item.size(); i++) {
                 for (TimeTable t : ttm.getTimetable()) {
                     if (t.getRoomId().equals(item.get(i))) {
                         table.add(t);
@@ -34,16 +33,9 @@ public class LectureManager {
                     }
                 }
             }//노가다 table 생성 및 초기화..
-            //TODO: Lecture 생성자 형태에 맞춰서 바꾸기 (승범, 성종)
-            Lecture l1 = new Lecture(item.get(0), item.get(1), item.get(2), item.get(3), item.get(4), table);
+            //TODO: Lecture 생성자 형태에 맞춰서 바꾸기 (승범, 성종)- 성공
+            Lecture l1 = new Lecture(item.get(0), item.get(1), item.get(2),  table);
             lectures.add(l1);
-
-            //TODO: 이거 없애기, 필요 시 timeTableManager를 통해 접근해서 요일이랑 시간 가져오기 (타임체크가 뭔지 몰라서 못건듦) (승범, 성종)
-            if (item.get(3).equals("월 수 금")) {
-                timeCheck[1 * Integer.parseInt(item.get(4))] = true;
-            } else {
-                timeCheck[4 + Integer.parseInt(item.get(4))] = true;
-            }
             maxLecture++;
         }
     }
@@ -64,8 +56,12 @@ public class LectureManager {
             ScannerUtils.print("|    " + hasLecture(lectureCode).getLectureCode() + "       ", false);
             ScannerUtils.print(hasLecture(lectureCode).getSubjectCode() + "         ", false);
             ScannerUtils.print(hasLecture(lectureCode).getTeacher() + "       ", false);
-            ScannerUtils.print(hasLecture(lectureCode).getDayOfWeek() + "      ", false);
-            ScannerUtils.print(hasLecture(lectureCode).getTime(), true);
+            for (TimeTable t : hasLecture(lectureCode).getTimetable()) {
+                ScannerUtils.print(
+                        t.getRoomId() + " " + t.getLectureDays() + " " + t.showLectureTime()
+                                + " / ", false);
+            }
+            ScannerUtils.print("", true);
         }
     }
 
@@ -123,6 +119,11 @@ public class LectureManager {
         for (Lecture lec : lectures) {
             //삭제할 강의가 존재한다면 lectures 에서 삭제함
             if (InputLectureCode.equals(lec.getLectureCode())) {
+                // 해당 강의의 timetable 삭제
+                for(TimeTable deleteTimeTable : lec.getTimetable()) {
+                    ttm.deleteTimeTable(deleteTimeTable.getCode());
+                }
+
                 lectures.remove(lec);
                 isDeleted = true;
                 break;
@@ -140,7 +141,7 @@ public class LectureManager {
     }
 
     public void addLecture() {
-        if (maxLecture == ttm.getTimetable().size()) {
+        if (ttm.checkTimeTableMax()) {
             ScannerUtils.print("수업이 꽉차 수업 추가가 불가능합니다.", true);
         } else {
             String[] dataList = new String[3];

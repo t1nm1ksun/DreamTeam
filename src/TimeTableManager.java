@@ -4,10 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TimeTableManager {
-    public static Integer maxTimetable = 2000;
+    public static Integer maxTimetable = 6000;  // 현재까지 만들어진 timetable의 코드 중 최대값
     private List<TimeTable> timetables = new ArrayList<>(); // 강의실목록을 저장할 리스트
     private Read read = new Read();
     private List<String[]> saveData = new ArrayList<>(); //프로그램 종료 시 저장 파일
+    private LectureRoomManager roomManager = new LectureRoomManager();
+
+    private Integer timeTableLimit = roomManager.getRoomNumber() * 6 * 4;
 
     public TimeTableManager() {
         List<List<String>> list = read.readCSV("src/timetable.csv");
@@ -61,6 +64,7 @@ public class TimeTableManager {
 
     public void addTimeTable(String code, String roomId, String day, String lectureTime) {// 타임테이블 추가
         TimeTable t1 = new TimeTable(code, roomId, day, lectureTime);
+        maxTimetable++;
         timetables.add(t1);
     }
 
@@ -71,7 +75,7 @@ public class TimeTableManager {
         } else {
             for (TimeTable tab : timetables) {
                 //삭제할 강의가 존재한다면 lectures 에서 삭제하고 maxCode를 낮춤
-                if (code.equals(tab.getRoomId())) {
+                if (code.equals(tab.getCode())) {
                     timetables.remove(tab);
                     maxTimetable--;
                     break;
@@ -91,6 +95,13 @@ public class TimeTableManager {
         read.writeCSV(saveData);
     }
 
+    public boolean checkTimeTableMax() {
+        return timeTableLimit == roomManager.getRoomNumber();
+    }
+
+    public Integer getTimeTableLimit() {
+        return timeTableLimit;
+    }
     public List<TimeTable> getTimetable() {
         return timetables;
     }
