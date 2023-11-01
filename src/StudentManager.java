@@ -250,6 +250,8 @@ public class StudentManager {
                                 String lectureCode = ScannerUtils.scanWithPattern(CommonPattern.LECTURE_CODE,
                                         CommonPatternError.LECTURE_CODE);
 
+                                ScannerUtils.print("선택한 수업 코드 : " + lectureCode, true);
+
                                 LectureRoomManager lectureRoomManager = new LectureRoomManager();
 
                                 Lecture addingLecture = lectureManager.getLectureByCode(lectureCode);
@@ -257,7 +259,8 @@ public class StudentManager {
                                 // 선택한 수업에 대해 강의실들의 수강 제한인원을 넘는지 체크
                                 for (TimeTable timeTable : addingLecture.getTimetable()) {
                                     // 해당 강의실의 남는 자리가 1개 미만일 시 추가할 수 없음.
-                                    if (lectureRoomManager.checkRoomLeft(timeTable.getRoomId()) < 1) {
+                                    // 해당 강의실에 남는 자리 체크 후 추가
+                                    if (lectureRoomManager.checkLeft(timeTable.getRoomId(), studentToEdit.getId())) {
                                         isSuccess = false;
                                         break;
                                     }
@@ -266,7 +269,9 @@ public class StudentManager {
                                 if (isSuccess) {
                                     // 해당 학생의 수업 리스트에 수업 추가
                                     studentToEdit.addLecture(lectureCode);
+                                    lectureRoomManager.saveDataFile();
                                     ScannerUtils.print("성공적으로 추가되었습니다.", true);
+
                                 } else {
                                     ScannerUtils.print("수업 추가에 실패했습니다.", true);
                                 }

@@ -329,7 +329,7 @@ public class LectureManager {
                     ArrayList<String> timeOptions = new ArrayList<>();
                     timeOptions.addAll(
                             Arrays.asList("1) 14:00~16:00", "2) 16:00~18:00", "3) 18:00~20:00", "4) 20:00~22:00"));
-                    timeOptions.remove(Integer.parseInt(time) - 2);
+                    timeOptions.remove(Integer.parseInt(time) - 1);
 
                     // 변경 가능한 시간 목록 출력
                     for (String timeOption : timeOptions) {

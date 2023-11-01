@@ -65,7 +65,7 @@ public class TimeTableManager {
         for (TimeTable tab : timetables) {
             if (roomId.equals(tab.getRoomId())) {
                 if (day.equals(tab.getLectureDays())) {
-                    if (lectureTime.equals(tab.showLectureTime())) {
+                    if (lectureTime.equals(tab.getLectureTime())) {
                         return false;
                     }
                 }
