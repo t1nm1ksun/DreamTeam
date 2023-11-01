@@ -290,7 +290,6 @@ public class LectureManager {
             for(TimeTable tab : hasLecture(LectureEditMenuHandler.input).getTimetable()){
                 if(tab.getCode().equals(code_toEdit)){
                     tb_toEdit = tab;
-                    System.out.println("찾았다");
                     break;
                 }
             }
@@ -324,7 +323,15 @@ public class LectureManager {
                 case 2: {
                     ScannerUtils.print("수업 시간 변경을 선택하셨습니다.", true);
                     // TODO : 타임테이블에서 해당 요일중 수업중인 교시 빼고 하나 고르게함
-                    ScannerUtils.print("1) 14:00~16:00   2) 16:00~18:00   3)18:00~20:00   4)20:00~22:00", true);
+                    ArrayList<String> timeOptions = new ArrayList<>();
+                    timeOptions.addAll(Arrays.asList("1) 14:00~16:00", "2) 16:00~18:00", "3) 18:00~20:00", "4) 20:00~22:00"));
+                    timeOptions.remove(Integer.parseInt(time)-2);
+
+                    // 변경 가능한 시간 목록 출력
+                    for (String timeOption : timeOptions) {
+                        ScannerUtils.print(timeOption+" ", false);
+                    }
+                    ScannerUtils.print("", true);
                     ScannerUtils.print("수업 시간을 입력해 주세요", true);
                     time = ScannerUtils.scanWithPattern(CommonPattern.LECTURE_TIME, CommonPatternError.LECTURE_TIME);
 
