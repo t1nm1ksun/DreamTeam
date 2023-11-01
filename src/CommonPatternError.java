@@ -44,6 +44,10 @@ public class CommonPatternError {
      */
     public static final String TWO_CHOICE = "[오류: 잘못된 입력입니다. (* 1,2 중 하나의 숫자를 입력하세요 *)]"; // 보기 2개짜리 에러 메세지
     /**
+     * 보기 2개짜리 에러 메세지
+     */
+    public static final String ONE_CHOICE = "[오류: 잘못된 입력입니다. (* 1중 하나의 숫자를 입력하세요 *)]"; // 보기 2개짜리 에러 메세지
+    /**
      * 타임테이블 에러 메세지
      */
     public static final String TIMETABLE_CODE = "[오류: 잘못된 입력입니다. (* 존재하지 않는 타임테이블 코드입니다. *)]"; // 타임테이블 에러 메시지

@@ -224,8 +224,31 @@ public class LectureManager {
             }
             ScannerUtils.print("수업할 강의실을 선택해 주세요", true);
 
-            // TODO: 여기서 예외 처리 어떻게 할지 (강의실 갯수가 달라지면 정규식도 바껴야 함)
-            input = ScannerUtils.scanWithPattern(CommonPattern.THREE_CHOICE, CommonPatternError.THREE_CHOICE);
+            // TODO: 여기서 예외 처리 어떻게 할지 (강의실 갯수가 달라지면 정규식도 바껴야 함) 민서기가 클리어><
+
+            switch (lectureRoomManager.getRoom().size()){
+                case 1:{
+                    input = ScannerUtils.scanWithPattern(CommonPattern.ONE_CHOICE, CommonPatternError.ONE_CHOICE);
+                    break;
+                }
+                case 2:{
+                    input = ScannerUtils.scanWithPattern(CommonPattern.TWO_CHOICE, CommonPatternError.TWO_CHOICE);
+                    break;
+                }
+                case 3:{
+                    input = ScannerUtils.scanWithPattern(CommonPattern.THREE_CHOICE, CommonPatternError.THREE_CHOICE);
+                    break;
+                }
+                case 4:{
+                    input = ScannerUtils.scanWithPattern(CommonPattern.FOUR_CHOICE, CommonPatternError.FOUR_CHOICE);
+                    break;
+                }
+                case 5:{
+                    input = ScannerUtils.scanWithPattern(CommonPattern.FIVE_CHOICE, CommonPatternError.FIVE_CHOICE);
+                    break;
+                }
+            }
+
             room = "500" + (Integer.parseInt(input) - 1);
 
             boolean check;
