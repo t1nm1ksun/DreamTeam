@@ -223,7 +223,6 @@ public class StudentManager {
                                 CommonPatternError.TWO_CHOICE);
                         if (lectureMenuNum.equals("1")) {
                             System.out.println("1. 수업 추가를 선택하셨습니다.");
-                            System.out.println("[추가할 수 있는 수업 목록 리스트]");
 
                             // 선택한 학생이 수강중인 수업들 리스트
                             List<Lecture> lectures = new ArrayList<>();
@@ -244,7 +243,10 @@ public class StudentManager {
 
                             if (isSuccess) {
                                 // 추가할 수 있는 수업 리스트를 보여줌
-                                lectureManager.showAddableLectures(lectures);
+                                if(!lectureManager.showAddableLectures(lectures)) {
+                                    ScannerUtils.print("더이상 추가할 수 있는 수업이 없습니다.", true);
+                                    break;
+                                }
 
                                 ScannerUtils.print("추가하려는 수업의 코드를 입력하세요 (* 4자, 공백 없이 숫자로만 입력하세요 *): ", false);
                                 String lectureCode = ScannerUtils.scanWithPattern(CommonPattern.LECTURE_CODE,

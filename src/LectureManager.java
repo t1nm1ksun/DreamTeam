@@ -411,10 +411,10 @@ public class LectureManager {
         return true;
     }
 
-    public void showAddableLectures(List<Lecture> cmpLectures) {
+    public boolean showAddableLectures(List<Lecture> cmpLectures) {
         // 학생이 수강하는 수업과 timeTable이 겹치지 않는 수업만 보여줌
         ScannerUtils.print("[추가 가능한 수업 목록]", true);
-
+        boolean isLectureShown = false;
         // 전체 강의들 중 학생이 수강중인 강의들의 timeTable과 겹치지 않는 강의들만 출력
         // 즉, 새로 추가할 수 있는 강의들만 출력
         for (Lecture lecture : lectures) {
@@ -439,12 +439,14 @@ public class LectureManager {
             }
 
             if (isAddable) {
+                isLectureShown = true;
                 ScannerUtils.print("수업 코드 : " + lecture.getLectureCode() + " ", false);
                 ScannerUtils.print("과목 코드 : " + lecture.getSubjectCode() + " ", false);
                 ScannerUtils.print("선생님 : " + lecture.getTeacher() + " ", false);
                 ScannerUtils.print("", true);
             }
         }
+        return isLectureShown;
     }
 
     public Lecture getLectureByCode(String lectureCode) {
