@@ -25,13 +25,13 @@ public class TimeTableManager {
 
     private String displayLectureTime(int lectureTime) {
         if (lectureTime == 0) {
-            return "12:00~14:00";
-        } else if (lectureTime == 1) {
             return "14:00~16:00";
-        } else if (lectureTime == 2) {
+        } else if (lectureTime == 1) {
             return "16:00~18:00";
-        } else {
+        } else if (lectureTime == 2) {
             return "18:00~20:00";
+        } else {
+            return "20:00~22:00";
         }
     }
 

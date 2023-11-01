@@ -221,7 +221,7 @@ public class LectureManager {
 
             // TODO: 여기서 예외 처리 어떻게 할지 (강의실 갯수가 달라지면 정규식도 바껴야 함)
             input = ScannerUtils.scanWithPattern(CommonPattern.THREE_CHOICE, CommonPatternError.THREE_CHOICE);
-            room = "500" + input;
+            room = "500" + (Integer.parseInt(input)-1);
 
             boolean check;
 
