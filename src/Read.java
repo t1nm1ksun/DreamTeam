@@ -6,6 +6,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Scanner;
 
 public class Read {
     /**
@@ -109,6 +110,7 @@ public class Read {
 
     public void writeLectureRoomCSV(List<String[]> dataList) {
         BufferedWriter bufferedwrite = null;
+        ScannerUtils.print(Integer.toString(dataList.size()), true);
         String filePath = "src/lecture-room.csv";
         try {
             bufferedwrite = Files.newBufferedWriter(Paths.get(filePath));
@@ -117,6 +119,7 @@ public class Read {
 //                List<String> data = dataList.get(i);
                 String aData = "";
                 aData = data[0] + "," + data[1] + "," + data[2];
+                ScannerUtils.print("저장 : " + data[0] + "," + data[1] + "," + data[2], true);
                 bufferedwrite.write(aData);
                 bufferedwrite.newLine();
             }
