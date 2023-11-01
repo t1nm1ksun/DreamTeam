@@ -7,13 +7,26 @@ public class Lecture {
     private String lectureCode; // 수업 코드
     private List<TimeTable> timetable = new ArrayList<>();
 
-    public Lecture(String subjectCode, String teacher, String LectureCode, List<TimeTable> timetable) {
+    private String limit;
+    private String count;
+
+    public Lecture(String subjectCode, String teacher, String LectureCode, String limit, String count, List<TimeTable> timetable) {
         this.subjectCode = subjectCode;
         this.teacher = teacher;
         this.lectureCode = LectureCode;
+        this.limit = limit;
+        this.count = count;
         this.timetable = timetable;
     }
 
+    public String getLimit() {return this.limit;}
+
+    public String getCount() {return this.count;}
+
+    public void plusCount() {
+        Integer tmp = Integer.parseInt(count) + 1;
+        this.count = Integer.toString(tmp);
+    }
     // 과목 정보 설정
     public void setSubjectCode(String subjectCode) {
         this.subjectCode = subjectCode;

@@ -7,7 +7,7 @@ public class LectureRoomManager {
 
     private HashMap<String, Integer> lectureRoomLimit = new HashMap<>();
     private HashMap<String, Integer> lectureRoomCount = new HashMap<>();
-    private List<Boolean> studentList = new ArrayList<>(Collections.nCopies(1000, false));
+
     private Read read = new Read();
     private List<String[]> saveData = new ArrayList<>(); //프로그램 종료 시 저장 파일
 
@@ -18,16 +18,22 @@ public class LectureRoomManager {
         for (List<String> item : list) {
             //csv 파일들을 읽어와서 강의들을 생성함
 
-            LectureRoom l1 = new LectureRoom(item.get(0), item.get(1), item.get(2));
-            String[] l2 = {item.get(0), item.get(1), item.get(2)};
-            lectureRoomLimit.put(item.get(0), Integer.parseInt(item.get(1)));
-            lectureRoomCount.put(item.get(0), Integer.parseInt(item.get(2)));
+            LectureRoom l1 = new LectureRoom(item.get(0), item.get(1));
+            String[] l2 = {item.get(0), item.get(1)};
+//            lectureRoomLimit.put(item.get(0), Integer.parseInt(item.get(1)));
+//            lectureRoomCount.put(item.get(0), Integer.parseInt(item.get(2)));
 //            roomArr.add(l2);
             rooms.add(l1);
         }
 
     }
 
+    public String getRoomLimit(String roomCode) {
+        for(LectureRoom room : rooms) {
+            if(roomCode.equals(room.getCode())) return room.getLimit();
+        }
+        return "";
+    }
     public Integer getMinRoomLimit(Lecture addingLecture) {
         Integer ret = Integer.MAX_VALUE;
         for(TimeTable table : addingLecture.getTimetable()) {
@@ -48,7 +54,7 @@ public class LectureRoomManager {
         for(TimeTable table : addingLecture.getTimetable()) {
             for(LectureRoom room : rooms) {
                 if(table.getRoomId().equals(room.getCode())) {
-                    room.plusCount();
+                    //room.plusCount();
                 }
             }
         }
@@ -56,9 +62,9 @@ public class LectureRoomManager {
     public void saveDataFile() {
         //lectures 들을 알맞은 형식의 데이터로 전환한 뒤 파일에 저장
         for (LectureRoom data : rooms) {
-            String[] tmpData = {data.getCode(), data.getLimit(), data.getCount()};
+            //String[] tmpData = {data.getCode(), data.getLimit(), data.getCount()};
             //TODO: 수업리스트 저장 추가 해야댐
-            saveData.add(tmpData);
+            //saveData.add(tmpData);
         }
         read.writeLectureRoomCSV(saveData);
     }

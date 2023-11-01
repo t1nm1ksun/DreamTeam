@@ -4,6 +4,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import static java.lang.Math.min;
+
 public class LectureManager {
 
     private static Integer maxCode = 2000;
@@ -28,7 +30,7 @@ public class LectureManager {
                 maxCode = Integer.parseInt(item.get(2));
             }
             List<TimeTable> table = new ArrayList<>();
-            for (int i = 3; i < item.size(); i++) {
+            for (int i = 5; i < item.size(); i++) {
                 for (TimeTable t : timeTableManager.getTimetable()) {
                     if (t.getCode().equals(item.get(i))) {
                         table.add(t);
@@ -37,7 +39,7 @@ public class LectureManager {
                 }
             }//노가다 table 생성 및 초기화..
             //TODO: Lecture 생성자 형태에 맞춰서 바꾸기 (승범, 성종)- 성공
-            Lecture l1 = new Lecture(item.get(0), item.get(1), item.get(2), table);
+            Lecture l1 = new Lecture(item.get(0), item.get(1), item.get(2), item.get(3), item.get(4), table);
             lectures.add(l1);
             maxLecture++;
         }
@@ -177,7 +179,7 @@ public class LectureManager {
         if (timeTableManager.checkTimeTableMax()) {
             ScannerUtils.print("수업이 꽉차 수업 추가가 불가능합니다.", true);
         } else {
-            String[] dataList = new String[3];
+            String[] dataList = new String[5];
             List<TimeTable> timetable = new ArrayList<>();
 
             String room;
@@ -222,6 +224,10 @@ public class LectureManager {
                 LectureRoom rooms = lectureRoomManager.getRoom().get(i);
                 ScannerUtils.print((i + 1) + ") " + rooms.getCode() + "         " + rooms.getLimit(), true);
             }
+
+            // 수업의 최대 정원 저장 변수
+            Integer lectureLimit = Integer.MAX_VALUE;
+
             ScannerUtils.print("수업할 강의실을 선택해 주세요", true);
 
             // TODO: 여기서 예외 처리 어떻게 할지 (강의실 갯수가 달라지면 정규식도 바껴야 함) 민서기가 클리어><
@@ -250,6 +256,12 @@ public class LectureManager {
             }
 
             room = "500" + (Integer.parseInt(input) - 1);
+
+            // 강의실 코드로 가장 작은 수업 정원을 강의의 정원으로 선택
+            lectureLimit = min(lectureLimit, Integer.parseInt(lectureRoomManager.getRoomLimit(room)));
+            // 새로 만드는 수업이므로 수강생 인원은 0으로 설정
+            String lectureNow = "0";
+            dataList[4] = lectureNow;
 
             boolean check;
 
@@ -285,7 +297,8 @@ public class LectureManager {
             } while (check);
 
             if (!timetable.isEmpty()) {
-                Lecture newLec = new Lecture(dataList[0], dataList[1], dataList[2], timetable);
+                dataList[3] = Integer.toString(lectureLimit); // 최소 정원으로 수업 정원 설정
+                Lecture newLec = new Lecture(dataList[0], dataList[1], dataList[2], dataList[3], dataList[4],timetable);
 
                 lectures.add(newLec);
             }
@@ -383,7 +396,7 @@ public class LectureManager {
     public void saveDataFile() {
         //lectures 들을 알맞은 형식의 데이터로 전환한 뒤 파일에 저장
         for (Lecture lec : lectures) {
-            List<String> tmpData = new ArrayList<>(Arrays.asList(lec.getSubjectCode(), lec.getTeacher(), lec.getLectureCode()));
+            List<String> tmpData = new ArrayList<>(Arrays.asList(lec.getSubjectCode(), lec.getTeacher(), lec.getLectureCode(),lec.getLimit(), lec.getCount()));
             for (TimeTable timeTable : lec.getTimetable()) {
                 tmpData.add(timeTable.getCode());
             }

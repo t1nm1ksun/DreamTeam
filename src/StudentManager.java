@@ -259,10 +259,11 @@ public class StudentManager {
                                 Lecture addingLecture = lectureManager.getLectureByCode(lectureCode);
 
                                 // 해당 강의실의 제한 인원 수
-                                Integer minLimit = lectureRoomManager.getMinRoomLimit(addingLecture);
-
+//                                Integer minLimit = lectureRoomManager.getMinRoomLimit(addingLecture);
+                                Integer minLimit = Integer.parseInt(addingLecture.getLimit());
                                 // 해당 강의실의 현재 수강 인원 수
-                                Integer nowCount = lectureRoomManager.getNowCount(addingLecture);
+//                                Integer nowCount = lectureRoomManager.getNowCount(addingLecture);
+                                Integer nowCount = Integer.parseInt(addingLecture.getCount());
 
                                 String ERRMSG = "";
                                 // 선택한 수업에 대해 강의실들의 수강 제한인원을 넘는지 체크
@@ -274,10 +275,10 @@ public class StudentManager {
 
                                 if (isSuccess) {
                                     // 수강 인원 추가
-                                    lectureRoomManager.plusCount(addingLecture);
+                                    addingLecture.plusCount();
                                     // 해당 학생의 수업 리스트에 수업 추가
                                     studentToEdit.addLecture(lectureCode);
-                                    lectureRoomManager.saveDataFile();
+                                    //lectureRoomManager.saveDataFile();
                                     ScannerUtils.print("성공적으로 추가되었습니다.", true);
 
                                 } else {
@@ -286,7 +287,6 @@ public class StudentManager {
                             } else {
                                 ScannerUtils.print("수업 추가에 실패했습니다.", true);
                             }
-
 
                         } else if (lectureMenuNum.equals("2")) {
                             System.out.println("2. 수업 삭제를 선택하셨습니다.");
