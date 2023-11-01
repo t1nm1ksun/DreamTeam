@@ -1,11 +1,12 @@
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
+import java.util.*;
+
+import static java.lang.Math.min;
 
 public class LectureRoomManager {
     private List<LectureRoom> rooms = new ArrayList<>(); // 강의실목록을 저장할 리스트
 
+    private HashMap<String, Integer> lectureRoomLimit = new HashMap<>();
+    private HashMap<String, Integer> lectureRoomCount = new HashMap<>();
     private List<Boolean> studentList = new ArrayList<>(Collections.nCopies(1000, false));
     private Read read = new Read();
     private List<String[]> saveData = new ArrayList<>(); //프로그램 종료 시 저장 파일
@@ -19,32 +20,39 @@ public class LectureRoomManager {
 
             LectureRoom l1 = new LectureRoom(item.get(0), item.get(1), item.get(2));
             String[] l2 = {item.get(0), item.get(1), item.get(2)};
+            lectureRoomLimit.put(item.get(0), Integer.parseInt(item.get(1)));
+            lectureRoomCount.put(item.get(0), Integer.parseInt(item.get(2)));
 //            roomArr.add(l2);
             rooms.add(l1);
         }
 
     }
 
-    // roomId를 통해 해당 강의실의 수강 제한인원을 파악함
-    public boolean checkLeft(String roomId, String studentCode) {
-        for (LectureRoom room : rooms) {
-            if (room.getCode().equals(roomId)) {
-                if(room.isFull()) {
-                    return true;
-                } else {
+    public Integer getMinRoomLimit(Lecture addingLecture) {
+        Integer ret = Integer.MAX_VALUE;
+        for(TimeTable table : addingLecture.getTimetable()) {
+            ret = min(ret, lectureRoomLimit.get(table.getRoomId()));
+        }
+        return ret;
+    }
 
-                    if(!studentList.get(Integer.parseInt(studentCode) - 4000)) {
-                        ScannerUtils.print("plus : " + room.getCode() + " stu : " + studentCode, true);
-                        room.plusCount();
-                        studentList.set(Integer.parseInt(studentCode) - 4000, true);
-                    }
-                    return false;
+    public Integer getNowCount(Lecture addingLecture) {
+        Integer ret = 0;
+        for(TimeTable table : addingLecture.getTimetable()) {
+            ret = lectureRoomCount.get(table.getRoomId());
+        }
+        return ret;
+    }
+
+    public void plusCount(Lecture addingLecture) {
+        for(TimeTable table : addingLecture.getTimetable()) {
+            for(LectureRoom room : rooms) {
+                if(table.getRoomId().equals(room.getCode())) {
+                    room.plusCount();
                 }
             }
         }
-        return false;
     }
-
     public void saveDataFile() {
         //lectures 들을 알맞은 형식의 데이터로 전환한 뒤 파일에 저장
         for (LectureRoom data : rooms) {

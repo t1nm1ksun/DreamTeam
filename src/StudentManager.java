@@ -256,24 +256,30 @@ public class StudentManager {
 
                                 Lecture addingLecture = lectureManager.getLectureByCode(lectureCode);
 
+                                // 해당 강의실의 제한 인원 수
+                                Integer minLimit = lectureRoomManager.getMinRoomLimit(addingLecture);
+
+                                // 해당 강의실의 현재 수강 인원 수
+                                Integer nowCount = lectureRoomManager.getNowCount(addingLecture);
+
+                                String ERRMSG = "";
                                 // 선택한 수업에 대해 강의실들의 수강 제한인원을 넘는지 체크
-                                for (TimeTable timeTable : addingLecture.getTimetable()) {
-                                    // 해당 강의실의 남는 자리가 1개 미만일 시 추가할 수 없음.
-                                    // 해당 강의실에 남는 자리 체크 후 추가
-                                    if (lectureRoomManager.checkLeft(timeTable.getRoomId(), studentToEdit.getId())) {
-                                        isSuccess = false;
-                                        break;
-                                    }
+                                if(minLimit <= nowCount) {
+                                    ScannerUtils.print(minLimit + ", " + nowCount, true);
+                                    isSuccess = false;
+                                    ERRMSG = "수강인원 초과";
                                 }
 
                                 if (isSuccess) {
+                                    // 수강 인원 추가
+                                    lectureRoomManager.plusCount(addingLecture);
                                     // 해당 학생의 수업 리스트에 수업 추가
                                     studentToEdit.addLecture(lectureCode);
                                     lectureRoomManager.saveDataFile();
                                     ScannerUtils.print("성공적으로 추가되었습니다.", true);
 
                                 } else {
-                                    ScannerUtils.print("수업 추가에 실패했습니다.", true);
+                                    ScannerUtils.print("수업 추가에 실패했습니다." + ERRMSG, true);
                                 }
                             } else {
                                 ScannerUtils.print("수업 추가에 실패했습니다.", true);
