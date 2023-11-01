@@ -17,6 +17,7 @@ public class Main {
 
         LectureManager lectureManager = new LectureManager();
         StudentManager studentManager = new StudentManager();
+        TimeTableManager timetableManager = new TimeTableManager();
 
         if (!lectureManager.checkSameID()) {
             return; //id체크후 다를시종료
@@ -28,6 +29,7 @@ public class Main {
         }
         lectureManager.saveDataFile();
         studentManager.saveDataFile();
+        timetableManager.saveDataFile();
 
         ScannerUtils.print("프로그램이 종료되었습니다.", true);
 

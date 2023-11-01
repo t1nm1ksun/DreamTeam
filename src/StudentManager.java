@@ -350,7 +350,12 @@ public class StudentManager {
     public void saveDataFile() {
         //lectures 들을 알맞은 형식의 데이터로 전환한 뒤 파일에 저장
         for (Student stu : studentList) {
-            String[] tmpData = {stu.getId(), stu.getName(), stu.getPhoneNum()};
+
+
+            List<String> lectureList = stu.getLectureList();
+            String lectureListString = String.join(", ", lectureList);
+            System.out.println(lectureListString);
+            String[] tmpData = {stu.getId(), stu.getName(), stu.getPhoneNum(), lectureListString};
             //TODO: 수업리스트 저장 추가 해야댐
             saveData.add(tmpData);
         }
