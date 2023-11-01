@@ -102,7 +102,7 @@ public class TimeTableManager {
         //lectures 들을 알맞은 형식의 데이터로 전환한 뒤 파일에 저장
         for (TimeTable lec : timetables) {
             //TODO: 이거 timetable 인자 갯수 바뀌면서  바뀐 부분 체크해 주세요 (승범)
-            String[] tmpData = {lec.getCode(), lec.getLectureDays(), lec.showLectureTime(), lec.getRoomId()};
+            String[] tmpData = {lec.getCode(),  lec.getRoomId(), lec.getLectureDays(), lec.showLectureTime()};
             saveData.add(tmpData);
         }
         read.writeCSV(saveData);

@@ -371,10 +371,8 @@ public class LectureManager {
                 //TODO : timetable.day = day  timetable.time = time  이렇게
                 tb_toEdit.setLectureDays(day);
                 tb_toEdit.setLectureTime(time);
-                System.out.println("변경");
                 ScannerUtils.print("수업 시간이 변경되었습니다.", true);
             } else {
-                System.out.println("안돼 돌아가!");
                 ScannerUtils.print("해당 시간에는 이미 수업이 존재합니다", true);
             }
         }
@@ -412,6 +410,7 @@ public class LectureManager {
             checkName.add(lec.getLectureCode());
         }
         if (checkName.size() != lectures.size()) {
+            System.out.println(1);
             ScannerUtils.print("특정 ID가 중복 조회되고 있습니다. csv 파일을 확인해주세요.", true);
             return false;
         }
@@ -421,6 +420,7 @@ public class LectureManager {
             checkName.add(sub.getCode());
         }
         if (checkName.size() != subjectManager.getSubjectss().size()) {
+            System.out.println(2);
             ScannerUtils.print("특정 ID가 중복 조회되고 있습니다. csv 파일을 확인해주세요.", true);
             return false;
         }
@@ -430,6 +430,7 @@ public class LectureManager {
             checkName.add(tec.getCode());
         }
         if (checkName.size() != teacherManager.getTeachers().size()) {
+            System.out.println(3);
             ScannerUtils.print("특정 ID가 중복 조회되고 있습니다. csv 파일을 확인해주세요.", true);
             return false;
         }
