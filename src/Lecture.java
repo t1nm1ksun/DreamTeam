@@ -19,6 +19,10 @@ public class Lecture {
         this.timetable = timetable;
     }
 
+    public String getLimit() {return this.limit;}
+
+    public String getCount() {return this.count;}
+
     // 과목 정보 설정
     public void setSubjectCode(String subjectCode) {
         this.subjectCode = subjectCode;

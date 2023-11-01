@@ -259,10 +259,11 @@ public class StudentManager {
                                 Lecture addingLecture = lectureManager.getLectureByCode(lectureCode);
 
                                 // 해당 강의실의 제한 인원 수
-                                Integer minLimit = lectureRoomManager.getMinRoomLimit(addingLecture);
-
+//                                Integer minLimit = lectureRoomManager.getMinRoomLimit(addingLecture);
+                                Integer minLimit = Integer.parseInt(addingLecture.getLimit());
                                 // 해당 강의실의 현재 수강 인원 수
-                                Integer nowCount = lectureRoomManager.getNowCount(addingLecture);
+//                                Integer nowCount = lectureRoomManager.getNowCount(addingLecture);
+                                Integer nowCount = Integer.parseInt(addingLecture.getCount());
 
                                 String ERRMSG = "";
                                 // 선택한 수업에 대해 강의실들의 수강 제한인원을 넘는지 체크
