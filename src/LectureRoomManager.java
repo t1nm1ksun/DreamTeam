@@ -12,13 +12,13 @@ public class LectureRoomManager {
         for (List<String> item : list) {
             //csv 파일들을 읽어와서 강의들을 생성함
 
-            LectureRoom l1 = new LectureRoom(item.get(0), item.get(1));
+            LectureRoom l1 = new LectureRoom(item.get(0), item.get(1), item.get(2));
             rooms.add(l1);
         }
     }
 
     // roomId를 통해 해당 강의실의 수강 제한인원을 파악함
-    public Integer checkRoomLeft(String roomId) {
+    public Integer checkLeft(String roomId) {
         for (LectureRoom room : rooms) {
             if (room.getCode().equals(roomId)) {
                 return room.getLeft();
@@ -26,6 +26,17 @@ public class LectureRoomManager {
         }
         return -1;
     }
+
+    public void saveDataFile() {
+        //lectures 들을 알맞은 형식의 데이터로 전환한 뒤 파일에 저장
+        for (String[] data : saveData) {
+            String[] tmpData = {data[0], data[1], data[2]};
+            //TODO: 수업리스트 저장 추가 해야댐
+            saveData.add(tmpData);
+        }
+        read.writeLectureRoomCSV(saveData);
+    }
+
 
     public List<LectureRoom> getRoom() {
         return rooms;

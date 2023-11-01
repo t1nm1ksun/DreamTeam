@@ -4,12 +4,14 @@ public class LectureRoom {
 
     private String count;
 
-    public LectureRoom(String code, String limit) {
+    public LectureRoom(String code, String limit, String count) {
         this.code = code;
         this.limit = limit;
+        this.count = count;
     }
 
     public Integer getLeft() {
+        ScannerUtils.print("limit : " + limit + " count : " + count, true);
         return Integer.parseInt(limit) - Integer.parseInt(count);
     }
 
