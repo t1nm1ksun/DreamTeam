@@ -60,7 +60,6 @@ public class LectureRoomManager {
             //TODO: 수업리스트 저장 추가 해야댐
             saveData.add(tmpData);
         }
-//        ScannerUtils.print(Integer.toString(saveData.size()), true);
         read.writeLectureRoomCSV(saveData);
     }
 

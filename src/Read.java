@@ -54,14 +54,19 @@ public class Read {
      */
     public void writeCSV(List<String[]> dataList) {
         BufferedWriter bufferedwrite = null;
-        //TODO: Lecture 생성자 형태에 맞춰서 바꾸기 (승범, 성종)
-        String filePath = "src/class.csv";
+        String filePath = "src/lecture.csv";
         try {
             bufferedwrite = Files.newBufferedWriter(Paths.get(filePath));
             for (int i = 0; i < dataList.size(); i++) {
                 String[] data = dataList.get(i);
                 String aData = "";
-                aData = data[0] + "," + data[1] + "," + data[2] + "," + data[3] + "," + data[4];
+                for(int j = 0; j < data.length; j++) {
+                    if(j != data.length - 1) {
+                        aData += data[j] + ",";
+                    } else {
+                        aData += data[j];
+                    }
+                }
                 bufferedwrite.write(aData);
                 bufferedwrite.newLine();
             }
