@@ -18,13 +18,18 @@ public class LectureRoomManager {
     }
 
     // roomId를 통해 해당 강의실의 수강 제한인원을 파악함
-    public Integer checkLeft(String roomId) {
+    public boolean checkLeft(String roomId) {
         for (LectureRoom room : rooms) {
             if (room.getCode().equals(roomId)) {
-                return room.getLeft();
+                if(room.isFull()) {
+                    return true;
+                } else {
+                    room.plusCount();
+                    return false;
+                }
             }
         }
-        return -1;
+        return false;
     }
 
     public void saveDataFile() {

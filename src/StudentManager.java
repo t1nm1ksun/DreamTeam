@@ -260,18 +260,16 @@ public class StudentManager {
                                 for (TimeTable timeTable : addingLecture.getTimetable()) {
                                     // 해당 강의실의 남는 자리가 1개 미만일 시 추가할 수 없음.
                                     // 해당 강의실에 남는 자리 체크 후 추가
-                                    if (lectureRoomManager.checkLeft(timeTable.getRoomId()) < 1) {
+                                    if (lectureRoomManager.checkLeft(timeTable.getRoomId())) {
                                         isSuccess = false;
                                         break;
-                                    } else {
-
                                     }
                                 }
 
                                 if (isSuccess) {
                                     // 해당 학생의 수업 리스트에 수업 추가
                                     studentToEdit.addLecture(lectureCode);
-
+                                    lectureRoomManager.saveDataFile();
                                     ScannerUtils.print("성공적으로 추가되었습니다.", true);
 
                                 } else {

@@ -16,7 +16,7 @@ public class LectureRoom {
     }
 
     public boolean isFull() {
-        return limit == count;
+        return limit.equals(count);
     }
 
     public void plusCount() {
