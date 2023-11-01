@@ -1,6 +1,4 @@
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 public class LectureManager {
 
@@ -377,26 +375,32 @@ public class LectureManager {
         String subjectecode = "100";
         String lecturecode = "200";
         String teachercode = "300";
-        int i = 0;
+        Set<String> checkName = new HashSet<>();
+
         for (Lecture lec : lectures) {
-            if (!lec.getLectureCode().equals(lecturecode + (++i))) {
-                ScannerUtils.print("특정 ID가 중복 조회되고 있습니다. csv 파일을 확인해주세요.", true);
-                return false;
-            }
+            checkName.add(lec.getLectureCode());
         }
-        i = 0;
+        if(checkName.size() != lectures.size()) {
+            ScannerUtils.print("특정 ID가 중복 조회되고 있습니다. csv 파일을 확인해주세요.", true);
+            return false;
+        }
+        checkName.clear();
+
         for (Subject sub : subjectManager.getSubjectss()) {
-            if (!sub.getCode().equals(subjectecode + (++i))) {
-                ScannerUtils.print("특정 ID가 중복 조회되고 있습니다. csv 파일을 확인해주세요.", true);
-                return false;
-            }
+            checkName.add(sub.getCode());
         }
-        i = 0;
+        if(checkName.size() != subjectManager.getSubjectss().size()) {
+            ScannerUtils.print("특정 ID가 중복 조회되고 있습니다. csv 파일을 확인해주세요.", true);
+            return false;
+        }
+        checkName.clear();
+
         for (Teacher tec : teacherManager.getTeachers()) {
-            if (!tec.getCode().equals(teachercode + (++i))) {
-                ScannerUtils.print("특정 ID가 중복 조회되고 있습니다. csv 파일을 확인해주세요.", true);
-                return false;
-            }
+            checkName.add(tec.getCode());
+        }
+        if(checkName.size() != teacherManager.getTeachers().size()) {
+            ScannerUtils.print("특정 ID가 중복 조회되고 있습니다. csv 파일을 확인해주세요.", true);
+            return false;
         }
         return true;
     }
