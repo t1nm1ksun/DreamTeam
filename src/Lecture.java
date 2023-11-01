@@ -25,6 +25,7 @@ public class Lecture {
 
     public void plusCount() {
         Integer tmp = Integer.parseInt(count) + 1;
+//        ScannerUtils.print("추가! : " + Integer.toString(tmp), true);
         this.count = Integer.toString(tmp);
     }
     // 과목 정보 설정
