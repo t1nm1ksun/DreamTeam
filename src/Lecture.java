@@ -23,6 +23,10 @@ public class Lecture {
 
     public String getCount() {return this.count;}
 
+    public void plusCount() {
+        Integer tmp = Integer.parseInt(count) + 1;
+        this.count = Integer.toString(tmp);
+    }
     // 과목 정보 설정
     public void setSubjectCode(String subjectCode) {
         this.subjectCode = subjectCode;

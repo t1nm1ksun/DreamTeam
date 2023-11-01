@@ -250,6 +250,7 @@ public class LectureManager {
             }
 
             room = "500" + (Integer.parseInt(input) - 1);
+            // 강의실 코드로 가장 작은
             String lectureLimit = lectureRoomManager.getRoomLimit(room);
             String lectureNow = "0";
 
