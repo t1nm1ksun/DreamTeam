@@ -1,7 +1,7 @@
 public class TimeTable {
 
-    private String code;
-    private String roomId;
+    private final String code;
+    private final String roomId;
     private String lectureDays;
     private String lectureTime;
 
@@ -24,12 +24,13 @@ public class TimeTable {
         return lectureDays;
     }
 
-    public void setLectureDays(String day){
-        this.lectureDays=day;
+    public void setLectureDays(String day) {
+        this.lectureDays = day;
 
     }
-    public void setLectureTime(String time){
-        this.lectureTime=time;
+
+    public void setLectureTime(String time) {
+        this.lectureTime = time;
     }
 
     public String getLectureTime() {
@@ -37,15 +38,12 @@ public class TimeTable {
     }
 
     public String showLectureTime() {
-        if (lectureTime.equals("1")) {
-            return "14:00~16:00";
-        } else if (lectureTime.equals("2")) {
-            return "16:00~18:00";
-        } else if (lectureTime.equals("3")) {
-            return "18:00~20:00";
-        } else {
-            return "20:00~22:00";
-        }
+        return switch (lectureTime) {
+            case "1" -> "14:00~16:00";
+            case "2" -> "16:00~18:00";
+            case "3" -> "18:00~20:00";
+            default -> "20:00~22:00";
+        };
     }
 
     public String showLectureDays() {

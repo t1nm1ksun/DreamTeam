@@ -1,6 +1,6 @@
 public class LectureRoom {
-    private String code;
-    private String limit;
+    private final String code;
+    private final String limit;
 
     public LectureRoom(String code, String limit) {
         this.code = code;

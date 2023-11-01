@@ -2,9 +2,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class StudentManager {
-    private List<String[]> saveData = new ArrayList<>(); //프로그램 종료시 저장 파일
-    private List<Student> studentList = new ArrayList<>(); // 학생 목록을 저장할 리스트
-    private Read read = new Read();
+    private final List<String[]> saveData = new ArrayList<>(); //프로그램 종료시 저장 파일
+    private final List<Student> studentList = new ArrayList<>(); // 학생 목록을 저장할 리스트
+    private final Read read = new Read();
 
     /**
      * csv로부터 읽어온 파일들을 순서대로 lectures에 저장 마지막에 한번에 저장하기 위해 saveData에 순차적 저장
@@ -243,7 +243,7 @@ public class StudentManager {
 
                             if (isSuccess) {
                                 // 추가할 수 있는 수업 리스트를 보여줌
-                                if(!lectureManager.showAddableLectures(lectures)) {
+                                if (!lectureManager.showAddableLectures(lectures)) {
                                     ScannerUtils.print("더이상 추가할 수 있는 수업이 없습니다.", true);
                                     break;
                                 }
@@ -260,14 +260,14 @@ public class StudentManager {
 
                                 // 해당 강의실의 제한 인원 수
 //                                Integer minLimit = lectureRoomManager.getMinRoomLimit(addingLecture);
-                                Integer minLimit = Integer.parseInt(addingLecture.getLimit());
+                                int minLimit = Integer.parseInt(addingLecture.getLimit());
                                 // 해당 강의실의 현재 수강 인원 수
 //                                Integer nowCount = lectureRoomManager.getNowCount(addingLecture);
-                                Integer nowCount = Integer.parseInt(addingLecture.getCount());
+                                int nowCount = Integer.parseInt(addingLecture.getCount());
 
                                 String ERRMSG = "";
                                 // 선택한 수업에 대해 강의실들의 수강 제한인원을 넘는지 체크
-                                if(minLimit <= nowCount) {
+                                if (minLimit <= nowCount) {
                                     ScannerUtils.print(minLimit + ", " + nowCount, true);
                                     isSuccess = false;
                                     ERRMSG = "수강인원 초과";

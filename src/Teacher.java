@@ -1,7 +1,7 @@
 public class Teacher {
     private String code;
     private String name;
-    private String subjectCode;
+    private final String subjectCode;
 
     //과목코드 추가!
     public Teacher(String name, String code, String subjectCode) {

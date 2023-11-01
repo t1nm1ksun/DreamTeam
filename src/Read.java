@@ -6,7 +6,6 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Scanner;
 
 public class Read {
     /**
@@ -27,7 +26,7 @@ public class Read {
             while ((line = bufferedReader.readLine()) != null) {
 
                 List<String> stringList = new ArrayList<>();
-                String stringArray[] = line.split(",");
+                String[] stringArray = line.split(",");
 
                 stringList = Arrays.asList(stringArray);
                 list.add(stringList);
@@ -57,11 +56,10 @@ public class Read {
         String filePath = "src/lecture.csv";
         try {
             bufferedwrite = Files.newBufferedWriter(Paths.get(filePath));
-            for (int i = 0; i < dataList.size(); i++) {
-                String[] data = dataList.get(i);
+            for (String[] data : dataList) {
                 String aData = "";
-                for(int j = 0; j < data.length; j++) {
-                    if(j != data.length - 1) {
+                for (int j = 0; j < data.length; j++) {
+                    if (j != data.length - 1) {
                         aData += data[j] + ",";
                     } else {
                         aData += data[j];
@@ -90,11 +88,10 @@ public class Read {
         String filePath = "src/student.csv";
         try {
             bufferedwrite = Files.newBufferedWriter(Paths.get(filePath));
-            for (int i = 0; i < dataList.size(); i++) {
-                String[] data = dataList.get(i);
-//                List<String> data = dataList.get(i);
+            for (String[] data : dataList) {
+                //                List<String> data = dataList.get(i);
                 String aData = "";
-                aData = data[0] + "," + data[1] + "," + data[2]+","+data[3];
+                aData = data[0] + "," + data[1] + "," + data[2] + "," + data[3];
                 bufferedwrite.write(aData);
                 bufferedwrite.newLine();
             }
@@ -119,9 +116,8 @@ public class Read {
         String filePath = "src/lecture-room.csv";
         try {
             bufferedwrite = Files.newBufferedWriter(Paths.get(filePath));
-            for (int i = 0; i < dataList.size(); i++) {
-                String[] data = dataList.get(i);
-//                List<String> data = dataList.get(i);
+            for (String[] data : dataList) {
+                //                List<String> data = dataList.get(i);
                 String aData = "";
                 aData = data[0] + "," + data[1] + "," + data[2];
                 ScannerUtils.print("저장 : " + data[0] + "," + data[1] + "," + data[2], true);

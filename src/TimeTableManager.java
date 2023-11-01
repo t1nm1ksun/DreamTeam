@@ -5,11 +5,11 @@ import java.util.List;
 
 public class TimeTableManager {
     public static Integer maxTimetable = 6000;  // 현재까지 만들어진 timetable의 코드 중 최대값
-    private List<TimeTable> timetables = new ArrayList<>(); // 강의실목록을 저장할 리스트
-    private Read read = new Read();
-    private List<String[]> saveData = new ArrayList<>(); //프로그램 종료 시 저장 파일
-    private LectureRoomManager lectureRoomManager = new LectureRoomManager();
-    private Integer timeTableLimit = lectureRoomManager.getRoomNumber() * 6 * 4;
+    private final List<TimeTable> timetables = new ArrayList<>(); // 강의실목록을 저장할 리스트
+    private final Read read = new Read();
+    private final List<String[]> saveData = new ArrayList<>(); //프로그램 종료 시 저장 파일
+    private final LectureRoomManager lectureRoomManager = new LectureRoomManager();
+    private final Integer timeTableLimit = lectureRoomManager.getRoomNumber() * 6 * 4;
 
     public TimeTableManager() {
         List<List<String>> list = read.readCSV("src/timetable.csv");
@@ -75,10 +75,10 @@ public class TimeTableManager {
     }
 
     public String addTimeTable(String roomId, String day, String lectureTime) {// 타임테이블 추가
-        TimeTable t1 = new TimeTable(Integer.toString(maxTimetable),roomId, day, lectureTime);
+        TimeTable t1 = new TimeTable(Integer.toString(maxTimetable), roomId, day, lectureTime);
         maxTimetable++;
         timetables.add(t1);
-        return Integer.toString(maxTimetable-1);
+        return Integer.toString(maxTimetable - 1);
     }
 
     public void deleteTimeTable(String code) { // timetable 삭제
@@ -102,7 +102,7 @@ public class TimeTableManager {
         //lectures 들을 알맞은 형식의 데이터로 전환한 뒤 파일에 저장
         for (TimeTable lec : timetables) {
             //TODO: 이거 timetable 인자 갯수 바뀌면서  바뀐 부분 체크해 주세요 (승범)
-            String[] tmpData = {lec.getCode(),  lec.getRoomId(), lec.getLectureDays(), lec.showLectureTime()};
+            String[] tmpData = {lec.getCode(), lec.getRoomId(), lec.getLectureDays(), lec.showLectureTime()};
             saveData.add(tmpData);
         }
         read.writeCSV(saveData);
