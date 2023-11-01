@@ -5,13 +5,13 @@ import java.util.HashMap;
 import java.util.List;
 
 public class LectureRoomManager {
-    private List<LectureRoom> rooms = new ArrayList<>(); // 강의실목록을 저장할 리스트
+    private final List<LectureRoom> rooms = new ArrayList<>(); // 강의실목록을 저장할 리스트
 
-    private HashMap<String, Integer> lectureRoomLimit = new HashMap<>();
-    private HashMap<String, Integer> lectureRoomCount = new HashMap<>();
+    private final HashMap<String, Integer> lectureRoomLimit = new HashMap<>();
+    private final HashMap<String, Integer> lectureRoomCount = new HashMap<>();
 
-    private Read read = new Read();
-    private List<String[]> saveData = new ArrayList<>(); //프로그램 종료 시 저장 파일
+    private final Read read = new Read();
+    private final List<String[]> saveData = new ArrayList<>(); //프로그램 종료 시 저장 파일
 
     public LectureRoomManager() {
         List<List<String>> list = read.readCSV("src/lecture-room.csv");
@@ -40,7 +40,7 @@ public class LectureRoomManager {
     }
 
     public Integer getMinRoomLimit(Lecture addingLecture) {
-        Integer ret = Integer.MAX_VALUE;
+        int ret = Integer.MAX_VALUE;
         for (TimeTable table : addingLecture.getTimetable()) {
             ret = min(ret, lectureRoomLimit.get(table.getRoomId()));
         }

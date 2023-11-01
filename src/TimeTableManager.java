@@ -45,12 +45,11 @@ public class TimeTableManager {
 
         for (TimeTable tab : timetables) {
             if (roomId.equals(tab.getRoomId())) {
-                tt[Integer.parseInt(tab.getLectureDays()) - 1][Integer.parseInt(tab.getLectureTime()) - 1] = "O";
+                tt[Integer.parseInt(tab.getLectureTime()) - 1][Integer.parseInt(tab.getLectureDays()) - 1] = "O";
             }
         }
 
-        ScannerUtils.print(roomId + "번 강의실의 시간표입니다.", true);
-        ScannerUtils.print("              월 ㅣ 화 ㅣ 수 ㅣ 목 ㅣ 금 ㅣ 토", true);
+        ScannerUtils.print(roomId + "번 강의실 ㅣ 월 ㅣ 화 ㅣ 수 ㅣ 목 ㅣ 금 ㅣ 토", true);
         for (int i = 0; i < 4; i++) {
             ScannerUtils.print(displayLectureTime(i) + "   ", false);
             for (int j = 0; j < 6; j++) {

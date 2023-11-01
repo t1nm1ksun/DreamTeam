@@ -1,11 +1,10 @@
-import java.util.ArrayList;
 import java.util.List;
 
 public class Lecture {
-    private String subjectCode;     // 과목 코드
-    private String teacher;     // 선생님
+    private String subjectCode; // 과목 코드
+    private String teacher; // 선생님
     private String lectureCode; // 수업 코드
-    private List<TimeTable> timetable = new ArrayList<>();
+    private final List<TimeTable> timetable;
 
     private final String limit;
     private String count;
@@ -29,8 +28,8 @@ public class Lecture {
     }
 
     public void plusCount() {
-        Integer tmp = Integer.parseInt(count) + 1;
-//        ScannerUtils.print("추가! : " + Integer.toString(tmp), true);
+        int tmp = Integer.parseInt(count) + 1;
+//        ScannerUtils.print("추가! : " + tmp, true);
         this.count = Integer.toString(tmp);
     }
 

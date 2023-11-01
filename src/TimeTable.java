@@ -24,26 +24,16 @@ public class TimeTable {
         return lectureDays;
     }
 
-    public void setLectureDays(String day) {
-        this.lectureDays = day;
-
-    }
-
-    public void setLectureTime(String time) {
-        this.lectureTime = time;
-    }
-
     public String getLectureTime() {
         return lectureTime;
     }
 
-    public String showLectureTime() {
-        return switch (lectureTime) {
-            case "1" -> "14:00~16:00";
-            case "2" -> "16:00~18:00";
-            case "3" -> "18:00~20:00";
-            default -> "20:00~22:00";
-        };
+    public void setLectureDays(String day) {
+        this.lectureDays = day;
+    }
+
+    public void setLectureTime(String time) {
+        this.lectureTime = time;
     }
 
     public String showLectureDays() {
@@ -65,6 +55,24 @@ public class TimeTable {
             }
             case "6" -> {
                 return "토요일";
+            }
+        }
+        return null;
+    }
+
+    public String showLectureTime() {
+        switch (lectureTime) {
+            case "1" -> {
+                return "14:00~16:00";
+            }
+            case "2" -> {
+                return "16:00~18:00";
+            }
+            case "3" -> {
+                return "18:00~20:00";
+            }
+            case "4" -> {
+                return "20:00~22:00";
             }
         }
         return null;

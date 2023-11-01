@@ -176,8 +176,10 @@ public class LectureManager {
     }
 
     public void addLecture() {
+        ScannerUtils.print("[3. 수업 추가를 선택하셨습니다.]", true);
+
         if (timeTableManager.checkTimeTableMax()) {
-            ScannerUtils.print("강의실이 꽉 차 더 이상 수업 추가가 불가능합니다.", true);
+            ScannerUtils.print("강의실이 꽉 차 수업을 추가로 등록하실 수 없습니다.", true);
         } else {
             String[] dataList = new String[5];
             List<TimeTable> timetable = new ArrayList<>();
@@ -186,122 +188,121 @@ public class LectureManager {
             String day;
             String time;
 
-            //과목 정보 입력
-            ScannerUtils.print("추가할 과목을 입력해 주세요", true);
+            // 과목 선택
             for (int i = 0; i < subjectManager.getSubjectss().size(); i++) {
-                Subject sj = subjectManager.getSubjectss().get(i);
-                ScannerUtils.print((i + 1) + ")" + sj.getName() + "(" + sj.getCode() + ")     ", false);
+                Subject subject = subjectManager.getSubjectss().get(i);
+                ScannerUtils.print((i + 1) + ") " + subject.getName() + "    ", false);
             }
+            ScannerUtils.print("\n추가할 수업의 과목을 선택해 주세요: ", false);
 
-            String input = ScannerUtils.scanWithPattern(CommonPattern.LECTURE_DATE, CommonPatternError.LECTURE_TIME);
+            // TODO: 여기서 예외 처리 어떻게 할지 (과목 갯수가 달라지면 정규식도 바껴야 함)
+            String input = ScannerUtils.scanWithPattern(CommonPattern.TWO_CHOICE, CommonPatternError.TWO_CHOICE);
 
-            dataList[0] = "100" + (Integer.parseInt(input) - 1);//과목코드 넣는법 변경
+            // 과목 코드 저장
+            dataList[0] = subjectManager.getSubjectss().get(Integer.parseInt(input) - 1).getCode();
 
-            //선생님 정보 입력
-            ScannerUtils.print("선생님을 선택해 주세요", true);
-            int tnum = 1;
-            int[] whichTeacher = new int[teacherManager.getTeachers().size() + 1];
-            for (int i = 0; i < teacherManager.getTeachers().size(); i++) {
-                Teacher tj = teacherManager.getTeachers().get(i);
-                if (tj.getSubjectCode().equals(dataList[0])) {
-                    ScannerUtils.print((tnum) + ")" + tj.getName() + "(" + tj.getCode() + ")     ", false);
-                    whichTeacher[++tnum] = i;
-                }
-            }
+            ScannerUtils.print(
+                    "[" + subjectManager.getSubjectss().get(Integer.parseInt(input) - 1).getName() + "을 선택하셨습니다.]",
+                    true);
 
             // 선생님 선택
-            // TODO: 여기서 예외 처리 어떻게 할지 (선생님 숫자가 달라지면 정규식도 바껴야 함)
+            int[] whichTeacher = new int[teacherManager.getTeachers().size()];
+
+            for (int i = 0; i < teacherManager.getTeachers().size(); i++) {
+                Teacher teacher = teacherManager.getTeachers().get(i);
+
+                if (teacher.getSubjectCode().equals(dataList[0])) {
+                    ScannerUtils.print((i + 1) + ") " + teacher.getName() + "    ", false);
+                    whichTeacher[i] = i;
+                }
+            }
+            ScannerUtils.print("\n추가할 수업의 선생님을 선택해 주세요: ", false);
+
+            // TODO: 여기서 예외 처리 어떻게 할지 (과목 별로 선생님이 지정되어 있어서 과목에 따라 띄우는 선생님 숫자가 달라짐, 이때 정규식도 바껴야 함)
             input = ScannerUtils.scanWithPattern(CommonPattern.FOUR_CHOICE, CommonPatternError.FOUR_CHOICE);
+            ScannerUtils.print(
+                    "[" + teacherManager.getTeachers().get(whichTeacher[Integer.parseInt(input) - 1]).getName()
+                            + "을 선택하셨습니다.]", true);
 
-            dataList[1] = teacherManager.getTeachers().get(whichTeacher[Integer.parseInt(input)]).getCode();
+            // 선생님 ID 저장
+            dataList[1] = teacherManager.getTeachers().get(whichTeacher[Integer.parseInt(input) - 1]).getCode();
 
-            // 수업 코드 동적 할당
+            // 수업 코드 저장 (근데 수업 삭제하면 수업 코드는 어디부터임?)
             dataList[2] = Integer.toString(++maxCode);
 
-            // 강의실 선택
-            ScannerUtils.print("   강의실 번호    수용 가능 인원", true);
-            for (int i = 0; i < lectureRoomManager.getRoom().size(); i++) {
-                LectureRoom rooms = lectureRoomManager.getRoom().get(i);
-                ScannerUtils.print((i + 1) + ") " + rooms.getCode() + "         " + rooms.getLimit(), true);
-            }
-
-            // 수업의 최대 정원 저장 변수
+            // 수업의 최대 수강 인원을 저장
             int lectureLimit = Integer.MAX_VALUE;
 
-            ScannerUtils.print("수업할 강의실을 선택해 주세요", true);
+            boolean finishFlag;
 
-            // TODO: 여기서 예외 처리 어떻게 할지 (강의실 갯수가 달라지면 정규식도 바껴야 함) 민서기가 클리어><
-
-            switch (lectureRoomManager.getRoom().size()) {
-                case 1: {
-                    input = ScannerUtils.scanWithPattern(CommonPattern.ONE_CHOICE, CommonPatternError.ONE_CHOICE);
-                    break;
-                }
-                case 2: {
-                    input = ScannerUtils.scanWithPattern(CommonPattern.TWO_CHOICE, CommonPatternError.TWO_CHOICE);
-                    break;
-                }
-                case 3: {
-                    input = ScannerUtils.scanWithPattern(CommonPattern.THREE_CHOICE, CommonPatternError.THREE_CHOICE);
-                    break;
-                }
-                case 4: {
-                    input = ScannerUtils.scanWithPattern(CommonPattern.FOUR_CHOICE, CommonPatternError.FOUR_CHOICE);
-                    break;
-                }
-                case 5: {
-                    input = ScannerUtils.scanWithPattern(CommonPattern.FIVE_CHOICE, CommonPatternError.FIVE_CHOICE);
-                    break;
-                }
-            }
-
-            room = "500" + (Integer.parseInt(input) - 1);
-
-            // 강의실 코드로 가장 작은 수업 정원을 강의의 정원으로 선택
-            lectureLimit = min(lectureLimit, Integer.parseInt(lectureRoomManager.getRoomLimit(room)));
-            // 새로 만드는 수업이므로 수강생 인원은 0으로 설정
-            String lectureNow = "0";
-            dataList[4] = lectureNow;
-
-            boolean check;
-
-            // 요일 정보 입력
             do {
+                // 강의실 선택
+                ScannerUtils.print("   강의실    수용가능인원", true);
+                for (int i = 0; i < lectureRoomManager.getRoom().size(); i++) {
+                    LectureRoom rooms = lectureRoomManager.getRoom().get(i);
+                    ScannerUtils.print((i + 1) + ") " + rooms.getCode() + "    " + rooms.getLimit() + "명", true);
+                }
+
+                ScannerUtils.print("수업할 강의실을 선택해 주세요: ", false);
+
+                // TODO: 정규식 변경에 따른 예외 처리는 여기를 보시면 됩니다 ~
+
+                String ChoiceNumber = "^[1-" + lectureRoomManager.getRoom().size() + "]$";
+                input = ScannerUtils.scanWithPattern(ChoiceNumber, CommonPatternError.LECTURE_ROOM_CHOICE);
+
+                // 강의실 코드 저장
+                room = lectureRoomManager.getRoom().get(Integer.parseInt(input) - 1).getCode();
+
+                // 강의실 코드로 가장 작은 수업 정원을 강의의 정원으로 선택
+                lectureLimit = min(lectureLimit, Integer.parseInt(lectureRoomManager.getRoomLimit(room)));
+
+                // 수업의 현재 수강 인원, 새로 개설되는 수업이므로 0으로 설정
+                String lectureNow = "0";
+
+                dataList[4] = lectureNow;
+
                 timeTableManager.displayTimeTable(room);
 
-                ScannerUtils.print("1) 월요일   2) 화요일   3) 수요일   4) 목요일   5) 금요일   6) 토요일", true);
-                ScannerUtils.print("수업 요일을 선택해 주세요", true);
+                // 수업 요일 선택
+                ScannerUtils.print("1) 월요일    2) 화요일    3) 수요일    4) 목요일    5) 금요일    6) 토요일", true);
+                ScannerUtils.print("수업 요일을 선택해 주세요: ", false);
 
                 input = ScannerUtils.scanWithPattern(CommonPattern.LECTURE_DATE, CommonPatternError.LECTURE_DATE);
                 day = input;
 
-                //수업 시간 입력
-                ScannerUtils.print("1) 14:00~16:00   2) 16:00~18:00   3)18:00~20:00   4)20:00~22:00", true);
-                ScannerUtils.print("수업 시간을 입력해 주세요", true);
+                //수업 시간 선택
+                ScannerUtils.print("1) 14:00~16:00    2) 16:00~18:00    3) 18:00~20:00    4) 20:00~22:00", true);
+                ScannerUtils.print("수업 시간을 입력해 주세요: ", false);
 
                 input = ScannerUtils.scanWithPattern(CommonPattern.LECTURE_TIME, CommonPatternError.LECTURE_TIME);
                 time = input;
 
-                if (timeTableManager.findTable(room, day, time)) {
-                    String code = timeTableManager.addTimeTable(room, day, time);
-                    timetable.add(new TimeTable(code, room, day, time));
-                    ScannerUtils.print("수업 시간이 추가되었습니다.", true);
-                } else {
-                    ScannerUtils.print("해당 시간에는 이미 수업이 존재합니다", true);
+                boolean checkDuplicate = false;
+
+                for (TimeTable timeTable : timetable) {
+                    checkDuplicate = day.equals(timeTable.getLectureDays()) && time.equals(timeTable.getLectureTime());
                 }
 
-                ScannerUtils.print("추가로 다른 요일에 해당 수업을 추가하려면 1, 이대로 수업 추가를 종료하려면 2를 입력해 주세요.", true);
+                if (!checkDuplicate && timeTableManager.findTable(room, day, time)) {
+                    String code = timeTableManager.addTimeTable(room, day, time);
+                    timetable.add(new TimeTable(code, room, day, time));
+                    ScannerUtils.print("해당 타임에 정상적으로 추가되었습니다.", true);
+                } else {
+                    ScannerUtils.print("해당 타임에는 이미 수업이 존재합니다.", true);
+                }
+
+                ScannerUtils.print("해당 수업 추가를 계속 하려면 1, 이대로 수업 추가를 종료하려면 2를 입력해 주세요.", true);
                 input = ScannerUtils.scanWithPattern(CommonPattern.TWO_CHOICE, CommonPatternError.TWO_CHOICE);
 
-                check = input.equals("1");
-            } while (check);
+                finishFlag = input.equals("1");
+            } while (finishFlag);
 
             if (!timetable.isEmpty()) {
-                dataList[3] = Integer.toString(lectureLimit); // 최소 정원으로 수업 정원 설정
-                Lecture newLec = new Lecture(dataList[0], dataList[1], dataList[2], dataList[3], dataList[4],
+                dataList[3] = String.valueOf(lectureLimit); // 최소 정원으로 수업 정원 설정
+                Lecture newLecture = new Lecture(dataList[0], dataList[1], dataList[2], dataList[3], dataList[4],
                         timetable);
 
-                lectures.add(newLec);
+                lectures.add(newLecture);
             }
         }
     }

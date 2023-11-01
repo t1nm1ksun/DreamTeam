@@ -5,7 +5,8 @@ public class StudentManager {
     private final List<String[]> saveData = new ArrayList<>(); //프로그램 종료시 저장 파일
     private final List<Student> studentList = new ArrayList<>(); // 학생 목록을 저장할 리스트
     private final Read read = new Read();
-    private LectureManager lectureManager = new LectureManager();
+    private final LectureManager lectureManager = new LectureManager();
+
     /**
      * csv로부터 읽어온 파일들을 순서대로 lectures에 저장 마지막에 한번에 저장하기 위해 saveData에 순차적 저장
      */
@@ -251,7 +252,7 @@ public class StudentManager {
                                 String lectureCode = ScannerUtils.scanWithPattern(CommonPattern.LECTURE_CODE,
                                         CommonPatternError.LECTURE_CODE);
 
-                                ScannerUtils.print("선택한 수업 코드 : " + lectureCode, true);
+                                ScannerUtils.print("선택한 수업 코드: " + lectureCode, true);
 
                                 Lecture addingLecture = lectureManager.getLectureByCode(lectureCode);
 
@@ -264,7 +265,7 @@ public class StudentManager {
 
                                 String ERRMSG = "";
                                 // 선택한 수업에 대해 강의실들의 수강 제한인원을 넘는지 체크
-                                if(minLimit < nowCount + 1) {
+                                if (minLimit < nowCount + 1) {
                                     ScannerUtils.print(minLimit + ", " + nowCount, true);
                                     isSuccess = false;
                                     ERRMSG = "수강인원 초과";

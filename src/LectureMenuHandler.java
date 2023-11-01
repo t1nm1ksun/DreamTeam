@@ -1,7 +1,7 @@
 public class LectureMenuHandler {
 
     public static void handle(LectureManager lectureManager) {
-        
+
         switch (Main.manageMenu) {
             case 1 -> {
                 lectureManager.displayLectures();
@@ -29,8 +29,8 @@ public class LectureMenuHandler {
                 escapeToMainMenu();
             }
             default -> {
-                ScannerUtils.print("[1.조회 2.편집 3.등록 4.삭제 5.나가기]", true);
-                ScannerUtils.print("메뉴를 입력하세요", true);
+                ScannerUtils.print("[1.조회 2.편집 3.추가 4.삭제 5.나가기]", true);
+                ScannerUtils.print("메뉴를 입력하세요: ", false);
                 Main.manageMenu = ScannerUtils.scanWithPatternIntegerForMenu(CommonPattern.FIVE_CHOICE,
                         CommonPatternError.FIVE_CHOICE);
             }
