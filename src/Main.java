@@ -14,7 +14,7 @@ public class Main {
     public static int editMenu;
 
     public static void main(String[] args) {
-
+        
         LectureManager lectureManager = new LectureManager();
         StudentManager studentManager = new StudentManager();
 
