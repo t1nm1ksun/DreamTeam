@@ -94,9 +94,37 @@ public class LectureManager {
 
     public void displayTimetable(Lecture lecture){
         for (TimeTable t : lecture.getTimetable()) {
+            String lectureDay ="";
+            switch (t.getLectureDays()) {
+                case "1":{
+                    lectureDay="월요일";
+                    break;
+                }
+                case "2":{
+                    lectureDay="화요일";
+                    break;
+                }
+                case "3":{
+                    lectureDay="수요일";
+                    break;
+                }
+                case "4":{
+                    lectureDay="목요일";
+                    break;
+                }
+                case "5":{
+                    lectureDay="금요일";
+                    break;
+                }
+                case "6":{
+                    lectureDay="토요일";
+                    break;
+                }
+
+            }
+
             ScannerUtils.print(
-                    t.getRoomId() + " " + t.getLectureDays() + " " + t.showLectureTime()
-                            + " / ", false);
+                    "["+t.getCode()+"번 타임테이블: "+t.getRoomId() + "강의실 " +lectureDay + " " + t.showLectureTime()+"] ", false);
         }
         ScannerUtils.print("", true);
     }
@@ -249,10 +277,12 @@ public class LectureManager {
                 LectureEditMenuHandler.input = ScannerUtils.scanWithPattern(CommonPattern.LECTURE_CODE,
                         CommonPatternError.LECTURE_CODE);
             }
-            System.out.println(hasLecture(LectureEditMenuHandler.input).getTimetable());
+
 
             //타임 테이블 출력
             ScannerUtils.print("변경할 요일의 타임테이블 코드를 입력하세요 (예시: 6000): ", true);
+
+            displayTimetable(hasLecture(LectureEditMenuHandler.input));
             String code_toEdit = ScannerUtils.scanWithPattern(CommonPattern.TIMETABLE_CODE,CommonPatternError.TIMETABLE_CODE); // TODO : 바꿀 타임테이블 입력받기 (민석)
             //받아'
             TimeTable tb_toEdit=null;
@@ -260,6 +290,7 @@ public class LectureManager {
             for(TimeTable tab : hasLecture(LectureEditMenuHandler.input).getTimetable()){
                 if(tab.getCode().equals(code_toEdit)){
                     tb_toEdit = tab;
+                    System.out.println("찾았다");
                     break;
                 }
             }
@@ -276,7 +307,16 @@ public class LectureManager {
                 case 1: {
                     ScannerUtils.print("수업 요일 변경을 선택하셨습니다.", true);
                     // TODO : 타임테이블에서 수업중인 요일을 확인하고 그 요일들 제외한 요일들 중 하나 고르게함
-                    ScannerUtils.print("1) 월요일   2) 화요일   3) 수요일   4) 목요일   5) 금요일   6) 토요일", true);
+                    /*String[] weeklist = {"월요일","화요일","수요일","목요일","금요일","토요일"};*/
+                    ArrayList<String> week = new ArrayList<>();
+                    week.addAll(Arrays.asList("1) 월요일 ","2) 화요일 ","3) 수요일 ","4) 목요일 ","5) 금요일 ","6) 토요일 "));
+                    week.remove(Integer.parseInt(day)-1);
+                    for (String date : week) {
+                        ScannerUtils.print(date + " ",false);
+                    }
+                    ScannerUtils.print("", true);
+
+
                     ScannerUtils.print("수업 요일을 선택해 주세요", true);
                     day = ScannerUtils.scanWithPattern(CommonPattern.LECTURE_DATE, CommonPatternError.LECTURE_DATE);
                     break;
