@@ -256,9 +256,11 @@ public class LectureManager {
             String code_toEdit = ScannerUtils.scanWithPattern(CommonPattern.TIMETABLE_CODE,CommonPatternError.TIMETABLE_CODE); // TODO : 바꿀 타임테이블 입력받기 (민석)
             //받아'
             TimeTable tb_toEdit=null;
+            
             for(TimeTable tab : hasLecture(LectureEditMenuHandler.input).getTimetable()){
                 if(tab.getCode().equals(code_toEdit)){
                     tb_toEdit = tab;
+                    break;
                 }
             }
 
