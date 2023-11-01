@@ -28,7 +28,7 @@ public class LectureManager {
             List<TimeTable> table = new ArrayList<>();
             for (int i = 3; i < item.size(); i++) {
                 for (TimeTable t : timeTableManager.getTimetable()) {
-                    if (t.getRoomId().equals(item.get(i))) {
+                    if (t.getCode().equals(item.get(i))) {
                         table.add(t);
                         break;
                     }
@@ -59,7 +59,7 @@ public class LectureManager {
             ScannerUtils.print(hasLecture(lectureCode).getTeacher() + "       ", false);
             for (TimeTable t : hasLecture(lectureCode).getTimetable()) {
                 ScannerUtils.print(
-                        t.getRoomId() + " " + t.getLectureDays() + " " + t.showLectureTime()
+                        t.getRoomId() + " " + t.showLectureDays() + " " + t.showLectureTime()
                                 + " / ", false);
             }
             ScannerUtils.print("", true);
@@ -82,7 +82,7 @@ public class LectureManager {
                 ScannerUtils.print(lecture.getTeacher() + "       ", false);
                 for (TimeTable t : lecture.getTimetable()) {
                     ScannerUtils.print(
-                            t.getRoomId() + " " + t.getLectureDays() + " " + t.showLectureTime()
+                            t.getRoomId() + " " + t.showLectureDays() + " " + t.showLectureTime()
                                     + " / ", false);
                 }
                 ScannerUtils.print("", true);
@@ -195,7 +195,7 @@ public class LectureManager {
 
             // TODO: 여기서 예외 처리 어떻게 할지 (강의실 갯수가 달라지면 정규식도 바껴야 함)
             input = ScannerUtils.scanWithPattern(CommonPattern.THREE_CHOICE, CommonPatternError.THREE_CHOICE);
-            room = input;
+            room = "500" + input;
 
             boolean check;
 
