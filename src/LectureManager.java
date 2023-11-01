@@ -4,6 +4,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import static java.lang.Math.min;
+
 public class LectureManager {
 
     private static Integer maxCode = 2000;
@@ -222,6 +224,10 @@ public class LectureManager {
                 LectureRoom rooms = lectureRoomManager.getRoom().get(i);
                 ScannerUtils.print((i + 1) + ") " + rooms.getCode() + "         " + rooms.getLimit(), true);
             }
+
+            // 수업의 최대 정원 저장 변수
+            Integer lectureLimit = Integer.MAX_VALUE;
+
             ScannerUtils.print("수업할 강의실을 선택해 주세요", true);
 
             // TODO: 여기서 예외 처리 어떻게 할지 (강의실 갯수가 달라지면 정규식도 바껴야 함) 민서기가 클리어><
@@ -250,12 +256,13 @@ public class LectureManager {
             }
 
             room = "500" + (Integer.parseInt(input) - 1);
-            // 강의실 코드로 가장 작은
-            String lectureLimit = lectureRoomManager.getRoomLimit(room);
-            String lectureNow = "0";
 
-            dataList[3] = lectureLimit;
+            // 강의실 코드로 가장 작은 수업 정원을 강의의 정원으로 선택
+            lectureLimit = min(lectureLimit, Integer.parseInt(lectureRoomManager.getRoomLimit(room)));
+            // 새로 만드는 수업이므로 수강생 인원은 0으로 설정
+            String lectureNow = "0";
             dataList[4] = lectureNow;
+
             boolean check;
 
             // 요일 정보 입력
@@ -290,6 +297,7 @@ public class LectureManager {
             } while (check);
 
             if (!timetable.isEmpty()) {
+                dataList[3] = Integer.toString(lectureLimit); // 최소 정원으로 수업 정원 설정
                 Lecture newLec = new Lecture(dataList[0], dataList[1], dataList[2], dataList[3], dataList[4],timetable);
 
                 lectures.add(newLec);
