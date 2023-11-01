@@ -260,7 +260,7 @@ public class StudentManager {
                                 for (TimeTable timeTable : addingLecture.getTimetable()) {
                                     // 해당 강의실의 남는 자리가 1개 미만일 시 추가할 수 없음.
                                     // 해당 강의실에 남는 자리 체크 후 추가
-                                    if (lectureRoomManager.checkLeft(timeTable.getRoomId())) {
+                                    if (lectureRoomManager.checkLeft(timeTable.getRoomId(), studentToEdit.getId())) {
                                         isSuccess = false;
                                         break;
                                     }
