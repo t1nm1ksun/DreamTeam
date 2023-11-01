@@ -371,8 +371,10 @@ public class LectureManager {
                 //TODO : timetable.day = day  timetable.time = time  이렇게
                 tb_toEdit.setLectureDays(day);
                 tb_toEdit.setLectureTime(time);
+                System.out.println("변경");
                 ScannerUtils.print("수업 시간이 변경되었습니다.", true);
             } else {
+                System.out.println("안돼 돌아가!");
                 ScannerUtils.print("해당 시간에는 이미 수업이 존재합니다", true);
             }
         }

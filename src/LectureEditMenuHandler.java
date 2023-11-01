@@ -11,14 +11,15 @@ public class LectureEditMenuHandler {
                 clearEditMenu();
                 break;
             default:
-                if (!lecturemanager.displayLectures()) {
-                    return false;
-                }
+
                 ScannerUtils.print("[1. 수업 시간 변경 2. 나가기]", true);
                 ScannerUtils.print("메뉴를 입력하세요", true);
                 Main.editMenu = ScannerUtils.scanWithPatternIntegerForMenu(CommonPattern.TWO_CHOICE,
                         CommonPatternError.TWO_CHOICE);
                 if (Main.editMenu == 1) {
+                    if (!lecturemanager.displayLectures()) {
+                        return false;
+                    }
                     handle(lecturemanager);
                 }
                 clearEditMenu();

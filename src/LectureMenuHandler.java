@@ -8,18 +8,14 @@ public class LectureMenuHandler {
                 clearManageMenu();
             }
             case 2 -> {
-                if (LectureEditMenuHandler.handle(lectureManager)) {
-                    if (lectureManager.getMaxLecture() != 8) {
-                        ScannerUtils.print("수업이 성공적으로 변경되었습니다!", true);
-                    }
-                }
+                LectureEditMenuHandler.handle(lectureManager);
                 clearManageMenu();
             }
             case 3 -> {
                 lectureManager.addLecture();
-                if (lectureManager.getMaxLecture() != 8) {
+                /*if (lectureManager.getMaxLecture() != 8) {
                     ScannerUtils.print("수업이 성공적으로 추가되었습니다!", true);
-                }
+                }*/
                 clearManageMenu();
             }
             case 4 -> {
