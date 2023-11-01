@@ -38,13 +38,13 @@ public class TimeTable {
 
     public String showLectureTime() {
         if (lectureTime.equals("1")) {
-            return "12:00~14:00";
-        } else if (lectureTime.equals("2")) {
             return "14:00~16:00";
-        } else if (lectureTime.equals("3")) {
+        } else if (lectureTime.equals("2")) {
             return "16:00~18:00";
-        } else {
+        } else if (lectureTime.equals("3")) {
             return "18:00~20:00";
+        } else {
+            return "20:00~22:00";
         }
     }
 
