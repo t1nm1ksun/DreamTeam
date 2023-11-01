@@ -18,7 +18,7 @@ public class Main {
         LectureManager lectureManager = new LectureManager();
         StudentManager studentManager = new StudentManager();
 
-        if (lectureManager.checkSameID()) {
+        if (!lectureManager.checkSameID()) {
             return; //id체크후 다를시종료
         }
         //TODO 학생,타임테이블체크도 추가
