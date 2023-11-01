@@ -28,7 +28,7 @@ public class LectureManager {
                 maxCode = Integer.parseInt(item.get(2));
             }
             List<TimeTable> table = new ArrayList<>();
-            for (int i = 3; i < item.size(); i++) {
+            for (int i = 5; i < item.size(); i++) {
                 for (TimeTable t : timeTableManager.getTimetable()) {
                     if (t.getCode().equals(item.get(i))) {
                         table.add(t);
@@ -37,7 +37,7 @@ public class LectureManager {
                 }
             }//노가다 table 생성 및 초기화..
             //TODO: Lecture 생성자 형태에 맞춰서 바꾸기 (승범, 성종)- 성공
-            Lecture l1 = new Lecture(item.get(0), item.get(1), item.get(2), table);
+            Lecture l1 = new Lecture(item.get(0), item.get(1), item.get(2), item.get(3), item.get(4), table);
             lectures.add(l1);
             maxLecture++;
         }
@@ -177,7 +177,7 @@ public class LectureManager {
         if (timeTableManager.checkTimeTableMax()) {
             ScannerUtils.print("수업이 꽉차 수업 추가가 불가능합니다.", true);
         } else {
-            String[] dataList = new String[3];
+            String[] dataList = new String[5];
             List<TimeTable> timetable = new ArrayList<>();
 
             String room;
@@ -250,7 +250,11 @@ public class LectureManager {
             }
 
             room = "500" + (Integer.parseInt(input) - 1);
+            String lectureLimit = lectureRoomManager.getRoomLimit(room);
+            String lectureNow = "0";
 
+            dataList[3] = lectureLimit;
+            dataList[4] = lectureNow;
             boolean check;
 
             // 요일 정보 입력
@@ -285,7 +289,7 @@ public class LectureManager {
             } while (check);
 
             if (!timetable.isEmpty()) {
-                Lecture newLec = new Lecture(dataList[0], dataList[1], dataList[2], timetable);
+                Lecture newLec = new Lecture(dataList[0], dataList[1], dataList[2], dataList[3], dataList[4],timetable);
 
                 lectures.add(newLec);
             }

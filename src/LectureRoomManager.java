@@ -28,6 +28,12 @@ public class LectureRoomManager {
 
     }
 
+    public String getRoomLimit(String roomCode) {
+        for(LectureRoom room : rooms) {
+            if(roomCode.equals(room.getCode())) return room.getLimit();
+        }
+        return "";
+    }
     public Integer getMinRoomLimit(Lecture addingLecture) {
         Integer ret = Integer.MAX_VALUE;
         for(TimeTable table : addingLecture.getTimetable()) {

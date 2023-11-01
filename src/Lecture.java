@@ -7,10 +7,15 @@ public class Lecture {
     private String lectureCode; // 수업 코드
     private List<TimeTable> timetable = new ArrayList<>();
 
-    public Lecture(String subjectCode, String teacher, String LectureCode, List<TimeTable> timetable) {
+    private String limit;
+    private String count;
+
+    public Lecture(String subjectCode, String teacher, String LectureCode, String limit, String count, List<TimeTable> timetable) {
         this.subjectCode = subjectCode;
         this.teacher = teacher;
         this.lectureCode = LectureCode;
+        this.limit = limit;
+        this.count = count;
         this.timetable = timetable;
     }
 
