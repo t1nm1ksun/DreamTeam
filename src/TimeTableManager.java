@@ -18,6 +18,7 @@ public class TimeTableManager {
             // csv 파일들을 읽어와서 강의들을 생성함
 
             TimeTable l1 = new TimeTable(item.get(0), item.get(1), item.get(2), item.get(3));
+            // 타임테이블 코드, 강의실 아이, 수업요일, 수업교시
             timetables.add(l1);
         }
     }
@@ -49,7 +50,7 @@ public class TimeTableManager {
         }
 
         ScannerUtils.print(roomId + "번 강의실의 시간표입니다.", true);
-        ScannerUtils.print("            월    화    수    목    금    토", true);
+        ScannerUtils.print("              월 ㅣ 화 ㅣ 수 ㅣ 목 ㅣ 금 ㅣ 토", true);
         for (int i = 0; i < 4; i++) {
             ScannerUtils.print(displayLectureTime(i) + "   ", false);
             for (int j = 0; j < 6; j++) {
