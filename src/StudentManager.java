@@ -73,6 +73,7 @@ public class StudentManager {
                 break;
             } else {
                 System.out.println("이미 등록된 번호입니다.");
+                break;
             }
         }
         // 비어 있는 ID 중 가장 작은 ID를 할당해 줍니다.
@@ -102,9 +103,12 @@ public class StudentManager {
             // 학생 리스트가 비어있을 경우, 첫 번째 학생의 ID는 "4001"로 설정합니다.
             dataList[0] = "4000";
         }
-        Student newStudent = new Student(dataList[0], dataList[1], dataList[2]);
-        studentList.add(newStudent);
-        System.out.println("[학생 등록이 완료되었습니다.]");
+        if(dataList[2]!=null){
+            Student newStudent = new Student(dataList[0], dataList[1], dataList[2]);
+            studentList.add(newStudent);
+            System.out.println("[학생 등록이 완료되었습니다.]");
+        }
+
     }
 
     /**
