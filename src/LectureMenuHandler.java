@@ -8,14 +8,11 @@ public class LectureMenuHandler {
                 clearManageMenu();
             }
             case 2 -> {
-                LectureEditMenuHandler.handle(lectureManager);
+                lectureManager.addLecture();
                 clearManageMenu();
             }
             case 3 -> {
-                lectureManager.addLecture();
-                /*if (lectureManager.getMaxLecture() != 8) {
-                    ScannerUtils.print("수업이 성공적으로 추가되었습니다!", true);
-                }*/
+                LectureEditMenuHandler.handle(lectureManager);
                 clearManageMenu();
             }
             case 4 -> {
@@ -29,7 +26,7 @@ public class LectureMenuHandler {
                 escapeToMainMenu();
             }
             default -> {
-                ScannerUtils.print("[1.조회 2.편집 3.추가 4.삭제 5.나가기]", true);
+                ScannerUtils.print("[1.조회 2.추가 3.편집 4.삭제 5.나가기]", true);
                 ScannerUtils.print("메뉴를 입력하세요: ", false);
                 Main.manageMenu = ScannerUtils.scanWithPatternIntegerForMenu(CommonPattern.FIVE_CHOICE,
                         CommonPatternError.FIVE_CHOICE);

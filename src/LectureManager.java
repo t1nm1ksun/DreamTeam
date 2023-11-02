@@ -1,3 +1,4 @@
+import static java.lang.Math.cos;
 import static java.lang.Math.min;
 
 import java.util.ArrayList;
@@ -143,13 +144,11 @@ public class LectureManager {
         String InputLectureCode = ScannerUtils.scanWithPattern(CommonPattern.LECTURE_CODE,
                 CommonPatternError.LECTURE_CODE);
 
-        while (Integer.parseInt(InputLectureCode) > maxCode) {
-            ScannerUtils.print("존재하지 않는 수업 코드입니다. 다시 입력 바랍니다.", true);
+        while(hasLecture(InputLectureCode) == null) {
+            ScannerUtils.print("존재하지 않는 수업입니다. 다시 입력 바랍니다.", true);
             InputLectureCode = ScannerUtils.scanWithPattern(CommonPattern.LECTURE_CODE,
                     CommonPatternError.LECTURE_CODE);
         }
-
-        boolean isDeleted = false;
 
         for (Lecture lec : lectures) {
             //삭제할 강의가 존재한다면 lectures 에서 삭제함
@@ -160,18 +159,10 @@ public class LectureManager {
                 }
 
                 lectures.remove(lec);
-                isDeleted = true;
                 break;
             }
         }
 
-        if (isDeleted) {
-            //삭제가 성공했을시 과목들의 코드를 재할당함
-            int initCode = 2000;
-            for (Lecture lec : lectures) {
-                lec.setLectureCode(Integer.toString(initCode++));
-            }
-        }
         return true;
     }
 
@@ -230,7 +221,7 @@ public class LectureManager {
             dataList[1] = teacherManager.getTeachers().get(whichTeacher.get(Integer.parseInt(input) - 1)).getCode();
 
             // 수업 코드 저장 (근데 수업 삭제하면 수업 코드는 어디부터임?)
-            dataList[2] = Integer.toString(++maxCode);
+//            dataList[2] = Integer.toString(++maxCode);
 
             // 수업의 최대 수강 인원을 저장
             int lectureLimit = Integer.MAX_VALUE;
@@ -301,10 +292,26 @@ public class LectureManager {
 
             if (!timetable.isEmpty()) {
                 dataList[3] = String.valueOf(lectureLimit); // 최소 정원으로 수업 정원 설정
-                Lecture newLecture = new Lecture(dataList[0], dataList[1], dataList[2], dataList[3], dataList[4],
-                        timetable);
 
-                lectures.add(newLecture);
+                int cmpCode = 2000;
+                boolean isNew = false;
+                for(Lecture lecture : lectures) {
+                    if(!Integer.toString(cmpCode).equals(lecture.getLectureCode())) {
+                        Lecture newLecture = new Lecture(dataList[0], dataList[1], Integer.toString(cmpCode), dataList[3], dataList[4],
+                                timetable);
+                        lectures.add(newLecture);
+                        isNew = true;
+                        break;
+                    } else {
+                        cmpCode++;
+                    }
+                }
+
+                if(!isNew) {
+                    Lecture newLecture = new Lecture(dataList[0], dataList[1], Integer.toString(cmpCode), dataList[3], dataList[4],
+                            timetable);
+                    lectures.add(newLecture);
+                }
             }
         }
     }
