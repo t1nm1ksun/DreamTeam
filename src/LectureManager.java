@@ -166,7 +166,7 @@ public class LectureManager {
     }
 
     public void addLecture() {
-        ScannerUtils.print("[3. 수업 추가를 선택하셨습니다.]", true);
+        ScannerUtils.print("[2. 수업 추가를 선택하셨습니다.]", true);
 
         if (timeTableManager.checkTimeTableMax()) {
             ScannerUtils.print("강의실이 꽉 차 수업을 추가로 등록하실 수 없습니다.", true);
@@ -197,27 +197,28 @@ public class LectureManager {
 
             // 선생님 선택
             List<Integer> whichTeacher = new ArrayList<>();
-            int count = 1;
+            int count = 0;
 
             for (int i = 0; i < teacherManager.getTeachers().size(); i++) {
                 Teacher teacher = teacherManager.getTeachers().get(i);
 
                 if (teacher.getSubjectCode().equals(dataList[0])) {
+                    count++;
                     ScannerUtils.print(count + ") " + teacher.getName() + "    ", false);
                     whichTeacher.add(i);
-                    count++;
                 }
             }
             ScannerUtils.print("\n추가할 수업의 선생님을 선택해 주세요: ", false);
 
-            // TODO: 여기서 예외 처리 어떻게 할지 (과목 별로 선생님이 지정되어 있어서 과목에 따라 띄우는 선생님 숫자가 달라짐, 이때 정규식도 바껴야 함)
-            input = ScannerUtils.scanWithPattern(CommonPattern.FOUR_CHOICE, CommonPatternError.FOUR_CHOICE);
+            String ChoiceNumber = "^[1-" + count + "]$";
+            input = ScannerUtils.scanWithPattern(ChoiceNumber, CommonPatternError.TEACHER_ID);
             ScannerUtils.print(
                     "[" + teacherManager.getTeachers().get(whichTeacher.get(Integer.parseInt(input) - 1)).getName()
                             + "을 선택하셨습니다.]", true);
 
             // 선생님 ID 저장
             dataList[1] = teacherManager.getTeachers().get(whichTeacher.get(Integer.parseInt(input) - 1)).getCode();
+            Teacher teacherNow = teacherManager.getTeachers().get(whichTeacher.get(Integer.parseInt(input) - 1));
 
             // 수업 코드 저장 (근데 수업 삭제하면 수업 코드는 어디부터임?)
 //            dataList[2] = Integer.toString(++maxCode);
@@ -239,7 +240,7 @@ public class LectureManager {
 
                 // TODO: 정규식 변경에 따른 예외 처리는 여기를 보시면 됩니다 ~
 
-                String ChoiceNumber = "^[1-" + lectureRoomManager.getRoom().size() + "]$";
+                ChoiceNumber = "^[1-" + lectureRoomManager.getRoom().size() + "]$";
                 input = ScannerUtils.scanWithPattern(ChoiceNumber, CommonPatternError.LECTURE_ROOM_CHOICE);
 
                 // 강의실 코드 저장
@@ -270,8 +271,7 @@ public class LectureManager {
                 time = input;
 
                 // 해당 선생님이 이미 해당 요일&시간에 수업이 있을 때 예외 처리
-                if (!teacherManager.getTeachers().get(whichTeacher.get(Integer.parseInt(input) - 1))
-                        .findTimeTable(day, time)) {
+                if (!teacherNow.findTimeTable(day, time)) {
                     // 추가하려는 수업이 이미 해당 요일&시간에 존재할 때 예외 처리 (강의실만 다르고 요일&시간이 같은 경우 방지)
                     boolean checkDuplicate = false;
 

@@ -9,9 +9,10 @@ public class TeacherManager {
     public TeacherManager() {
         //여기서 csv 파일 읽어서 과목들을 생성
         List<List<String>> teacherlist = read.readCSV("src/teacher.csv");
-        List<TimeTable> table = new ArrayList<>();
 
         for (List<String> item : teacherlist) {
+            List<TimeTable> table = new ArrayList<>();
+            
             for (int i = 3; i < item.size(); i++) {
                 for (TimeTable t : timeTableManager.getTimetable()) {
                     if (t.getCode().equals(item.get(i))) {
