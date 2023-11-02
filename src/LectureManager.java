@@ -397,21 +397,20 @@ public class LectureManager {
     public void saveDataFile() {
         //lectures 들을 알맞은 형식의 데이터로 전환한 뒤 파일에 저장
         for (Lecture lec : lectures) {
-            List<String> tmpData = new ArrayList<>();
-                    tmpData.add(lec.getSubjectCode());
-                    tmpData.add(lec.getTeacher());
-                    tmpData.add(lec.getLectureCode());
-                    tmpData.add(lec.getLimit());
-                    tmpData.add(lec.getCount());
+            List<String> tmpData = new ArrayList<>(
+                    Arrays.asList(lec.getSubjectCode(), lec.getTeacher(), lec.getLectureCode(), lec.getLimit(),
+                            lec.getCount()));
             for (TimeTable timeTable : lec.getTimetable()) {
                 tmpData.add(timeTable.getCode());
             }
 
             int size = tmpData.size();
+            String[] data = tmpData.toArray(new String[size]);
 
-            saveData.add(tmpData.toArray(new String[0]));
+            saveData.add(data);
         }
-        read.writeCSV(saveData);
+
+        read.writeLectureCSV(saveData);
     }
 
     public int getMaxLecture() {
@@ -420,6 +419,9 @@ public class LectureManager {
 
     //id같을경우 종료하는 함수
     public boolean checkSameID() {
+        String subjectecode = "100";
+        String lecturecode = "200";
+        String teachercode = "300";
         Set<String> checkName = new HashSet<>();
 
         for (Lecture lec : lectures) {
@@ -450,17 +452,6 @@ public class LectureManager {
             ScannerUtils.print("특정 ID가 중복 조회되고 있습니다. csv 파일을 확인해주세요.", true);
             return false;
         }
-        checkName.clear();
-        for (TimeTable tab : timeTableManager.getTimetable()) {
-                checkName.add(tab.getCode());
-        }
-        if (checkName.size() != timeTableManager.getTimetable().size()) {
-                System.out.println(4);
-                ScannerUtils.print("특정 ID가 중복 조회되고 있습니다. csv 파일을 확인해주세요.", true);
-                return false;
-        }
-
-
         return true;
     }
 
@@ -510,9 +501,5 @@ public class LectureManager {
             }
         }
         return null;
-    }
-
-    public List<TimeTable> getTimetables() {
-        return timeTableManager.getTimetable();
     }
 }
