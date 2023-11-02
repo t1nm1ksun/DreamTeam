@@ -82,7 +82,7 @@ public class TimeTableManager {
 
     public void deleteTimeTable(String code) { // timetable 삭제
         if (parseInt(code) > maxTimetable) {
-            ScannerUtils.print("존재하지 않는 수업 코드입니다. 다시 입력 바랍니다.", true);
+            ScannerUtils.print("존재하지 않는 타임테이블 코드입니다. 다시 입력 바랍니다.", true);
             return;
         } else {
             for (TimeTable tab : timetables) {
