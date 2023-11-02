@@ -85,7 +85,7 @@ public class Read {
 
     public void writeTimeTableCSV(List<String[]> dataList) {
         BufferedWriter bufferedwrite = null;
-        String filePath = "src/time-table.csv";
+        String filePath = "src/timetable.csv";
         try {
             bufferedwrite = Files.newBufferedWriter(Paths.get(filePath));
             for (String[] data : dataList) {
