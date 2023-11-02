@@ -91,7 +91,7 @@ public class TimeTableManager {
             TimeTable t1 = new TimeTable(Integer.toString(cmpCode), roomId, day, lectureTime);
             timetables.add(t1);
         }
-
+        this.saveDataFile();
         return Integer.toString(cmpCode);
     }
 
@@ -109,6 +109,7 @@ public class TimeTableManager {
                 }
             }
         }
+        this.saveDataFile();
     }
 
     public TimeTable hasTimeTable(String tableCode) {
