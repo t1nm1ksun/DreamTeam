@@ -1,5 +1,7 @@
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class StudentManager {
     private final List<String[]> saveData = new ArrayList<>(); //프로그램 종료시 저장 파일
@@ -342,6 +344,19 @@ public class StudentManager {
         } else {
             System.out.println("[오류: 입력 형식이 맞지 않거나 해당 아이디의 학생이 존재하지 않습니다.]");
         }
+    }
+    public boolean checkSameID() {
+        Set<String> checkName = new HashSet<>();
+
+        for (Student std : studentList) {
+            checkName.add(std.getId());
+        }
+        if (checkName.size() != studentList.size()) {
+            System.out.println(1);
+            ScannerUtils.print("특정 ID가 중복 조회되고 있습니다. csv 파일을 확인해주세요.", true);
+            return false;
+        }
+        return true;
     }
 
     public void saveDataFile() {
