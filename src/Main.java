@@ -13,10 +13,10 @@ public class Main {
      */
     public static int editMenu;
 
+    public static LectureManager lectureManager = new LectureManager();
+    public static StudentManager studentManager = new StudentManager();
     public static void main(String[] args) {
 
-        LectureManager lectureManager = new LectureManager();
-        StudentManager studentManager = new StudentManager();
         TimeTableManager timetableManager = new TimeTableManager();
 
         if (!lectureManager.checkSameID() || !studentManager.checkSameID()) {
