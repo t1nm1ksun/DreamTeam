@@ -82,7 +82,7 @@ public class TimeTableManager {
 
     public void deleteTimeTable(String code) { // timetable 삭제
         if (parseInt(code) > maxTimetable) {
-            ScannerUtils.print("존재하지 않는 수업 코드입니다. 다시 입력 바랍니다.", true);
+            ScannerUtils.print("존재하지 않는 타임테이블 코드입니다. 다시 입력 바랍니다.", true);
             return;
         } else {
             for (TimeTable tab : timetables) {
@@ -100,11 +100,10 @@ public class TimeTableManager {
     public void saveDataFile() {
         //lectures 들을 알맞은 형식의 데이터로 전환한 뒤 파일에 저장
         for (TimeTable lec : timetables) {
-            //TODO: 이거 timetable 인자 갯수 바뀌면서  바뀐 부분 체크해 주세요 (승범)
-            String[] tmpData = {lec.getCode(), lec.getRoomId(), lec.getLectureDays(), lec.showLectureTime()};
+            String[] tmpData = {lec.getCode(), lec.getRoomId(), lec.getLectureDays(), lec.getLectureTime()};
             saveData.add(tmpData);
         }
-        read.writeCSV(saveData);
+        read.writeTimeTableCSV(saveData);
     }
 
     public boolean checkTimeTableMax() {

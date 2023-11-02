@@ -65,17 +65,6 @@ public class LectureRoomManager {
         }
     }
 
-    public void saveDataFile() {
-        //lectures 들을 알맞은 형식의 데이터로 전환한 뒤 파일에 저장
-        for (LectureRoom data : rooms) {
-            //String[] tmpData = {data.getCode(), data.getLimit(), data.getCount()};
-            //TODO: 수업리스트 저장 추가 해야댐
-            //saveData.add(tmpData);
-        }
-        read.writeLectureRoomCSV(saveData);
-    }
-
-
     public List<LectureRoom> getRoom() {
         return rooms;
     }

@@ -1,11 +1,13 @@
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class StudentManager {
     private final List<String[]> saveData = new ArrayList<>(); //프로그램 종료시 저장 파일
     private final List<Student> studentList = new ArrayList<>(); // 학생 목록을 저장할 리스트
     private final Read read = new Read();
-    private final LectureManager lectureManager = new LectureManager();
+//    private final LectureManager lectureManager = new LectureManager();
 
     /**
      * csv로부터 읽어온 파일들을 순서대로 lectures에 저장 마지막에 한번에 저장하기 위해 saveData에 순차적 저장
@@ -210,7 +212,7 @@ public class StudentManager {
                             ScannerUtils.print("   [수업코드]    [과목코드]    [선생님 ID]     [날짜]     [시간]", true);
 
                             for (String lectureID : showLectureList(id)) {
-                                lectureManager.displayLecture(lectureID);
+                                Main.lectureManager.displayLecture(lectureID);
                             }
                         } else {
                             System.out.println("수강 중인 수업이 없습니다.");
@@ -229,7 +231,7 @@ public class StudentManager {
                             boolean isSuccess = true;
 
                             for (String lectureCode : studentToEdit.getLectureList()) {
-                                Lecture tmpLec = lectureManager.getLectureByCode(lectureCode);
+                                Lecture tmpLec = Main.lectureManager.getLectureByCode(lectureCode);
                                 if (tmpLec != null) {
                                     // 학생이 듣는 수업 리스트 생성
                                     lectures.add(tmpLec);
@@ -243,7 +245,7 @@ public class StudentManager {
 
                             if (isSuccess) {
                                 // 추가할 수 있는 수업 리스트를 보여줌
-                                if (!lectureManager.showAddableLectures(lectures)) {
+                                if (Main.lectureManager.displayLectures()) {
                                     ScannerUtils.print("더이상 추가할 수 있는 수업이 없습니다.", true);
                                     break;
                                 }
@@ -254,7 +256,7 @@ public class StudentManager {
 
                                 ScannerUtils.print("선택한 수업 코드: " + lectureCode, true);
 
-                                Lecture addingLecture = lectureManager.getLectureByCode(lectureCode);
+                                Lecture addingLecture = Main.lectureManager.getLectureByCode(lectureCode);
 
                                 // 해당 강의실의 제한 인원 수
                                 int minLimit = Integer.parseInt(addingLecture.getLimit());
@@ -292,14 +294,14 @@ public class StudentManager {
 
                             if (showLectureList(id) != null) {
                                 for (String lectureID : showLectureList(id)) {
-                                    lectureManager.displayLecture(lectureID);
+                                    Main.lectureManager.displayLecture(lectureID);
                                 }
 
                                 System.out.print("삭제하려는 수업의 코드를 입력하세요 (* 4자, 공백 없이 숫자로만 입력하세요 *): ");
                                 String lectureCode = ScannerUtils.scanWithPattern(CommonPattern.LECTURE_CODE,
                                         CommonPatternError.LECTURE_CODE);
 
-                                if (lectureManager.hasLecture(lectureCode) != null) { // 존재하는 수업코드인지 확인
+                                if (Main.lectureManager.hasLecture(lectureCode) != null) { // 존재하는 수업코드인지 확인
                                     if (findLectureCode(studentToEdit, lectureCode) != null) { // 수강 중이던 수업이 맞는지 확인
                                         studentToEdit.deleteLecture(lectureCode);
                                         System.out.println("수업이 삭제되었습니다.");
@@ -342,6 +344,19 @@ public class StudentManager {
         } else {
             System.out.println("[오류: 입력 형식이 맞지 않거나 해당 아이디의 학생이 존재하지 않습니다.]");
         }
+    }
+    public boolean checkSameID() {
+        Set<String> checkName = new HashSet<>();
+
+        for (Student std : studentList) {
+            checkName.add(std.getId());
+        }
+        if (checkName.size() != studentList.size()) {
+            System.out.println(1);
+            ScannerUtils.print("특정 ID가 중복 조회되고 있습니다. csv 파일을 확인해주세요.", true);
+            return false;
+        }
+        return true;
     }
 
     public void saveDataFile() {

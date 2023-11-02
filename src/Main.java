@@ -13,13 +13,13 @@ public class Main {
      */
     public static int editMenu;
 
+    public static LectureManager lectureManager = new LectureManager();
+    public static StudentManager studentManager = new StudentManager();
     public static void main(String[] args) {
 
-        LectureManager lectureManager = new LectureManager();
-        StudentManager studentManager = new StudentManager();
         TimeTableManager timetableManager = new TimeTableManager();
 
-        if (!lectureManager.checkSameID()) {
+        if (!lectureManager.checkSameID() || !studentManager.checkSameID()) {
             return; //id체크후 다를시종료
         }
         //TODO 학생,타임테이블체크도 추가

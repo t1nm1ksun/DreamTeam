@@ -408,9 +408,11 @@ public class LectureManager {
 
             int size = tmpData.size();
             String[] data = tmpData.toArray(new String[size]);
+
             saveData.add(data);
         }
-        read.writeCSV(saveData);
+
+        read.writeLectureCSV(saveData);
     }
 
     public int getMaxLecture() {
