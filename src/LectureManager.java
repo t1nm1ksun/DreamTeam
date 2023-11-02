@@ -1,10 +1,6 @@
 import static java.lang.Math.min;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 public class LectureManager {
 
@@ -304,6 +300,7 @@ public class LectureManager {
 
                 int cmpCode = 2000;
                 boolean isNew = false;
+                lectures.sort(Comparator.comparing(Lecture::getLectureCode));
                 for (Lecture lecture : lectures) {
                     if (!Integer.toString(cmpCode).equals(lecture.getLectureCode())) {
                         Lecture newLecture = new Lecture(dataList[0], dataList[1], Integer.toString(cmpCode),
