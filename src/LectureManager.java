@@ -149,8 +149,6 @@ public class LectureManager {
                     CommonPatternError.LECTURE_CODE);
         }
 
-        boolean isDeleted = false;
-
         for (Lecture lec : lectures) {
             //삭제할 강의가 존재한다면 lectures 에서 삭제함
             if (InputLectureCode.equals(lec.getLectureCode())) {
@@ -160,18 +158,10 @@ public class LectureManager {
                 }
 
                 lectures.remove(lec);
-                isDeleted = true;
                 break;
             }
         }
 
-        if (isDeleted) {
-            //삭제가 성공했을시 과목들의 코드를 재할당함
-            int initCode = 2000;
-            for (Lecture lec : lectures) {
-                lec.setLectureCode(Integer.toString(initCode++));
-            }
-        }
         return true;
     }
 
