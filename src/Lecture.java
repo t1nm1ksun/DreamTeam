@@ -1,16 +1,16 @@
-import java.util.ArrayList;
 import java.util.List;
 
 public class Lecture {
-    private String subjectCode;     // 과목 코드
-    private String teacher;     // 선생님
+    private String subjectCode; // 과목 코드
+    private String teacher; // 선생님
     private String lectureCode; // 수업 코드
-    private List<TimeTable> timetable = new ArrayList<>();
+    private final List<TimeTable> timetable;
 
-    private String limit;
+    private final String limit;
     private String count;
 
-    public Lecture(String subjectCode, String teacher, String LectureCode, String limit, String count, List<TimeTable> timetable) {
+    public Lecture(String subjectCode, String teacher, String LectureCode, String limit, String count,
+                   List<TimeTable> timetable) {
         this.subjectCode = subjectCode;
         this.teacher = teacher;
         this.lectureCode = LectureCode;
@@ -19,14 +19,20 @@ public class Lecture {
         this.timetable = timetable;
     }
 
-    public String getLimit() {return this.limit;}
+    public String getLimit() {
+        return this.limit;
+    }
 
-    public String getCount() {return this.count;}
+    public String getCount() {
+        return this.count;
+    }
 
     public void plusCount() {
-        Integer tmp = Integer.parseInt(count) + 1;
+        int tmp = Integer.parseInt(count) + 1;
+//        ScannerUtils.print("추가! : " + tmp, true);
         this.count = Integer.toString(tmp);
     }
+
     // 과목 정보 설정
     public void setSubjectCode(String subjectCode) {
         this.subjectCode = subjectCode;

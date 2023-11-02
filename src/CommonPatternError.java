@@ -12,6 +12,10 @@ public class CommonPatternError {
      */
     public static final String STUDENT_ID = "[오류: 잘못된 입력입니다. (* 올바른 형식으로 입력하세요 *)]"; // 학생 ID 에러 메세지
     /**
+     * 강의실 선택 메뉴 에러 메세지
+     */
+    public static final String LECTURE_ROOM_CHOICE = "[오류: 잘못된 입력입니다. (* 올바른 형식으로 입력하세요 *)]"; // 강의실 선택 메뉴 에러 메세지
+    /**
      * 수업 요일 에러 메세지
      */
     public static final String LECTURE_DATE = "[오류: 잘못된 입력입니다. (* 1,2 중 하나의 숫자를 입력하세요 *)]"; // 수업 요일 에러 메세지
