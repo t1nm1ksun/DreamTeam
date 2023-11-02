@@ -1,4 +1,3 @@
-import static java.lang.Math.cos;
 import static java.lang.Math.min;
 
 import java.util.ArrayList;
@@ -14,10 +13,10 @@ public class LectureManager {
     private final List<String[]> saveData = new ArrayList<>(); //프로그램 종료 시 저장 파일
     private final List<Lecture> lectures = new ArrayList<>(); // 수업 목록을 저장할 리스트
     private final Read read = new Read();
-    SubjectManager subjectManager = new SubjectManager();
-    TeacherManager teacherManager = new TeacherManager();
-    LectureRoomManager lectureRoomManager = new LectureRoomManager();
-    TimeTableManager timeTableManager = new TimeTableManager();
+    private final SubjectManager subjectManager = new SubjectManager();
+    private final TeacherManager teacherManager = new TeacherManager();
+    private final LectureRoomManager lectureRoomManager = new LectureRoomManager();
+    private final TimeTableManager timeTableManager = new TimeTableManager();
 
     /**
      * csv로부터 읽어온파일들을 순서대로 lectures에 저장 마지막에 한번에 저장하기 위해 saveData에 순차적 저장
@@ -144,7 +143,7 @@ public class LectureManager {
         String InputLectureCode = ScannerUtils.scanWithPattern(CommonPattern.LECTURE_CODE,
                 CommonPatternError.LECTURE_CODE);
 
-        while(hasLecture(InputLectureCode) == null) {
+        while (hasLecture(InputLectureCode) == null) {
             ScannerUtils.print("존재하지 않는 수업입니다. 다시 입력 바랍니다.", true);
             InputLectureCode = ScannerUtils.scanWithPattern(CommonPattern.LECTURE_CODE,
                     CommonPatternError.LECTURE_CODE);
@@ -263,25 +262,35 @@ public class LectureManager {
                 input = ScannerUtils.scanWithPattern(CommonPattern.LECTURE_DATE, CommonPatternError.LECTURE_DATE);
                 day = input;
 
-                //수업 시간 선택
+                // 수업 시간 선택
                 ScannerUtils.print("1) 14:00~16:00    2) 16:00~18:00    3) 18:00~20:00    4) 20:00~22:00", true);
                 ScannerUtils.print("수업 시간을 입력해 주세요: ", false);
 
                 input = ScannerUtils.scanWithPattern(CommonPattern.LECTURE_TIME, CommonPatternError.LECTURE_TIME);
                 time = input;
 
-                boolean checkDuplicate = false;
+                // 해당 선생님이 이미 해당 요일&시간에 수업이 있을 때 예외 처리
+                if (!teacherManager.getTeachers().get(whichTeacher.get(Integer.parseInt(input) - 1))
+                        .findTimeTable(day, time)) {
+                    // 추가하려는 수업이 이미 해당 요일&시간에 존재할 때 예외 처리 (강의실만 다르고 요일&시간이 같은 경우 방지)
+                    boolean checkDuplicate = false;
 
-                for (TimeTable timeTable : timetable) {
-                    checkDuplicate = day.equals(timeTable.getLectureDays()) && time.equals(timeTable.getLectureTime());
-                }
+                    if (!timetable.isEmpty()) {
+                        for (TimeTable timeTable : timetable) {
+                            checkDuplicate =
+                                    day.equals(timeTable.getLectureDays()) && time.equals(timeTable.getLectureTime());
+                        }
+                    }
 
-                if (!checkDuplicate && timeTableManager.findTable(room, day, time)) {
-                    String code = timeTableManager.addTimeTable(room, day, time);
-                    timetable.add(new TimeTable(code, room, day, time));
-                    ScannerUtils.print("해당 타임에 정상적으로 추가되었습니다.", true);
+                    if (!checkDuplicate && timeTableManager.findTable(room, day, time)) {
+                        String code = timeTableManager.addTimeTable(room, day, time);
+                        timetable.add(new TimeTable(code, room, day, time));
+                        ScannerUtils.print("해당 타임에 정상적으로 추가되었습니다.", true);
+                    } else {
+                        ScannerUtils.print("해당 타임에는 이미 수업이 존재합니다.", true);
+                    }
                 } else {
-                    ScannerUtils.print("해당 타임에는 이미 수업이 존재합니다.", true);
+                    ScannerUtils.print("선택한 선생님이 이미 해당 타임에 수업이 존재합니다.", true);
                 }
 
                 ScannerUtils.print("해당 수업 추가를 계속 하려면 1, 이대로 수업 추가를 종료하려면 2를 입력해 주세요.", true);
@@ -295,9 +304,10 @@ public class LectureManager {
 
                 int cmpCode = 2000;
                 boolean isNew = false;
-                for(Lecture lecture : lectures) {
-                    if(!Integer.toString(cmpCode).equals(lecture.getLectureCode())) {
-                        Lecture newLecture = new Lecture(dataList[0], dataList[1], Integer.toString(cmpCode), dataList[3], dataList[4],
+                for (Lecture lecture : lectures) {
+                    if (!Integer.toString(cmpCode).equals(lecture.getLectureCode())) {
+                        Lecture newLecture = new Lecture(dataList[0], dataList[1], Integer.toString(cmpCode),
+                                dataList[3], dataList[4],
                                 timetable);
                         lectures.add(newLecture);
                         isNew = true;
@@ -307,8 +317,9 @@ public class LectureManager {
                     }
                 }
 
-                if(!isNew) {
-                    Lecture newLecture = new Lecture(dataList[0], dataList[1], Integer.toString(cmpCode), dataList[3], dataList[4],
+                if (!isNew) {
+                    Lecture newLecture = new Lecture(dataList[0], dataList[1], Integer.toString(cmpCode), dataList[3],
+                            dataList[4],
                             timetable);
                     lectures.add(newLecture);
                 }
