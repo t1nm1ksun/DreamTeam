@@ -426,7 +426,7 @@ public class LectureManager {
 
             saveData.add(data);
         }
-
+        timeTableManager.saveDataFile();
         read.writeLectureCSV(saveData);
     }
 
