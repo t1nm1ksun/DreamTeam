@@ -245,7 +245,7 @@ public class StudentManager {
 
                             if (isSuccess) {
                                 // 추가할 수 있는 수업 리스트를 보여줌
-                                if (!Main.lectureManager.showAddableLectures(lectures)) {
+                                if (Main.lectureManager.displayLectures()) {
                                     ScannerUtils.print("더이상 추가할 수 있는 수업이 없습니다.", true);
                                     break;
                                 }
