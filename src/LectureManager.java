@@ -202,18 +202,20 @@ public class LectureManager {
             dataList[0] = subjectManager.getSubjectss().get(Integer.parseInt(input) - 1).getCode();
 
             ScannerUtils.print(
-                    "[" + subjectManager.getSubjectss().get(Integer.parseInt(input) - 1).getName() + "을 선택하셨습니다.]",
+                    "[" + subjectManager.getSubjectss().get(Integer.parseInt(input) - 1).getName() + "을(를) 선택하셨습니다.]",
                     true);
 
             // 선생님 선택
-            int[] whichTeacher = new int[teacherManager.getTeachers().size()];
+            List<Integer> whichTeacher = new ArrayList<>();
+            int count = 1;
 
             for (int i = 0; i < teacherManager.getTeachers().size(); i++) {
                 Teacher teacher = teacherManager.getTeachers().get(i);
 
                 if (teacher.getSubjectCode().equals(dataList[0])) {
-                    ScannerUtils.print((i + 1) + ") " + teacher.getName() + "    ", false);
-                    whichTeacher[i] = i;
+                    ScannerUtils.print(count + ") " + teacher.getName() + "    ", false);
+                    whichTeacher.add(i);
+                    count++;
                 }
             }
             ScannerUtils.print("\n추가할 수업의 선생님을 선택해 주세요: ", false);
@@ -221,11 +223,11 @@ public class LectureManager {
             // TODO: 여기서 예외 처리 어떻게 할지 (과목 별로 선생님이 지정되어 있어서 과목에 따라 띄우는 선생님 숫자가 달라짐, 이때 정규식도 바껴야 함)
             input = ScannerUtils.scanWithPattern(CommonPattern.FOUR_CHOICE, CommonPatternError.FOUR_CHOICE);
             ScannerUtils.print(
-                    "[" + teacherManager.getTeachers().get(whichTeacher[Integer.parseInt(input) - 1]).getName()
+                    "[" + teacherManager.getTeachers().get(whichTeacher.get(Integer.parseInt(input) - 1)).getName()
                             + "을 선택하셨습니다.]", true);
 
             // 선생님 ID 저장
-            dataList[1] = teacherManager.getTeachers().get(whichTeacher[Integer.parseInt(input) - 1]).getCode();
+            dataList[1] = teacherManager.getTeachers().get(whichTeacher.get(Integer.parseInt(input) - 1)).getCode();
 
             // 수업 코드 저장 (근데 수업 삭제하면 수업 코드는 어디부터임?)
             dataList[2] = Integer.toString(++maxCode);
