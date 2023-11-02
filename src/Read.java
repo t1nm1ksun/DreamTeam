@@ -51,21 +51,54 @@ public class Read {
      *
      * @param dataList
      */
-    public void writeCSV(List<String[]> dataList) {
+    public void writeLectureCSV(List<String[]> dataList) {
         BufferedWriter bufferedwrite = null;
         String filePath = "src/lecture.csv";
         try {
             bufferedwrite = Files.newBufferedWriter(Paths.get(filePath));
             for (String[] data : dataList) {
-                String aData = "";
+                StringBuilder aData = new StringBuilder();
                 for (int j = 0; j < data.length; j++) {
                     if (j != data.length - 1) {
-                        aData += data[j] + ",";
+                        aData.append(data[j]).append(",");
                     } else {
-                        aData += data[j];
+                        aData.append(data[j]);
                     }
                 }
-                bufferedwrite.write(aData);
+                bufferedwrite.write(aData.toString());
+                bufferedwrite.newLine();
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (bufferedwrite != null) {
+                    bufferedwrite.flush();
+                    bufferedwrite.close();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public void writeTimeTableCSV(List<String[]> dataList) {
+        BufferedWriter bufferedwrite = null;
+        String filePath = "src/time-table.csv";
+        try {
+            bufferedwrite = Files.newBufferedWriter(Paths.get(filePath));
+            for (String[] data : dataList) {
+                StringBuilder aData = new StringBuilder();
+                for (int j = 0; j < data.length; j++) {
+                    if (j != data.length - 1) {
+                        aData.append(data[j]).append(",");
+                    } else {
+                        aData.append(data[j]);
+                    }
+                }
+//                ScannerUtils.print(aData.toString(), true);
+                bufferedwrite.write(aData.toString());
                 bufferedwrite.newLine();
             }
 
@@ -120,7 +153,7 @@ public class Read {
                 //                List<String> data = dataList.get(i);
                 String aData = "";
                 aData = data[0] + "," + data[1] + "," + data[2];
-                ScannerUtils.print("저장 : " + data[0] + "," + data[1] + "," + data[2], true);
+//                ScannerUtils.print("저장 : " + data[0] + "," + data[1] + "," + data[2], true);
                 bufferedwrite.write(aData);
                 bufferedwrite.newLine();
             }
