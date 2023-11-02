@@ -74,16 +74,30 @@ public class TimeTableManager {
     }
 
     public String addTimeTable(String roomId, String day, String lectureTime) {// 타임테이블 추가
-        TimeTable t1 = new TimeTable(Integer.toString(maxTimetable), roomId, day, lectureTime);
-        maxTimetable++;
-        timetables.add(t1);
-        return Integer.toString(maxTimetable - 1);
+        int cmpCode = 6000;
+        boolean isNew = false;
+        for(TimeTable table : timetables) {
+            if(!Integer.toString(cmpCode).equals(table.getCode())) {
+                TimeTable t1 = new TimeTable(Integer.toString(cmpCode), roomId, day, lectureTime);
+                timetables.add(t1);
+                isNew = true;
+                break;
+            } else {
+                cmpCode++;
+            }
+        }
+
+        if(!isNew) {
+            TimeTable t1 = new TimeTable(Integer.toString(cmpCode), roomId, day, lectureTime);
+            timetables.add(t1);
+        }
+
+        return Integer.toString(cmpCode);
     }
 
     public void deleteTimeTable(String code) { // timetable 삭제
-        if (parseInt(code) > maxTimetable) {
+        if(hasTimeTable(code) == null) {
             ScannerUtils.print("존재하지 않는 타임테이블 코드입니다. 다시 입력 바랍니다.", true);
-            return;
         } else {
             for (TimeTable tab : timetables) {
                 //삭제할 강의가 존재한다면 lectures 에서 삭제하고 maxCode를 낮춤
@@ -97,6 +111,14 @@ public class TimeTableManager {
         }
     }
 
+    public TimeTable hasTimeTable(String tableCode) {
+        for (TimeTable timetable : timetables) {
+            if (timetable.getCode().equals(tableCode)) {
+                return timetable;
+            }
+        }
+        return null;
+    }
     public void saveDataFile() {
         //lectures 들을 알맞은 형식의 데이터로 전환한 뒤 파일에 저장
         for (TimeTable lec : timetables) {
