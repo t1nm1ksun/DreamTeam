@@ -167,7 +167,7 @@ public class LectureManager {
         if (timeTableManager.checkTimeTableMax()) {
             ScannerUtils.print("강의실이 꽉 차 수업을 추가로 등록하실 수 없습니다.", true);
         } else {
-            String[] dataList = new String[5];
+            String[] dataList = new String[4];
             List<TimeTable> timetable = new ArrayList<>();
 
             String room;
@@ -248,7 +248,7 @@ public class LectureManager {
                 // 수업의 현재 수강 인원, 새로 개설되는 수업이므로 0으로 설정
                 String lectureNow = "0";
 
-                dataList[4] = lectureNow;
+                dataList[2] = lectureNow;
 
                 timeTableManager.displayTimeTable(room);
 
@@ -303,8 +303,8 @@ public class LectureManager {
                 lectures.sort(Comparator.comparing(Lecture::getLectureCode));
                 for (Lecture lecture : lectures) {
                     if (!Integer.toString(cmpCode).equals(lecture.getLectureCode())) {
-                        Lecture newLecture = new Lecture(dataList[0], dataList[1], Integer.toString(cmpCode),
-                                dataList[3], dataList[4],
+                        Lecture newLecture = new Lecture(Integer.toString(cmpCode),dataList[0], dataList[1],
+                                dataList[2], dataList[3],
                                 timetable);
                         lectures.add(newLecture);
                         isNew = true;
@@ -315,8 +315,8 @@ public class LectureManager {
                 }
 
                 if (!isNew) {
-                    Lecture newLecture = new Lecture(dataList[0], dataList[1], Integer.toString(cmpCode), dataList[3],
-                            dataList[4],
+                    Lecture newLecture = new Lecture(Integer.toString(cmpCode), dataList[0], dataList[1],  dataList[2],
+                            dataList[3],
                             timetable);
                     lectures.add(newLecture);
                 }
