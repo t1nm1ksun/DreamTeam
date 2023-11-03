@@ -147,7 +147,7 @@ public class TimeTableManager implements BaseManager {
             String[] tmpData = {lec.getCode(), lec.getRoomId(), lec.getLectureDays(), lec.getLectureTime()};
             saveData.add(tmpData);
         }
-        read.writeTimeTableCSV(saveData);
+        Read.writeTimeTableCSV(saveData);
     }
 
     public boolean checkTimeTableMax() {

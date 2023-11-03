@@ -45,8 +45,7 @@ public class NameMapper {
     private void initializeSubjects() {
         SUBJECTS.clear();
 
-        Read read = new Read();
-        List<List<String>> subjectList = read.readCSV("src/subject.csv");
+        List<List<String>> subjectList = Read.readCSV("src/subject.csv");
 
         for (List<String> item : subjectList) {
             SUBJECTS.put(Integer.parseInt(item.get(1)), item.get(0));
@@ -56,8 +55,7 @@ public class NameMapper {
     private void initializeTeachers() {
         TEACHERS.clear();
 
-        Read read = new Read();
-        List<List<String>> teacherlist = read.readCSV("src/teacher.csv");
+        List<List<String>> teacherlist = Read.readCSV("src/teacher.csv");
 
         for (List<String> item : teacherlist) {
             TEACHERS.put(Integer.parseInt(item.get(1)), item.get(0));

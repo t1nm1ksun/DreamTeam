@@ -21,13 +21,14 @@ public class Main {
     public static SubjectManager subjectManager = new SubjectManager();
     public static TimeTableManager timetableManager = new TimeTableManager();
     public static LectureRoomManager lectureroomManager = new LectureRoomManager();
+    public static TeacherManager teacherManager = new TeacherManager();
     private Read read = new Read();
     public static void main(String[] args) {
 
         if (!lectureManager.checkSameID() || !studentManager.checkSameID()) {
             return; //id체크후 다를시종료
         }
-        if(!Read.validateCSVListFormat(Arrays.asList(subjectManager,timetableManager,lectureManager,lectureroomManager,studentManager ))){
+        if(!Read.validateCSVListFormat(Arrays.asList(subjectManager,timetableManager,lectureManager,lectureroomManager,studentManager,teacherManager ))){
             return;
         }
 

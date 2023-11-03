@@ -8,7 +8,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-public class Read {
+public  class Read {
     /**
      * csv 읽기 파일 List<List<String>> list = Read.readCsvFile(); for(List<String> item : list){ Lecture l1 = new
      * Lecture(item.get(0), item.get(1), item.get(2), item.get(3),item.get(4)); lectures.add(l1); } Lecture class에 있는
@@ -114,7 +114,7 @@ public class Read {
      *
      * @param dataList
      */
-    public void writeLectureCSV(List<String[]> dataList) {
+    public static void writeLectureCSV(List<String[]> dataList) {
         BufferedWriter bufferedwrite = null;
         String filePath = "src/lecture.csv";
         try {
@@ -146,7 +146,7 @@ public class Read {
         }
     }
 
-    public void writeTimeTableCSV(List<String[]> dataList) {
+    public static void writeTimeTableCSV(List<String[]> dataList) {
         BufferedWriter bufferedwrite = null;
         String filePath = "src/timetable.csv";
         try {
@@ -179,7 +179,7 @@ public class Read {
         }
     }
 
-    public void writeStudentCSV(List<String[]> dataList) {
+    public static void writeStudentCSV(List<String[]> dataList) {
         BufferedWriter bufferedwrite = null;
         String filePath = "src/student.csv";
         try {
@@ -206,7 +206,7 @@ public class Read {
         }
     }
 
-    public void writeLectureRoomCSV(List<String[]> dataList) {
+    public static void writeLectureRoomCSV(List<String[]> dataList) {
         BufferedWriter bufferedwrite = null;
         ScannerUtils.print(Integer.toString(dataList.size()), true);
         String filePath = "src/lecture-room.csv";

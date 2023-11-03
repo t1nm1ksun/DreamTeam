@@ -1,11 +1,21 @@
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
-public class TeacherManager {
+public class TeacherManager implements BaseManager {
     private final List<Teacher> teachers = new ArrayList<>();
     private final Read read = new Read();
     private final TimeTableManager timeTableManager = new TimeTableManager();
 
+    @Override
+    public String getCsvFilePath() {
+        return "src/teacher.csv";
+    }
+
+    @Override
+    public List<String> getRegexList() {
+        return Arrays.asList(CommonPattern.TEACHER_ID,CommonPattern.STUDENT_NAME,CommonPattern.SUBJECT_CODE,"+"+CommonPattern.TIMETABLE_CODE);
+    }
     public TeacherManager() {
         //여기서 csv 파일 읽어서 과목들을 생성
         List<List<String>> teacherlist = read.readCSV("src/teacher.csv");

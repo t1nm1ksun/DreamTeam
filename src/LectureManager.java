@@ -8,7 +8,6 @@ public class LectureManager implements BaseManager {
     private int maxLecture = 0; //수업 생성 막기
     private final List<String[]> saveData = new ArrayList<>(); //프로그램 종료 시 저장 파일
     private final List<Lecture> lectures = new ArrayList<>(); // 수업 목록을 저장할 리스트
-    private final Read read = new Read();
     private final SubjectManager subjectManager = new SubjectManager();
     private final TeacherManager teacherManager = new TeacherManager();
     private final LectureRoomManager lectureRoomManager = new LectureRoomManager();
@@ -27,7 +26,7 @@ public class LectureManager implements BaseManager {
      * csv로부터 읽어온파일들을 순서대로 lectures에 저장 마지막에 한번에 저장하기 위해 saveData에 순차적 저장
      */
     public LectureManager() {
-        List<List<String>> list = read.readCSV("src/lecture.csv");
+        List<List<String>> list = Read.readCSV("src/lecture.csv");
        // List<String> regexList = Arrays.asList(CommonPattern.LECTURE_CODE, CommonPattern.SUBJECT_CODE,CommonPattern.TEACHER_ID,CommonPattern.)
 
 
@@ -437,7 +436,7 @@ public class LectureManager implements BaseManager {
             saveData.add(data);
         }
         timeTableManager.saveDataFile();
-        read.writeLectureCSV(saveData);
+        Read.writeLectureCSV(saveData);
     }
 
     public int getMaxLecture() {

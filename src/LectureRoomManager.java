@@ -10,8 +10,6 @@ public class LectureRoomManager implements BaseManager{
 
     private final HashMap<String, Integer> lectureRoomLimit = new HashMap<>();
     private final HashMap<String, Integer> lectureRoomCount = new HashMap<>();
-
-    private final Read read = new Read();
     private final List<String[]> saveData = new ArrayList<>(); //프로그램 종료 시 저장 파일
 
     @Override
@@ -24,8 +22,8 @@ public class LectureRoomManager implements BaseManager{
         return Arrays.asList(CommonPattern.ROOM_ID,CommonPattern.ROOM_LIMIT);
     }
     public LectureRoomManager() {
-        List<List<String>> list = read.readCSV("src/lecture-room.csv");
-        List<List<String>> stuList = read.readCSV("src/student.csv");
+        List<List<String>> list = Read.readCSV("src/lecture-room.csv");
+        List<List<String>> stuList = Read.readCSV("src/student.csv");
         Integer num = stuList.size();
         for (List<String> item : list) {
             //csv 파일들을 읽어와서 강의들을 생성함

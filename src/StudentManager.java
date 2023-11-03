@@ -3,7 +3,6 @@ import java.util.*;
 public class StudentManager implements BaseManager {
     private final List<String[]> saveData = new ArrayList<>(); //프로그램 종료시 저장 파일
     private final List<Student> studentList = new ArrayList<>(); // 학생 목록을 저장할 리스트
-    private final Read read = new Read();
 
     @Override
     public String getCsvFilePath() {
@@ -19,7 +18,7 @@ public class StudentManager implements BaseManager {
      * csv로부터 읽어온 파일들을 순서대로 lectures에 저장 마지막에 한번에 저장하기 위해 saveData에 순차적 저장
      */
     public StudentManager() {
-        List<List<String>> list = read.readCSV("src/student.csv");
+        List<List<String>> list = Read.readCSV("src/student.csv");
 
         for (List<String> item : list) {
             if (item.size() > 3) {
@@ -379,6 +378,6 @@ public class StudentManager implements BaseManager {
             //TODO: 수업리스트 저장 추가 해야댐
             saveData.add(tmpData);
         }
-        read.writeStudentCSV(saveData);
+        Read.writeStudentCSV(saveData);
     }
 }
