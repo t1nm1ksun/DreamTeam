@@ -6,7 +6,7 @@ public class CommonPattern {
     /**
      * 선생님 ID 정규식
      */
-    public static final String TEACHER_ID = "^300[0-4]$"; // 선생님 ID 정규식
+    public static final String TEACHER_ID = "^300[0-5]$"; // 선생님 ID 정규식
     /**
      * 학생 ID 정규식
      */

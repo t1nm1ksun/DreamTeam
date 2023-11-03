@@ -31,6 +31,9 @@ public class Main {
         if(!Read.validateCSVListFormat(Arrays.asList(subjectManager,timetableManager,lectureManager,lectureroomManager,studentManager,teacherManager ))){
             return;
         }
+        if(!Read.validateCSVRef(timetableManager, lectureroomManager, "1", "0")) return;
+        if(!Read.validateCSVRef(lectureManager, timetableManager, "+5", "0")) return;
+
 
         //TODO 학생,타임테이블체크도 추가
 

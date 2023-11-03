@@ -58,8 +58,8 @@ public  class Read {
         if(hasMultiRef){
             int fromIndexInt = Integer.parseInt(fromIndex.replace("+",""));
             for (List<String> row : fromList) {
-                for (int j = fromIndexInt; j < row.size(); j++) {
-                    fromPks.add(row.get(j));
+                for (int i = fromIndexInt; i < row.size(); i++) {
+                    fromPks.add(row.get(i));
                 }
             }
         } else {
@@ -67,10 +67,12 @@ public  class Read {
             for (List<String> row : fromList) {
                 fromPks.add(row.get(fromIndexInt));
             }
-            for (List<String> row : toList) {
-                toPks.add(row.get(toIndexInt));
-            }
         }
+
+        for (List<String> row : toList) {
+            toPks.add(row.get(toIndexInt));
+        }
+
 
         for(String fromPk: fromPks){
             if(!toPks.contains(fromPk)) {
