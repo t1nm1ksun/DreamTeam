@@ -10,6 +10,7 @@ public class CommonPattern {
     /**
      * 학생 ID 정규식
      */
+    public static final String SUBJECT_CODE = "^100[0-3]$"; // 선생님 ID 정규식
     public static final String STUDENT_ID = "^40[0-9]{2}$"; // 학생 ID 정규식
     /**
      * 수업 요일 정규식
@@ -26,6 +27,7 @@ public class CommonPattern {
     /**
      * 학생 이름 정규식
      */
+
     public static final String STUDENT_NAME = "^[가-힣]{2,10}$"; // 학생 이름 정규식
     /**
      * 보기 5개짜리 정규식

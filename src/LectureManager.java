@@ -19,6 +19,8 @@ public class LectureManager {
      */
     public LectureManager() {
         List<List<String>> list = read.readCSV("src/lecture.csv");
+       // List<String> regexList = Arrays.asList(CommonPattern.LECTURE_CODE, CommonPattern.SUBJECT_CODE,CommonPattern.TEACHER_ID,CommonPattern.)
+
 
         for (List<String> item : list) {
             //csv 파일들을 읽어와서 강의들을 생성함

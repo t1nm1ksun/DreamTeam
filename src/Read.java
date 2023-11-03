@@ -16,7 +16,7 @@ public class Read {
      *
      * @return List<List < String>> 배열 item
      */
-    public List<List<String>> readCSV(String filePath) {
+    public static List<List<String>> readCSV(String filePath) {
         List<List<String>> list = new ArrayList<List<String>>();
         BufferedReader bufferedReader = null;
 
@@ -46,11 +46,11 @@ public class Read {
         return list;
     }
 
-    public boolean validateCSVFormat(List<List<String>> list, List<String> regexList, String fileName){
+    public static boolean validateCSVFormat(List<List<String>> list, List<String> regexList, String fileName){
         int itemCount = regexList.size();
         boolean hasExtraRegex = false;
 
-        if(regexList.stream().filter(regex -> regex.startsWith("+")).findFirst().isEmpty()){
+        if(!regexList.stream().filter(regex -> regex.startsWith("+")).findFirst().isEmpty()){
             hasExtraRegex = true;
         }
 
@@ -60,9 +60,9 @@ public class Read {
             for(int i = 0; i < list.size(); i++){
                 for(int j = 0; j < list.get(i).size(); j++){
                     boolean notExtraCondition = (j < itemCount - 1) && !RegexUtils.checkIsMatchesString(regexList.get(j), list.get(i).get(j));
-                    boolean extraCondition = (i >= itemCount - 1) && !RegexUtils.checkIsMatchesString(extraRegex, list.get(i).get(j));
+                    boolean extraCondition = (j >= itemCount - 1) && !RegexUtils.checkIsMatchesString(extraRegex, list.get(i).get(j));
                     if(notExtraCondition || extraCondition){
-                        ScannerUtils.print(fileName + "파일의" + (i + 1) + "째 줄 / " + + (j + 1) + "번 째 인자에 오류가 있습니다.",true);
+                        ScannerUtils.print(fileName + "파일의 " + (i + 1) + "째 줄 / " + + (j + 1) + "번 째 인자에 오류가 있습니다.",true);
                         return false;
                     }
                 }
@@ -73,12 +73,12 @@ public class Read {
         if(!hasExtraRegex){
            for(int i = 0; i < list.size(); i++) {
                if(itemCount != list.get(i).size()){
-                   ScannerUtils.print(fileName + "파일의" + (i + 1) + "째 줄의 인자수가 맞지 않습니다.",true);
+                   ScannerUtils.print(fileName + "파일의 " + (i + 1) + "째 줄의 인자수가 맞지 않습니다.",true);
                    return false;
                }
                for(int j = 0; j < regexList.size(); j ++){
                    if(!RegexUtils.checkIsMatchesString(regexList.get(j), list.get(i).get(j))){
-                       ScannerUtils.print(fileName + "파일의" + (i + 1) + "째 줄 / " + + (j + 1) + "번 째 인자에 오류가 있습니다.",true);
+                       ScannerUtils.print(fileName + "파일의 " + (i + 1) + "째 줄 / " + + (j + 1) + "번 째 인자에 오류가 있습니다.",true);
                        return false;
                    }
                }
@@ -86,6 +86,15 @@ public class Read {
            return true;
         }
         return false;
+    }
+
+    public static boolean validateCSVListFormat(List<BaseManager> managerList){
+        boolean isValidated = true;
+
+        for(BaseManager baseManager:managerList){
+            isValidated = validateCSVFormat(readCSV(baseManager.getCsvFilePath()), baseManager.getRegexList(), baseManager.getCsvFilePath());
+        }
+        return isValidated;
     }
 
 
