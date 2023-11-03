@@ -433,7 +433,7 @@ public class LectureManager implements BaseManager {
 
             saveData.add(data);
         }
-        Main.timetableManager.saveDataFile();
+
         Read.writeLectureCSV(saveData);
     }
 
