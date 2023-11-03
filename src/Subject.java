@@ -2,7 +2,7 @@ public class Subject {
     private String code;
     private String name;
 
-    public Subject(String name, String code) {
+    public Subject(String code, String name) {
         this.code = code;
         this.name = name;
     }
