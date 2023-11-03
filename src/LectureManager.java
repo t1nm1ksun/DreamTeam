@@ -247,8 +247,7 @@ public class LectureManager {
 
                 // 수업의 현재 수강 인원, 새로 개설되는 수업이므로 0으로 설정
                 String lectureNow = "0";
-
-                dataList[2] = lectureNow;
+                dataList[3] = lectureNow;
 
                 timeTableManager.displayTimeTable(room);
 
@@ -296,7 +295,7 @@ public class LectureManager {
             } while (finishFlag);
 
             if (!timetable.isEmpty()) {
-                dataList[3] = String.valueOf(lectureLimit); // 최소 정원으로 수업 정원 설정
+                dataList[2] = String.valueOf(lectureLimit); // 최소 정원으로 수업 정원 설정
 
                 int cmpCode = 2000;
                 boolean isNew = false;
@@ -415,7 +414,7 @@ public class LectureManager {
         //lectures 들을 알맞은 형식의 데이터로 전환한 뒤 파일에 저장
         for (Lecture lec : lectures) {
             List<String> tmpData = new ArrayList<>(
-                    Arrays.asList(lec.getSubjectCode(), lec.getTeacher(), lec.getLectureCode(), lec.getLimit(),
+                    Arrays.asList(lec.getLectureCode(), lec.getSubjectCode(), lec.getTeacher(), lec.getLimit(),
                             lec.getCount()));
             for (TimeTable timeTable : lec.getTimetable()) {
                 tmpData.add(timeTable.getCode());
@@ -509,6 +508,19 @@ public class LectureManager {
         }
         return isLectureShown;
     }
+
+    public List<Lecture> getStudentsLectureList(Student stu) {
+        List<Lecture> ret = new ArrayList<>();
+        for(String stuLec : stu.getLectureList()) {
+            for(Lecture lecture : lectures) {
+                if(stuLec.equals(lecture.getLectureCode())) {
+                    ret.add(lecture);
+                }
+            }
+        }
+        return lectures;
+    }
+
 
     public Lecture getLectureByCode(String lectureCode) {
 
