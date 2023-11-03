@@ -33,6 +33,16 @@ public class Lecture {
         this.count = Integer.toString(tmp);
     }
 
+    public void showLecture() {
+        ScannerUtils.print("수업코드 : " + this.lectureCode, false);
+        ScannerUtils.print("    과목코드 : " + this.subjectCode, false);
+        ScannerUtils.print("    선생님 :  " + this.teacher, false);
+        for(TimeTable table : timetable) {
+            table.showTimeTable();
+        }
+        ScannerUtils.print("", true);
+    }
+
     // 과목 정보 설정
     public void setSubjectCode(String subjectCode) {
         this.subjectCode = subjectCode;

@@ -475,38 +475,53 @@ public class LectureManager {
         // 학생이 수강하는 수업과 timeTable이 겹치지 않는 수업만 보여줌
         ScannerUtils.print("[추가 가능한 수업 목록]", true);
         boolean isLectureShown = false;
+
+        // 학생 수업이랑 겹치는 수업들을 체크하는 map
+        HashMap<Lecture, Boolean> isRejectedLecture = new HashMap<>();
+        for(Lecture lec : lectures) {
+            isRejectedLecture.put(lec, false);
+        }
         // 전체 강의들 중 학생이 수강중인 강의들의 timeTable과 겹치지 않는 강의들만 출력
         // 즉, 새로 추가할 수 있는 강의들만 출력
-        for (Lecture lecture : lectures) {
-            boolean isAddable = true;
-            for (TimeTable tt : lecture.getTimetable()) {
-                for (Lecture cmpLecture : cmpLectures) {
-                    for (TimeTable cmptt : cmpLecture.getTimetable()) {
-                        if ((tt.getRoomId().equals(cmptt.getRoomId()))
-                                || (tt.getLectureDays().equals(cmptt.getLectureDays()))
-                                || (tt.getLectureTime().equals(cmptt.getLectureTime()))) {
-                            isAddable = false;
-                            break;
-                        }
-                        if (!isAddable) {
-                            break;
-                        }
-                    }
-                    if (!isAddable) {
-                        break;
-                    }
+        for(Lecture cmpLec : cmpLectures) {
+            for(Lecture lecture : lectures) {
+                if(cmpLec.getLectureCode().equals(lecture.getLectureCode())) {
+                    isRejectedLecture.put(lecture, true);
+                    continue;
+                }
+
+                if(this.isOverLappedLecture(cmpLec, lecture)) {
+                    isRejectedLecture.put(lecture, true);
+                } else {
+                    isLectureShown = true;
                 }
             }
+        }
 
-            if (isAddable) {
-                isLectureShown = true;
-                ScannerUtils.print("수업 코드 : " + lecture.getLectureCode() + " ", false);
-                ScannerUtils.print("과목 코드 : " + lecture.getSubjectCode() + " ", false);
-                ScannerUtils.print("선생님 : " + lecture.getTeacher() + " ", false);
-                ScannerUtils.print("", true);
+        // check가 되지 않은 수업들만 출력(수강할 수 있는 수업들)
+        for(Lecture lec : isRejectedLecture.keySet()) {
+            if(!isRejectedLecture.get(lec)) {
+//                ScannerUtils.print(lec, true);
+                lec.showLecture();
             }
         }
         return isLectureShown;
+    }
+
+    public void showLec(String code) {
+
+    }
+
+    public boolean isOverLappedLecture(Lecture lec1, Lecture lec2) {
+        // 2개의 강의를 비교하여 시간이 겹치는지 확인
+        for(TimeTable table1 : lec1.getTimetable()) {
+            for(TimeTable table2 : lec2.getTimetable()) {
+                if(timeTableManager.isOverLappedTime(table1, table2)) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     public List<Lecture> getStudentsLectureList(Student stu) {
@@ -518,7 +533,7 @@ public class LectureManager {
                 }
             }
         }
-        return lectures;
+        return ret;
     }
 
 

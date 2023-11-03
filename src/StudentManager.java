@@ -250,7 +250,7 @@ public class StudentManager {
                             if (isSuccess) {
                                 List<Lecture> StudentLectureList = Main.lectureManager.getStudentsLectureList(studentToEdit);
                                 // 추가할 수 있는 수업 리스트를 보여줌
-                                if (Main.lectureManager.showAddableLectures(StudentLectureList)) {
+                                if (!Main.lectureManager.showAddableLectures(StudentLectureList)) {
                                     ScannerUtils.print("더이상 추가할 수 있는 수업이 없습니다.", true);
                                     break;
                                 }

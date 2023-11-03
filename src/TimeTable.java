@@ -36,6 +36,14 @@ public class TimeTable {
         this.lectureTime = time;
     }
 
+    public void showTimeTable() {
+        ScannerUtils.print("    " + this.roomId + " 강의실 ", false);
+        ScannerUtils.print(showLectureDays() + " ", false);
+        ScannerUtils.print(showLectureTime() + " ", false);
+        ScannerUtils.print("/ ",false);
+    }
+
+
     public String showLectureDays() {
         switch (lectureDays) {
             case "1" -> {

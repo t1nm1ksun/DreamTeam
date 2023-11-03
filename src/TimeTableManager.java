@@ -74,6 +74,15 @@ public class TimeTableManager {
         return true;
     }
 
+    public boolean isOverLappedTime(TimeTable table1, TimeTable table2) {
+        // 2개의 타임테이블이 겹치는지 확인
+        if(table1.getLectureDays().equals(table2.getLectureDays())
+                && table1.getLectureTime().equals(table2.getLectureTime())) {
+            return true;
+        }
+        return false;
+    }
+
     public String addTimeTable(String roomId, String day, String lectureTime) {// 타임테이블 추가
         int cmpCode = 6000;
         boolean isNew = false;
