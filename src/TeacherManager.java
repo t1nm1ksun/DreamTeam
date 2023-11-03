@@ -5,7 +5,7 @@ import java.util.List;
 public class TeacherManager implements BaseManager {
     private final List<Teacher> teachers = new ArrayList<>();
     private final Read read = new Read();
-    private final TimeTableManager timeTableManager = new TimeTableManager();
+
 
     @Override
     public String getCsvFilePath() {
@@ -24,7 +24,7 @@ public class TeacherManager implements BaseManager {
             List<TimeTable> table = new ArrayList<>();
             
             for (int i = 3; i < item.size(); i++) {
-                for (TimeTable t : timeTableManager.getTimetable()) {
+                for (TimeTable t : Main.timetableManager.getTimetable()) {
                     if (t.getCode().equals(item.get(i))) {
                         table.add(t);
                         break;
