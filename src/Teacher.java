@@ -1,13 +1,18 @@
+import java.util.List;
+
 public class Teacher {
+
     private String code;
     private String name;
     private final String subjectCode;
+    private final List<TimeTable> timeTables;
 
     //과목코드 추가!
-    public Teacher(String name, String code, String subjectCode) {
+    public Teacher(String name, String code, String subjectCode, List<TimeTable> timeTables) {
         this.code = code;
         this.name = name;
         this.subjectCode = subjectCode;
+        this.timeTables = timeTables;
     }
 
     // code 필드의 getter 메서드
@@ -32,5 +37,16 @@ public class Teacher {
 
     public String getSubjectCode() {
         return subjectCode;
+    }
+
+    public boolean findTimeTable(String day, String time) {
+        if (!timeTables.isEmpty()) {
+            for (TimeTable timeTable : timeTables) {
+                if (timeTable.getLectureDays().equals(day) && timeTable.getLectureTime().equals(time)) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 }

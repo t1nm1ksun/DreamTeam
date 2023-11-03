@@ -1,6 +1,7 @@
 import static java.lang.Integer.parseInt;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 public class TimeTableManager {
@@ -76,6 +77,7 @@ public class TimeTableManager {
     public String addTimeTable(String roomId, String day, String lectureTime) {// 타임테이블 추가
         int cmpCode = 6000;
         boolean isNew = false;
+        timetables.sort(Comparator.comparing(TimeTable::getCode));
         for(TimeTable table : timetables) {
             if(!Integer.toString(cmpCode).equals(table.getCode())) {
                 TimeTable t1 = new TimeTable(Integer.toString(cmpCode), roomId, day, lectureTime);

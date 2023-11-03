@@ -1,4 +1,5 @@
 public class LectureRoom {
+
     private final String code;
     private final String limit;
 
@@ -6,7 +7,6 @@ public class LectureRoom {
         this.code = code;
         this.limit = limit;
     }
-
 
     public String getCode() {
         return code;
