@@ -6,6 +6,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 public class Read {
     /**
@@ -43,6 +44,48 @@ public class Read {
             }
         }
         return list;
+    }
+
+    public boolean validateCSVFormat(List<List<String>> list, List<String> regexList, String fileName){
+        int itemCount = regexList.size();
+        boolean hasExtraRegex = false;
+
+        if(regexList.stream().filter(regex -> regex.startsWith("+")).findFirst().isEmpty()){
+            hasExtraRegex = true;
+        }
+
+        if(hasExtraRegex){
+            String extraRegex = regexList.get(regexList.size() - 1).replace("+","");
+
+            for(int i = 0; i < list.size(); i++){
+                for(int j = 0; j < list.get(i).size(); j++){
+                    boolean notExtraCondition = (j < itemCount - 1) && !RegexUtils.checkIsMatchesString(regexList.get(j), list.get(i).get(j));
+                    boolean extraCondition = (i >= itemCount - 1) && !RegexUtils.checkIsMatchesString(extraRegex, list.get(i).get(j));
+                    if(notExtraCondition || extraCondition){
+                        ScannerUtils.print(fileName + "파일의" + (i + 1) + "째 줄 / " + + (j + 1) + "번 째 인자에 오류가 있습니다.",true);
+                        return false;
+                    }
+                }
+            }
+            return true;
+        }
+
+        if(!hasExtraRegex){
+           for(int i = 0; i < list.size(); i++) {
+               for(int j = 0; j < regexList.size(); j ++){
+                   if(!RegexUtils.checkIsMatchesString(regexList.get(j), list.get(i).get(j))){
+                       ScannerUtils.print(fileName + "파일의" + (i + 1) + "째 줄 / " + + (j + 1) + "번 째 인자에 오류가 있습니다.",true);
+                       return false;
+                   }
+               }
+           }
+           return true;
+        }
+        return false;
+    }
+
+    public boolean validateCSVFormat(List<List<String>> list, int maxLines){
+        return false;
     }
 
 
