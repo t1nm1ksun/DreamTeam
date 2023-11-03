@@ -72,6 +72,10 @@ public class Read {
 
         if(!hasExtraRegex){
            for(int i = 0; i < list.size(); i++) {
+               if(itemCount != list.get(i).size()){
+                   ScannerUtils.print(fileName + "파일의" + (i + 1) + "째 줄의 인자수가 맞지 않습니다.",true);
+                   return false;
+               }
                for(int j = 0; j < regexList.size(); j ++){
                    if(!RegexUtils.checkIsMatchesString(regexList.get(j), list.get(i).get(j))){
                        ScannerUtils.print(fileName + "파일의" + (i + 1) + "째 줄 / " + + (j + 1) + "번 째 인자에 오류가 있습니다.",true);
@@ -81,10 +85,6 @@ public class Read {
            }
            return true;
         }
-        return false;
-    }
-
-    public boolean validateCSVFormat(List<List<String>> list, int maxLines){
         return false;
     }
 
