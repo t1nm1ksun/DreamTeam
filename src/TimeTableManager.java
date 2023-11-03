@@ -10,7 +10,6 @@ public class TimeTableManager implements BaseManager {
     private final List<TimeTable> timetables = new ArrayList<>(); // 강의실목록을 저장할 리스트
     private final Read read = new Read();
     private final List<String[]> saveData = new ArrayList<>(); //프로그램 종료 시 저장 파일
-    private final Integer timeTableLimit = Main.lectureroomManager.getRoomNumber() * 6 * 4;
 
     @Override
     public String getCsvFilePath() {
@@ -150,10 +149,12 @@ public class TimeTableManager implements BaseManager {
     }
 
     public boolean checkTimeTableMax() {
+        Integer timeTableLimit = Main.lectureroomManager.getRoomNumber() * 6 * 4;
         return timeTableLimit == Main.lectureroomManager.getRoomNumber();
     }
 
     public Integer getTimeTableLimit() {
+        Integer timeTableLimit = Main.lectureroomManager.getRoomNumber() * 6 * 4;
         return timeTableLimit;
     }
 

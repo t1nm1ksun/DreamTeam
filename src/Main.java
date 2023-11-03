@@ -16,10 +16,10 @@ public class Main {
      */
     public static int editMenu;
 
+    public static TimeTableManager timetableManager = new TimeTableManager();
     public static LectureManager lectureManager = new LectureManager();
     public static StudentManager studentManager = new StudentManager();
     public static SubjectManager subjectManager = new SubjectManager();
-    public static TimeTableManager timetableManager = new TimeTableManager();
     public static LectureRoomManager lectureroomManager = new LectureRoomManager();
     public static TeacherManager teacherManager = new TeacherManager();
     private Read read = new Read();

@@ -154,6 +154,8 @@ public class LectureManager implements BaseManager {
         for (Lecture lec : lectures) {
             //삭제할 강의가 존재한다면 lectures 에서 삭제함
             if (InputLectureCode.equals(lec.getLectureCode())) {
+                // 학생이 듣는 수업 중에 삭제할 수업이 있다면 삭제
+                Main.studentManager.checkDeletedLecture(lec.getLectureCode());
                 // 해당 강의의 timetable 삭제
                 for (TimeTable deleteTimeTable : lec.getTimetable()) {
                     Main.timetableManager.deleteTimeTable(deleteTimeTable.getCode());

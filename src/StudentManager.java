@@ -334,6 +334,13 @@ public class StudentManager implements BaseManager {
         }
     }
 
+    public void checkDeletedLecture(String code) {
+        // 학생이 듣는 수업이 삭제되었다면 확인해서 삭제
+        for(Student stu : studentList) {
+            stu.getLectureList().removeIf(code::equals);
+        }
+    }
+
     /**
      * 학생 삭제 함수
      */
