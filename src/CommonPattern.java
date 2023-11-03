@@ -27,8 +27,10 @@ public class CommonPattern {
     /**
      * 학생 이름 정규식
      */
-
+    public static final String ROOM_ID = "^500[0-4]$"; // 강의실 정규식
     public static final String STUDENT_NAME = "^[가-힣]{2,10}$"; // 학생 이름 정규식
+    public static final String ROOM_LIMIT = "^([1-9]|[1-2][0-9]|30)$"; // 강의실 정규식
+    public static final String ROOM_CURRENT_STUDENT = "^([0-9]|[1-2][0-9]|30)$"; // 강의실 정규식
     /**
      * 보기 5개짜리 정규식
      */

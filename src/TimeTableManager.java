@@ -1,16 +1,27 @@
 import static java.lang.Integer.parseInt;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 
-public class TimeTableManager {
+public class TimeTableManager implements BaseManager {
     public static Integer maxTimetable = 6000;  // 현재까지 만들어진 timetable의 코드 중 최대값
     private final List<TimeTable> timetables = new ArrayList<>(); // 강의실목록을 저장할 리스트
     private final Read read = new Read();
     private final List<String[]> saveData = new ArrayList<>(); //프로그램 종료 시 저장 파일
     private final LectureRoomManager lectureRoomManager = new LectureRoomManager();
     private final Integer timeTableLimit = lectureRoomManager.getRoomNumber() * 6 * 4;
+
+    @Override
+    public String getCsvFilePath() {
+        return "src/timetable.csv";
+    }
+
+    @Override
+    public List<String> getRegexList() {
+        return Arrays.asList(CommonPattern.TIMETABLE_CODE,CommonPattern.ROOM_ID,CommonPattern.LECTURE_DATE,CommonPattern.LECTURE_TIME);
+    }
 
     public TimeTableManager() {
         List<List<String>> list = read.readCSV("src/timetable.csv");

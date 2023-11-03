@@ -1,3 +1,4 @@
+import java.sql.Time;
 import java.util.Arrays;
 
 public class Main {
@@ -18,15 +19,18 @@ public class Main {
     public static LectureManager lectureManager = new LectureManager();
     public static StudentManager studentManager = new StudentManager();
     public static SubjectManager subjectManager = new SubjectManager();
+    public static TimeTableManager timetableManager = new TimeTableManager();
+    public static LectureRoomManager lectureroomManager = new LectureRoomManager();
     private Read read = new Read();
     public static void main(String[] args) {
 
         if (!lectureManager.checkSameID() || !studentManager.checkSameID()) {
             return; //id체크후 다를시종료
         }
-        if(!Read.validateCSVListFormat(Arrays.asList(subjectManager))){
+        if(!Read.validateCSVListFormat(Arrays.asList(subjectManager,timetableManager,lectureManager,lectureroomManager,studentManager ))){
             return;
         }
+
         //TODO 학생,타임테이블체크도 추가
 
         while (mainMenu != 3) {

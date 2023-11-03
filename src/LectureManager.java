@@ -2,7 +2,7 @@ import static java.lang.Math.min;
 
 import java.util.*;
 
-public class LectureManager {
+public class LectureManager implements BaseManager {
 
     private static Integer maxCode = 2000;
     private int maxLecture = 0; //수업 생성 막기
@@ -14,6 +14,15 @@ public class LectureManager {
     private final LectureRoomManager lectureRoomManager = new LectureRoomManager();
     private final TimeTableManager timeTableManager = new TimeTableManager();
 
+    @Override
+    public String getCsvFilePath() {
+        return "src/lecture.csv";
+    }
+
+    @Override
+    public List<String> getRegexList() {
+        return Arrays.asList(CommonPattern.LECTURE_CODE,CommonPattern.SUBJECT_CODE,CommonPattern.TEACHER_ID,CommonPattern.ROOM_LIMIT,CommonPattern.ROOM_CURRENT_STUDENT,"+"+CommonPattern.TIMETABLE_CODE);
+    }
     /**
      * csv로부터 읽어온파일들을 순서대로 lectures에 저장 마지막에 한번에 저장하기 위해 saveData에 순차적 저장
      */

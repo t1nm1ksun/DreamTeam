@@ -1,13 +1,19 @@
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
-public class StudentManager {
+public class StudentManager implements BaseManager {
     private final List<String[]> saveData = new ArrayList<>(); //프로그램 종료시 저장 파일
     private final List<Student> studentList = new ArrayList<>(); // 학생 목록을 저장할 리스트
     private final Read read = new Read();
-//    private final LectureManager lectureManager = new LectureManager();
+
+    @Override
+    public String getCsvFilePath() {
+        return "src/student.csv";
+    }
+
+    @Override
+    public List<String> getRegexList() {
+        return Arrays.asList(CommonPattern.STUDENT_ID,CommonPattern.STUDENT_NAME,CommonPattern.PHONE_NUMBER,"+"+CommonPattern.LECTURE_CODE);
+    }
 
     /**
      * csv로부터 읽어온 파일들을 순서대로 lectures에 저장 마지막에 한번에 저장하기 위해 saveData에 순차적 저장
