@@ -492,8 +492,6 @@ public class LectureManager {
 
                 if(this.isOverLappedLecture(cmpLec, lecture)) {
                     isRejectedLecture.put(lecture, true);
-                } else {
-                    isLectureShown = true;
                 }
             }
         }
@@ -502,6 +500,7 @@ public class LectureManager {
         for(Lecture lec : isRejectedLecture.keySet()) {
             if(!isRejectedLecture.get(lec)) {
 //                ScannerUtils.print(lec, true);
+                isLectureShown = true;
                 lec.showLecture();
             }
         }
