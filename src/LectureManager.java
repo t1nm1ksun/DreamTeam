@@ -8,10 +8,6 @@ public class LectureManager implements BaseManager {
     private int maxLecture = 0; //수업 생성 막기
     private final List<String[]> saveData = new ArrayList<>(); //프로그램 종료 시 저장 파일
     private final List<Lecture> lectures = new ArrayList<>(); // 수업 목록을 저장할 리스트
-    private final SubjectManager subjectManager = new SubjectManager();
-    private final TeacherManager teacherManager = new TeacherManager();
-    private final LectureRoomManager lectureRoomManager = new LectureRoomManager();
-    private final TimeTableManager timeTableManager = new TimeTableManager();
 
     @Override
     public String getCsvFilePath() {
@@ -37,7 +33,7 @@ public class LectureManager implements BaseManager {
             }
             List<TimeTable> table = new ArrayList<>();
             for (int i = 5; i < item.size(); i++) {
-                for (TimeTable t : timeTableManager.getTimetable()) {
+                for (TimeTable t : Main.timetableManager.getTimetable()) {
                     if (t.getCode().equals(item.get(i))) {
                         table.add(t);
                         break;
@@ -160,7 +156,7 @@ public class LectureManager implements BaseManager {
             if (InputLectureCode.equals(lec.getLectureCode())) {
                 // 해당 강의의 timetable 삭제
                 for (TimeTable deleteTimeTable : lec.getTimetable()) {
-                    timeTableManager.deleteTimeTable(deleteTimeTable.getCode());
+                    Main.timetableManager.deleteTimeTable(deleteTimeTable.getCode());
                 }
 
                 lectures.remove(lec);
@@ -174,7 +170,7 @@ public class LectureManager implements BaseManager {
     public void addLecture() {
         ScannerUtils.print("[2. 수업 추가를 선택하셨습니다.]", true);
 
-        if (timeTableManager.checkTimeTableMax()) {
+        if (Main.timetableManager.checkTimeTableMax()) {
             ScannerUtils.print("강의실이 꽉 차 수업을 추가로 등록하실 수 없습니다.", true);
         } else {
             String[] dataList = new String[4];
@@ -185,8 +181,8 @@ public class LectureManager implements BaseManager {
             String time;
 
             // 과목 선택
-            for (int i = 0; i < subjectManager.getSubjectss().size(); i++) {
-                Subject subject = subjectManager.getSubjectss().get(i);
+            for (int i = 0; i < Main.subjectManager.getSubjectss().size(); i++) {
+                Subject subject = Main.subjectManager.getSubjectss().get(i);
                 ScannerUtils.print((i + 1) + ") " + subject.getName() + "    ", false);
             }
             ScannerUtils.print("\n추가할 수업의 과목을 선택해 주세요: ", false);
@@ -195,18 +191,18 @@ public class LectureManager implements BaseManager {
             String input = ScannerUtils.scanWithPattern(CommonPattern.TWO_CHOICE, CommonPatternError.TWO_CHOICE);
 
             // 과목 코드 저장
-            dataList[0] = subjectManager.getSubjectss().get(Integer.parseInt(input) - 1).getCode();
+            dataList[0] = Main.subjectManager.getSubjectss().get(Integer.parseInt(input) - 1).getCode();
 
             ScannerUtils.print(
-                    "[" + subjectManager.getSubjectss().get(Integer.parseInt(input) - 1).getName() + "을(를) 선택하셨습니다.]",
+                    "[" + Main.subjectManager.getSubjectss().get(Integer.parseInt(input) - 1).getName() + "을(를) 선택하셨습니다.]",
                     true);
 
             // 선생님 선택
             List<Integer> whichTeacher = new ArrayList<>();
             int count = 0;
 
-            for (int i = 0; i < teacherManager.getTeachers().size(); i++) {
-                Teacher teacher = teacherManager.getTeachers().get(i);
+            for (int i = 0; i < Main.teacherManager.getTeachers().size(); i++) {
+                Teacher teacher = Main.teacherManager.getTeachers().get(i);
 
                 if (teacher.getSubjectCode().equals(dataList[0])) {
                     count++;
@@ -219,12 +215,12 @@ public class LectureManager implements BaseManager {
             String ChoiceNumber = "^[1-" + count + "]$";
             input = ScannerUtils.scanWithPattern(ChoiceNumber, CommonPatternError.TEACHER_ID);
             ScannerUtils.print(
-                    "[" + teacherManager.getTeachers().get(whichTeacher.get(Integer.parseInt(input) - 1)).getName()
+                    "[" + Main.teacherManager.getTeachers().get(whichTeacher.get(Integer.parseInt(input) - 1)).getName()
                             + "을 선택하셨습니다.]", true);
 
             // 선생님 ID 저장
-            dataList[1] = teacherManager.getTeachers().get(whichTeacher.get(Integer.parseInt(input) - 1)).getCode();
-            Teacher teacherNow = teacherManager.getTeachers().get(whichTeacher.get(Integer.parseInt(input) - 1));
+            dataList[1] = Main.teacherManager.getTeachers().get(whichTeacher.get(Integer.parseInt(input) - 1)).getCode();
+            Teacher teacherNow = Main.teacherManager.getTeachers().get(whichTeacher.get(Integer.parseInt(input) - 1));
 
             // 수업 코드 저장 (근데 수업 삭제하면 수업 코드는 어디부터임?)
 //            dataList[2] = Integer.toString(++maxCode);
@@ -237,8 +233,8 @@ public class LectureManager implements BaseManager {
             do {
                 // 강의실 선택
                 ScannerUtils.print("   강의실    수용가능인원", true);
-                for (int i = 0; i < lectureRoomManager.getRoom().size(); i++) {
-                    LectureRoom rooms = lectureRoomManager.getRoom().get(i);
+                for (int i = 0; i < Main.lectureroomManager.getRoom().size(); i++) {
+                    LectureRoom rooms = Main.lectureroomManager.getRoom().get(i);
                     ScannerUtils.print((i + 1) + ") " + rooms.getCode() + "    " + rooms.getLimit() + "명", true);
                 }
 
@@ -246,20 +242,20 @@ public class LectureManager implements BaseManager {
 
                 // TODO: 정규식 변경에 따른 예외 처리는 여기를 보시면 됩니다 ~
 
-                ChoiceNumber = "^[1-" + lectureRoomManager.getRoom().size() + "]$";
+                ChoiceNumber = "^[1-" + Main.lectureroomManager.getRoom().size() + "]$";
                 input = ScannerUtils.scanWithPattern(ChoiceNumber, CommonPatternError.LECTURE_ROOM_CHOICE);
 
                 // 강의실 코드 저장
-                room = lectureRoomManager.getRoom().get(Integer.parseInt(input) - 1).getCode();
+                room = Main.lectureroomManager.getRoom().get(Integer.parseInt(input) - 1).getCode();
 
                 // 강의실 코드로 가장 작은 수업 정원을 강의의 정원으로 선택
-                lectureLimit = min(lectureLimit, Integer.parseInt(lectureRoomManager.getRoomLimit(room)));
+                lectureLimit = min(lectureLimit, Integer.parseInt(Main.lectureroomManager.getRoomLimit(room)));
 
                 // 수업의 현재 수강 인원, 새로 개설되는 수업이므로 0으로 설정
                 String lectureNow = "0";
                 dataList[3] = lectureNow;
 
-                timeTableManager.displayTimeTable(room);
+                Main.timetableManager.displayTimeTable(room);
 
                 // 수업 요일 선택
                 ScannerUtils.print("1) 월요일    2) 화요일    3) 수요일    4) 목요일    5) 금요일    6) 토요일", true);
@@ -287,8 +283,8 @@ public class LectureManager implements BaseManager {
                         }
                     }
 
-                    if (!checkDuplicate && timeTableManager.findTable(room, day, time)) {
-                        String code = timeTableManager.addTimeTable(room, day, time);
+                    if (!checkDuplicate && Main.timetableManager.findTable(room, day, time)) {
+                        String code = Main.timetableManager.addTimeTable(room, day, time);
                         timetable.add(new TimeTable(code, room, day, time));
                         ScannerUtils.print("해당 타임에 정상적으로 추가되었습니다.", true);
                     } else {
@@ -334,7 +330,7 @@ public class LectureManager implements BaseManager {
     }
 
     public void editDate() {
-        if (timeTableManager.getTimetable().isEmpty()) {
+        if (Main.timetableManager.getTimetable().isEmpty()) {
             ScannerUtils.print("등록되어 있는 수업이 없습니다.", true);
         } else {
             ScannerUtils.print("변경할 수업 코드를 선택하시오", true);
@@ -435,7 +431,7 @@ public class LectureManager implements BaseManager {
 
             saveData.add(data);
         }
-        timeTableManager.saveDataFile();
+        Main.timetableManager.saveDataFile();
         Read.writeLectureCSV(saveData);
     }
 
@@ -460,20 +456,20 @@ public class LectureManager implements BaseManager {
         }
         checkName.clear();
 
-        for (Subject sub : subjectManager.getSubjectss()) {
+        for (Subject sub : Main.subjectManager.getSubjectss()) {
             checkName.add(sub.getCode());
         }
-        if (checkName.size() != subjectManager.getSubjectss().size()) {
+        if (checkName.size() != Main.subjectManager.getSubjectss().size()) {
             System.out.println(2);
             ScannerUtils.print("특정 ID가 중복 조회되고 있습니다. csv 파일을 확인해주세요.", true);
             return false;
         }
         checkName.clear();
 
-        for (Teacher tec : teacherManager.getTeachers()) {
+        for (Teacher tec : Main.teacherManager.getTeachers()) {
             checkName.add(tec.getCode());
         }
-        if (checkName.size() != teacherManager.getTeachers().size()) {
+        if (checkName.size() != Main.teacherManager.getTeachers().size()) {
             System.out.println(3);
             ScannerUtils.print("특정 ID가 중복 조회되고 있습니다. csv 파일을 확인해주세요.", true);
             return false;
@@ -525,7 +521,7 @@ public class LectureManager implements BaseManager {
         // 2개의 강의를 비교하여 시간이 겹치는지 확인
         for(TimeTable table1 : lec1.getTimetable()) {
             for(TimeTable table2 : lec2.getTimetable()) {
-                if(timeTableManager.isOverLappedTime(table1, table2)) {
+                if(Main.timetableManager.isOverLappedTime(table1, table2)) {
                     return true;
                 }
             }
