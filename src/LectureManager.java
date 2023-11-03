@@ -403,7 +403,7 @@ public class LectureManager implements BaseManager {
             }
 
             //TODO : 타임테이블 빈자리 있으면 그대로 저장 빈자리 없으면 도루묵
-            if (timeTableManager.findTable(room, day, time)) {
+            if (Main.timetableManager.findTable(room, day, time)) {
                 //TODO : timetable.day = day  timetable.time = time  이렇게
                 tb_toEdit.setLectureDays(day);
                 tb_toEdit.setLectureTime(time);
