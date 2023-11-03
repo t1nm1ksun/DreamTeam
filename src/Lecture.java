@@ -9,7 +9,7 @@ public class Lecture {
     private final String limit;
     private String count;
 
-    public Lecture(String subjectCode, String teacher, String LectureCode, String limit, String count,
+    public Lecture(String LectureCode, String subjectCode, String teacher, String limit, String count,
                    List<TimeTable> timetable) {
         this.subjectCode = subjectCode;
         this.teacher = teacher;
