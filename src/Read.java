@@ -1,6 +1,7 @@
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -44,6 +45,41 @@ public  class Read {
             }
         }
         return list;
+    }
+
+    public static boolean validateCSVRef(BaseManager fromManager, BaseManager toManager, String fromIndex, String toIndex){
+        boolean hasMultiRef = fromIndex.startsWith("+");
+        ArrayList<String> fromPks = new ArrayList<String>();
+        ArrayList<String> toPks = new ArrayList<String>();
+        List<List<String>> fromList = readCSV(fromManager.getCsvFilePath());
+        List<List<String>> toList = readCSV(toManager.getCsvFilePath());
+        int toIndexInt = Integer.parseInt(toIndex);
+
+        if(hasMultiRef){
+            int fromIndexInt = Integer.parseInt(fromIndex.replace("+",""));
+            for (List<String> row : fromList) {
+                for (int j = fromIndexInt; j < row.size(); j++) {
+                    fromPks.add(row.get(j));
+                }
+            }
+        } else {
+            int fromIndexInt = Integer.parseInt(fromIndex);
+            for (List<String> row : fromList) {
+                fromPks.add(row.get(fromIndexInt));
+            }
+            for (List<String> row : toList) {
+                toPks.add(row.get(toIndexInt));
+            }
+        }
+
+        for(String fromPk: fromPks){
+            if(!toPks.contains(fromPk)) {
+                ScannerUtils.print(fromManager.getCsvFilePath() + "파일에서 " + toManager.getCsvFilePath() + "파일을 참조하는데에 있어 " + fromPk + "값이 존재하지 않습니다.",true);
+                return false;
+            }
+        }
+
+        return true;
     }
 
     public static boolean validateCSVFormat(List<List<String>> list, List<String> regexList, String fileName){
