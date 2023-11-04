@@ -380,8 +380,7 @@ public class StudentManager implements BaseManager {
             checkName.add(std.getId());
         }
         if (checkName.size() != studentList.size()) {
-            System.out.println(1);
-            ScannerUtils.print("특정 ID가 중복 조회되고 있습니다. csv 파일을 확인해주세요.", true);
+            ScannerUtils.print("student.csv의 특정 ID가 중복 조회되고 있습니다. csv 파일을 확인해주세요.", true);
             return false;
         }
         return true;

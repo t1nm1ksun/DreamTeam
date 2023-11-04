@@ -201,7 +201,7 @@ public class LectureManager implements BaseManager {
             ScannerUtils.print("\n추가할 수업의 과목을 선택해 주세요: ", false);
 
             // TODO: 여기서 예외 처리 어떻게 할지 (과목 갯수가 달라지면 정규식도 바껴야 함)
-            String input = ScannerUtils.scanWithPattern(CommonPattern.SUBJECT_CODE, CommonPatternError.TWO_CHOICE);
+            String input = ScannerUtils.scanWithPattern(CommonPattern.TWO_CHOICE, CommonPatternError.TWO_CHOICE);
 
             // 과목 코드 저장
             dataList[0] = Main.subjectManager.getSubjectss().get(Integer.parseInt(input) - 1).getCode();
@@ -466,8 +466,7 @@ public class LectureManager implements BaseManager {
             checkName.add(lec.getLectureCode());
         }
         if (checkName.size() != lectures.size()) {
-            System.out.println(1);
-            ScannerUtils.print("특정 ID가 중복 조회되고 있습니다. csv 파일을 확인해주세요.", true);
+            ScannerUtils.print("lecture.csv의 특정 ID가 중복 조회되고 있습니다. csv 파일을 확인해주세요.", true);
             return false;
         }
         checkName.clear();
@@ -476,8 +475,7 @@ public class LectureManager implements BaseManager {
             checkName.add(sub.getCode());
         }
         if (checkName.size() != Main.subjectManager.getSubjectss().size()) {
-            System.out.println(2);
-            ScannerUtils.print("특정 ID가 중복 조회되고 있습니다. csv 파일을 확인해주세요.", true);
+            ScannerUtils.print("subject.csv의 특정 ID가 중복 조회되고 있습니다. csv 파일을 확인해주세요.", true);
             return false;
         }
         checkName.clear();
@@ -486,8 +484,23 @@ public class LectureManager implements BaseManager {
             checkName.add(tec.getCode());
         }
         if (checkName.size() != Main.teacherManager.getTeachers().size()) {
-            System.out.println(3);
-            ScannerUtils.print("특정 ID가 중복 조회되고 있습니다. csv 파일을 확인해주세요.", true);
+            ScannerUtils.print("teacher.csv의 특정 ID가 중복 조회되고 있습니다. csv 파일을 확인해주세요.", true);
+            return false;
+        }
+        checkName.clear();
+        for (LectureRoom room : Main.lectureroomManager.getRoom()) {
+            checkName.add(room.getCode());
+        }
+        if (checkName.size() != Main.lectureroomManager.getRoom().size()) {
+            ScannerUtils.print("lecture-room.csv의 특정 ID가 중복 조회되고 있습니다. csv 파일을 확인해주세요.", true);
+            return false;
+        }
+        checkName.clear();
+        for (TimeTable table : Main.timetableManager.getTimetable()) {
+            checkName.add(table.getCode());
+        }
+        if (checkName.size() != Main.timetableManager.getTimetable().size()) {
+            ScannerUtils.print("lecture-room.csv의 특정 ID가 중복 조회되고 있습니다. csv 파일을 확인해주세요.", true);
             return false;
         }
         return true;
