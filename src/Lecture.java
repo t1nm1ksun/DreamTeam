@@ -37,7 +37,7 @@ public class Lecture {
         ScannerUtils.print("수업코드 : " + this.lectureCode, false);
         ScannerUtils.print("    과목코드 : " + this.subjectCode, false);
         ScannerUtils.print("    선생님 :  " + this.teacher, false);
-        for(TimeTable table : timetable) {
+        for (TimeTable table : timetable) {
             table.showTimeTable();
         }
         ScannerUtils.print("", true);

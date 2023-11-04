@@ -40,7 +40,7 @@ public class TimeTable {
         ScannerUtils.print("    " + this.roomId + " 강의실 ", false);
         ScannerUtils.print(showLectureDays() + " ", false);
         ScannerUtils.print(showLectureTime() + " ", false);
-        ScannerUtils.print("/ ",false);
+        ScannerUtils.print("/ ", false);
     }
 
 

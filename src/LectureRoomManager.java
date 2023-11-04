@@ -1,11 +1,8 @@
-import static java.lang.Math.min;
-
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 
-public class LectureRoomManager implements BaseManager{
+public class LectureRoomManager implements BaseManager {
     private final List<LectureRoom> rooms = new ArrayList<>(); // 강의실목록을 저장할 리스트
 
     @Override
@@ -15,8 +12,9 @@ public class LectureRoomManager implements BaseManager{
 
     @Override
     public List<String> getRegexList() {
-        return Arrays.asList(CommonPattern.ROOM_ID,CommonPattern.ROOM_LIMIT);
+        return Arrays.asList(CommonPattern.ROOM_ID, CommonPattern.ROOM_LIMIT);
     }
+
     public LectureRoomManager() {
         List<List<String>> list = Read.readCSV("src/lecture-room.csv");
         List<List<String>> stuList = Read.readCSV("src/student.csv");

@@ -1,5 +1,3 @@
-import static java.lang.Integer.parseInt;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -18,7 +16,8 @@ public class TimeTableManager implements BaseManager {
 
     @Override
     public List<String> getRegexList() {
-        return Arrays.asList(CommonPattern.TIMETABLE_CODE,CommonPattern.ROOM_ID,CommonPattern.LECTURE_DATE,CommonPattern.LECTURE_TIME);
+        return Arrays.asList(CommonPattern.TIMETABLE_CODE, CommonPattern.ROOM_ID, CommonPattern.LECTURE_DATE,
+                CommonPattern.LECTURE_TIME);
     }
 
     public TimeTableManager() {
@@ -85,7 +84,7 @@ public class TimeTableManager implements BaseManager {
 
     public boolean isOverLappedTime(TimeTable table1, TimeTable table2) {
         // 2개의 타임테이블이 겹치는지 확인
-        if(table1.getLectureDays().equals(table2.getLectureDays())
+        if (table1.getLectureDays().equals(table2.getLectureDays())
                 && table1.getLectureTime().equals(table2.getLectureTime())) {
             return true;
         }
@@ -96,8 +95,8 @@ public class TimeTableManager implements BaseManager {
         int cmpCode = 6000;
         boolean isNew = false;
         timetables.sort(Comparator.comparing(TimeTable::getCode));
-        for(TimeTable table : timetables) {
-            if(!Integer.toString(cmpCode).equals(table.getCode())) {
+        for (TimeTable table : timetables) {
+            if (!Integer.toString(cmpCode).equals(table.getCode())) {
                 TimeTable t1 = new TimeTable(Integer.toString(cmpCode), roomId, day, lectureTime);
                 timetables.add(t1);
                 isNew = true;
@@ -107,7 +106,7 @@ public class TimeTableManager implements BaseManager {
             }
         }
 
-        if(!isNew) {
+        if (!isNew) {
             TimeTable t1 = new TimeTable(Integer.toString(cmpCode), roomId, day, lectureTime);
             timetables.add(t1);
         }
@@ -116,7 +115,7 @@ public class TimeTableManager implements BaseManager {
     }
 
     public void deleteTimeTable(String code) { // timetable 삭제
-        if(hasTimeTable(code) == null) {
+        if (hasTimeTable(code) == null) {
             ScannerUtils.print("존재하지 않는 타임테이블 코드입니다. 다시 입력 바랍니다.", true);
         } else {
             for (TimeTable tab : timetables) {
@@ -139,6 +138,7 @@ public class TimeTableManager implements BaseManager {
         }
         return null;
     }
+
     public void saveDataFile() {
         //lectures 들을 알맞은 형식의 데이터로 전환한 뒤 파일에 저장
         for (TimeTable lec : timetables) {

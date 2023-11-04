@@ -12,7 +12,7 @@ public class SubjectManager implements BaseManager {
 
     @Override
     public List<String> getRegexList() {
-        return Arrays.asList(CommonPattern.SUBJECT_CODE,CommonPattern.STUDENT_NAME);
+        return Arrays.asList(CommonPattern.SUBJECT_CODE, CommonPattern.STUDENT_NAME);
     }
 
 

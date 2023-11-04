@@ -1,4 +1,8 @@
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 public class StudentManager implements BaseManager {
     private final List<String[]> saveData = new ArrayList<>(); //프로그램 종료시 저장 파일
@@ -11,7 +15,8 @@ public class StudentManager implements BaseManager {
 
     @Override
     public List<String> getRegexList() {
-        return Arrays.asList(CommonPattern.STUDENT_ID,CommonPattern.STUDENT_NAME,CommonPattern.PHONE_NUMBER,"+"+CommonPattern.LECTURE_CODE);
+        return Arrays.asList(CommonPattern.STUDENT_ID, CommonPattern.STUDENT_NAME, CommonPattern.PHONE_NUMBER,
+                "+" + CommonPattern.LECTURE_CODE);
     }
 
     /**
@@ -108,7 +113,7 @@ public class StudentManager implements BaseManager {
             // 학생 리스트가 비어있을 경우, 첫 번째 학생의 ID는 "4001"로 설정합니다.
             dataList[0] = "4000";
         }
-        if(dataList[2]!=null){
+        if (dataList[2] != null) {
             Student newStudent = new Student(dataList[0], dataList[1], dataList[2]);
             studentList.add(newStudent);
             System.out.println("[학생 등록이 완료되었습니다.]");
@@ -253,7 +258,8 @@ public class StudentManager implements BaseManager {
                             }
 
                             if (isSuccess) {
-                                List<Lecture> StudentLectureList = Main.lectureManager.getStudentsLectureList(studentToEdit);
+                                List<Lecture> StudentLectureList = Main.lectureManager.getStudentsLectureList(
+                                        studentToEdit);
                                 // 추가할 수 있는 수업 리스트를 보여줌
                                 if (!Main.lectureManager.showAddableLectures(StudentLectureList)) {
                                     ScannerUtils.print("더이상 추가할 수 있는 수업이 없습니다.", true);
@@ -336,7 +342,7 @@ public class StudentManager implements BaseManager {
 
     public void checkDeletedLecture(String code) {
         // 학생이 듣는 수업이 삭제되었다면 확인해서 삭제
-        for(Student stu : studentList) {
+        for (Student stu : studentList) {
             stu.getLectureList().removeIf(code::equals);
         }
     }
@@ -362,6 +368,7 @@ public class StudentManager implements BaseManager {
             System.out.println("[오류: 입력 형식이 맞지 않거나 해당 아이디의 학생이 존재하지 않습니다.]");
         }
     }
+
     public boolean checkSameID() {
         Set<String> checkName = new HashSet<>();
 
