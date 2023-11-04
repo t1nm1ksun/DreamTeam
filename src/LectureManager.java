@@ -22,8 +22,11 @@ public class LectureManager implements BaseManager {
      * csv로부터 읽어온파일들을 순서대로 lectures에 저장 마지막에 한번에 저장하기 위해 saveData에 순차적 저장
      */
     public LectureManager() {
+
+    }
+    public void makeLectures(){
         List<List<String>> list = Read.readCSV("src/lecture.csv");
-       // List<String> regexList = Arrays.asList(CommonPattern.LECTURE_CODE, CommonPattern.SUBJECT_CODE,CommonPattern.TEACHER_ID,CommonPattern.)
+        // List<String> regexList = Arrays.asList(CommonPattern.LECTURE_CODE, CommonPattern.SUBJECT_CODE,CommonPattern.TEACHER_ID,CommonPattern.)
 
 
         for (List<String> item : list) {
@@ -46,7 +49,6 @@ public class LectureManager implements BaseManager {
             maxLecture++;
         }
     }
-
     public Lecture hasLecture(String lectureCode) {
         for (Lecture lecture : lectures) {
             if (lecture.getLectureCode().equals(lectureCode)) {
@@ -190,7 +192,7 @@ public class LectureManager implements BaseManager {
             ScannerUtils.print("\n추가할 수업의 과목을 선택해 주세요: ", false);
 
             // TODO: 여기서 예외 처리 어떻게 할지 (과목 갯수가 달라지면 정규식도 바껴야 함)
-            String input = ScannerUtils.scanWithPattern(CommonPattern.TWO_CHOICE, CommonPatternError.TWO_CHOICE);
+            String input = ScannerUtils.scanWithPattern(CommonPattern.SUBJECT_CODE, CommonPatternError.TWO_CHOICE);
 
             // 과목 코드 저장
             dataList[0] = Main.subjectManager.getSubjectss().get(Integer.parseInt(input) - 1).getCode();

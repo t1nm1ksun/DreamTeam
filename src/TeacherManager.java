@@ -3,7 +3,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class TeacherManager implements BaseManager {
-    private final List<Teacher> teachers = new ArrayList<>();
+    private  List<Teacher> teachers = new ArrayList<>();
     private final Read read = new Read();
 
 
@@ -18,11 +18,15 @@ public class TeacherManager implements BaseManager {
     }
     public TeacherManager() {
         //여기서 csv 파일 읽어서 과목들을 생성
+
+    }
+
+    public void makeTeachers(){
         List<List<String>> teacherlist = read.readCSV("src/teacher.csv");
 
         for (List<String> item : teacherlist) {
             List<TimeTable> table = new ArrayList<>();
-            
+
             for (int i = 3; i < item.size(); i++) {
                 for (TimeTable t : Main.timetableManager.getTimetable()) {
                     if (t.getCode().equals(item.get(i))) {
@@ -36,7 +40,6 @@ public class TeacherManager implements BaseManager {
             teachers.add(t1);
         }
     }
-
     public String find(String input) {
         for (Teacher t : teachers) {
             if (t.getName().equals(input)) {

@@ -25,9 +25,6 @@ public class Main {
     private Read read = new Read();
     public static void main(String[] args) {
 
-        if (!lectureManager.checkSameID() || !studentManager.checkSameID()) {
-            return; //id체크후 다를시종료
-        }
         if(!Read.validateCSVListFormat(Arrays.asList(subjectManager,timetableManager,lectureManager,lectureroomManager,studentManager,teacherManager ))){
             return;
         }
@@ -41,7 +38,17 @@ public class Main {
         if(!Read.validateCSVRef(teacherManager, subjectManager, "2", "0")) return;//선생 : - 과목코드
         if(!Read.validateCSVRef(studentManager, lectureManager, "+3", "0"))return;// 학생: - 수업코드
 
+        lectureroomManager.makeRooms();
+        timetableManager.makeTimetables();
+        lectureManager.makeLectures();
+        studentManager.makeStudents();
+        subjectManager.makeSubjects();
+        teacherManager.makeTeachers();
 
+
+        if (!lectureManager.checkSameID() || !studentManager.checkSameID()) {
+            return; //id체크후 다를시종료
+        }
         //TODO 학생,타임테이블체크도 추가
 
         while (mainMenu != 3) {
