@@ -3,7 +3,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class SubjectManager implements BaseManager {
-    private final List<Subject> subjects;
+    private List<Subject> subjects;
 
     @Override
     public String getCsvFilePath() {
@@ -18,6 +18,9 @@ public class SubjectManager implements BaseManager {
 
     public SubjectManager() {
         //여기서 csv 파일 읽어서 과목들을 생성
+
+    }
+    public void makeSubjects(){
         subjects = new ArrayList<>();
         Read read = new Read();
         List<List<String>> subjectList = read.readCSV("src/subject.csv");
@@ -26,7 +29,6 @@ public class SubjectManager implements BaseManager {
             subjects.add(s1);
         }
     }
-
     public String find(String input) {
         for (Subject sbj : subjects) {
             if (sbj.getName().equals(input)) {

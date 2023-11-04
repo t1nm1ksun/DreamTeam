@@ -16,6 +16,9 @@ public class LectureRoomManager implements BaseManager {
     }
 
     public LectureRoomManager() {
+
+    }
+    public void makeRooms(){
         List<List<String>> list = Read.readCSV("src/lecture-room.csv");
         List<List<String>> stuList = Read.readCSV("src/student.csv");
         Integer num = stuList.size();
@@ -28,7 +31,6 @@ public class LectureRoomManager implements BaseManager {
         }
 
     }
-
     public String getRoomLimit(String roomCode) {
         for (LectureRoom room : rooms) {
             if (roomCode.equals(room.getCode())) {
