@@ -224,6 +224,7 @@ public class LectureManager implements BaseManager {
 
             String ChoiceNumber = "^[1-" + count + "]$";
             input = ScannerUtils.scanWithPattern(ChoiceNumber, CommonPatternError.TEACHER_ID);
+
             ScannerUtils.print(
                     "[" + Main.teacherManager.getTeachers().get(whichTeacher.get(Integer.parseInt(input) - 1)).getName()
                             + "을 선택하셨습니다.]", true);
