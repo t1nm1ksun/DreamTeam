@@ -36,6 +36,7 @@ public class Main {
         if(!Read.validateCSVRef(lectureManager, timetableManager, "+5", "0")) return;//수업 : - 타임테이블 코드
         if(!Read.validateCSVRef(teacherManager, timetableManager, "+3", "0")) return;//선생 : -타임테이블 코드
         if(!Read.validateCSVRef(teacherManager, subjectManager, "2", "0")) return;//선생 : - 과목코드
+        if(!Read.validateCSVRef(subjectManager, teacherManager, "0", "2")) return;//선생 : - 과목코드
         if(!Read.validateCSVRef(studentManager, lectureManager, "+3", "0"))return;// 학생: - 수업코드
 
         lectureroomManager.makeRooms();
