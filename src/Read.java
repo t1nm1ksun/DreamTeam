@@ -95,18 +95,25 @@ public class Read {
         if (hasExtraRegex) {
             String extraRegex = regexList.get(regexList.size() - 1).replace("+", "");
 
-            for(int i = 0; i < list.size(); i++){
-                for(int j = 0; j < list.get(i).size(); j++){
-                    boolean notExtraCondition = (j < itemCount - 1) && !RegexUtils.checkIsMatchesString(regexList.get(j), list.get(i).get(j));
-                    boolean extraCondition = (j >= itemCount - 1) && !RegexUtils.checkIsMatchesString(extraRegex, list.get(i).get(j));
-                    if(notExtraCondition || extraCondition){
-                        if(notExtraCondition){
-                            ScannerUtils.print(fileName + "파일의 " + (i + 1) + " 번 째 줄 / " + + (j + 1) + " 번 째 인자에 오류가 있습니다.",true);
-                            ScannerUtils.print("만족해야 하는 정규표현식: " +  regexList.get(j) + " / 현재 인자: "+ list.get(i).get(j), true);
+            for (int i = 0; i < list.size(); i++) {
+                for (int j = 0; j < list.get(i).size(); j++) {
+                    boolean notExtraCondition =
+                            (j < itemCount - 1) && !RegexUtils.checkIsMatchesString(regexList.get(j),
+                                    list.get(i).get(j));
+                    boolean extraCondition =
+                            (j >= itemCount - 1) && !RegexUtils.checkIsMatchesString(extraRegex, list.get(i).get(j));
+                    if (notExtraCondition || extraCondition) {
+                        if (notExtraCondition) {
+                            ScannerUtils.print(
+                                    fileName + "파일의 " + (i + 1) + " 번 째 줄 / " + +(j + 1) + " 번 째 인자에 오류가 있습니다.", true);
+                            ScannerUtils.print("만족해야 하는 정규표현식: " + regexList.get(j) + " / 현재 인자: " + list.get(i).get(j),
+                                    true);
                         }
-                        if(extraCondition){
-                            ScannerUtils.print(fileName + "파일의 " + (i + 1) + " 번 째 줄 / " + + (j + 1) + " 번 째 인자에 오류가 있습니다.",true);
-                            ScannerUtils.print("만족해야 하는 정규표현식: " +  extraRegex + " / 현재 인자: "+ list.get(i).get(j), true);
+                        if (extraCondition) {
+                            ScannerUtils.print(
+                                    fileName + "파일의 " + (i + 1) + " 번 째 줄 / " + +(j + 1) + " 번 째 인자에 오류가 있습니다.", true);
+                            ScannerUtils.print("만족해야 하는 정규표현식: " + extraRegex + " / 현재 인자: " + list.get(i).get(j),
+                                    true);
                         }
                         return false;
                     }
@@ -115,22 +122,24 @@ public class Read {
             return true;
         }
 
-        if(!hasExtraRegex){
-           for(int i = 0; i < list.size(); i++) {
-               if(itemCount != list.get(i).size()){
-                   ScannerUtils.print(fileName + "파일의 " + (i + 1) + " 번 째 줄의 인자수가 맞지 않습니다.",true);
-                   ScannerUtils.print("필요한 인자의 수: " + itemCount + " / 현재 인자의 수: " + list.get(i).size(), true);
-                   return false;
-               }
-               for(int j = 0; j < regexList.size(); j ++){
-                   if(!RegexUtils.checkIsMatchesString(regexList.get(j), list.get(i).get(j))){
-                       ScannerUtils.print(fileName + "파일의 " + (i + 1) + " 번 째 줄 / " + + (j + 1) + " 번 째 인자에 오류가 있습니다.",true);
-                       ScannerUtils.print("만족해야 하는 정규표현식: " + regexList.get(j) + " / 현재 인자: "+ list.get(i).get(j), true);
-                       return false;
-                   }
-               }
-           }
-           return true;
+        if (!hasExtraRegex) {
+            for (int i = 0; i < list.size(); i++) {
+                if (itemCount != list.get(i).size()) {
+                    ScannerUtils.print(fileName + "파일의 " + (i + 1) + " 번 째 줄의 인자수가 맞지 않습니다.", true);
+                    ScannerUtils.print("필요한 인자의 수: " + itemCount + " / 현재 인자의 수: " + list.get(i).size(), true);
+                    return false;
+                }
+                for (int j = 0; j < regexList.size(); j++) {
+                    if (!RegexUtils.checkIsMatchesString(regexList.get(j), list.get(i).get(j))) {
+                        ScannerUtils.print(fileName + "파일의 " + (i + 1) + " 번 째 줄 / " + +(j + 1) + " 번 째 인자에 오류가 있습니다.",
+                                true);
+                        ScannerUtils.print("만족해야 하는 정규표현식: " + regexList.get(j) + " / 현재 인자: " + list.get(i).get(j),
+                                true);
+                        return false;
+                    }
+                }
+            }
+            return true;
         }
         return false;
     }
@@ -148,7 +157,6 @@ public class Read {
 
         return isValidated;
     }
-
 
     /**
      * csv 쓰기 파일 String 배열을 받아서 넣기!

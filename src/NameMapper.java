@@ -30,7 +30,7 @@ public class NameMapper {
         LECTURE_TIMES.put(3, "18:00~20:00");
         LECTURE_TIMES.put(4, "20:00~22:00");
     }
-
+    
     private void initializeLectureDates() {
 
         LECTURE_DATE.clear();

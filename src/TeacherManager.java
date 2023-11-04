@@ -3,7 +3,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class TeacherManager implements BaseManager {
-    private  List<Teacher> teachers = new ArrayList<>();
+    private List<Teacher> teachers = new ArrayList<>();
     private final Read read = new Read();
 
 
@@ -23,7 +23,7 @@ public class TeacherManager implements BaseManager {
 
     }
 
-    public void makeTeachers(){
+    public void makeTeachers() {
         List<List<String>> teacherlist = read.readCSV("src/teacher.csv");
 
         for (List<String> item : teacherlist) {
@@ -42,6 +42,7 @@ public class TeacherManager implements BaseManager {
             teachers.add(t1);
         }
     }
+
     public String find(String input) {
         for (Teacher t : teachers) {
             if (t.getName().equals(input)) {

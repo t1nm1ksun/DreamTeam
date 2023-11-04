@@ -25,7 +25,8 @@ public class StudentManager implements BaseManager {
     public StudentManager() {
 
     }
-    public void makeStudents(){
+
+    public void makeStudents() {
         List<List<String>> list = Read.readCSV("src/student.csv");
 
         for (List<String> item : list) {
@@ -44,6 +45,7 @@ public class StudentManager implements BaseManager {
         }
         // 파일을 읽어서 학생 class들을 만들기
     }
+
     /**
      * 학생 정보 리스트 출력 함수
      */

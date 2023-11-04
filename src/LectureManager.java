@@ -32,7 +32,8 @@ public class LectureManager implements BaseManager {
     public LectureManager() {
 
     }
-    public void makeLectures(){
+
+    public void makeLectures() {
         List<List<String>> list = Read.readCSV("src/lecture.csv");
         // List<String> regexList = Arrays.asList(CommonPattern.LECTURE_CODE, CommonPattern.SUBJECT_CODE,CommonPattern.TEACHER_ID,CommonPattern.)
 
@@ -56,6 +57,7 @@ public class LectureManager implements BaseManager {
             maxLecture++;
         }
     }
+
     public Lecture hasLecture(String lectureCode) {
         for (Lecture lecture : lectures) {
             if (lecture.getLectureCode().equals(lectureCode)) {

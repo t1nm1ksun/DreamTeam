@@ -29,7 +29,7 @@ public class StudentMenuHandler {
             }
         }
     }
-
+    
     public static void clearManageMenu() {
         Main.manageMenu = -1;
     }

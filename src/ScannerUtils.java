@@ -30,7 +30,7 @@ public class ScannerUtils {
             ScannerUtils.print(error, true);
         }
     }
-
+    
     static int scanWithPatternInteger(String pattern, String error) {
         ScannerInstance instance = ScannerInstance.getInstance();
         Scanner scanner = instance.getScanner();

@@ -67,7 +67,7 @@ public class TimeTable {
         }
         return null;
     }
-
+    
     public String showLectureTime() {
         switch (lectureTime) {
             case "1" -> {

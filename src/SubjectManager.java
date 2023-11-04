@@ -20,7 +20,8 @@ public class SubjectManager implements BaseManager {
         //여기서 csv 파일 읽어서 과목들을 생성
 
     }
-    public void makeSubjects(){
+
+    public void makeSubjects() {
         subjects = new ArrayList<>();
         Read read = new Read();
         List<List<String>> subjectList = read.readCSV("src/subject.csv");
@@ -29,6 +30,7 @@ public class SubjectManager implements BaseManager {
             subjects.add(s1);
         }
     }
+
     public String find(String input) {
         for (Subject sbj : subjects) {
             if (sbj.getName().equals(input)) {

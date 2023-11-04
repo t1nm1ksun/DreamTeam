@@ -5,7 +5,7 @@ import java.util.List;
 
 public class TimeTableManager implements BaseManager {
     public static Integer maxTimetable = 6000;  // 현재까지 만들어진 timetable의 코드 중 최대값
-    private  List<TimeTable> timetables = new ArrayList<>(); // 강의실목록을 저장할 리스트
+    private List<TimeTable> timetables = new ArrayList<>(); // 강의실목록을 저장할 리스트
     private final Read read = new Read();
     private final List<String[]> saveData = new ArrayList<>(); //프로그램 종료 시 저장 파일
 
@@ -23,7 +23,8 @@ public class TimeTableManager implements BaseManager {
     public TimeTableManager() {
 
     }
-    public void makeTimetables(){
+
+    public void makeTimetables() {
         List<List<String>> list = read.readCSV("src/timetable.csv");
 
         for (List<String> item : list) {
@@ -34,6 +35,7 @@ public class TimeTableManager implements BaseManager {
             timetables.add(l1);
         }
     }
+
     private String displayLectureTime(int lectureTime) {
         if (lectureTime == 0) {
             return "14:00~16:00";
