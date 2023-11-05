@@ -89,6 +89,7 @@ public class Read {
         int itemCount = regexList.size();
         boolean hasExtraRegex = false;
         int extraElementStartIndex = itemCount - 1;
+        List<String> pkList = new ArrayList<String>();
 
         if (!regexList.stream().filter(regex -> regex.startsWith("+")).findFirst().isEmpty()) {
             hasExtraRegex = true;
@@ -118,6 +119,15 @@ public class Read {
 
                     ScannerUtils.print(extraElementOption.errorMessage, true);
                     return false;
+                }
+
+                String pk = list.get(i).get(0);
+
+                if(pkList.contains(pk)){
+                    ScannerUtils.print(fileName + "파일에 " + pk + " ID/코드가 중복 조회 되고 있습니다.", true);
+                    return false;
+                }else {
+                    pkList.add(pk);
                 }
 
                 for (int j = 0; j < list.get(i).size(); j++) {
@@ -153,6 +163,16 @@ public class Read {
                     ScannerUtils.print("필요한 인자의 수: " + itemCount + " / 현재 인자의 수: " + list.get(i).size(), true);
                     return false;
                 }
+
+                String pk = list.get(i).get(0);
+
+                if(pkList.contains(pk)){
+                    ScannerUtils.print(fileName + "파일에 " + pk + " ID/코드가 중복 조회 되고 있습니다.", true);
+                    return false;
+                }else {
+                    pkList.add(pk);
+                }
+
                 for (int j = 0; j < regexList.size(); j++) {
                     if (!RegexUtils.checkIsMatchesString(regexList.get(j), list.get(i).get(j))) {
                         ScannerUtils.print(fileName + "파일의 " + (i + 1) + " 번 째 줄 / " + +(j + 1) + " 번 째 인자에 오류가 있습니다.",
@@ -219,6 +239,21 @@ public class Read {
             }
         }
 
+        return true;
+    }
+
+    public static boolean validateTimetableInfoDuplicated(BaseManager manager){
+        List<List<String>> csv = readCSV(manager.getCsvFilePath());
+        List<String> infoList = new ArrayList<String>();
+        for(int i = 0; i < csv.size(); i++){
+            String info = csv.get(i).get(1) + csv.get(i).get(2) + csv.get(i).get(3);
+            if(infoList.contains(info)){
+                int originalInfoIndex = infoList.indexOf(info);
+                ScannerUtils.print(manager.getCsvFilePath() + "파일에서 " + (originalInfoIndex + 1) + "번 째 줄과 " + (i+1) + "번 째 줄의 강의실, 날짜, 시간 정보가 중복되고 있습니다.",true);
+                return false;
+            }
+            infoList.add(info);
+        }
         return true;
     }
 

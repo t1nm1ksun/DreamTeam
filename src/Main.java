@@ -65,6 +65,7 @@ public class Main {
         if(!Read.validateTimetableIdDupliacated(Arrays.asList(lectureManager, teacherManager))){
             return;
         }
+        if(!Read.validateTimetableInfoDuplicated(timetableManager)) return;
 
         lectureroomManager.makeRooms();
         timetableManager.makeTimetables();
@@ -72,10 +73,6 @@ public class Main {
         studentManager.makeStudents();
         subjectManager.makeSubjects();
         teacherManager.makeTeachers();
-
-        if (!lectureManager.checkSameID() || !studentManager.checkSameID()) {
-            return; //id체크후 다를시종료
-        }
 
         //TODO 학생,타임테이블체크도 추가
 
