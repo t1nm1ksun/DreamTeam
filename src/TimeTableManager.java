@@ -5,7 +5,7 @@ import java.util.List;
 
 public class TimeTableManager implements BaseManager {
     public static Integer maxTimetable = 6000;  // 현재까지 만들어진 timetable의 코드 중 최대값
-    private  List<TimeTable> timetables = new ArrayList<>(); // 강의실목록을 저장할 리스트
+    private final List<TimeTable> timetables = new ArrayList<>(); // 강의실목록을 저장할 리스트
     private final List<String[]> saveData = new ArrayList<>(); //프로그램 종료 시 저장 파일
 
     @Override
@@ -32,8 +32,8 @@ public class TimeTableManager implements BaseManager {
     public TimeTableManager() {
 
     }
-
-    public void makeTimetables(){
+    
+    public void makeTimetables() {
         List<List<String>> list = Read.readCSV("src/timetable.csv");
 
         for (List<String> item : list) {
@@ -97,11 +97,8 @@ public class TimeTableManager implements BaseManager {
 
     public boolean isOverLappedTime(TimeTable table1, TimeTable table2) {
         // 2개의 타임테이블이 겹치는지 확인
-        if (table1.getLectureDays().equals(table2.getLectureDays())
-                && table1.getLectureTime().equals(table2.getLectureTime())) {
-            return true;
-        }
-        return false;
+        return table1.getLectureDays().equals(table2.getLectureDays())
+                && table1.getLectureTime().equals(table2.getLectureTime());
     }
 
     public String addTimeTable(String roomId, String day, String lectureTime) {// 타임테이블 추가
@@ -162,17 +159,15 @@ public class TimeTableManager implements BaseManager {
     }
 
     public boolean checkTimeTableMax() {
-        Integer timeTableLimit = Main.lectureroomManager.getRoomNumber() * 6 * 4;
+        int timeTableLimit = Main.lectureroomManager.getRoomNumber() * 6 * 4;
         return timeTableLimit == Main.lectureroomManager.getRoomNumber();
     }
 
     public Integer getTimeTableLimit() {
-        Integer timeTableLimit = Main.lectureroomManager.getRoomNumber() * 6 * 4;
-        return timeTableLimit;
+        return Main.lectureroomManager.getRoomNumber() * 6 * 4;
     }
 
     public List<TimeTable> getTimetable() {
         return timetables;
     }
-
 }

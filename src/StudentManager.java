@@ -294,7 +294,7 @@ public class StudentManager implements BaseManager {
                                 int nowCount = Integer.parseInt(addingLecture.getCount());
 
 //                                ScannerUtils.print(minLimit + ", " + nowCount, true);
-
+                                
                                 String ERRMSG = "";
                                 // 선택한 수업에 대해 강의실들의 수강 제한인원을 넘는지 체크
                                 if (minLimit < nowCount + 1) {

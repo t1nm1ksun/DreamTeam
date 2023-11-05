@@ -20,7 +20,6 @@ public class Main {
     public static SubjectManager subjectManager = new SubjectManager();
     public static LectureRoomManager lectureroomManager = new LectureRoomManager();
     public static TeacherManager teacherManager = new TeacherManager();
-    private Read read = new Read();
 
     public static void main(String[] args) {
 
@@ -60,6 +59,13 @@ public class Main {
             return;// 학생: - 수업코드
         }
 
+        if(!Read.validatePhoneNumberDupliacated(Arrays.asList(studentManager))){
+            return;
+        }
+        if(!Read.validateTimetableIdDupliacated(Arrays.asList(lectureManager, teacherManager))){
+            return;
+        }
+
         lectureroomManager.makeRooms();
         timetableManager.makeTimetables();
         lectureManager.makeLectures();
@@ -76,6 +82,7 @@ public class Main {
         while (mainMenu != 3) {
             MainMenuHandler.handle(lectureManager, studentManager);
         }
+
         lectureManager.saveDataFile();
         studentManager.saveDataFile();
         timetableManager.saveDataFile();
