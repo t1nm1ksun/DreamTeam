@@ -395,8 +395,22 @@ public class LectureManager implements BaseManager {
 
             ScannerUtils.print("변경할 타임의 타임테이블 코드를 입력하세요 (ex: 6000): ", false);
 
-            String code_toEdit = ScannerUtils.scanWithPattern(CommonPattern.TIMETABLE_CODE,
-                    CommonPatternError.TIMETABLE_CODE); // TODO : 바꿀 타임테이블 입력받기 (민석)
+            String code_toEdit = "";
+
+            boolean has = false;
+            while(!has){
+                code_toEdit = ScannerUtils.scanWithPattern(CommonPattern.TIMETABLE_CODE,
+                        CommonPatternError.TIMETABLE_CODE);
+                for(TimeTable timetable : hasLecture(LectureEditMenuHandler.input).getTimetable()){
+                    if(timetable.getCode().equals(code_toEdit)){
+                        has=true;
+                        break;
+                    }
+                }
+                ScannerUtils.print("존재하지 않습니다. 재입력 바랍니다.", true);
+
+            }
+
             //받아
             TimeTable tb_toEdit = null;
 
