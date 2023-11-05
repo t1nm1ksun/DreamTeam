@@ -1,7 +1,6 @@
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -14,7 +13,7 @@ public class Read {
      * Lecture(item.get(0), item.get(1), item.get(2), item.get(3),item.get(4)); lectures.add(l1); } Lecture class에 있는
      * 것처럼 사용시에 순서대로 초기화됨 사용시 주의점: csv파일 생성 후 연결파일을 반드시 메모장으로!
      *
-     * @return List<List<String>> 배열 item
+     * @return List<List < String>> 배열 item
      */
     public static List<List<String>> readCSV(String filePath) {
         List<List<String>> list = new ArrayList<List<String>>();
@@ -85,7 +84,8 @@ public class Read {
         return true;
     }
 
-    public static boolean validateCSVFormat(List<List<String>> list, List<String> regexList, String fileName, CsvExtraElementOption extraElementOption, boolean isCsvRowsRequired) {
+    public static boolean validateCSVFormat(List<List<String>> list, List<String> regexList, String fileName,
+                                            CsvExtraElementOption extraElementOption, boolean isCsvRowsRequired) {
         int itemCount = regexList.size();
         boolean hasExtraRegex = false;
         int extraElementStartIndex = itemCount - 1;
@@ -95,7 +95,7 @@ public class Read {
             hasExtraRegex = true;
         }
 
-        if(isCsvRowsRequired && list.size() == 0){
+        if (isCsvRowsRequired && list.size() == 0) {
             ScannerUtils.print(fileName + "파일은 적어도 한 줄의 데이터가 필요합니다.", true);
             return false;
         }
@@ -104,16 +104,16 @@ public class Read {
             String extraRegex = regexList.get(regexList.size() - 1).replace("+", "");
 
             for (int i = 0; i < list.size(); i++) {
-                if(!extraElementOption.isExtraElementsRequired && list.get(i).size() < itemCount - 1){
-                    ScannerUtils.print(fileName + "파일의 " + (i + 1) + " 번 째 줄의 인자수가 맞지 않습니다.", true);
-                    ScannerUtils.print("필요한 인자의 수: " +  (itemCount - 1)  + " / 현재 인자의 수: " + list.get(i).size(), true);
+                if (!extraElementOption.isExtraElementsRequired && list.get(i).size() < itemCount - 1) {
+                    ScannerUtils.print(fileName + "파일의 " + (i + 1) + " 번째 줄의 인자수가 맞지 않습니다.", true);
+                    ScannerUtils.print("필요한 인자의 수: " + (itemCount - 1) + " / 현재 인자의 수: " + list.get(i).size(), true);
                     return false;
                 }
 
-                if(extraElementOption.isExtraElementsRequired && list.get(i).size() < itemCount){
-                    if(list.get(i).size() < itemCount - 1){
-                        ScannerUtils.print(fileName + "파일의 " + (i + 1) + " 번 째 줄의 인자수가 맞지 않습니다.", true);
-                        ScannerUtils.print("필요한 인자의 수: " +  itemCount  + " / 현재 인자의 수: " + list.get(i).size(), true);
+                if (extraElementOption.isExtraElementsRequired && list.get(i).size() < itemCount) {
+                    if (list.get(i).size() < itemCount - 1) {
+                        ScannerUtils.print(fileName + "파일의 " + (i + 1) + " 번째 줄의 인자수가 맞지 않습니다.", true);
+                        ScannerUtils.print("필요한 인자의 수: " + itemCount + " / 현재 인자의 수: " + list.get(i).size(), true);
                         return false;
                     }
 
@@ -123,10 +123,10 @@ public class Read {
 
                 String pk = list.get(i).get(0);
 
-                if(pkList.contains(pk)){
-                    ScannerUtils.print(fileName + "파일에 " + pk + " ID/코드가 중복 조회 되고 있습니다.", true);
+                if (pkList.contains(pk)) {
+                    ScannerUtils.print(fileName + "파일에 " + pk + " ID/코드가 중복 조회되고 있습니다.", true);
                     return false;
-                }else {
+                } else {
                     pkList.add(pk);
                 }
 
@@ -135,17 +135,18 @@ public class Read {
                             (j < extraElementStartIndex) && !RegexUtils.checkIsMatchesString(regexList.get(j),
                                     list.get(i).get(j));
                     boolean extraCondition =
-                            (j >= extraElementStartIndex) && !RegexUtils.checkIsMatchesString(extraRegex, list.get(i).get(j));
+                            (j >= extraElementStartIndex) && !RegexUtils.checkIsMatchesString(extraRegex,
+                                    list.get(i).get(j));
                     if (notExtraCondition || extraCondition) {
                         if (notExtraCondition) {
                             ScannerUtils.print(
-                                    fileName + "파일의 " + (i + 1) + " 번 째 줄 / " + +(j + 1) + " 번 째 인자에 오류가 있습니다.", true);
+                                    fileName + "파일의 " + (i + 1) + " 번째 줄 / " + +(j + 1) + " 번째 인자에 오류가 있습니다.", true);
                             ScannerUtils.print("만족해야 하는 정규표현식: " + regexList.get(j) + " / 현재 인자: " + list.get(i).get(j),
                                     true);
                         }
                         if (extraCondition) {
                             ScannerUtils.print(
-                                    fileName + "파일의 " + (i + 1) + " 번 째 줄 / " + +(j + 1) + " 번 째 인자에 오류가 있습니다.", true);
+                                    fileName + "파일의 " + (i + 1) + " 번째 줄 / " + +(j + 1) + " 번째 인자에 오류가 있습니다.", true);
                             ScannerUtils.print("만족해야 하는 정규표현식: " + extraRegex + " / 현재 인자: " + list.get(i).get(j),
                                     true);
                         }
@@ -159,23 +160,23 @@ public class Read {
         if (!hasExtraRegex) {
             for (int i = 0; i < list.size(); i++) {
                 if (itemCount != list.get(i).size()) {
-                    ScannerUtils.print(fileName + "파일의 " + (i + 1) + " 번 째 줄의 인자수가 맞지 않습니다.", true);
+                    ScannerUtils.print(fileName + "파일의 " + (i + 1) + " 번째 줄의 인자수가 맞지 않습니다.", true);
                     ScannerUtils.print("필요한 인자의 수: " + itemCount + " / 현재 인자의 수: " + list.get(i).size(), true);
                     return false;
                 }
 
                 String pk = list.get(i).get(0);
 
-                if(pkList.contains(pk)){
-                    ScannerUtils.print(fileName + "파일에 " + pk + " ID/코드가 중복 조회 되고 있습니다.", true);
+                if (pkList.contains(pk)) {
+                    ScannerUtils.print(fileName + "파일에 " + pk + " ID/코드가 중복 조회되고 있습니다.", true);
                     return false;
-                }else {
+                } else {
                     pkList.add(pk);
                 }
 
                 for (int j = 0; j < regexList.size(); j++) {
                     if (!RegexUtils.checkIsMatchesString(regexList.get(j), list.get(i).get(j))) {
-                        ScannerUtils.print(fileName + "파일의 " + (i + 1) + " 번 째 줄 / " + +(j + 1) + " 번 째 인자에 오류가 있습니다.",
+                        ScannerUtils.print(fileName + "파일의 " + (i + 1) + " 번째 줄 / " + +(j + 1) + " 번째 인자에 오류가 있습니다.",
                                 true);
                         ScannerUtils.print("만족해야 하는 정규표현식: " + regexList.get(j) + " / 현재 인자: " + list.get(i).get(j),
                                 true);
@@ -193,7 +194,8 @@ public class Read {
 
         for (BaseManager baseManager : managerList) {
             isValidated = validateCSVFormat(readCSV(baseManager.getCsvFilePath()), baseManager.getRegexList(),
-                    baseManager.getCsvFilePath(), baseManager.getExtraElementOption(), baseManager.checkIsCsvRowsRequired());
+                    baseManager.getCsvFilePath(), baseManager.getExtraElementOption(),
+                    baseManager.checkIsCsvRowsRequired());
             if (!isValidated) {
                 break;
             }
@@ -202,15 +204,16 @@ public class Read {
         return isValidated;
     }
 
-    public static boolean validatePhoneNumberDupliacated(List<BaseManager> managerList){
-        for(BaseManager manager: managerList){
+    public static boolean validatePhoneNumberDupliacated(List<BaseManager> managerList) {
+        for (BaseManager manager : managerList) {
             List<String> phoneNumberList = new ArrayList<String>();
             List<List<String>> csv = readCSV(manager.getCsvFilePath());
-            for(List<String> line: csv){
-                for(String item:line){
-                    if(item.startsWith("010")) {
-                        if(phoneNumberList.contains(item)) {
-                            ScannerUtils.print(manager.getCsvFilePath() + "파일에서 "+item + " 전화번호가 중복 조회 되고 있습니다.", true);
+            for (List<String> line : csv) {
+                for (String item : line) {
+                    if (item.startsWith("010")) {
+                        if (phoneNumberList.contains(item)) {
+                            ScannerUtils.print(manager.getCsvFilePath() + "파일에서 " + item + " 전화번호가 중복 조회되고 있습니다.",
+                                    true);
                             return false;
                         }
                         phoneNumberList.add(item);
@@ -222,15 +225,16 @@ public class Read {
         return true;
     }
 
-    public static boolean validateTimetableIdDupliacated(List<BaseManager> managerList){
-        for(BaseManager manager: managerList){
+    public static boolean validateTimetableIdDupliacated(List<BaseManager> managerList) {
+        for (BaseManager manager : managerList) {
             List<String> timeTableId = new ArrayList<String>();
             List<List<String>> csv = readCSV(manager.getCsvFilePath());
-            for(List<String> line: csv){
-                for(String item:line){
-                    if(item.startsWith("6") && item.length() == 4) {
-                        if(timeTableId.contains(item)) {
-                            ScannerUtils.print(manager.getCsvFilePath() + "파일에서 "+item + " 타임테이블 ID가 중복 조회 되고 있습니다.", true);
+            for (List<String> line : csv) {
+                for (String item : line) {
+                    if (item.startsWith("6") && item.length() == 4) {
+                        if (timeTableId.contains(item)) {
+                            ScannerUtils.print(manager.getCsvFilePath() + "파일에서 " + item + " 타임테이블 코드가 중복 조회되고 있습니다.",
+                                    true);
                             return false;
                         }
                         timeTableId.add(item);
@@ -242,14 +246,15 @@ public class Read {
         return true;
     }
 
-    public static boolean validateTimetableInfoDuplicated(BaseManager manager){
+    public static boolean validateTimetableInfoDuplicated(BaseManager manager) {
         List<List<String>> csv = readCSV(manager.getCsvFilePath());
         List<String> infoList = new ArrayList<String>();
-        for(int i = 0; i < csv.size(); i++){
+        for (int i = 0; i < csv.size(); i++) {
             String info = csv.get(i).get(1) + csv.get(i).get(2) + csv.get(i).get(3);
-            if(infoList.contains(info)){
+            if (infoList.contains(info)) {
                 int originalInfoIndex = infoList.indexOf(info);
-                ScannerUtils.print(manager.getCsvFilePath() + "파일에서 " + (originalInfoIndex + 1) + "번 째 줄과 " + (i+1) + "번 째 줄의 강의실, 날짜, 시간 정보가 중복되고 있습니다.",true);
+                ScannerUtils.print(manager.getCsvFilePath() + "파일에서 " + (originalInfoIndex + 1) + "번째 줄과 " + (i + 1)
+                        + "번 째 줄의 강의실, 요일, 시간 정보가 중복되고 있습니다.", true);
                 return false;
             }
             infoList.add(info);
@@ -257,14 +262,16 @@ public class Read {
         return true;
     }
 
-    public static boolean validateLectureHasOverStudents(BaseManager manager){
+    public static boolean validateLectureHasOverStudents(BaseManager manager) {
         List<List<String>> csv = readCSV(manager.getCsvFilePath());
-        for(int i = 0; i < csv.size(); i++){
+        for (int i = 0; i < csv.size(); i++) {
             int maxStudents = Integer.parseInt(csv.get(i).get(3));
             int currentStudents = Integer.parseInt(csv.get(i).get(4));
-            if(maxStudents < currentStudents){
-                ScannerUtils.print(manager.getCsvFilePath() + "파일의 " + (i + 1) + "번 째 줄에서 수업 정원 인원보다 많은 인원이 수업을 듣고 있습니다.", true);
-                ScannerUtils.print("정원 인원: " + maxStudents + " / 현재 인원: " + currentStudents,true);
+            if (maxStudents < currentStudents) {
+                ScannerUtils.print(
+                        manager.getCsvFilePath() + "파일의 " + (i + 1) + "번째 줄에서 수업 최대 정원보다 더 많은 인원이 수업을 듣고 있습니다.",
+                        true);
+                ScannerUtils.print("최대 정원: " + maxStudents + " / 현재 인원: " + currentStudents, true);
                 return false;
             }
         }
