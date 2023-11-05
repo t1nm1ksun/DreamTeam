@@ -28,7 +28,7 @@ public class LectureManager implements BaseManager {
 
     @Override
     public CsvExtraElementOption getExtraElementOption() {
-        return new CsvExtraElementOption(true,  getCsvFilePath() + "파일의 수업 데이터는 적어도 하나의 타임테이블ID를 갖고 있어야 합니다.");
+        return new CsvExtraElementOption(true, getCsvFilePath() + "파일의 수업 데이터는 적어도 하나의 타임테이블ID를 갖고 있어야 합니다.");
     }
 
     @Override
@@ -207,8 +207,8 @@ public class LectureManager implements BaseManager {
             }
             ScannerUtils.print("\n추가할 수업의 과목을 선택해 주세요: ", false);
 
-            // TODO: 여기서 예외 처리 어떻게 할지 (과목 갯수가 달라지면 정규식도 바껴야 함)
-            String input = ScannerUtils.scanWithPattern(CommonPattern.TWO_CHOICE, CommonPatternError.TWO_CHOICE);
+            String ChoiceNumber = "^[1-" + Main.subjectManager.getSubjectss().size() + "]$";
+            String input = ScannerUtils.scanWithPattern(ChoiceNumber, CommonPatternError.LECTURE_CODE);
 
             // 과목 코드 저장
             dataList[0] = Main.subjectManager.getSubjectss().get(Integer.parseInt(input) - 1).getCode();
@@ -233,7 +233,7 @@ public class LectureManager implements BaseManager {
             }
             ScannerUtils.print("\n추가할 수업의 선생님을 선택해 주세요: ", false);
 
-            String ChoiceNumber = "^[1-" + count + "]$";
+            ChoiceNumber = "^[1-" + count + "]$";
             input = ScannerUtils.scanWithPattern(ChoiceNumber, CommonPatternError.TEACHER_ID);
 
             ScannerUtils.print(

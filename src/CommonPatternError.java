@@ -18,7 +18,7 @@ public class CommonPatternError {
     /**
      * 수업 요일 에러 메세지
      */
-    public static final String LECTURE_DATE = "[오류: 잘못된 입력입니다. (* 1,2 중 하나의 숫자를 입력하세요 *)]"; // 수업 요일 에러 메세지
+    public static final String LECTURE_DATE = "[오류: 잘못된 입력입니다. (* 1,2,3,4,5,6 중 하나의 숫자를 입력하세요 *)]"; // 수업 요일 에러 메세지
     /**
      * 수업 시간 에러 메세지
      */
