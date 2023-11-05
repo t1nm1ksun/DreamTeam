@@ -31,7 +31,6 @@ public class Main {
         if (!Read.validateCSVRef(lectureManager, timetableManager, "+5", "0")) return;
         if (!Read.validateCSVRef(teacherManager, timetableManager, "+3", "0")) return;
         if (!Read.validateCSVRef(teacherManager, subjectManager, "2", "0")) return;
-        if (!Read.validateCSVRef(subjectManager, teacherManager, "0", "2")) return;
         if (!Read.validateCSVRef(studentManager, lectureManager, "+3", "0")) return;
         if(!Read.validatePhoneNumberDupliacated(Arrays.asList(studentManager))) return;
         if(!Read.validateTimetableIdDupliacated(Arrays.asList(lectureManager, teacherManager))) return;
