@@ -1,3 +1,4 @@
+import static java.lang.Math.max;
 import static java.lang.Math.min;
 
 import java.util.ArrayList;
@@ -46,8 +47,8 @@ public class LectureManager implements BaseManager {
 
         for (List<String> item : list) {
             //csv 파일들을 읽어와서 강의들을 생성함
-            if (Integer.parseInt(item.get(2)) > maxCode) {
-                maxCode = Integer.parseInt(item.get(2));
+            if (Integer.parseInt(item.get(0)) >= maxCode) {
+                maxCode = max(maxCode, Integer.parseInt(item.get(0)));
             }
             List<TimeTable> table = new ArrayList<>();
             for (int i = 5; i < item.size(); i++) {
@@ -148,10 +149,19 @@ public class LectureManager implements BaseManager {
             }
 
             ScannerUtils.print(
-                    "[" + t.getCode() + "번 타임테이블: " + t.getRoomId() + "강의실 " + lectureDay + " " + t.showLectureTime()
-                            + "] ", false);
+                    "[" + t.getCode() + "번 타임테이블: " + t.getRoomId() + "번 강의실 / " + lectureDay + " / "
+                            + t.showLectureTime()
+                            + "] ", true);
         }
-        ScannerUtils.print("", true);
+    }
+
+    public boolean hasDeleteLecture(String lectureCode) {
+        for (Lecture lecture : lectures) {
+            if (lecture.getLectureCode().equals(lectureCode)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public boolean deleteLecture() {
@@ -163,7 +173,7 @@ public class LectureManager implements BaseManager {
         String InputLectureCode = ScannerUtils.scanWithPattern(CommonPattern.LECTURE_CODE,
                 CommonPatternError.LECTURE_CODE);
 
-        while (hasLecture(InputLectureCode) == null) {
+        while (!hasDeleteLecture(InputLectureCode)) {
             ScannerUtils.print("존재하지 않는 수업입니다. 다시 입력 바랍니다.", true);
             InputLectureCode = ScannerUtils.scanWithPattern(CommonPattern.LECTURE_CODE,
                     CommonPatternError.LECTURE_CODE);
@@ -172,6 +182,9 @@ public class LectureManager implements BaseManager {
         for (Lecture lec : lectures) {
             //삭제할 강의가 존재한다면 lectures 에서 삭제함
             if (InputLectureCode.equals(lec.getLectureCode())) {
+                if(maxCode == Integer.parseInt(lec.getLectureCode())) {
+                    maxCode--;
+                }
                 // 학생이 듣는 수업 중에 삭제할 수업이 있다면 삭제
                 Main.studentManager.checkDeletedLecture(lec.getLectureCode());
                 // 해당 강의의 timetable 삭제
@@ -319,8 +332,7 @@ public class LectureManager implements BaseManager {
                         timetable.add(newTimetable); // "timetable" 객체에 "newTimetable" 객체를 전달
                         teacherNow.addTimetable(newTimetable); // "teacherNow" 객체에 "newTimetable" 객체를 전달
                         ScannerUtils.print("해당 시간에 성공적으로 추가되었습니다.", true);
-                    }
-                    else {
+                    } else {
                         ScannerUtils.print("해당 타임에는 이미 수업이 존재합니다.", true);
                     }
                 } else {
@@ -350,9 +362,11 @@ public class LectureManager implements BaseManager {
                     } else {
                         cmpCode++;
                     }
+                    maxCode = max(maxCode, Integer.parseInt(lecture.getLectureCode()));
                 }
 
                 if (!isNew) {
+                    maxCode = max(maxCode, cmpCode);
                     Lecture newLecture = new Lecture(Integer.toString(cmpCode), dataList[0], dataList[1], dataList[2],
                             dataList[3],
                             timetable);
@@ -366,22 +380,24 @@ public class LectureManager implements BaseManager {
         if (Main.timetableManager.getTimetable().isEmpty()) {
             ScannerUtils.print("등록되어 있는 수업이 없습니다.", true);
         } else {
-            ScannerUtils.print("변경할 수업 코드를 선택하시오", true);
+            ScannerUtils.print("변경할 수업 코드를 입력하세요: ", false);
             LectureEditMenuHandler.input = ScannerUtils.scanWithPattern(CommonPattern.LECTURE_CODE,
                     CommonPatternError.LECTURE_CODE);
-            while (Integer.parseInt(LectureEditMenuHandler.input) > LectureManager.maxCode) {
+            ScannerUtils.print( "err!: " + Integer.toString(LectureManager.maxCode), true);
+            while (Integer.parseInt(LectureEditMenuHandler.input) > LectureManager.maxCode || !hasDeleteLecture(LectureEditMenuHandler.input)) {
                 ScannerUtils.print("존재하지 않습니다. 재입력 바랍니다.", true);
                 LectureEditMenuHandler.input = ScannerUtils.scanWithPattern(CommonPattern.LECTURE_CODE,
                         CommonPatternError.LECTURE_CODE);
             }
 
             //타임 테이블 출력
-            ScannerUtils.print("변경할 요일의 타임테이블 코드를 입력하세요 (예시: 6000): ", true);
-
             displayTimetable(hasLecture(LectureEditMenuHandler.input));
+
+            ScannerUtils.print("변경할 타임의 타임테이블 코드를 입력하세요 (ex: 6000): ", false);
+
             String code_toEdit = ScannerUtils.scanWithPattern(CommonPattern.TIMETABLE_CODE,
                     CommonPatternError.TIMETABLE_CODE); // TODO : 바꿀 타임테이블 입력받기 (민석)
-            //받아'
+            //받아
             TimeTable tb_toEdit = null;
 
             for (TimeTable tab : hasLecture(LectureEditMenuHandler.input).getTimetable()) {
@@ -395,10 +411,10 @@ public class LectureManager implements BaseManager {
             String day = tb_toEdit.getLectureDays();
             String time = tb_toEdit.getLectureTime();
 
-            ScannerUtils.print("1) 수업 요일 변경   2) 수업 시간 변경", true);
-            ScannerUtils.print("변경할 정보를 선택하세요 : ", true);
-            int data_toEdit = ScannerUtils.scanWithPatternIntegerForMenu(CommonPattern.TWO_CHOICE,
-                    CommonPatternError.TWO_CHOICE);
+            ScannerUtils.print("1) 수업 요일 변경    2) 수업 시간 변경", true);
+            ScannerUtils.print("변경할 정보를 선택하세요: ", false);
+            int data_toEdit = Integer.parseInt(
+                    ScannerUtils.scanWithPattern(CommonPattern.TWO_CHOICE, CommonPatternError.TWO_CHOICE));
             switch (data_toEdit) {
                 case 1: {
                     ScannerUtils.print("수업 요일 변경을 선택하셨습니다.", true);
@@ -412,7 +428,7 @@ public class LectureManager implements BaseManager {
                     }
                     ScannerUtils.print("", true);
 
-                    ScannerUtils.print("수업 요일을 선택해 주세요", true);
+                    ScannerUtils.print("수업 요일을 선택해 주세요: ", false);
                     day = ScannerUtils.scanWithPattern(CommonPattern.LECTURE_DATE, CommonPatternError.LECTURE_DATE);
                     break;
                 }
@@ -428,7 +444,7 @@ public class LectureManager implements BaseManager {
                         ScannerUtils.print(timeOption + " ", false);
                     }
                     ScannerUtils.print("", true);
-                    ScannerUtils.print("수업 시간을 입력해 주세요", true);
+                    ScannerUtils.print("수업 시간을 입력해 주세요: ", false);
                     time = ScannerUtils.scanWithPattern(CommonPattern.LECTURE_TIME, CommonPatternError.LECTURE_TIME);
 
                     break;
