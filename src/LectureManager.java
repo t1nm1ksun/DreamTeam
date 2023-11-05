@@ -1,3 +1,4 @@
+import static java.lang.Math.max;
 import static java.lang.Math.min;
 
 import java.util.ArrayList;
@@ -46,8 +47,8 @@ public class LectureManager implements BaseManager {
 
         for (List<String> item : list) {
             //csv 파일들을 읽어와서 강의들을 생성함
-            if (Integer.parseInt(item.get(2)) > maxCode) {
-                maxCode = Integer.parseInt(item.get(2));
+            if (Integer.parseInt(item.get(0)) >= maxCode) {
+                maxCode = max(maxCode, Integer.parseInt(item.get(0)));
             }
             List<TimeTable> table = new ArrayList<>();
             for (int i = 5; i < item.size(); i++) {
@@ -154,6 +155,15 @@ public class LectureManager implements BaseManager {
         }
     }
 
+    public boolean hasDeleteLecture(String lectureCode) {
+        for (Lecture lecture : lectures) {
+            if (lecture.getLectureCode().equals(lectureCode)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public boolean deleteLecture() {
         if (!displayLectures()) {
             return false;
@@ -163,7 +173,7 @@ public class LectureManager implements BaseManager {
         String InputLectureCode = ScannerUtils.scanWithPattern(CommonPattern.LECTURE_CODE,
                 CommonPatternError.LECTURE_CODE);
 
-        while (hasLecture(InputLectureCode) == null) {
+        while (!hasDeleteLecture(InputLectureCode)) {
             ScannerUtils.print("존재하지 않는 수업입니다. 다시 입력 바랍니다.", true);
             InputLectureCode = ScannerUtils.scanWithPattern(CommonPattern.LECTURE_CODE,
                     CommonPatternError.LECTURE_CODE);
@@ -172,6 +182,9 @@ public class LectureManager implements BaseManager {
         for (Lecture lec : lectures) {
             //삭제할 강의가 존재한다면 lectures 에서 삭제함
             if (InputLectureCode.equals(lec.getLectureCode())) {
+                if(maxCode == Integer.parseInt(lec.getLectureCode())) {
+                    maxCode--;
+                }
                 // 학생이 듣는 수업 중에 삭제할 수업이 있다면 삭제
                 Main.studentManager.checkDeletedLecture(lec.getLectureCode());
                 // 해당 강의의 timetable 삭제
@@ -349,9 +362,11 @@ public class LectureManager implements BaseManager {
                     } else {
                         cmpCode++;
                     }
+                    maxCode = max(maxCode, Integer.parseInt(lecture.getLectureCode()));
                 }
 
                 if (!isNew) {
+                    maxCode = max(maxCode, cmpCode);
                     Lecture newLecture = new Lecture(Integer.toString(cmpCode), dataList[0], dataList[1], dataList[2],
                             dataList[3],
                             timetable);
@@ -368,7 +383,8 @@ public class LectureManager implements BaseManager {
             ScannerUtils.print("변경할 수업 코드를 입력하세요: ", false);
             LectureEditMenuHandler.input = ScannerUtils.scanWithPattern(CommonPattern.LECTURE_CODE,
                     CommonPatternError.LECTURE_CODE);
-            while (Integer.parseInt(LectureEditMenuHandler.input) > LectureManager.maxCode) {
+            ScannerUtils.print( "err!: " + Integer.toString(LectureManager.maxCode), true);
+            while (Integer.parseInt(LectureEditMenuHandler.input) > LectureManager.maxCode || !hasDeleteLecture(LectureEditMenuHandler.input)) {
                 ScannerUtils.print("존재하지 않습니다. 재입력 바랍니다.", true);
                 LectureEditMenuHandler.input = ScannerUtils.scanWithPattern(CommonPattern.LECTURE_CODE,
                         CommonPatternError.LECTURE_CODE);
