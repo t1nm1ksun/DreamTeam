@@ -73,10 +73,6 @@ public class Main {
         subjectManager.makeSubjects();
         teacherManager.makeTeachers();
 
-        if (!lectureManager.checkSameID() || !studentManager.checkSameID()) {
-            return; //id체크후 다를시종료
-        }
-
         //TODO 학생,타임테이블체크도 추가
 
         while (mainMenu != 3) {
