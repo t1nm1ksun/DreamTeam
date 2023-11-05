@@ -15,6 +15,10 @@ public class SubjectManager implements BaseManager {
         return Arrays.asList(CommonPattern.SUBJECT_CODE, CommonPattern.STUDENT_NAME);
     }
 
+    @Override
+    public CsvExtraElement getExtraElementOption() {
+        return new CsvExtraElement(false, "");
+    }
 
     public SubjectManager() {
         //여기서 csv 파일 읽어서 과목들을 생성

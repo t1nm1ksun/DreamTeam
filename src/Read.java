@@ -6,6 +6,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Scanner;
 
 public class Read {
     /**
@@ -84,9 +85,10 @@ public class Read {
         return true;
     }
 
-    public static boolean validateCSVFormat(List<List<String>> list, List<String> regexList, String fileName) {
+    public static boolean validateCSVFormat(List<List<String>> list, List<String> regexList, String fileName, CsvExtraElement extraElementOption) {
         int itemCount = regexList.size();
         boolean hasExtraRegex = false;
+        int extraElementStartIndex = itemCount - 1;
 
         if (!regexList.stream().filter(regex -> regex.startsWith("+")).findFirst().isEmpty()) {
             hasExtraRegex = true;
@@ -96,12 +98,17 @@ public class Read {
             String extraRegex = regexList.get(regexList.size() - 1).replace("+", "");
 
             for (int i = 0; i < list.size(); i++) {
+                if(extraElementOption.isExtraElementsRequired && list.get(i).size() < itemCount){
+                    ScannerUtils.print(extraElementOption.errorMessage, true);
+                    return false;
+                }
+
                 for (int j = 0; j < list.get(i).size(); j++) {
                     boolean notExtraCondition =
-                            (j < itemCount - 1) && !RegexUtils.checkIsMatchesString(regexList.get(j),
+                            (j < extraElementStartIndex) && !RegexUtils.checkIsMatchesString(regexList.get(j),
                                     list.get(i).get(j));
                     boolean extraCondition =
-                            (j >= itemCount - 1) && !RegexUtils.checkIsMatchesString(extraRegex, list.get(i).get(j));
+                            (j >= extraElementStartIndex) && !RegexUtils.checkIsMatchesString(extraRegex, list.get(i).get(j));
                     if (notExtraCondition || extraCondition) {
                         if (notExtraCondition) {
                             ScannerUtils.print(
@@ -149,7 +156,7 @@ public class Read {
 
         for (BaseManager baseManager : managerList) {
             isValidated = validateCSVFormat(readCSV(baseManager.getCsvFilePath()), baseManager.getRegexList(),
-                    baseManager.getCsvFilePath());
+                    baseManager.getCsvFilePath(), baseManager.getExtraElementOption());
             if (!isValidated) {
                 break;
             }

@@ -18,6 +18,11 @@ public class TeacherManager implements BaseManager {
                 "+" + CommonPattern.TIMETABLE_CODE);
     }
 
+    @Override
+    public CsvExtraElement getExtraElementOption() {
+        return new CsvExtraElement(false, "");
+    }
+
     public TeacherManager() {
         //여기서 csv 파일 읽어서 과목들을 생성
 

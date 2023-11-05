@@ -19,6 +19,11 @@ public class TimeTableManager implements BaseManager {
                 CommonPattern.LECTURE_TIME);
     }
 
+    @Override
+    public CsvExtraElement getExtraElementOption() {
+        return new CsvExtraElement(false, "");
+    }
+
     public TimeTableManager() {
 
     }
