@@ -1,6 +1,7 @@
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -179,6 +180,26 @@ public class Read {
         }
 
         return isValidated;
+    }
+
+    public static boolean validatePhoneNumberDupliacated(List<BaseManager> managerList){
+        for(BaseManager manager: managerList){
+            List<String> phoneNumberList = new ArrayList<String>();
+            List<List<String>> csv = readCSV(manager.getCsvFilePath());
+            for(List<String> line: csv){
+                for(String item:line){
+                    if(item.startsWith("010")) {
+                        if(phoneNumberList.contains(item)) {
+                            ScannerUtils.print(manager.getCsvFilePath() + "파일에서 "+item + " 전화번호가 중복 조회 되고 있습니다.", true);
+                            return false;
+                        }
+                        phoneNumberList.add(item);
+                    }
+                }
+            }
+        }
+
+        return true;
     }
 
     /**

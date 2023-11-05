@@ -58,6 +58,10 @@ public class Main {
         if (!Read.validateCSVRef(studentManager, lectureManager, "+3", "0")) {
             return;// 학생: - 수업코드
         }
+        if(!Read.validatePhoneNumberDupliacated(Arrays.asList(studentManager))){
+            return;
+        }
+
 
         lectureroomManager.makeRooms();
         timetableManager.makeTimetables();
@@ -75,6 +79,7 @@ public class Main {
         while (mainMenu != 3) {
             MainMenuHandler.handle(lectureManager, studentManager);
         }
+
         lectureManager.saveDataFile();
         studentManager.saveDataFile();
         timetableManager.saveDataFile();
