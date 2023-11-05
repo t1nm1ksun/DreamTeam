@@ -155,7 +155,7 @@ public class LectureManager implements BaseManager {
         }
     }
 
-    public boolean hasDeleteLecture(String lectureCode) {
+    public boolean hasSelectedLecture(String lectureCode) {
         for (Lecture lecture : lectures) {
             if (lecture.getLectureCode().equals(lectureCode)) {
                 return true;
@@ -173,7 +173,7 @@ public class LectureManager implements BaseManager {
         String InputLectureCode = ScannerUtils.scanWithPattern(CommonPattern.LECTURE_CODE,
                 CommonPatternError.LECTURE_CODE);
 
-        while (!hasDeleteLecture(InputLectureCode)) {
+        while (!hasSelectedLecture(InputLectureCode)) {
             ScannerUtils.print("존재하지 않는 수업입니다. 다시 입력 바랍니다.", true);
             InputLectureCode = ScannerUtils.scanWithPattern(CommonPattern.LECTURE_CODE,
                     CommonPatternError.LECTURE_CODE);
@@ -383,8 +383,8 @@ public class LectureManager implements BaseManager {
             ScannerUtils.print("변경할 수업 코드를 입력하세요: ", false);
             LectureEditMenuHandler.input = ScannerUtils.scanWithPattern(CommonPattern.LECTURE_CODE,
                     CommonPatternError.LECTURE_CODE);
-            ScannerUtils.print( "err!: " + Integer.toString(LectureManager.maxCode), true);
-            while (Integer.parseInt(LectureEditMenuHandler.input) > LectureManager.maxCode || !hasDeleteLecture(LectureEditMenuHandler.input)) {
+//            ScannerUtils.print( "err!: " + Integer.toString(LectureManager.maxCode), true);
+            while (!hasSelectedLecture(LectureEditMenuHandler.input)) {
                 ScannerUtils.print("존재하지 않습니다. 재입력 바랍니다.", true);
                 LectureEditMenuHandler.input = ScannerUtils.scanWithPattern(CommonPattern.LECTURE_CODE,
                         CommonPatternError.LECTURE_CODE);
