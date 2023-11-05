@@ -20,20 +20,12 @@ public class Teacher {
         return code;
     }
 
-    // code 필드의 setter 메서드
-    public void setCode(String code) {
-        this.code = code;
-    }
 
     // name 필드의 getter 메서드
     public String getName() {
         return name;
     }
 
-    // name 필드의 setter 메서드
-    public void setName(String name) {
-        this.name = name;
-    }
 
     public String getSubjectCode() {
         return subjectCode;
