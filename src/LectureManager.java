@@ -515,9 +515,9 @@ public class LectureManager implements BaseManager {
         return isLectureShown;
     }
 
-    public void showLec(String code) {
+    /*public void showLec(String code) {
 
-    }
+    }*/
 
     public boolean isOverLappedLecture(Lecture lec1, Lecture lec2) {
         // 2개의 강의를 비교하여 시간이 겹치는지 확인

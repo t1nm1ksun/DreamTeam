@@ -4,10 +4,9 @@ public class Lecture {
     private String subjectCode; // 과목 코드
     private String teacher; // 선생님
     private String lectureCode; // 수업 코드
-    private final List<TimeTable> timetable;
-
-    private final String limit;
-    private String count;
+    private final List<TimeTable> timetable; //타임 테이블
+    private final String limit; // 강의 정원
+    private String count; // 강의 현원
 
     public Lecture(String LectureCode, String subjectCode, String teacher, String limit, String count,
                    List<TimeTable> timetable) {
