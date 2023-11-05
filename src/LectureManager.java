@@ -428,8 +428,6 @@ public class LectureManager implements BaseManager {
                 ScannerUtils.print("해당 시간에는 이미 수업이 존재합니다", true);
             }
         }
-
-
     }
 
     public void saveDataFile() {
@@ -540,10 +538,6 @@ public class LectureManager implements BaseManager {
             }
         }
         return isLectureShown;
-    }
-
-    public void showLec(String code) {
-
     }
 
     public boolean isOverLappedLecture(Lecture lec1, Lecture lec2) {

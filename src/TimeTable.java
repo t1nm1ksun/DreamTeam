@@ -27,7 +27,7 @@ public class TimeTable {
     public String getLectureTime() {
         return lectureTime;
     }
-
+    
     public void setLectureDays(String day) {
         this.lectureDays = day;
     }
@@ -67,7 +67,7 @@ public class TimeTable {
         }
         return null;
     }
-    
+
     public String showLectureTime() {
         switch (lectureTime) {
             case "1" -> {

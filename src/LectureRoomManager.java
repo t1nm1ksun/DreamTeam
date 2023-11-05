@@ -22,11 +22,10 @@ public class LectureRoomManager implements BaseManager {
     public void makeRooms() {
         List<List<String>> list = Read.readCSV("src/lecture-room.csv");
         List<List<String>> stuList = Read.readCSV("src/student.csv");
-        Integer num = stuList.size();
+
         for (List<String> item : list) {
             //csv 파일들을 읽어와서 강의들을 생성함
             LectureRoom l1 = new LectureRoom(item.get(0), item.get(1));
-            String[] l2 = {item.get(0), item.get(1)};
 
             rooms.add(l1);
         }
