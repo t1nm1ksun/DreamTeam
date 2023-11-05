@@ -257,6 +257,20 @@ public class Read {
         return true;
     }
 
+    public static boolean validateLectureHasOverStudents(BaseManager manager){
+        List<List<String>> csv = readCSV(manager.getCsvFilePath());
+        for(int i = 0; i < csv.size(); i++){
+            int maxStudents = Integer.parseInt(csv.get(i).get(3));
+            int currentStudents = Integer.parseInt(csv.get(i).get(4));
+            if(maxStudents < currentStudents){
+                ScannerUtils.print(manager.getCsvFilePath() + "파일의 " + (i + 1) + "번 째 줄에서 수업 정원 인원보다 많은 인원이 수업을 듣고 있습니다.", true);
+                ScannerUtils.print("정원 인원: " + maxStudents + " / 현재 인원: " + currentStudents,true);
+                return false;
+            }
+        }
+        return true;
+    }
+
     /**
      * csv 쓰기 파일 String 배열을 받아서 넣기!
      *

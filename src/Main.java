@@ -22,50 +22,20 @@ public class Main {
     public static TeacherManager teacherManager = new TeacherManager();
 
     public static void main(String[] args) {
-
-        if (!Read.validateCSVListFormat(
-                Arrays.asList(subjectManager, timetableManager, lectureManager, lectureroomManager, studentManager,
-                        teacherManager))) {
-            return;
-        }
-        if (!Read.validateCSVRef(timetableManager, lectureroomManager, "1", "0")) {
-            return;
-        }
-        if (!Read.validateCSVRef(lectureManager, timetableManager, "+5", "0")) {
-            return;
-        }
-        if (!Read.validateCSVRef(timetableManager, lectureroomManager, "1", "0")) {
-            return;// 타임테이블 : -강의실 코드
-        }
-        if (!Read.validateCSVRef(lectureManager, subjectManager, "1", "0")) {
-            return;//수업 : - 과목 코드
-        }
-        if (!Read.validateCSVRef(lectureManager, teacherManager, "2", "0")) {
-            return;//수업 : - 선생님 코드
-        }
-        if (!Read.validateCSVRef(lectureManager, timetableManager, "+5", "0")) {
-            return;//수업 : - 타임테이블 코드
-        }
-        if (!Read.validateCSVRef(teacherManager, timetableManager, "+3", "0")) {
-            return;//선생 : -타임테이블 코드
-        }
-        if (!Read.validateCSVRef(teacherManager, subjectManager, "2", "0")) {
-            return;//선생 : - 과목코드
-        }
-        if (!Read.validateCSVRef(subjectManager, teacherManager, "0", "2")) {
-            return;//선생 : - 과목코드
-        }
-        if (!Read.validateCSVRef(studentManager, lectureManager, "+3", "0")) {
-            return;// 학생: - 수업코드
-        }
-
-        if(!Read.validatePhoneNumberDupliacated(Arrays.asList(studentManager))){
-            return;
-        }
-        if(!Read.validateTimetableIdDupliacated(Arrays.asList(lectureManager, teacherManager))){
-            return;
-        }
+        if (!Read.validateCSVListFormat(Arrays.asList(subjectManager, timetableManager, lectureManager, lectureroomManager, studentManager, teacherManager))) return;
+        if (!Read.validateCSVRef(timetableManager, lectureroomManager, "1", "0")) return;
+        if (!Read.validateCSVRef(lectureManager, timetableManager, "+5", "0")) return;
+        if (!Read.validateCSVRef(timetableManager, lectureroomManager, "1", "0")) return;
+        if (!Read.validateCSVRef(lectureManager, subjectManager, "1", "0")) return;
+        if (!Read.validateCSVRef(lectureManager, teacherManager, "2", "0")) return;
+        if (!Read.validateCSVRef(lectureManager, timetableManager, "+5", "0")) return;
+        if (!Read.validateCSVRef(teacherManager, timetableManager, "+3", "0")) return;
+        if (!Read.validateCSVRef(teacherManager, subjectManager, "2", "0")) return;
+        if (!Read.validateCSVRef(studentManager, lectureManager, "+3", "0")) return;
+        if(!Read.validatePhoneNumberDupliacated(Arrays.asList(studentManager))) return;
+        if(!Read.validateTimetableIdDupliacated(Arrays.asList(lectureManager, teacherManager))) return;
         if(!Read.validateTimetableInfoDuplicated(timetableManager)) return;
+        if(!Read.validateLectureHasOverStudents(lectureManager)) return;
 
         lectureroomManager.makeRooms();
         timetableManager.makeTimetables();
