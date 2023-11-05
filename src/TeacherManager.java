@@ -82,7 +82,7 @@ public class TeacherManager implements BaseManager {
             saveData.add(data);
         }
 
-        Read.writeLectureCSV(saveData);
+        Read.writeTeacherCSV(saveData);
     }
 }
 
