@@ -242,6 +242,21 @@ public class Read {
         return true;
     }
 
+    public static boolean validateTimetableInfoDuplicated(BaseManager manager){
+        List<List<String>> csv = readCSV(manager.getCsvFilePath());
+        List<String> infoList = new ArrayList<String>();
+        for(int i = 0; i < csv.size(); i++){
+            String info = csv.get(i).get(1) + csv.get(i).get(2) + csv.get(i).get(3);
+            if(infoList.contains(info)){
+                int originalInfoIndex = infoList.indexOf(info);
+                ScannerUtils.print(manager.getCsvFilePath() + "파일에서 " + (originalInfoIndex + 1) + "번 째 줄과 " + (i+1) + "번 째 줄의 강의실, 날짜, 시간 정보가 중복되고 있습니다.",true);
+                return false;
+            }
+            infoList.add(info);
+        }
+        return true;
+    }
+
     /**
      * csv 쓰기 파일 String 배열을 받아서 넣기!
      *

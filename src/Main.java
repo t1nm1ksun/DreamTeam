@@ -65,6 +65,7 @@ public class Main {
         if(!Read.validateTimetableIdDupliacated(Arrays.asList(lectureManager, teacherManager))){
             return;
         }
+        if(!Read.validateTimetableInfoDuplicated(timetableManager)) return;
 
         lectureroomManager.makeRooms();
         timetableManager.makeTimetables();
