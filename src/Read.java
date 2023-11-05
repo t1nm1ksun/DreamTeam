@@ -98,7 +98,19 @@ public class Read {
             String extraRegex = regexList.get(regexList.size() - 1).replace("+", "");
 
             for (int i = 0; i < list.size(); i++) {
+                if(!extraElementOption.isExtraElementsRequired && list.get(i).size() < itemCount - 1){
+                    ScannerUtils.print(fileName + "파일의 " + (i + 1) + " 번 째 줄의 인자수가 맞지 않습니다.", true);
+                    ScannerUtils.print("필요한 인자의 수: " +  (itemCount - 1)  + " / 현재 인자의 수: " + list.get(i).size(), true);
+                    return false;
+                }
+
                 if(extraElementOption.isExtraElementsRequired && list.get(i).size() < itemCount){
+                    if(list.get(i).size() < itemCount - 1){
+                        ScannerUtils.print(fileName + "파일의 " + (i + 1) + " 번 째 줄의 인자수가 맞지 않습니다.", true);
+                        ScannerUtils.print("필요한 인자의 수: " +  itemCount  + " / 현재 인자의 수: " + list.get(i).size(), true);
+                        return false;
+                    }
+
                     ScannerUtils.print(extraElementOption.errorMessage, true);
                     return false;
                 }
