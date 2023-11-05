@@ -171,13 +171,4 @@ public class TimeTableManager implements BaseManager {
         return timetables;
     }
 
-    public boolean timetableHasInput(String timeTableCode) {
-        for (TimeTable timeTable : timetables) {
-            if (timeTable.getCode().equals(timeTableCode)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
 }
