@@ -49,4 +49,16 @@ public class Teacher {
         }
         return false;
     }
+
+    public List<TimeTable> getTimeTables(){
+        return timeTables;
+    }
+
+    // TODO: 조만간 처리
+    public void addTimetable(TimeTable timetable){
+        this.timeTables.add(timetable);
+    }
+    public void deleteTimetable(TimeTable timetable){
+        this.timeTables.remove(timetable);
+    }
 }

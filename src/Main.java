@@ -59,6 +59,14 @@ public class Main {
             return;// 학생: - 수업코드
         }
 
+        if(!Read.validatePhoneNumberDupliacated(Arrays.asList(studentManager))){
+            return;
+        }
+        if(!Read.validateTimetableIdDupliacated(Arrays.asList(lectureManager, teacherManager))){
+            return;
+        }
+        if(!Read.validateTimetableInfoDuplicated(timetableManager)) return;
+
         lectureroomManager.makeRooms();
         timetableManager.makeTimetables();
         lectureManager.makeLectures();
@@ -66,18 +74,16 @@ public class Main {
         subjectManager.makeSubjects();
         teacherManager.makeTeachers();
 
-        if (!lectureManager.checkSameID() || !studentManager.checkSameID()) {
-            return; //id체크후 다를시종료
-        }
-
         //TODO 학생,타임테이블체크도 추가
 
         while (mainMenu != 3) {
             MainMenuHandler.handle(lectureManager, studentManager);
         }
+
         lectureManager.saveDataFile();
         studentManager.saveDataFile();
         timetableManager.saveDataFile();
+        teacherManager.saveDataFile();
 
         ScannerUtils.print("프로그램이 종료되었습니다.", true);
 

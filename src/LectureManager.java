@@ -179,6 +179,13 @@ public class LectureManager implements BaseManager {
                     Main.timetableManager.deleteTimeTable(deleteTimeTable.getCode());
                 }
 
+                //TODO 부탁해 창균씨 Teacher 클래스에 잇는 deleteTimetable 함수 써줘
+                // lec 인자로 선생님에 접근하고 Teacher nowTeacher =
+                // for (TimeTable deleteTimeTable : lec.getTimetable()) {
+                //                    nowTeacher.deleteTimeTable(deleteTimeTable.getCode());
+                //                }
+                // 해줘잉
+
                 lectures.remove(lec);
                 break;
             }
@@ -308,9 +315,12 @@ public class LectureManager implements BaseManager {
 
                     if (!checkDuplicate && Main.timetableManager.findTable(room, day, time)) {
                         String code = Main.timetableManager.addTimeTable(room, day, time);
-                        timetable.add(new TimeTable(code, room, day, time));
-                        ScannerUtils.print("해당 타임에 정상적으로 추가되었습니다.", true);
-                    } else {
+                        TimeTable newTimetable = new TimeTable(code, room, day, time);
+                        timetable.add(newTimetable); // "timetable" 객체에 "newTimetable" 객체를 전달
+                        teacherNow.addTimetable(newTimetable); // "teacherNow" 객체에 "newTimetable" 객체를 전달
+                        ScannerUtils.print("해당 시간에 성공적으로 추가되었습니다.", true);
+                    }
+                    else {
                         ScannerUtils.print("해당 타임에는 이미 수업이 존재합니다.", true);
                     }
                 } else {
