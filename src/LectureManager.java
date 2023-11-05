@@ -182,7 +182,7 @@ public class LectureManager implements BaseManager {
         for (Lecture lec : lectures) {
             //삭제할 강의가 존재한다면 lectures 에서 삭제함
             if (InputLectureCode.equals(lec.getLectureCode())) {
-                if(maxCode == Integer.parseInt(lec.getLectureCode())) {
+                if (maxCode == Integer.parseInt(lec.getLectureCode())) {
                     maxCode--;
                 }
                 // 학생이 듣는 수업 중에 삭제할 수업이 있다면 삭제
@@ -383,8 +383,9 @@ public class LectureManager implements BaseManager {
             ScannerUtils.print("변경할 수업 코드를 입력하세요: ", false);
             LectureEditMenuHandler.input = ScannerUtils.scanWithPattern(CommonPattern.LECTURE_CODE,
                     CommonPatternError.LECTURE_CODE);
-            ScannerUtils.print( "err!: " + Integer.toString(LectureManager.maxCode), true);
-            while (Integer.parseInt(LectureEditMenuHandler.input) > LectureManager.maxCode || !hasDeleteLecture(LectureEditMenuHandler.input)) {
+            ScannerUtils.print("err!: " + Integer.toString(LectureManager.maxCode), true);
+            while (Integer.parseInt(LectureEditMenuHandler.input) > LectureManager.maxCode || !hasDeleteLecture(
+                    LectureEditMenuHandler.input)) {
                 ScannerUtils.print("존재하지 않습니다. 재입력 바랍니다.", true);
                 LectureEditMenuHandler.input = ScannerUtils.scanWithPattern(CommonPattern.LECTURE_CODE,
                         CommonPatternError.LECTURE_CODE);
@@ -458,7 +459,7 @@ public class LectureManager implements BaseManager {
                 tb_toEdit.setLectureTime(time);
                 ScannerUtils.print("수업 시간이 변경되었습니다.", true);
             } else {
-                ScannerUtils.print("해당 시간에는 이미 수업이 존재합니다", true);
+                ScannerUtils.print("기존에 존재하던 시간으로 변경할 수는 없습니다.", true);
             }
         }
     }
