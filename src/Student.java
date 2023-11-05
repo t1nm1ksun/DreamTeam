@@ -20,7 +20,7 @@ public class Student {
         this.phoneNum = "";
         this.lectureList = null;
     }
-
+    
     public Student(String id, String name, String phoneNum) {
         this.id = id;
         this.name = name;

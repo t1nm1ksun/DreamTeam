@@ -38,7 +38,7 @@ public class Teacher {
     public String getSubjectCode() {
         return subjectCode;
     }
-
+    
     public boolean findTimeTable(String day, String time) {
         if (!timeTables.isEmpty()) {
             for (TimeTable timeTable : timeTables) {

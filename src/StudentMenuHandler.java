@@ -1,5 +1,5 @@
 public class StudentMenuHandler {
-    
+
     public static void handle(StudentManager studentManager) {
         switch (Main.manageMenu) {
             case 1 -> {
@@ -29,7 +29,7 @@ public class StudentMenuHandler {
             }
         }
     }
-
+    
     public static void clearManageMenu() {
         Main.manageMenu = -1;
     }

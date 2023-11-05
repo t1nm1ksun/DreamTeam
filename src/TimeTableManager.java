@@ -1,5 +1,3 @@
-import static java.lang.Integer.parseInt;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -7,8 +5,7 @@ import java.util.List;
 
 public class TimeTableManager implements BaseManager {
     public static Integer maxTimetable = 6000;  // 현재까지 만들어진 timetable의 코드 중 최대값
-    private final List<TimeTable> timetables = new ArrayList<>(); // 강의실목록을 저장할 리스트
-    private final Read read = new Read();
+    private  List<TimeTable> timetables = new ArrayList<>(); // 강의실목록을 저장할 리스트
     private final List<String[]> saveData = new ArrayList<>(); //프로그램 종료 시 저장 파일
 
     @Override
@@ -18,11 +15,16 @@ public class TimeTableManager implements BaseManager {
 
     @Override
     public List<String> getRegexList() {
-        return Arrays.asList(CommonPattern.TIMETABLE_CODE,CommonPattern.ROOM_ID,CommonPattern.LECTURE_DATE,CommonPattern.LECTURE_TIME);
+        return Arrays.asList(CommonPattern.TIMETABLE_CODE, CommonPattern.ROOM_ID, CommonPattern.LECTURE_DATE,
+                CommonPattern.LECTURE_TIME);
     }
 
     public TimeTableManager() {
-        List<List<String>> list = read.readCSV("src/timetable.csv");
+
+    }
+
+    public void makeTimetables(){
+        List<List<String>> list = Read.readCSV("src/timetable.csv");
 
         for (List<String> item : list) {
             // csv 파일들을 읽어와서 강의들을 생성함
@@ -85,7 +87,7 @@ public class TimeTableManager implements BaseManager {
 
     public boolean isOverLappedTime(TimeTable table1, TimeTable table2) {
         // 2개의 타임테이블이 겹치는지 확인
-        if(table1.getLectureDays().equals(table2.getLectureDays())
+        if (table1.getLectureDays().equals(table2.getLectureDays())
                 && table1.getLectureTime().equals(table2.getLectureTime())) {
             return true;
         }
@@ -96,8 +98,8 @@ public class TimeTableManager implements BaseManager {
         int cmpCode = 6000;
         boolean isNew = false;
         timetables.sort(Comparator.comparing(TimeTable::getCode));
-        for(TimeTable table : timetables) {
-            if(!Integer.toString(cmpCode).equals(table.getCode())) {
+        for (TimeTable table : timetables) {
+            if (!Integer.toString(cmpCode).equals(table.getCode())) {
                 TimeTable t1 = new TimeTable(Integer.toString(cmpCode), roomId, day, lectureTime);
                 timetables.add(t1);
                 isNew = true;
@@ -107,7 +109,7 @@ public class TimeTableManager implements BaseManager {
             }
         }
 
-        if(!isNew) {
+        if (!isNew) {
             TimeTable t1 = new TimeTable(Integer.toString(cmpCode), roomId, day, lectureTime);
             timetables.add(t1);
         }
@@ -116,7 +118,7 @@ public class TimeTableManager implements BaseManager {
     }
 
     public void deleteTimeTable(String code) { // timetable 삭제
-        if(hasTimeTable(code) == null) {
+        if (hasTimeTable(code) == null) {
             ScannerUtils.print("존재하지 않는 타임테이블 코드입니다. 다시 입력 바랍니다.", true);
         } else {
             for (TimeTable tab : timetables) {
@@ -139,6 +141,7 @@ public class TimeTableManager implements BaseManager {
         }
         return null;
     }
+
     public void saveDataFile() {
         //lectures 들을 알맞은 형식의 데이터로 전환한 뒤 파일에 저장
         for (TimeTable lec : timetables) {

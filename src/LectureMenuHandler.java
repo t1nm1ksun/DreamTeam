@@ -32,7 +32,6 @@ public class LectureMenuHandler {
                         CommonPatternError.FIVE_CHOICE);
             }
         }
-
     }
 
     public static void clearManageMenu() {
