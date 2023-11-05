@@ -58,10 +58,13 @@ public class Main {
         if (!Read.validateCSVRef(studentManager, lectureManager, "+3", "0")) {
             return;// 학생: - 수업코드
         }
+
         if(!Read.validatePhoneNumberDupliacated(Arrays.asList(studentManager))){
             return;
         }
-
+        if(!Read.validateTimetableIdDupliacated(Arrays.asList(lectureManager, teacherManager))){
+            return;
+        }
 
         lectureroomManager.makeRooms();
         timetableManager.makeTimetables();
