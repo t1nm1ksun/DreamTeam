@@ -19,6 +19,16 @@ public class StudentManager implements BaseManager {
                 "+" + CommonPattern.LECTURE_CODE);
     }
 
+    @Override
+    public CsvExtraElementOption getExtraElementOption() {
+        return new CsvExtraElementOption(false, "");
+    }
+
+    @Override
+    public boolean checkIsCsvRowsRequired() {
+        return false;
+    }
+
     /**
      * csv로부터 읽어온 파일들을 순서대로 lectures에 저장 마지막에 한번에 저장하기 위해 saveData에 순차적 저장
      */

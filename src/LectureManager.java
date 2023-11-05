@@ -26,9 +26,16 @@ public class LectureManager implements BaseManager {
                 CommonPattern.ROOM_LIMIT, CommonPattern.ROOM_CURRENT_STUDENT, "+" + CommonPattern.TIMETABLE_CODE);
     }
 
-    /**
-     * csv로부터 읽어온파일들을 순서대로 lectures에 저장 마지막에 한번에 저장하기 위해 saveData에 순차적 저장
-     */
+    @Override
+    public CsvExtraElementOption getExtraElementOption() {
+        return new CsvExtraElementOption(true,  getCsvFilePath() + "파일의 수업 데이터는 적어도 하나의 타임테이블ID를 갖고 있어야 합니다.");
+    }
+
+    @Override
+    public boolean checkIsCsvRowsRequired() {
+        return false;
+    }
+
     public LectureManager() {
 
     }
@@ -539,6 +546,10 @@ public class LectureManager implements BaseManager {
         }
         return isLectureShown;
     }
+
+    /*public void showLec(String code) {
+
+    }*/
 
     public boolean isOverLappedLecture(Lecture lec1, Lecture lec2) {
         // 2개의 강의를 비교하여 시간이 겹치는지 확인

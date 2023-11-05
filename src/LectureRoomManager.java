@@ -15,6 +15,16 @@ public class LectureRoomManager implements BaseManager {
         return Arrays.asList(CommonPattern.ROOM_ID, CommonPattern.ROOM_LIMIT);
     }
 
+    @Override
+    public CsvExtraElementOption getExtraElementOption() {
+        return new CsvExtraElementOption(false, "");
+    }
+
+    @Override
+    public boolean checkIsCsvRowsRequired() {
+        return true;
+    }
+
     public LectureRoomManager() {
 
     }

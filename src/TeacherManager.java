@@ -18,6 +18,16 @@ public class TeacherManager implements BaseManager {
                 "+" + CommonPattern.TIMETABLE_CODE);
     }
 
+    @Override
+    public CsvExtraElementOption getExtraElementOption() {
+        return new CsvExtraElementOption(false, "");
+    }
+
+    @Override
+    public boolean checkIsCsvRowsRequired() {
+        return true;
+    }
+
     public TeacherManager() {
 
     }
