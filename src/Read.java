@@ -6,7 +6,6 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Scanner;
 
 public class Read {
     /**
@@ -14,7 +13,7 @@ public class Read {
      * Lecture(item.get(0), item.get(1), item.get(2), item.get(3),item.get(4)); lectures.add(l1); } Lecture class에 있는
      * 것처럼 사용시에 순서대로 초기화됨 사용시 주의점: csv파일 생성 후 연결파일을 반드시 메모장으로!
      *
-     * @return List<List < String>> 배열 item
+     * @return List<List<String>> 배열 item
      */
     public static List<List<String>> readCSV(String filePath) {
         List<List<String>> list = new ArrayList<List<String>>();
@@ -85,13 +84,18 @@ public class Read {
         return true;
     }
 
-    public static boolean validateCSVFormat(List<List<String>> list, List<String> regexList, String fileName, CsvExtraElement extraElementOption) {
+    public static boolean validateCSVFormat(List<List<String>> list, List<String> regexList, String fileName, CsvExtraElementOption extraElementOption, boolean isCsvRowsRequired) {
         int itemCount = regexList.size();
         boolean hasExtraRegex = false;
         int extraElementStartIndex = itemCount - 1;
 
         if (!regexList.stream().filter(regex -> regex.startsWith("+")).findFirst().isEmpty()) {
             hasExtraRegex = true;
+        }
+
+        if(isCsvRowsRequired && list.size() == 0){
+            ScannerUtils.print(fileName + "파일은 적어도 한 줄의 데이터가 필요합니다.", true);
+            return false;
         }
 
         if (hasExtraRegex) {
@@ -168,7 +172,7 @@ public class Read {
 
         for (BaseManager baseManager : managerList) {
             isValidated = validateCSVFormat(readCSV(baseManager.getCsvFilePath()), baseManager.getRegexList(),
-                    baseManager.getCsvFilePath(), baseManager.getExtraElementOption());
+                    baseManager.getCsvFilePath(), baseManager.getExtraElementOption(), baseManager.checkIsCsvRowsRequired());
             if (!isValidated) {
                 break;
             }

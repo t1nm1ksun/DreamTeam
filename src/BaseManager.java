@@ -6,5 +6,7 @@ public interface BaseManager {
 
     List<String> getRegexList();
 
-    CsvExtraElement getExtraElementOption();
+    CsvExtraElementOption getExtraElementOption();
+
+    boolean checkIsCsvRowsRequired();
 }

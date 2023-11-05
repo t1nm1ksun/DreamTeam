@@ -20,8 +20,13 @@ public class StudentManager implements BaseManager {
     }
 
     @Override
-    public CsvExtraElement getExtraElementOption() {
-        return new CsvExtraElement(false, "");
+    public CsvExtraElementOption getExtraElementOption() {
+        return new CsvExtraElementOption(false, "");
+    }
+
+    @Override
+    public boolean checkIsCsvRowsRequired() {
+        return false;
     }
 
     /**

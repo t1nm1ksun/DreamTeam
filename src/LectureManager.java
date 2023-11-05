@@ -27,13 +27,15 @@ public class LectureManager implements BaseManager {
     }
 
     @Override
-    public CsvExtraElement getExtraElementOption() {
-        return new CsvExtraElement(true,  getCsvFilePath() + "파일의 수업 데이터는 적어도 하나의 타임테이블ID를 갖고 있어야 합니다.");
+    public CsvExtraElementOption getExtraElementOption() {
+        return new CsvExtraElementOption(true,  getCsvFilePath() + "파일의 수업 데이터는 적어도 하나의 타임테이블ID를 갖고 있어야 합니다.");
     }
 
-    /**
-     * csv로부터 읽어온파일들을 순서대로 lectures에 저장 마지막에 한번에 저장하기 위해 saveData에 순차적 저장
-     */
+    @Override
+    public boolean checkIsCsvRowsRequired() {
+        return false;
+    }
+
     public LectureManager() {
 
     }
