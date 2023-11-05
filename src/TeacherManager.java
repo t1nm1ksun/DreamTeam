@@ -6,6 +6,8 @@ public class TeacherManager implements BaseManager {
     private List<Teacher> teachers = new ArrayList<>();
     private final Read read = new Read();
 
+    private final List<String[]> saveData = new ArrayList<>(); //프로그램 종료 시 저장 파일
+
 
     @Override
     public String getCsvFilePath() {
@@ -65,4 +67,23 @@ public class TeacherManager implements BaseManager {
     public List<Teacher> getTeachers() {
         return teachers;
     }
+
+    public void saveDataFile() {
+        //lectures 들을 알맞은 형식의 데이터로 전환한 뒤 파일에 저장
+        for (Teacher tea : teachers) {
+            List<String> tmpData = new ArrayList<>(
+                    Arrays.asList(tea.getCode(),tea.getName(),tea.getSubjectCode()));
+            for (TimeTable timeTable : tea.getTimeTables()) {
+                tmpData.add(timeTable.getCode());
+            }
+
+            int size = tmpData.size();
+            String[] data = tmpData.toArray(new String[size]);
+
+            saveData.add(data);
+        }
+
+        Read.writeLectureCSV(saveData);
+    }
 }
+
