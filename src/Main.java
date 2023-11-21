@@ -22,20 +22,7 @@ public class Main {
     public static TeacherManager teacherManager = new TeacherManager();
 
     public static void main(String[] args) {
-        if (!Read.validateCSVListFormat(Arrays.asList(subjectManager, timetableManager, lectureManager, lectureroomManager, studentManager, teacherManager))) return;
-        if (!Read.validateCSVRef(timetableManager, lectureroomManager, "1", "0")) return;
-        if (!Read.validateCSVRef(lectureManager, timetableManager, "+5", "0")) return;
-        if (!Read.validateCSVRef(timetableManager, lectureroomManager, "1", "0")) return;
-        if (!Read.validateCSVRef(lectureManager, subjectManager, "1", "0")) return;
-        if (!Read.validateCSVRef(lectureManager, teacherManager, "2", "0")) return;
-        if (!Read.validateCSVRef(lectureManager, timetableManager, "+5", "0")) return;
-        if (!Read.validateCSVRef(teacherManager, timetableManager, "+3", "0")) return;
-        if (!Read.validateCSVRef(teacherManager, subjectManager, "2", "0")) return;
-        if (!Read.validateCSVRef(studentManager, lectureManager, "+3", "0")) return;
-        if(!Read.validatePhoneNumberDupliacated(Arrays.asList(studentManager))) return;
-        if(!Read.validateTimetableIdDupliacated(Arrays.asList(lectureManager, teacherManager))) return;
-        if(!Read.validateTimetableInfoDuplicated(timetableManager)) return;
-        if(!Read.validateLectureHasOverStudents(lectureManager)) return;
+        if(!CsvValidator.validate()) return;
 
         lectureroomManager.makeRooms();
         timetableManager.makeTimetables();
