@@ -22,7 +22,7 @@ public class Main {
     public static TeacherManager teacherManager = new TeacherManager();
 
     public static void main(String[] args) {
-        if(!CsvValidator.validate()) return;
+//        if(!CsvValidator.validate()) return;
 
         lectureroomManager.makeRooms();
         timetableManager.makeTimetables();

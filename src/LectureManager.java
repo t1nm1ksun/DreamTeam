@@ -81,6 +81,7 @@ public class LectureManager implements BaseManager {
             //TODO: Lecture 형식에 맞춰서 수정하기, timeTableManager로 수업 정보 가져오기 (창균, 민석)
             ScannerUtils.print("|    " + hasLecture(lectureCode).getLectureCode() + "       ", false);
             ScannerUtils.print(hasLecture(lectureCode).getSubjectCode() + "         ", false);
+            ScannerUtils.print(hasLecture(lectureCode).getLectureName() + "         ", false);
             ScannerUtils.print(hasLecture(lectureCode).getTeacher() + "       ", false);
             for (TimeTable t : hasLecture(lectureCode).getTimetable()) {
                 ScannerUtils.print(
@@ -98,12 +99,13 @@ public class LectureManager implements BaseManager {
             return false;
         } else {
             System.out.println("[등록된 수업 목록]");
-            ScannerUtils.print("수업코드     과목코드     선생님 ID    강의실, 날짜 및 시간", true);
+            ScannerUtils.print("수업코드     과목코드    수업이름    선생님 ID    강의실, 날짜 및 시간", true);
 
             //TODO: 여기 틀린 부분 있으면 고치기 (승범, 성종)
             for (Lecture lecture : lectures) {
                 ScannerUtils.print(lecture.getLectureCode() + "       ", false);
                 ScannerUtils.print(lecture.getSubjectCode() + "       ", false);
+                ScannerUtils.print(lecture.getLectureName()+ "       ", false);
                 ScannerUtils.print(lecture.getTeacher() + "       ", false);
                 for (TimeTable t : lecture.getTimetable()) {
                     ScannerUtils.print(
