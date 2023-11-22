@@ -487,7 +487,7 @@ public class LectureManager implements BaseManager {
         //lectures 들을 알맞은 형식의 데이터로 전환한 뒤 파일에 저장
         for (Lecture lec : lectures) {
             List<String> tmpData = new ArrayList<>(
-                    Arrays.asList(lec.getLectureCode(), lec.getSubjectCode(), lec.getTeacher(), lec.getLimit(),
+                    Arrays.asList(lec.getLectureCode(), lec.getSubjectCode(), lec.getLectureName(),lec.getTeacher(), lec.getLimit(),
                             lec.getCount()));
             for (TimeTable timeTable : lec.getTimetable()) {
                 tmpData.add(timeTable.getCode());
