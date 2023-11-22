@@ -8,9 +8,12 @@ public class Lecture {
     private final String limit; // 강의 정원
     private String count; // 강의 현원
 
-    public Lecture(String LectureCode, String subjectCode, String teacher, String limit, String count,
+    public  String lectureName; // 수업 이름
+
+    public Lecture(String LectureCode, String subjectCode,String lectureName, String teacher, String limit, String count,
                    List<TimeTable> timetable) {
         this.subjectCode = subjectCode;
+        this.lectureName = lectureName;
         this.teacher = teacher;
         this.lectureCode = LectureCode;
         this.limit = limit;
@@ -73,6 +76,10 @@ public class Lecture {
 
     public String getLectureCode() {
         return lectureCode;
+    }
+
+    public String getLectureName() {
+        return lectureName;
     }
 
     public List<TimeTable> getTimetable() {

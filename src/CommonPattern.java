@@ -1,5 +1,6 @@
 public class CommonPattern {
     public static final String SUBJECT_CODE = "^100[0-3]$"; // 과목 코드 정규식
+    public static final String LECTURE_NAME = "^[가-힣]{2,10}$";
     public static final String LECTURE_CODE = "^(200[0-9]|20[1-9][0-9]|21[0-1][0-9]|2120)$"; // 수업 코드 정규식
     public static final String TEACHER_ID = "^300[0-5]$"; // 선생님 ID 정규식
     public static final String STUDENT_ID = "^40[0-9]{2}$"; // 학생 ID 정규식

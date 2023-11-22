@@ -51,7 +51,7 @@ public class LectureManager implements BaseManager {
                 maxCode = max(maxCode, Integer.parseInt(item.get(0)));
             }
             List<TimeTable> table = new ArrayList<>();
-            for (int i = 5; i < item.size(); i++) {
+            for (int i = 6; i < item.size(); i++) {
                 for (TimeTable t : Main.timetableManager.getTimetable()) {
                     if (t.getCode().equals(item.get(i))) {
                         table.add(t);
@@ -60,7 +60,7 @@ public class LectureManager implements BaseManager {
                 }
             }//노가다 table 생성 및 초기화..
             //TODO: Lecture 생성자 형태에 맞춰서 바꾸기 (승범, 성종)- 성공
-            Lecture l1 = new Lecture(item.get(0), item.get(1), item.get(2), item.get(3), item.get(4), table);
+            Lecture l1 = new Lecture(item.get(0), item.get(1), item.get(2), item.get(3), item.get(4), item.get(5), table);
             lectures.add(l1);
             maxLecture++;
         }
@@ -213,7 +213,7 @@ public class LectureManager implements BaseManager {
         if (Main.timetableManager.checkTimeTableMax()) {
             ScannerUtils.print("강의실이 꽉 차 수업을 추가로 등록하실 수 없습니다.", true);
         } else {
-            String[] dataList = new String[4];
+            String[] dataList = new String[5];
             List<TimeTable> timetable = new ArrayList<>();
 
             String room;
@@ -238,6 +238,12 @@ public class LectureManager implements BaseManager {
                             + "을(를) 선택하셨습니다.]",
                     true);
 
+            // 과목 이름 저장
+            ScannerUtils.print("\n추가할 수업의 이름을 입력해주세요", true);
+            String lectureName = ScannerUtils.scanWithPattern(CommonPattern.LECTURE_NAME, CommonPatternError.LECTURE_NAME);
+            dataList[1] = lectureName;
+
+
             // 선생님 선택
             List<Integer> whichTeacher = new ArrayList<>();
             int count = 0;
@@ -261,7 +267,7 @@ public class LectureManager implements BaseManager {
                             + "을 선택하셨습니다.]", true);
 
             // 선생님 ID 저장
-            dataList[1] = Main.teacherManager.getTeachers().get(whichTeacher.get(Integer.parseInt(input) - 1))
+            dataList[2] = Main.teacherManager.getTeachers().get(whichTeacher.get(Integer.parseInt(input) - 1))
                     .getCode();
             Teacher teacherNow = Main.teacherManager.getTeachers().get(whichTeacher.get(Integer.parseInt(input) - 1));
 
@@ -296,7 +302,7 @@ public class LectureManager implements BaseManager {
 
                 // 수업의 현재 수강 인원, 새로 개설되는 수업이므로 0으로 설정
                 String lectureNow = "0";
-                dataList[3] = lectureNow;
+                dataList[4] = lectureNow;
 
                 Main.timetableManager.displayTimeTable(room);
 
@@ -346,7 +352,7 @@ public class LectureManager implements BaseManager {
             } while (finishFlag);
 
             if (!timetable.isEmpty()) {
-                dataList[2] = String.valueOf(lectureLimit); // 최소 정원으로 수업 정원 설정
+                dataList[3] = String.valueOf(lectureLimit); // 최소 정원으로 수업 정원 설정
 
                 int cmpCode = 2000;
                 boolean isNew = false;
@@ -354,7 +360,7 @@ public class LectureManager implements BaseManager {
                 for (Lecture lecture : lectures) {
                     if (!Integer.toString(cmpCode).equals(lecture.getLectureCode())) {
                         Lecture newLecture = new Lecture(Integer.toString(cmpCode), dataList[0], dataList[1],
-                                dataList[2], dataList[3],
+                                dataList[2], dataList[3],dataList[4],
                                 timetable);
                         lectures.add(newLecture);
                         isNew = true;
@@ -368,7 +374,7 @@ public class LectureManager implements BaseManager {
                 if (!isNew) {
                     maxCode = max(maxCode, cmpCode);
                     Lecture newLecture = new Lecture(Integer.toString(cmpCode), dataList[0], dataList[1], dataList[2],
-                            dataList[3],
+                            dataList[3],dataList[4],
                             timetable);
                     lectures.add(newLecture);
                 }
