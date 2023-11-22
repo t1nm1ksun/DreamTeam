@@ -13,6 +13,7 @@ public class MainMenuHandler {
                 }
             }
             case 3 -> {
+                clearMainMenu();
             }
             default -> {
                 ScannerUtils.print("[1.수업 시간표 관리 2.학생 관리 3.종료]", true);

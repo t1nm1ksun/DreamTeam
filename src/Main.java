@@ -31,8 +31,6 @@ public class Main {
         subjectManager.makeSubjects();
         teacherManager.makeTeachers();
 
-        //TODO 학생,타임테이블체크도 추가
-
         while (mainMenu != 3) {
             MainMenuHandler.handle(lectureManager, studentManager);
         }
