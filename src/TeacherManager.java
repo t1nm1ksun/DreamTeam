@@ -30,10 +30,6 @@ public class TeacherManager implements BaseManager {
         return true;
     }
 
-    public TeacherManager() {
-
-    }
-
     public void makeTeachers() {
         List<List<String>> teacherlist = read.readCSV("src/teacher.csv");
 

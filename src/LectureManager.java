@@ -37,10 +37,6 @@ public class LectureManager implements BaseManager {
         return false;
     }
 
-    public LectureManager() {
-
-    }
-
     public void makeLectures() {
         List<List<String>> list = Read.readCSV("src/lecture.csv");
         // List<String> regexList = Arrays.asList(CommonPattern.LECTURE_CODE, CommonPattern.SUBJECT_CODE,CommonPattern.TEACHER_ID,CommonPattern.)
@@ -315,7 +311,7 @@ public class LectureManager implements BaseManager {
                 time = input;
 
                 // 해당 선생님이 이미 해당 요일&시간에 수업이 있을 때 예외 처리
-                if (!teacherNow.findTimeTable(day, time)) {
+                if (!teacherNow.checkTimeTableAlreadyExists(day, time)) {
                     // 추가하려는 수업이 이미 해당 요일&시간에 존재할 때 예외 처리 (강의실만 다르고 요일&시간이 같은 경우 방지)
                     boolean checkDuplicate = false;
 
@@ -613,6 +609,14 @@ public class LectureManager implements BaseManager {
             }
         }
         return ret;
+    }
+
+    public List<Lecture> getTeachersLectureList(String teacherCode){
+        List<Lecture> teachersLectures = new ArrayList<>();
+        for(Lecture lecture: lectures){
+            if(teacherCode.equals(lecture.getTeacher())) teachersLectures.add(lecture);
+        }
+        return teachersLectures;
     }
 
 
