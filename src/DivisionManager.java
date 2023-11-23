@@ -235,11 +235,8 @@ public class DivisionManager implements BaseManager {
             dataList[0] = lecturecode;
 
             ScannerUtils.print(
-                    "[" + Main.lectureManager.getLectureByCode(lecturecode).getLectureName()
-                            + "수업을(를) 선택하셨습니다.]",
+                    "[" + Main.lectureManager.getLectureByCode(lecturecode).getLectureName() + "수업을(를) 선택하셨습니다.]",
                     true);
-
-
 
             String input;
 
@@ -250,7 +247,7 @@ public class DivisionManager implements BaseManager {
             for (int i = 0; i < Main.teacherManager.getTeachers().size(); i++) {
                 Teacher teacher = Main.teacherManager.getTeachers().get(i);
 
-                if (teacher.getSubjectCode().equals(Main.lectureManager.getLectureByCode(dataList[0]).getSubjectCode())) {
+                if (teacher.getSubjectCode().contains(Main.lectureManager.getLectureByCode(lecturecode).getSubjectCode())) {
                     count++;
                     ScannerUtils.print(count + ") " + teacher.getName() + "    ", false);
                     whichTeacher.add(i);
