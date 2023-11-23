@@ -169,24 +169,22 @@ public class LectureManager implements BaseManager {
         lectures.sort(Comparator.comparing(Lecture::getLectureCode));
         for (Lecture lecture : lectures) {
             if (!Integer.toString(cmpCode).equals(lecture.getLectureCode())) {
-                Lecture newLecture = new Lecture(,dataList[0], dataList[1]);
-                divisions.add(newDivision);
+                Lecture newLecture = new Lecture(Integer.toString(cmpCode),dataList[0], dataList[1]);
+                lectures.add(newLecture);
                 isNew = true;
                 break;
             } else {
                 cmpCode++;
             }
-            maxDivisionCode = max(maxDivisionCode, Integer.parseInt(division.getLectureCode()));
+            maxCode = max(maxCode, Integer.parseInt(lecture.getLectureCode()));
         }
 
         if (!isNew) {
-            maxDivisionCode = max(maxDivisionCode, cmpCode);
-            Division newDivision = new Division(Integer.toString(cmpCode), dataList[0], dataList[1],timetable);
-            divisions.add(newDivision);
+            maxCode = max(maxCode, cmpCode);
+            Lecture newLecture = new Lecture(Integer.toString(cmpCode), dataList[0], dataList[1]);
+            lectures.add(newLecture);
         }
 
-
-        lectures.add(newLecture);
     }
 
 
@@ -198,11 +196,7 @@ public class LectureManager implements BaseManager {
         //lectures 들을 알맞은 형식의 데이터로 전환한 뒤 파일에 저장
         for (Lecture lec : lectures) {
             List<String> tmpData = new ArrayList<>(
-                    Arrays.asList(lec.getLectureCode(), lec.getSubjectCode(), lec.getLectureName(),lec.getTeacher(), lec.getLimit(),
-                            lec.getCount()));
-            for (TimeTable timeTable : lec.getTimetable()) {
-                tmpData.add(timeTable.getCode());
-            }
+                    Arrays.asList(lec.getLectureCode(), lec.getLectureName(), lec.getSubjectCode()));
 
             int size = tmpData.size();
             String[] data = tmpData.toArray(new String[size]);
@@ -266,78 +260,6 @@ public class LectureManager implements BaseManager {
             return false;
         }
         return true;
-    }
-
-    public boolean showAddableLectures(List<Lecture> cmpLectures) {
-        // 학생이 수강하는 수업과 timeTable이 겹치지 않는 수업만 보여줌
-        ScannerUtils.print("[추가 가능한 수업 목록]", true);
-        boolean isLectureShown = false;
-
-        // 학생 수업이랑 겹치는 수업들을 체크하는 map
-        HashMap<Lecture, Boolean> isRejectedLecture = new HashMap<>();
-        for (Lecture lec : lectures) {
-            isRejectedLecture.put(lec, false);
-        }
-        // 전체 강의들 중 학생이 수강중인 강의들의 timeTable과 겹치지 않는 강의들만 출력
-        // 즉, 새로 추가할 수 있는 강의들만 출력
-        for (Lecture cmpLec : cmpLectures) {
-            for (Lecture lecture : lectures) {
-                if (cmpLec.getLectureCode().equals(lecture.getLectureCode())) {
-                    isRejectedLecture.put(lecture, true);
-                    continue;
-                }
-
-                if (this.isOverLappedLecture(cmpLec, lecture)) {
-                    isRejectedLecture.put(lecture, true);
-                }
-            }
-        }
-
-        // check가 되지 않은 수업들만 출력(수강할 수 있는 수업들)
-        for (Lecture lec : isRejectedLecture.keySet()) {
-            if (!isRejectedLecture.get(lec)) {
-//                ScannerUtils.print(lec, true);
-                isLectureShown = true;
-                lec.showLecture();
-            }
-        }
-        return isLectureShown;
-    }
-
-    /*public void showLec(String code) {
-
-    }*/
-
-    public boolean isOverLappedLecture(Lecture lec1, Lecture lec2) {
-        // 2개의 강의를 비교하여 시간이 겹치는지 확인
-        for (TimeTable table1 : lec1.getTimetable()) {
-            for (TimeTable table2 : lec2.getTimetable()) {
-                if (Main.timetableManager.isOverLappedTime(table1, table2)) {
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
-
-    public List<Lecture> getStudentsLectureList(Student stu) {
-        List<Lecture> ret = new ArrayList<>();
-        for (String stuLec : stu.getDivisionCodes()) {
-            for (Lecture lecture : lectures) {
-                if (stuLec.equals(lecture.getLectureCode())) {
-                    ret.add(lecture);
-                }
-            }
-        }
-        return ret;
-    }
-
-    public List<Lecture> getTeachersLectureList(String teacherCode){
-        List<Lecture> teachersLectures = new ArrayList<>();
-        for(Lecture lecture: lectures){
-            if(teacherCode.equals(lecture.getTeacher())) teachersLectures.add(lecture);
-        }
-        return teachersLectures;
     }
 
 
