@@ -60,4 +60,9 @@ public class CommonPatternError {
      * 타임테이블 에러 메세지
      */
     public static final String TIMETABLE_CODE = "[오류: 잘못된 입력입니다. (* 올바른 형식으로 입력하세요 *)]"; // 타임테이블 에러 메시지
+
+    /**
+     * 분반 코드 에러 메세지
+     */
+    public static final String DIVISION_CODE = "[오류: 잘못된 입력입니다. (* 올바른 형식으로 입력하세요 *)]"; // 분반 코드 에러 메세지
 }

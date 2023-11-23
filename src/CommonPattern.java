@@ -16,5 +16,5 @@ public class CommonPattern {
     public static final String FOUR_CHOICE = "^[1-4]$"; // 보기 4개짜리 정규식
     public static final String THREE_CHOICE = "^[1-3]$"; // 보기 3개짜리 정규식
     public static final String TWO_CHOICE = "^[1-2]$"; // 보기 2개짜리 정규식
-    public static final String ONE_CHOICE = "^[1]$"; // 보기 1개짜리 정규식
+    public static final String DIVISION_CODE = "^(700[0-9]|70[1-9][0-9]|71[0-1][0-9]|7120)$"; // 분반 코드 정규식
 }
