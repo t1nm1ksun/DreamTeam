@@ -97,23 +97,28 @@ public class TimeTableManager implements BaseManager {
                 && table1.getDivisionTime().equals(table2.getDivisionTime());
     }
 
-    public String addTimeTable(String roomId, String day, String lectureTime) {// 타임테이블 추가
+    public String addTimeTable(String roomId, String day, String Time) {// 타임테이블 추가
         int cmpCode = 6000;
-        boolean isNew = false;
+        boolean isMiddle = false;
+        System.out.println("calling!!!");
         timetables.sort(Comparator.comparing(TimeTable::getCode));
+
         for (TimeTable table : timetables) {
             if (!Integer.toString(cmpCode).equals(table.getCode())) {
-                TimeTable t1 = new TimeTable(Integer.toString(cmpCode), roomId, day, lectureTime);
+                TimeTable t1 = new TimeTable(Integer.toString(cmpCode), roomId, day, Time);
+                System.out.println("added in for moon");
                 timetables.add(t1);
-                isNew = true;
+                isMiddle = true;
                 break;
             } else {
                 cmpCode++;
             }
+
         }
 
-        if (!isNew) {
-            TimeTable t1 = new TimeTable(Integer.toString(cmpCode), roomId, day, lectureTime);
+        if (!isMiddle) {
+            TimeTable t1 = new TimeTable(Integer.toString(cmpCode), roomId, day, Time);
+            System.out.println("added in if moon");
             timetables.add(t1);
         }
 
@@ -151,6 +156,7 @@ public class TimeTableManager implements BaseManager {
             String[] tmpData = {lec.getCode(), lec.getRoomId(), lec.getDivisionDays(), lec.getDivisionTime()};
             saveData.add(tmpData);
         }
+
         Read.writeTimeTableCSV(saveData);
     }
 

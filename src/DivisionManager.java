@@ -223,7 +223,6 @@ public class DivisionManager implements BaseManager {
             // 수업 선택
             Main.lectureManager.displayLectures();
             String lecturecode="";
-            System.out.println(lecturecode.length());
             do{
                 ScannerUtils.print("\n추가할 분반의 수업을 선택해 주세요: ", false);
                 String input = ScannerUtils.scanWithPattern(CommonPattern.LECTURE_CODE, CommonPatternError.LECTURE_CODE);
@@ -327,7 +326,7 @@ public class DivisionManager implements BaseManager {
                         String code = Main.timetableManager.addTimeTable(room, day, time);
                         TimeTable newTimetable = new TimeTable(code, room, day, time);
                         timetable.add(newTimetable); // "timetable" 객체에 "newTimetable" 객체를 전달
-                        teacherNow.addTimetable(newTimetable); // "teacherNow" 객체에 "newTimetable" 객체를 전달
+                        /*teacherNow.addTimetable(newTimetable); // "teacherNow" 객체에 "newTimetable" 객체를 전달*/
                         ScannerUtils.print("해당 시간에 성공적으로 추가되었습니다.", true);
                     } else {
                         ScannerUtils.print("해당 타임에는 이미 수업이 존재합니다.", true);
@@ -341,6 +340,7 @@ public class DivisionManager implements BaseManager {
 
                 finishFlag = input.equals("1");
             } while (finishFlag);
+
             dataList[2]=Integer.toString(divisionLimit);
 
             if (!timetable.isEmpty()) {
