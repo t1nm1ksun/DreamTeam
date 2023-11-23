@@ -28,10 +28,6 @@ public class TimeTableManager implements BaseManager {
     public boolean checkIsCsvRowsRequired() {
         return false;
     }
-
-    public TimeTableManager() {
-
-    }
     
     public void makeTimetables() {
         List<List<String>> list = Read.readCSV("src/timetable.csv");

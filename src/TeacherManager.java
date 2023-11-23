@@ -16,13 +16,12 @@ public class TeacherManager implements BaseManager {
 
     @Override
     public List<String> getRegexList() {
-        return Arrays.asList(CommonPattern.TEACHER_ID, CommonPattern.STUDENT_NAME, CommonPattern.SUBJECT_CODE,
-                "+" + CommonPattern.TIMETABLE_CODE);
+        return Arrays.asList(CommonPattern.TEACHER_ID, CommonPattern.STUDENT_NAME, "+" + CommonPattern.SUBJECT_CODE);
     }
 
     @Override
     public CsvExtraElementOption getExtraElementOption() {
-        return new CsvExtraElementOption(false, "");
+        return new CsvExtraElementOption(true, getCsvFilePath() + "파일의 선생님 데이터는 적어도 하나의 과목 코드를 갖고 있어야 합니다.");
     }
 
     @Override
@@ -30,26 +29,15 @@ public class TeacherManager implements BaseManager {
         return true;
     }
 
-    public TeacherManager() {
-
-    }
-
     public void makeTeachers() {
         List<List<String>> teacherlist = read.readCSV("src/teacher.csv");
 
         for (List<String> item : teacherlist) {
-            List<TimeTable> table = new ArrayList<>();
-
-            for (int i = 3; i < item.size(); i++) {
-                for (TimeTable t : Main.timetableManager.getTimetable()) {
-                    if (t.getCode().equals(item.get(i))) {
-                        table.add(t);
-                        break;
-                    }
-                }
+            List<String> subjectCodeList = new ArrayList<>();
+            for(int i = 2; i < item.size(); i++){
+                subjectCodeList.add(item.get(i));
             }
-
-            Teacher t1 = new Teacher(item.get(0), item.get(1), item.get(2), table);
+            Teacher t1 = new Teacher(item.get(0), item.get(1), subjectCodeList);
             teachers.add(t1);
         }
     }
@@ -70,11 +58,9 @@ public class TeacherManager implements BaseManager {
     public void saveDataFile() {
         //lectures 들을 알맞은 형식의 데이터로 전환한 뒤 파일에 저장
         for (Teacher tea : teachers) {
-            List<String> tmpData = new ArrayList<>(
-                    Arrays.asList(tea.getCode(),tea.getName(),tea.getSubjectCode()));
-            for (TimeTable timeTable : tea.getTimeTables()) {
-                tmpData.add(timeTable.getCode());
-            }
+            List<String> subjectCodes = tea.getSubjectCode();
+            List<String> tmpData = new ArrayList<>(Arrays.asList(tea.getCode(),tea.getName()));
+            tmpData.addAll(subjectCodes);
 
             int size = tmpData.size();
             String[] data = tmpData.toArray(new String[size]);
