@@ -7,12 +7,34 @@ public class Division {
     private final String limit; // 강의 정원
     private String teacher; // 선생님
 
-    public Division(String teacher, String limit, String count,
-                      List<TimeTable> timetable){
+    public Division(String divisioncode,String lecturecode,String teacher,String limit,List<TimeTable> timetable){
+        this.divisionCode=divisioncode;
+        this.lectureCode=lecturecode;
         this.teacher = teacher;
         this.limit = limit;
         this.timetable = timetable;
     }
+    public String getDivisionCode() { return divisionCode;   }
+
+    public void setDivisionCode(String divisionCode) {
+        this.divisionCode = divisionCode;
+    }
+    public String getLectureCode() {
+        return lectureCode;
+    }
+
+    public void setLectureCode(String lectureCode) {
+        this.lectureCode = lectureCode;
+    }
+
+    public String getTeacher() {
+        return teacher;
+    }
+    // 선생님 정보 설정
+    public void setTeacher(String teacher) {
+        this.teacher = teacher;
+    }
+
 
     public String getLimit() {
         return this.limit;
@@ -25,19 +47,13 @@ public class Division {
 
 
 
-    // 선생님 정보 설정
-    public void setTeacher(String teacher) {
-        this.teacher = teacher;
-    }
 
     public void addTimetable(TimeTable timeTable) {
         this.timetable.add(timeTable);
     }
 
     // 선생님 정보 반환
-    public String getTeacher() {
-        return teacher;
-    }
+
 
     public List<TimeTable> getTimetable() {
         return timetable;
@@ -53,32 +69,6 @@ public class Division {
         }
         ScannerUtils.print("", true);
     }
-
-    // 과목 정보 설정
-    public void setDivisionCode(String divisionCode) {
-        this.divisionCode = divisionCode;
-    }
-
-
-
-    // 수업 코드 정보 설정
-    public void setLectureCode(String lectureCode) {
-        this.lectureCode = lectureCode;
-    }
-
-
-
-    // 과목 정보 반환
-    public String getLectureCode() {
-        return lectureCode;
-    }
-
-
-
-    public String getDivisionCode() {
-        return lectureCode;
-    }
-
 
 
 

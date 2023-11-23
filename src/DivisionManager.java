@@ -207,8 +207,10 @@ public class DivisionManager implements BaseManager {
         if (Main.timetableManager.checkTimeTableMax()) {
             ScannerUtils.print("강의실이 꽉 차 분반을 추가로 등록하실 수 없습니다.", true);
         } else {
-            String[] dataList = new String[2];
+            String[] dataList = new String[3];
             List<TimeTable> timetable = new ArrayList<>();
+
+            int divisionLimit=2048;
 
             String room;
             String day;
@@ -281,7 +283,7 @@ public class DivisionManager implements BaseManager {
                 room = Main.lectureroomManager.getRoom().get(Integer.parseInt(input) - 1).getCode();
 
                 // 강의실 코드로 가장 작은 수업 정원을 강의의 정원으로 선택
-               /* divisionLimit = min(divisionLimit, Integer.parseInt(Main.lectureroomManager.getRoomLimit(room)));*/
+                divisionLimit = min(divisionLimit, Integer.parseInt(Main.lectureroomManager.getRoomLimit(room)));
 
 
 
@@ -331,17 +333,18 @@ public class DivisionManager implements BaseManager {
 
                 finishFlag = input.equals("1");
             } while (finishFlag);
+            dataList[2]=Integer.toString(divisionLimit);
 
             if (!timetable.isEmpty()) {
                 //////////// 여기 까지 //////////////////
 
                 int cmpCode = 7000;
                 boolean isNew = false;
-                divisions.sort(Comparator.comparing(Division::getLectureCode));
+                divisions.sort(Comparator.comparing(Division::getDivisionCode));
                 for (Division division : divisions) {
                     if (!Integer.toString(cmpCode).equals(division.getDivisionCode())) {
                         Division newDivision = new Division(Integer.toString(cmpCode), dataList[0],
-                                dataList[1],timetable);
+                                dataList[1],dataList[2],timetable);
                         divisions.add(newDivision);
                         isNew = true;
                         break;
@@ -353,7 +356,7 @@ public class DivisionManager implements BaseManager {
 
                 if (!isNew) {
                     maxDivisionCode = max(maxDivisionCode, cmpCode);
-                    Division newDivision = new Division(Integer.toString(cmpCode), dataList[0], dataList[1],timetable);
+                    Division newDivision = new Division(Integer.toString(cmpCode), dataList[0], dataList[1],dataList[2],timetable);
                     divisions.add(newDivision);
                 }
             }
@@ -593,13 +596,36 @@ public class DivisionManager implements BaseManager {
     }
 
 
-    public Division getLectureByCode(String divisionCode) {
+    public Division getDivisionByCode(String divisionCode) {
 
         for (Division division : divisions) {
-            if (division.getLectureCode().equals(divisionCode)) {
+            if (division.getDivisionCode().equals(divisionCode)) {
                 return division;
             }
         }
         return null;
     }
+    public void deleteDivision(String divisionCode) {
+        // 입력 받은 디비젼 코드와 같은 디비젼들을 divisions에서 삭제
+        for(Division division : divisions) {
+            if(division.getDivisionCode().equals(divisionCode)) {
+                divisions.remove(division);
+
+                for (TimeTable table : division.getTimetable()){
+                    // 디비젼이 가지고 있던 타임 테이블들을 모두 삭제함
+                    Main.timetableManager.deleteTimeTable(table.getCode());
+                }
+            }
+        }
+    }
+    public Division deleteDivisionByLectureCode(String lectrueCode) {
+        // 디비젼 코드를 이용해 deleteDivision을 호출
+        for (Division division : divisions) {
+            if (division.getLectureCode().equals(lectrueCode)) {
+                deleteDivision(division.getDivisionCode());
+            }
+        }
+        return null;
+    }
+
 }

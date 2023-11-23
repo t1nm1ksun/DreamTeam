@@ -30,11 +30,11 @@ public class Teacher {
     }
 
     public List<TimeTable> getTimeTables(){
-        List<Lecture> teachersLectures = Main.lectureManager.getTeachersLectureList(code);
+        List<Division> teachersDivisions = Main.divisionManager.getTeachersDivisionList(code);
         List<TimeTable> timeTables = new ArrayList<>();
 
-        for(Lecture teacherLecture: teachersLectures){
-            timeTables.addAll(teacherLecture.getTimetable());
+        for(Division teacherDivision: teachersDivisions){
+            timeTables.addAll(teacherDivision.getTimetable());
         }
         return timeTables;
     }
@@ -44,7 +44,7 @@ public class Teacher {
 
         if (!timeTables.isEmpty()) {
             for (TimeTable timeTable : timeTables) {
-                if (timeTable.getLectureDays().equals(day) && timeTable.getLectureTime().equals(time)) {
+                if (timeTable.getDivisionDays().equals(day) && timeTable.getDivisionTime().equals(time)) {
                     return true;
                 }
             }
@@ -55,7 +55,7 @@ public class Teacher {
 
     // TODO: 조만간 처리
     public void addTimetable(TimeTable timetable){
-        Main.timetableManager.addTimeTable(timetable.getRoomId(), timetable.getLectureDays(), timetable.getLectureTime());
+        Main.timetableManager.addTimeTable(timetable.getRoomId(), timetable.getDivisionDays(), timetable.getDivisionTime());
     }
 
     public void deleteTimetable(TimeTable timetable){
