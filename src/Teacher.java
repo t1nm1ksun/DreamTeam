@@ -5,9 +5,9 @@ public class Teacher {
 
     private String code;
     private String name;
-    private final String subjectCode;
+    private final List<String> subjectCode;
     //과목코드 추가!
-    public Teacher(String code, String name, String subjectCode) {
+    public Teacher(String code, String name, List<String> subjectCode) {
         this.code = code;
         this.name = name;
         this.subjectCode = subjectCode;
@@ -25,7 +25,7 @@ public class Teacher {
     }
 
 
-    public String getSubjectCode() {
+    public List<String> getSubjectCode() {
         return subjectCode;
     }
 
@@ -53,11 +53,12 @@ public class Teacher {
         return false;
     }
 
-//    // TODO: 조만간 처리
-//    public void addTimetable(TimeTable timetable){
-//        this.timeTables.add(timetable);
-//    }
-//    public void deleteTimetable(TimeTable timetable){
-//        this.timeTables.remove(timetable);
-//    }
+    // TODO: 조만간 처리
+    public void addTimetable(TimeTable timetable){
+        Main.timetableManager.addTimeTable(timetable.getRoomId(), timetable.getLectureDays(), timetable.getLectureTime());
+    }
+
+    public void deleteTimetable(TimeTable timetable){
+        Main.timetableManager.deleteTimeTable(timetable.getCode());
+    }
 }

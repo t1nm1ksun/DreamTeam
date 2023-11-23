@@ -19,8 +19,7 @@ public class CsvValidator {
         if (!Read.validateCSVRef(Main.lectureManager, Main.subjectManager, "1", "0")) return false;
         if (!Read.validateCSVRef(Main.lectureManager, Main.teacherManager, "2", "0")) return false;
         if (!Read.validateCSVRef(Main.lectureManager, Main.timetableManager, "+5", "0")) return false;
-        if (!Read.validateCSVRef(Main.teacherManager, Main.timetableManager, "+3", "0")) return false;
-        if (!Read.validateCSVRef(Main.teacherManager, Main.subjectManager, "2", "0")) return false;
+        if (!Read.validateCSVRef(Main.teacherManager, Main.subjectManager, "+2", "0")) return false;
         if (!Read.validateCSVRef(Main.studentManager, Main.lectureManager, "+3", "0")) return false;
         return true;
     }
