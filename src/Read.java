@@ -435,4 +435,36 @@ public class Read {
             }
         }
     }
+
+    public static void writeDivisionCSV(List<String[]> dataList) {
+        BufferedWriter bufferedwrite = null;
+        String filePath = "src/division.csv";
+        try {
+            bufferedwrite = Files.newBufferedWriter(Paths.get(filePath));
+            for (String[] data : dataList) {
+                StringBuilder aData = new StringBuilder();
+                for (int j = 0; j < data.length; j++) {
+                    if (j != data.length - 1) {
+                        aData.append(data[j]).append(",");
+                    } else {
+                        aData.append(data[j]);
+                    }
+                }
+                bufferedwrite.write(aData.toString());
+                bufferedwrite.newLine();
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (bufferedwrite != null) {
+                    bufferedwrite.flush();
+                    bufferedwrite.close();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 }

@@ -45,7 +45,7 @@ public class DivisionManager implements BaseManager {
                 maxDivisionCode = max(maxDivisionCode, Integer.parseInt(item.get(0)));
             }
             List<TimeTable> table = new ArrayList<>();
-            for (int i = 6; i < item.size(); i++) {
+            for (int i = 4; i < item.size(); i++) {
                 for (TimeTable t : Main.timetableManager.getTimetable()) {
                     if (t.getCode().equals(item.get(i))) {
                         table.add(t);
@@ -53,8 +53,8 @@ public class DivisionManager implements BaseManager {
                     }
                 }
             }
-            //item0 = 분반 코드, item1 = 수업 코드, item2 = 선생님 ID
-            Division d1 = new Division(item.get(0), item.get(1), item.get(2), table);
+            //item0 = 분반 코드, item1 = 수업 코드, item2 = 선생님 ID item3 = 정원 item4 = 타임테이블리스트
+            Division d1 = new Division(item.get(0), item.get(1), item.get(2), item.get(3), table);
             divisions.add(d1);
             maxDivision++;
         }
@@ -76,6 +76,8 @@ public class DivisionManager implements BaseManager {
             ScannerUtils.print("|    " + hasDivision(divisionCode).getDivisionCode() + "       ", false);
             ScannerUtils.print(hasDivision(divisionCode).getLectureCode()+ "         ", false);
             ScannerUtils.print(hasDivision(divisionCode).getTeacher() + "       ", false);
+            ScannerUtils.print(hasDivision(divisionCode).getLimit() + "       ", false);
+            ScannerUtils.print(hasDivision(divisionCode).getCount() + "       ", false);
             for (TimeTable t : hasDivision(divisionCode).getTimetable()) {
                 ScannerUtils.print(
                         t.getRoomId() + " " + t.showDivisionDays() + " " + t.showDivisionTime()
@@ -92,13 +94,15 @@ public class DivisionManager implements BaseManager {
             return false;
         } else {
             System.out.println("[등록된 분반 목록]");
-            ScannerUtils.print("분반코드     수업코드    선생님 ID    강의실, 날짜 및 시간", true);
+            ScannerUtils.print("분반코드     수업코드    선생님 ID    분반 정원    분반 현원    강의실, 날짜 및 시간", true);
 
             //TODO: 여기 틀린 부분 있으면 고치기 (승범, 성종)
             for (Division division : divisions) {
                 ScannerUtils.print(division.getDivisionCode() + "       ", false);
                 ScannerUtils.print(division.getLectureCode() + "       ", false);
                 ScannerUtils.print(division.getTeacher() + "       ", false);
+                ScannerUtils.print(division.getLimit() + "       ", false);
+                ScannerUtils.print(division.getCount() + "       ", false);
                 for (TimeTable t : division.getTimetable()) {
                     ScannerUtils.print(
                             t.getRoomId() + " " + t.showDivisionDays() + " " + t.showDivisionTime()
@@ -111,8 +115,8 @@ public class DivisionManager implements BaseManager {
     }
 
 
-    public void displayTimetable(Division lecture) {
-        for (TimeTable t : lecture.getTimetable()) {
+    public void displayTimetable(Division division) {
+        for (TimeTable t : division.getTimetable()) {
             String divisionDay = "";
             switch (t.showDivisionDays()) {
                 case "1": {
@@ -180,7 +184,7 @@ public class DivisionManager implements BaseManager {
                     maxDivisionCode--;
                 }
                 // 학생이 듣는 수업 중에 삭제할 수업이 있다면 삭제
-                Main.studentManager.checkDeletedDivison(div.getDivisionCode());
+                Main.studentManager.checkDeletedDivision(div.getDivisionCode());
                 // 해당 강의의 timetable 삭제
                 for (TimeTable deleteTimeTable : div.getTimetable()) {
                     Main.timetableManager.deleteTimeTable(deleteTimeTable.getCode());
@@ -304,7 +308,7 @@ public class DivisionManager implements BaseManager {
                 time = input;
 
                 // 해당 선생님이 이미 해당 요일&시간에 수업이 있을 때 예외 처리
-                if (!teacherNow.findTimeTable(day, time)) {
+                if (!teacherNow.checkTimeTableAlreadyExists(day, time)) {
                     // 추가하려는 분반이 이미 해당 요일&시간에 존재할 때 예외 처리 (강의실만 다르고 요일&시간이 같은 경우 방지)
                     boolean checkDuplicate = false;
 
@@ -370,7 +374,6 @@ public class DivisionManager implements BaseManager {
             ScannerUtils.print("변경할 분반 코드를 입력하세요: ", false);
             LectureEditMenuHandler.input = ScannerUtils.scanWithPattern(CommonPattern.DIVISION_CODE,
                     CommonPatternError.DIVISION_CODE);
-//            ScannerUtils.print( "err!: " + Integer.toString(LectureManager.maxCode), true);
             while (!hasSelectedDivision(DivisionEditMenuHandler.input)) {
                 ScannerUtils.print("존재하지 않습니다. 재입력 바랍니다.", true);
                 DivisionEditMenuHandler.input = ScannerUtils.scanWithPattern(CommonPattern.DIVISION_CODE,
@@ -378,7 +381,7 @@ public class DivisionManager implements BaseManager {
             }
 
             //타임 테이블 출력
-            displayTimetable(hasDivision(DIVISIONEditMenuHandler.input));
+            displayTimetable(hasDivision(DivisionEditMenuHandler.input));
 
             ScannerUtils.print("변경할 타임의 타임테이블 코드를 입력하세요 (ex: 6000): ", false);
 
@@ -468,7 +471,7 @@ public class DivisionManager implements BaseManager {
         //lectures 들을 알맞은 형식의 데이터로 전환한 뒤 파일에 저장
         for (Division div : divisions) {
             List<String> tmpData = new ArrayList<>(
-                    Arrays.asList(div.getDivisionCode(), div.getLectureCode(),div.getTeacher()));
+                    Arrays.asList(div.getDivisionCode(), div.getLectureCode(),div.getTeacher(),div.getLimit()));
             for (TimeTable timeTable : div.getTimetable()) {
                 tmpData.add(timeTable.getCode());
             }
@@ -479,7 +482,7 @@ public class DivisionManager implements BaseManager {
             saveData.add(data);
         }
 
-        Read.writeLectureCSV(saveData);
+        Read.writeDivisionCSV(saveData);
     }
 
 
@@ -590,6 +593,17 @@ public class DivisionManager implements BaseManager {
                 if (stuLec.equals(division.getLectureCode())) {
                     ret.add(division);
                 }
+            }
+        }
+        return ret;
+    }
+
+    //해당 선생님 id를 가진 선생님이 들어가는 분반들 list return
+    public List<Division> getTeachersDivisionList(String teachercode) {
+        List<Division> ret = new ArrayList<>();
+        for (Division division : divisions){
+            if(division.getTeacher().equals(teachercode)){
+                ret.add(division);
             }
         }
         return ret;

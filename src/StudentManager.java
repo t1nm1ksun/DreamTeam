@@ -265,26 +265,25 @@ public class StudentManager implements BaseManager {
                             }
 
                             if (isSuccess) {
-                                List<Lecture> StudentLectureList = Main.lectureManager.getStudentsLectureList(
-                                        studentToEdit);
+                                List<Division> StudentDivisionList = Main.divisionManager.getStudentsDivisionList(studentToEdit);
                                 // 추가할 수 있는 수업 리스트를 보여줌
-                                if (!Main.lectureManager.showAddableLectures(StudentLectureList)) {
-                                    ScannerUtils.print("더이상 추가할 수 있는 수업이 없습니다.", true);
+                                if (!Main.divisionManager.showAddableDivisions(StudentDivisionList)) {
+                                    ScannerUtils.print("더이상 추가할 수 있는 분반이 없습니다.", true);
                                     break;
                                 }
 
-                                ScannerUtils.print("추가하려는 수업의 코드를 입력하세요 (* 4자, 공백 없이 숫자로만 입력하세요 *): ", false);
-                                String lectureCode = ScannerUtils.scanWithPattern(CommonPattern.LECTURE_CODE,
-                                        CommonPatternError.LECTURE_CODE);
+                                ScannerUtils.print("추가하려는 분반의 코드를 입력하세요 (* 4자, 공백 없이 숫자로만 입력하세요 *): ", false);
+                                String divisionCode = ScannerUtils.scanWithPattern(CommonPattern.DIVISION_CODE,
+                                        CommonPatternError.DIVISION_CODE);
 
-                                ScannerUtils.print("선택한 수업 코드: " + lectureCode, true);
+                                ScannerUtils.print("선택한 분반 코드: " + divisionCode, true);
 
-                                Lecture addingLecture = Main.lectureManager.getLectureByCode(lectureCode);
+                                Division addingDivision = Main.divisionManager.getDivisionByCode(divisionCode);
 
                                 // 해당 강의실의 제한 인원 수
-                                int minLimit = Integer.parseInt(addingLecture.getLimit());
+                                int minLimit = Integer.parseInt(addingDivision.getLimit());
                                 // 해당 강의실의 현재 수강 인원 수
-                                int nowCount = Integer.parseInt(addingLecture.getCount());
+                                int nowCount = addingDivision.getCount();
 
 //                                ScannerUtils.print(minLimit + ", " + nowCount, true);
                                 
@@ -297,10 +296,8 @@ public class StudentManager implements BaseManager {
                                 }
 
                                 if (isSuccess) {
-                                    // 수강 인원 추가
-                                    addingLecture.plusCount();
                                     // 해당 학생의 수업 리스트에 수업 추가
-                                    studentToEdit.addDivisionCode(lectureCode);
+                                    studentToEdit.addDivisionCode(divisionCode);
                                     //lectureRoomManager.saveDataFile();
                                     ScannerUtils.print("성공적으로 추가되었습니다.", true);
 
@@ -347,7 +344,7 @@ public class StudentManager implements BaseManager {
         }
     }
 
-    public void checkDeletedLecture(String code) {
+    public void checkDeletedDivision(String code) {
         // 학생이 듣는 수업이 삭제되었다면 확인해서 삭제
         for (Student stu : studentList) {
             stu.getDivisionCodes().removeIf(code::equals);
@@ -404,6 +401,8 @@ public class StudentManager implements BaseManager {
     public List<Student> getStudents(){
         return studentList;
     }
+
+
 
     public List<Student> getStudentsByDivisionCode(String divisionCode){
         List<Student> students = new ArrayList<>();
