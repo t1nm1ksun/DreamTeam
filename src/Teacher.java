@@ -1,18 +1,16 @@
+import java.util.ArrayList;
 import java.util.List;
 
 public class Teacher {
 
     private String code;
     private String name;
-    private final String subjectCode;
-    private final List<TimeTable> timeTables;
-
+    private final List<String> subjectCode;
     //과목코드 추가!
-    public Teacher(String code, String name, String subjectCode, List<TimeTable> timeTables) {
+    public Teacher(String code, String name, List<String> subjectCode) {
         this.code = code;
         this.name = name;
         this.subjectCode = subjectCode;
-        this.timeTables = timeTables;
     }
 
     // code 필드의 getter 메서드
@@ -27,11 +25,23 @@ public class Teacher {
     }
 
 
-    public String getSubjectCode() {
+    public List<String> getSubjectCode() {
         return subjectCode;
     }
-    
-    public boolean findTimeTable(String day, String time) {
+
+    public List<TimeTable> getTimeTables(){
+        List<Lecture> teachersLectures = Main.lectureManager.getTeachersLectureList(code);
+        List<TimeTable> timeTables = new ArrayList<>();
+
+        for(Lecture teacherLecture: teachersLectures){
+            timeTables.addAll(teacherLecture.getTimetable());
+        }
+        return timeTables;
+    }
+
+    public boolean checkTimeTableAlreadyExists(String day, String time) {
+        List<TimeTable> timeTables = getTimeTables();
+
         if (!timeTables.isEmpty()) {
             for (TimeTable timeTable : timeTables) {
                 if (timeTable.getLectureDays().equals(day) && timeTable.getLectureTime().equals(time)) {
@@ -39,18 +49,16 @@ public class Teacher {
                 }
             }
         }
-        return false;
-    }
 
-    public List<TimeTable> getTimeTables(){
-        return timeTables;
+        return false;
     }
 
     // TODO: 조만간 처리
     public void addTimetable(TimeTable timetable){
-        this.timeTables.add(timetable);
+        Main.timetableManager.addTimeTable(timetable.getRoomId(), timetable.getLectureDays(), timetable.getLectureTime());
     }
+
     public void deleteTimetable(TimeTable timetable){
-        this.timeTables.remove(timetable);
+        Main.timetableManager.deleteTimeTable(timetable.getCode());
     }
 }
