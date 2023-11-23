@@ -7,6 +7,8 @@ public class Lecture {
 
     public  String lectureName; // 수업 이름
 
+
+
     public Lecture(String LectureCode, String subjectCode,String lectureName) {
         this.subjectCode = subjectCode;
         this.lectureName = lectureName;

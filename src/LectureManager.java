@@ -23,8 +23,7 @@ public class LectureManager implements BaseManager {
 
     @Override
     public List<String> getRegexList() {
-        return Arrays.asList(CommonPattern.LECTURE_CODE, CommonPattern.SUBJECT_CODE, CommonPattern.TEACHER_ID,
-                CommonPattern.ROOM_LIMIT, CommonPattern.ROOM_CURRENT_STUDENT, "+" + CommonPattern.TIMETABLE_CODE);
+        return Arrays.asList(CommonPattern.LECTURE_CODE, CommonPattern.LECTURE_NAME,CommonPattern.SUBJECT_CODE);
     }
 
     @Override
@@ -46,17 +45,8 @@ public class LectureManager implements BaseManager {
             if (Integer.parseInt(item.get(0)) >= maxCode) {
                 maxCode = max(maxCode, Integer.parseInt(item.get(0)));
             }
-            List<TimeTable> table = new ArrayList<>();
-            for (int i = 6; i < item.size(); i++) {
-                for (TimeTable t : Main.timetableManager.getTimetable()) {
-                    if (t.getCode().equals(item.get(i))) {
-                        table.add(t);
-                        break;
-                    }
-                }
-            }//노가다 table 생성 및 초기화..
             //TODO: Lecture 생성자 형태에 맞춰서 바꾸기 (승범, 성종)- 성공
-            Lecture l1 = new Lecture(item.get(0), item.get(1), item.get(2), item.get(3), item.get(4), item.get(5), table);
+            Lecture l1 = new Lecture(item.get(0), item.get(1), item.get(2));
             lectures.add(l1);
             maxLecture++;
         }
@@ -89,13 +79,12 @@ public class LectureManager implements BaseManager {
             return false;
         } else {
             System.out.println("[등록된 수업 목록]");
-            ScannerUtils.print("수업코드     과목코드    수업이름    선생님 ID    강의실, 날짜 및 시간", true);
+            ScannerUtils.print("수업코드    수업이름     과목코드", true);
 
-            //TODO: 여기 틀린 부분 있으면 고치기 (승범, 성종)
             for (Lecture lecture : lectures) {
                 ScannerUtils.print(lecture.getLectureCode() + "       ", false);
-                ScannerUtils.print(lecture.getSubjectCode() + "       ", false);
                 ScannerUtils.print(lecture.getLectureName()+ "       ", false);
+                ScannerUtils.print(lecture.getSubjectCode() + "       ", false);
                 ScannerUtils.print("", true);
             }
         }
@@ -137,8 +126,8 @@ public class LectureManager implements BaseManager {
                 // 학생이 듣는 수업 중에 삭제할 수업이 있다면 삭제
                 Main.studentManager.checkDeletedLecture(lec.getLectureCode());
                 // 해당 강의의 timetable 삭제
-                for (TimeTable deleteTimeTable : lec.getTimetable()) {
-                    Main.timetableManager.deleteTimeTable(deleteTimeTable.getCode());
+                for (Division division : Main.divisionManager.) {
+                    if (division.getLectureCode())
                 }
 
                 //TODO 부탁해 창균씨 Teacher 클래스에 잇는 deleteTimetable 함수 써줘
@@ -345,8 +334,6 @@ public class LectureManager implements BaseManager {
                         CommonPatternError.LECTURE_CODE);
             }
 
-            //타임 테이블 출력
-            displayTimetable(hasLecture(LectureEditMenuHandler.input));
 
             ScannerUtils.print("변경할 타임의 타임테이블 코드를 입력하세요 (ex: 6000): ", false);
 
