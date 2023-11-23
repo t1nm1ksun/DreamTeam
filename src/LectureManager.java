@@ -42,7 +42,6 @@ public class LectureManager implements BaseManager {
 
         for (List<String> item : list) {
             //csv 파일들을 읽어와서 강의들을 생성함
-            System.out.println("되냐");
             if (Integer.parseInt(item.get(0)) >= maxCode) {
                 maxCode = max(maxCode, Integer.parseInt(item.get(0)));
             }

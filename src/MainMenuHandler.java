@@ -1,10 +1,10 @@
 public class MainMenuHandler {
 
-    public static void handle(LectureManager lectureManager, StudentManager studentManager) {
+    public static void handle(LectureManager lectureManager, StudentManager studentManager, DivisionManager divisionManager) {
         switch (Main.mainMenu) {
             case 1 -> {
                 while (Main.mainMenu == 1) {
-                    LectureMenuHandler.handle(lectureManager);
+                    LectureMenuHandler.handle(lectureManager, divisionManager);
                 }
             }
             case 2 -> {

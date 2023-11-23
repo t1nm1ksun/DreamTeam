@@ -372,7 +372,7 @@ public class DivisionManager implements BaseManager {
             ScannerUtils.print("등록되어 있는 분반이 없습니다.", true);
         } else {
             ScannerUtils.print("변경할 분반 코드를 입력하세요: ", false);
-            LectureEditMenuHandler.input = ScannerUtils.scanWithPattern(CommonPattern.DIVISION_CODE,
+            DivisionEditMenuHandler.input = ScannerUtils.scanWithPattern(CommonPattern.DIVISION_CODE,
                     CommonPatternError.DIVISION_CODE);
             while (!hasSelectedDivision(DivisionEditMenuHandler.input)) {
                 ScannerUtils.print("존재하지 않습니다. 재입력 바랍니다.", true);
@@ -397,7 +397,8 @@ public class DivisionManager implements BaseManager {
                         break;
                     }
                 }
-                ScannerUtils.print("존재하지 않습니다. 재입력 바랍니다.", true);
+                if(!has){
+                ScannerUtils.print("존재하지 않습니다. 재입력 바랍니다.", true);}
 
             }
 

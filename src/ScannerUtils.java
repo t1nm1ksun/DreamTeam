@@ -64,9 +64,10 @@ public class ScannerUtils {
             }
 
             if (inputText.equals("0")) {
-                Main.editMenu = -1;
+                Main.divisionMenu = -1;
                 Main.mainMenu = -1;
                 Main.manageMenu = -1;
+                Main.divisionEditMenu= - 1;
                 return -1;
             }
 

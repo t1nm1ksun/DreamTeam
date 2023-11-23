@@ -12,7 +12,9 @@ public class Main {
     /**
      * 세번째 depth (변경메뉴) 선택 값
      */
-    public static int editMenu;
+    public static int divisionMenu;
+
+    public static int divisionEditMenu;
 
     public static TimeTableManager timetableManager = new TimeTableManager();
     public static LectureManager lectureManager = new LectureManager();
@@ -34,7 +36,7 @@ public class Main {
         divisionManager.makeDivisions();
 
         while (mainMenu != 3) {
-            MainMenuHandler.handle(lectureManager, studentManager);
+            MainMenuHandler.handle(lectureManager, studentManager, divisionManager);
         }
 
         lectureManager.saveDataFile();

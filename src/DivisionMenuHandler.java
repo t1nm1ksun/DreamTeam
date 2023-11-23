@@ -1,22 +1,22 @@
-public class LectureMenuHandler {
+public class DivisionMenuHandler {
 
-    public static void handle(LectureManager lectureManager, DivisionManager divisionManager) {
+    public static void handle(DivisionManager divisionManager) {
 
-        switch (Main.manageMenu) {
+        switch (Main.divisionMenu) {
             case 1 -> {
-                lectureManager.displayLectures();
+                divisionManager.displayDivisions();
                 clearManageMenu();
             }
             case 2 -> {
-                lectureManager.addLecture();
+                divisionManager.addDivision();
                 clearManageMenu();
             }
             case 3 -> {
-                DivisionMenuHandler.handle(divisionManager);
+                divisionManager.editDate();
                 clearManageMenu();
             }
             case 4 -> {
-                if (lectureManager.deleteLecture()) {
+                if (divisionManager.deleteDivision()) {
                     ScannerUtils.print("수업이 성공적으로 삭제되었습니다!", true);
                 }
 
@@ -26,7 +26,7 @@ public class LectureMenuHandler {
                 escapeToMainMenu();
             }
             default -> {
-                ScannerUtils.print("[1.수업 조회 2.수업 추가 3.분반 관리 4.삭제 5.나가기]", true);
+                ScannerUtils.print("[1.분반 조회 2.분반 추가 3.분반 시간 관리 4.삭제 5.나가기]", true);
                 ScannerUtils.print("메뉴를 입력하세요: ", false);
                 Main.manageMenu = ScannerUtils.scanWithPatternIntegerForMenu(CommonPattern.FIVE_CHOICE,
                         CommonPatternError.FIVE_CHOICE);
@@ -35,11 +35,12 @@ public class LectureMenuHandler {
     }
 
     public static void clearManageMenu() {
-        Main.manageMenu = -1;
+        Main.divisionMenu = -1;
     }
 
     public static void escapeToMainMenu() {
         Main.manageMenu = -1;
         Main.mainMenu = -1;
+
     }
 }
