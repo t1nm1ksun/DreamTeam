@@ -582,7 +582,7 @@ public class DivisionManager implements BaseManager {
 
     public List<Division> getStudentsDivisionList(Student stu) {
         List<Division> ret = new ArrayList<>();
-        for (String stuLec : stu.getLectureList()) {
+        for (String stuLec : stu.getDivisionCodes()) {
             for (Division division : divisions) {
                 if (stuLec.equals(division.getLectureCode())) {
                     ret.add(division);

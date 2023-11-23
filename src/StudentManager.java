@@ -29,13 +29,6 @@ public class StudentManager implements BaseManager {
         return false;
     }
 
-    /**
-     * csv로부터 읽어온 파일들을 순서대로 lectures에 저장 마지막에 한번에 저장하기 위해 saveData에 순차적 저장
-     */
-    public StudentManager() {
-
-    }
-
     public void makeStudents() {
         List<List<String>> list = Read.readCSV("src/student.csv");
 
@@ -70,7 +63,7 @@ public class StudentManager implements BaseManager {
                 ScannerUtils.print("|    " + students.getId() + "      ", false);
                 ScannerUtils.print(students.getName() + "     ", false);
                 ScannerUtils.print(students.getPhoneNum() + "     ", false);
-                ScannerUtils.print(students.getLectureList() + "", true);
+                ScannerUtils.print(students.getDivisionCodes() + "", true);
             }
         }
     }
@@ -164,8 +157,8 @@ public class StudentManager implements BaseManager {
      */
     public List<String> showLectureList(String studentID) {
         for (Student stu : studentList) {
-            if (stu.getId().equals(studentID) && !stu.getLectureList().isEmpty()) {
-                return stu.getLectureList();
+            if (stu.getId().equals(studentID) && !stu.getDivisionCodes().isEmpty()) {
+                return stu.getDivisionCodes();
             }
         }
         return null;
@@ -175,7 +168,7 @@ public class StudentManager implements BaseManager {
      * 이미 등록된 수업인지 찾는 함수
      */
     public List<String> findLectureCode(Student studentToEdit, String lectureCode) {
-        List<String> lectureList = studentToEdit.getLectureList();
+        List<String> lectureList = studentToEdit.getDivisionCodes();
 
         for (String code : lectureList) {
             if (lectureCode.equals(code)) {
@@ -258,7 +251,7 @@ public class StudentManager implements BaseManager {
                             List<Lecture> lectures = new ArrayList<>();
                             boolean isSuccess = true;
 
-                            for (String lectureCode : studentToEdit.getLectureList()) {
+                            for (String lectureCode : studentToEdit.getDivisionCodes()) {
                                 Lecture tmpLec = Main.lectureManager.getLectureByCode(lectureCode);
                                 if (tmpLec != null) {
                                     // 학생이 듣는 수업 리스트 생성
@@ -307,7 +300,7 @@ public class StudentManager implements BaseManager {
                                     // 수강 인원 추가
                                     addingLecture.plusCount();
                                     // 해당 학생의 수업 리스트에 수업 추가
-                                    studentToEdit.addLecture(lectureCode);
+                                    studentToEdit.addDivisionCode(lectureCode);
                                     //lectureRoomManager.saveDataFile();
                                     ScannerUtils.print("성공적으로 추가되었습니다.", true);
 
@@ -333,7 +326,7 @@ public class StudentManager implements BaseManager {
 
                                 if (Main.lectureManager.hasLecture(lectureCode) != null) { // 존재하는 수업코드인지 확인
                                     if (findLectureCode(studentToEdit, lectureCode) != null) { // 수강 중이던 수업이 맞는지 확인
-                                        studentToEdit.deleteLecture(lectureCode);
+                                        studentToEdit.deleteDivisionCode(lectureCode);
                                         System.out.println("수업이 삭제되었습니다.");
                                     } else {
                                         System.out.println("수강 중인 수업이 아닙니다.");
@@ -357,7 +350,7 @@ public class StudentManager implements BaseManager {
     public void checkDeletedLecture(String code) {
         // 학생이 듣는 수업이 삭제되었다면 확인해서 삭제
         for (Student stu : studentList) {
-            stu.getLectureList().removeIf(code::equals);
+            stu.getDivisionCodes().removeIf(code::equals);
         }
     }
 
@@ -399,12 +392,24 @@ public class StudentManager implements BaseManager {
     public void saveDataFile() {
         //lectures 들을 알맞은 형식의 데이터로 전환한 뒤 파일에 저장
         for (Student stu : studentList) {
-            List<String> lectureList = stu.getLectureList();
+            List<String> lectureList = stu.getDivisionCodes();
             String lectureListString = String.join(",", lectureList);
             String[] tmpData = {stu.getId(), stu.getName(), stu.getPhoneNum(), lectureListString};
             //TODO: 수업리스트 저장 추가 해야댐
             saveData.add(tmpData);
         }
         Read.writeStudentCSV(saveData);
+    }
+
+    public List<Student> getStudents(){
+        return studentList;
+    }
+
+    public List<Student> getStudentsByDivisionCode(String divisionCode){
+        List<Student> students = new ArrayList<>();
+        for(Student student: studentList){
+            if(student.getDivisionCodes().contains(divisionCode)) students.add(student);
+        }
+        return students;
     }
 }

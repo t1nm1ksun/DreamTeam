@@ -30,7 +30,7 @@ public class TimeTableManager implements BaseManager {
     }
     
     public void makeTimetables() {
-        List<List<String>> list = Read.readCSV("src/timetable.csv");
+        List<List<String>> list = Read.readCSV(getCsvFilePath());
 
         for (List<String> item : list) {
             // csv 파일들을 읽어와서 강의들을 생성함

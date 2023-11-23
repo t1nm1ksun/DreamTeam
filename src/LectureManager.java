@@ -547,7 +547,7 @@ public class LectureManager implements BaseManager {
 
     public List<Lecture> getStudentsLectureList(Student stu) {
         List<Lecture> ret = new ArrayList<>();
-        for (String stuLec : stu.getLectureList()) {
+        for (String stuLec : stu.getDivisionCodes()) {
             for (Lecture lecture : lectures) {
                 if (stuLec.equals(lecture.getLectureCode())) {
                     ret.add(lecture);
