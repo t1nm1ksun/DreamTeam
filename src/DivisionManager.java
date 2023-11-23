@@ -222,19 +222,26 @@ public class DivisionManager implements BaseManager {
 
             // 수업 선택
             Main.lectureManager.displayLectures();
-            ScannerUtils.print("\n추가할 분반의 수업을 선택해 주세요: ", false);
-            String input = ScannerUtils.scanWithPattern(CommonPattern.LECTURE_CODE, CommonPatternError.LECTURE_CODE);
-            String num = Integer.toString(Integer.parseInt(input) - 1);
+            String lecturecode="";
+            System.out.println(lecturecode.length());
+            do{
+                ScannerUtils.print("\n추가할 분반의 수업을 선택해 주세요: ", false);
+                String input = ScannerUtils.scanWithPattern(CommonPattern.LECTURE_CODE, CommonPatternError.LECTURE_CODE);
+                lecturecode= Main.lectureManager.hasLecture(input).getLectureCode();
+            }while(lecturecode.length()<3);
+
+
             // 수업 코드 저장
-            dataList[0] = Main.lectureManager.getLectureByCode(num).getLectureCode();
+            dataList[0] = lecturecode;
 
             ScannerUtils.print(
-                    "[" + Main.lectureManager.getLectureByCode(num).getLectureName()
+                    "[" + Main.lectureManager.getLectureByCode(lecturecode).getLectureName()
                             + "수업을(를) 선택하셨습니다.]",
                     true);
 
 
 
+            String input;
 
             // 선생님 선택
             List<Integer> whichTeacher = new ArrayList<>();

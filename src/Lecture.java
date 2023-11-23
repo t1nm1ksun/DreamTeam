@@ -11,8 +11,8 @@ public class Lecture {
 
     public Lecture(String LectureCode, String subjectCode,String lectureName) {
         this.subjectCode = subjectCode;
-        this.lectureName = lectureName;
         this.lectureCode = LectureCode;
+        this.lectureName = lectureName;
     }
 
 
