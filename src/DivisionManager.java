@@ -9,27 +9,27 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class LectureManager implements BaseManager {
+public class DivisionManager implements BaseManager {
 
-    private static Integer maxCode = 2000;
-    private int maxLecture = 0; //수업 생성 막기
+    private static Integer maxDivisionCode = 8000;
+    private int maxDivision = 0; //수업 생성 막기
     private final List<String[]> saveData = new ArrayList<>(); //프로그램 종료 시 저장 파일
-    private final List<Lecture> lectures = new ArrayList<>(); // 수업 목록을 저장할 리스트
+    private final List<Division> divisions = new ArrayList<>(); // 분반 목록을 저장할 리스트
 
     @Override
     public String getCsvFilePath() {
-        return "src/lecture.csv";
+        return "src/division.csv";
     }
 
     @Override
     public List<String> getRegexList() {
-        return Arrays.asList(CommonPattern.LECTURE_CODE, CommonPattern.SUBJECT_CODE, CommonPattern.TEACHER_ID,
-                CommonPattern.ROOM_LIMIT, CommonPattern.ROOM_CURRENT_STUDENT, "+" + CommonPattern.TIMETABLE_CODE);
+        return Arrays.asList(CommonPattern.DIVISION_CODE, CommonPattern.LECTURE_CODE, CommonPattern.TEACHER_ID,
+                 "+" + CommonPattern.TIMETABLE_CODE);
     }
 
     @Override
     public CsvExtraElementOption getExtraElementOption() {
-        return new CsvExtraElementOption(true, getCsvFilePath() + "파일의 수업 데이터는 적어도 하나의 타임테이블ID를 갖고 있어야 합니다.");
+        return new CsvExtraElementOption(true, getCsvFilePath() + "파일의 분반 데이터는 적어도 하나의 타임테이블ID를 갖고 있어야 합니다.");
     }
 
     @Override
@@ -37,14 +37,14 @@ public class LectureManager implements BaseManager {
         return false;
     }
 
-    public void makeLectures() {
-        List<List<String>> list = Read.readCSV("src/lecture.csv");
-        // List<String> regexList = Arrays.asList(CommonPattern.LECTURE_CODE, CommonPattern.SUBJECT_CODE,CommonPattern.TEACHER_ID,CommonPattern.)
+
+    public void makeDivisions() {
+        List<List<String>> list = Read.readCSV("src/division.csv");
 
         for (List<String> item : list) {
-            //csv 파일들을 읽어와서 강의들을 생성함
-            if (Integer.parseInt(item.get(0)) >= maxCode) {
-                maxCode = max(maxCode, Integer.parseInt(item.get(0)));
+            //csv 파일들을 읽어와서 분반들을 생성함
+            if (Integer.parseInt(item.get(0)) >= maxDivisionCode) {
+                maxDivisionCode = max(maxDivisionCode, Integer.parseInt(item.get(0)));
             }
             List<TimeTable> table = new ArrayList<>();
             for (int i = 6; i < item.size(); i++) {
@@ -54,37 +54,42 @@ public class LectureManager implements BaseManager {
                         break;
                     }
                 }
-            }//노가다 table 생성 및 초기화..
-            //TODO: Lecture 생성자 형태에 맞춰서 바꾸기 (승범, 성종)- 성공
-            Lecture l1 = new Lecture(item.get(0), item.get(1), item.get(2), item.get(3), item.get(4), item.get(5), table);
-            lectures.add(l1);
-            maxLecture++;
+            }
+            //item0 = 분반 코드, item1 = 수업 코드, item2 = 선생님 ID
+            Division d1 = new Division(item.get(0), item.get(1), item.get(2), table);
+            divisions.add(d1);
+            maxDivision++;
         }
     }
 
-    public Lecture hasLecture(String lectureCode) {
-        for (Lecture lecture : lectures) {
-            if (lecture.getLectureCode().equals(lectureCode)) {
-                return lecture;
+    public Division hasDivision(String divisionCode) {
+        for (Division division : divisions) {
+            if (division.getDivisionCode().equals(divisionCode)) {
+                return division;
             }
         }
         return null;
     }
 
-    // StudentManager에서 학생이 수강 중인 수업을 조회하기 위한 메서드
-    public void displayLecture(String lectureCode) {
-        if (!lectures.isEmpty() && hasLecture(lectureCode) != null) {
-            //TODO: Lecture 형식에 맞춰서 수정하기, timeTableManager로 수업 정보 가져오기 (창균, 민석)
-            ScannerUtils.print("|    " + hasLecture(lectureCode).getLectureCode() + "       ", false);
-            ScannerUtils.print(hasLecture(lectureCode).getSubjectCode() + "         ", false);
-            ScannerUtils.print(hasLecture(lectureCode).getLectureName() + "         ", false);
+    // DivisionManager에서 학생이 수강 중인 분반을 조회하기 위한 메서드
+    public void displayDivision(String divisionCode) {
+        if (!divisions.isEmpty() && hasDivision(divisionCode) != null) {
+
+            ScannerUtils.print("|    " + hasDivision(divisionCode).getDivisionCode() + "       ", false);
+            ScannerUtils.print(hasDivision(divisionCode).getLectureCode()+ "         ", false);
+            ScannerUtils.print(hasDivision(divisionCode).getTeacher() + "       ", false);
+            for (TimeTable t : hasDivision(divisionCode).getTimetable()) {
+                ScannerUtils.print(
+                        t.getRoomId() + " " + t.showDivisionDays() + " " + t.showLectureTime()
+                                + " / ", false);
+            }
             ScannerUtils.print("", true);
         }
     }
 
     // 모든 수업 목록을 조회하는 메서드
-    public boolean displayLectures() {
-        if (lectures.isEmpty()) {
+    public boolean displayDivisions() {
+        if (divisions.isEmpty()) {
             ScannerUtils.print("등록된 수업이 없습니다.", true);
             return false;
         } else {
@@ -92,10 +97,15 @@ public class LectureManager implements BaseManager {
             ScannerUtils.print("수업코드     과목코드    수업이름    선생님 ID    강의실, 날짜 및 시간", true);
 
             //TODO: 여기 틀린 부분 있으면 고치기 (승범, 성종)
-            for (Lecture lecture : lectures) {
-                ScannerUtils.print(lecture.getLectureCode() + "       ", false);
-                ScannerUtils.print(lecture.getSubjectCode() + "       ", false);
-                ScannerUtils.print(lecture.getLectureName()+ "       ", false);
+            for (Division division : divisions) {
+                ScannerUtils.print(division.getDivisionCode() + "       ", false);
+                ScannerUtils.print(division.getLectureCode() + "       ", false);
+                ScannerUtils.print(division.getTeacher() + "       ", false);
+                for (TimeTable t : division.getTimetable()) {
+                    ScannerUtils.print(
+                            t.getRoomId() + " " + t.showDivisionDays() + " " + t.showLectureTime()
+                                    + " / ", false);
+                }
                 ScannerUtils.print("", true);
             }
         }
@@ -103,41 +113,78 @@ public class LectureManager implements BaseManager {
     }
 
 
+    public void displayTimetable(Division lecture) {
+        for (TimeTable t : lecture.getTimetable()) {
+            String lectureDay = "";
+            switch (t.showDivisionDays()) {
+                case "1": {
+                    lectureDay = "월요일";
+                    break;
+                }
+                case "2": {
+                    lectureDay = "화요일";
+                    break;
+                }
+                case "3": {
+                    lectureDay = "수요일";
+                    break;
+                }
+                case "4": {
+                    lectureDay = "목요일";
+                    break;
+                }
+                case "5": {
+                    lectureDay = "금요일";
+                    break;
+                }
+                case "6": {
+                    lectureDay = "토요일";
+                    break;
+                }
 
-    public boolean hasSelectedLecture(String lectureCode) {
-        for (Lecture lecture : lectures) {
-            if (lecture.getLectureCode().equals(lectureCode)) {
+            }
+
+            ScannerUtils.print(
+                    "[" + t.getCode() + "번 타임테이블: " + t.getRoomId() + "번 강의실 / " + lectureDay + " / "
+                            + t.showLectureTime()
+                            + "] ", true);
+        }
+    }
+
+    public boolean hasSelectedDivision(String divisionCode) {
+        for (Division division : divisions) {
+            if (division.getDivisionCode().equals(divisionCode)) {
                 return true;
             }
         }
         return false;
     }
 
-    public boolean deleteLecture() {
-        if (!displayLectures()) {
+    public boolean deleteDivision() {
+        if (!displayDivisions()) {
             return false;
         }
 
-        ScannerUtils.print("삭제할 수업 코드를 입력해 주세요: ", false);
-        String InputLectureCode = ScannerUtils.scanWithPattern(CommonPattern.LECTURE_CODE,
-                CommonPatternError.LECTURE_CODE);
+        ScannerUtils.print("삭제할 분반 코드를 입력해 주세요: ", false);
+        String InputDivisionCode = ScannerUtils.scanWithPattern(CommonPattern.THREE_CHOICE,
+                CommonPatternError.THREE_CHOICE);
 
-        while (!hasSelectedLecture(InputLectureCode)) {
-            ScannerUtils.print("존재하지 않는 수업입니다. 다시 입력 바랍니다.", true);
-            InputLectureCode = ScannerUtils.scanWithPattern(CommonPattern.LECTURE_CODE,
-                    CommonPatternError.LECTURE_CODE);
+        while (!hasSelectedDivision(InputDivisionCode)) {
+            ScannerUtils.print("존재하지 않는 분반입니다. 다시 입력 바랍니다.", true);
+            InputDivisionCode = ScannerUtils.scanWithPattern(CommonPattern.THREE_CHOICE,
+                    CommonPatternError.THREE_CHOICE);
         }
 
-        for (Lecture lec : lectures) {
-            //삭제할 강의가 존재한다면 lectures 에서 삭제함
-            if (InputLectureCode.equals(lec.getLectureCode())) {
-                if(maxCode == Integer.parseInt(lec.getLectureCode())) {
-                    maxCode--;
+        for (Division div : divisions) {
+            //삭제할 분반이 존재한다면 divisions 에서 삭제함
+            if (InputDivisionCode.equals(div.getDivisionCode())) {
+                if(maxDivisionCode == Integer.parseInt(div.getDivisionCode())) {
+                    maxDivisionCode--;
                 }
                 // 학생이 듣는 수업 중에 삭제할 수업이 있다면 삭제
-                Main.studentManager.checkDeletedLecture(lec.getLectureCode());
+                Main.studentManager.checkDeletedDivison(div.getDivisionCode());
                 // 해당 강의의 timetable 삭제
-                for (TimeTable deleteTimeTable : lec.getTimetable()) {
+                for (TimeTable deleteTimeTable : div.getTimetable()) {
                     Main.timetableManager.deleteTimeTable(deleteTimeTable.getCode());
                 }
 
@@ -148,7 +195,7 @@ public class LectureManager implements BaseManager {
                 //                }
                 // 해줘잉
 
-                lectures.remove(lec);
+                divisions.remove(div);
                 break;
             }
         }
@@ -156,11 +203,11 @@ public class LectureManager implements BaseManager {
         return true;
     }
 
-    public void addLecture() {
-        ScannerUtils.print("[2. 수업 추가를 선택하셨습니다.]", true);
+    public void addDivision() {
+        ScannerUtils.print("[2. 분반 추가를 선택하셨습니다.]", true);
 
         if (Main.timetableManager.checkTimeTableMax()) {
-            ScannerUtils.print("강의실이 꽉 차 수업을 추가로 등록하실 수 없습니다.", true);
+            ScannerUtils.print("강의실이 꽉 차 분반을 추가로 등록하실 수 없습니다.", true);
         } else {
             String[] dataList = new String[5];
             List<TimeTable> timetable = new ArrayList<>();
@@ -169,28 +216,23 @@ public class LectureManager implements BaseManager {
             String day;
             String time;
 
-            // 과목 선택
-            for (int i = 0; i < Main.subjectManager.getSubjectss().size(); i++) {
-                Subject subject = Main.subjectManager.getSubjectss().get(i);
-                ScannerUtils.print((i + 1) + ") " + subject.getName() + "    ", false);
-            }
-            ScannerUtils.print("\n추가할 수업의 과목을 선택해 주세요: ", false);
-
-            String ChoiceNumber = "^[1-" + Main.subjectManager.getSubjectss().size() + "]$";
-            String input = ScannerUtils.scanWithPattern(ChoiceNumber, CommonPatternError.LECTURE_CODE);
-
+            // 수업 선택
+            Main.lectureManager.displayLectures();
+            ScannerUtils.print("\n추가할 분반의 수업을 선택해 주세요: ", false);
+            String input = ScannerUtils.scanWithPattern(CommonPattern.THREE_CHOICE, CommonPatternError.THREE_CHOICE);
+            String num = Integer.toString(Integer.parseInt(input) - 1);
             // 과목 코드 저장
-            dataList[0] = Main.subjectManager.getSubjectss().get(Integer.parseInt(input) - 1).getCode();
+            dataList[0] = Main.lectureManager.getLectureByCode(num).getLectureCode();
 
             ScannerUtils.print(
-                    "[" + Main.subjectManager.getSubjectss().get(Integer.parseInt(input) - 1).getName()
-                            + "을(를) 선택하셨습니다.]",
+                    "[" + Main.lectureManager.getLectureByCode(num).getLectureName()
+                            + "수업을(를) 선택하셨습니다.]",
                     true);
 
             // 과목 이름 저장
-            ScannerUtils.print("\n추가할 수업의 이름을 입력해주세요", true);
-            String lectureName = ScannerUtils.scanWithPattern(CommonPattern.LECTURE_NAME, CommonPatternError.LECTURE_NAME);
-            dataList[1] = lectureName;
+            ScannerUtils.print("\n추가할 분반의 번호를 입력해주세요", true);
+            String divisioncode = ScannerUtils.scanWithPattern(CommonPattern.THREE_CHOICE, CommonPatternError.THREE_CHOICE);
+            dataList[1] = divisioncode;
 
 
             // 선생님 선택
@@ -208,7 +250,7 @@ public class LectureManager implements BaseManager {
             }
             ScannerUtils.print("\n추가할 수업의 선생님을 선택해 주세요: ", false);
 
-            ChoiceNumber = "^[1-" + count + "]$";
+            String ChoiceNumber = "^[1-" + count + "]$";
             input = ScannerUtils.scanWithPattern(ChoiceNumber, CommonPatternError.TEACHER_ID);
 
             ScannerUtils.print(
@@ -216,15 +258,14 @@ public class LectureManager implements BaseManager {
                             + "을 선택하셨습니다.]", true);
 
             // 선생님 ID 저장
-            dataList[2] = Main.teacherManager.getTeachers().get(whichTeacher.get(Integer.parseInt(input) - 1))
+            dataList[1] = Main.teacherManager.getTeachers().get(whichTeacher.get(Integer.parseInt(input) - 1))
                     .getCode();
             Teacher teacherNow = Main.teacherManager.getTeachers().get(whichTeacher.get(Integer.parseInt(input) - 1));
 
-            // 수업 코드 저장 (근데 수업 삭제하면 수업 코드는 어디부터임?)
-//            dataList[2] = Integer.toString(++maxCode);
+
 
             // 수업의 최대 수강 인원을 저장
-            int lectureLimit = Integer.MAX_VALUE;
+            int divisionLimit = Integer.MAX_VALUE;
 
             boolean finishFlag;
 
@@ -247,37 +288,37 @@ public class LectureManager implements BaseManager {
                 room = Main.lectureroomManager.getRoom().get(Integer.parseInt(input) - 1).getCode();
 
                 // 강의실 코드로 가장 작은 수업 정원을 강의의 정원으로 선택
-                lectureLimit = min(lectureLimit, Integer.parseInt(Main.lectureroomManager.getRoomLimit(room)));
+                divisionLimit = min(divisionLimit, Integer.parseInt(Main.lectureroomManager.getRoomLimit(room)));
 
                 // 수업의 현재 수강 인원, 새로 개설되는 수업이므로 0으로 설정
-                String lectureNow = "0";
-                dataList[4] = lectureNow;
+                String divisionNow = "0";
+                dataList[3] = divisionNow;
 
                 Main.timetableManager.displayTimeTable(room);
 
                 // 수업 요일 선택
                 ScannerUtils.print("1) 월요일    2) 화요일    3) 수요일    4) 목요일    5) 금요일    6) 토요일", true);
-                ScannerUtils.print("수업 요일을 선택해 주세요: ", false);
+                ScannerUtils.print("분반의 수업 요일을 선택해 주세요: ", false);
 
                 input = ScannerUtils.scanWithPattern(CommonPattern.LECTURE_DATE, CommonPatternError.LECTURE_DATE);
                 day = input;
 
                 // 수업 시간 선택
                 ScannerUtils.print("1) 14:00~16:00    2) 16:00~18:00    3) 18:00~20:00    4) 20:00~22:00", true);
-                ScannerUtils.print("수업 시간을 입력해 주세요: ", false);
+                ScannerUtils.print("분반의 수업 시간을 입력해 주세요: ", false);
 
                 input = ScannerUtils.scanWithPattern(CommonPattern.LECTURE_TIME, CommonPatternError.LECTURE_TIME);
                 time = input;
 
                 // 해당 선생님이 이미 해당 요일&시간에 수업이 있을 때 예외 처리
                 if (!teacherNow.findTimeTable(day, time)) {
-                    // 추가하려는 수업이 이미 해당 요일&시간에 존재할 때 예외 처리 (강의실만 다르고 요일&시간이 같은 경우 방지)
+                    // 추가하려는 분반이 이미 해당 요일&시간에 존재할 때 예외 처리 (강의실만 다르고 요일&시간이 같은 경우 방지)
                     boolean checkDuplicate = false;
 
                     if (!timetable.isEmpty()) {
                         for (TimeTable timeTable : timetable) {
                             checkDuplicate =
-                                    day.equals(timeTable.getLectureDays()) && time.equals(timeTable.getLectureTime());
+                                    day.equals(timeTable.getDivisionDays()) && time.equals(timeTable.getDivisionTime());
                         }
                     }
 
@@ -294,21 +335,23 @@ public class LectureManager implements BaseManager {
                     ScannerUtils.print("선택한 선생님이 이미 해당 타임에 수업이 존재합니다.", true);
                 }
 
-                ScannerUtils.print("해당 수업 추가를 계속 하려면 1, 이대로 수업 추가를 종료하려면 2를 입력해 주세요.", true);
+                ScannerUtils.print("해당 분반의 추가를 계속 하려면 1, 이대로 분반 추가를 종료하려면 2를 입력해 주세요.", true);
                 input = ScannerUtils.scanWithPattern(CommonPattern.TWO_CHOICE, CommonPatternError.TWO_CHOICE);
 
                 finishFlag = input.equals("1");
             } while (finishFlag);
 
             if (!timetable.isEmpty()) {
-                dataList[3] = String.valueOf(lectureLimit); // 최소 정원으로 수업 정원 설정
+                dataList[2] = String.valueOf(divisionLimit); // 최소 정원으로 수업 정원 설정
 
-                int cmpCode = 2000;
+                //////////// 여기 까지 //////////////////
+
+                int cmpCode = 7000;
                 boolean isNew = false;
-                lectures.sort(Comparator.comparing(Lecture::getLectureCode));
-                for (Lecture lecture : lectures) {
+                divisions.sort(Comparator.comparing(Division::getLectureCode));
+                for (Division lecture : lectures) {
                     if (!Integer.toString(cmpCode).equals(lecture.getLectureCode())) {
-                        Lecture newLecture = new Lecture(Integer.toString(cmpCode), dataList[0], dataList[1],
+                        Division newLecture = new Division(Integer.toString(cmpCode), dataList[0], dataList[1],
                                 dataList[2], dataList[3],dataList[4],
                                 timetable);
                         lectures.add(newLecture);
@@ -322,7 +365,7 @@ public class LectureManager implements BaseManager {
 
                 if (!isNew) {
                     maxCode = max(maxCode, cmpCode);
-                    Lecture newLecture = new Lecture(Integer.toString(cmpCode), dataList[0], dataList[1], dataList[2],
+                    Division newLecture = new Division(Integer.toString(cmpCode), dataList[0], dataList[1], dataList[2],
                             dataList[3],dataList[4],
                             timetable);
                     lectures.add(newLecture);
@@ -434,7 +477,7 @@ public class LectureManager implements BaseManager {
 
     public void saveDataFile() {
         //lectures 들을 알맞은 형식의 데이터로 전환한 뒤 파일에 저장
-        for (Lecture lec : lectures) {
+        for (Division lec : lectures) {
             List<String> tmpData = new ArrayList<>(
                     Arrays.asList(lec.getLectureCode(), lec.getSubjectCode(), lec.getLectureName(),lec.getTeacher(), lec.getLimit(),
                             lec.getCount()));
@@ -462,7 +505,7 @@ public class LectureManager implements BaseManager {
         String teachercode = "300";
         Set<String> checkName = new HashSet<>();
 
-        for (Lecture lec : lectures) {
+        for (Division lec : lectures) {
             checkName.add(lec.getLectureCode());
         }
         if (checkName.size() != lectures.size()) {
@@ -506,20 +549,20 @@ public class LectureManager implements BaseManager {
         return true;
     }
 
-    public boolean showAddableLectures(List<Lecture> cmpLectures) {
+    public boolean showAddableLectures(List<Division> cmpLectures) {
         // 학생이 수강하는 수업과 timeTable이 겹치지 않는 수업만 보여줌
         ScannerUtils.print("[추가 가능한 수업 목록]", true);
         boolean isLectureShown = false;
 
         // 학생 수업이랑 겹치는 수업들을 체크하는 map
-        HashMap<Lecture, Boolean> isRejectedLecture = new HashMap<>();
-        for (Lecture lec : lectures) {
+        HashMap<Division, Boolean> isRejectedLecture = new HashMap<>();
+        for (Division lec : lectures) {
             isRejectedLecture.put(lec, false);
         }
         // 전체 강의들 중 학생이 수강중인 강의들의 timeTable과 겹치지 않는 강의들만 출력
         // 즉, 새로 추가할 수 있는 강의들만 출력
-        for (Lecture cmpLec : cmpLectures) {
-            for (Lecture lecture : lectures) {
+        for (Division cmpLec : cmpLectures) {
+            for (Division lecture : lectures) {
                 if (cmpLec.getLectureCode().equals(lecture.getLectureCode())) {
                     isRejectedLecture.put(lecture, true);
                     continue;
@@ -532,7 +575,7 @@ public class LectureManager implements BaseManager {
         }
 
         // check가 되지 않은 수업들만 출력(수강할 수 있는 수업들)
-        for (Lecture lec : isRejectedLecture.keySet()) {
+        for (Division lec : isRejectedLecture.keySet()) {
             if (!isRejectedLecture.get(lec)) {
 //                ScannerUtils.print(lec, true);
                 isLectureShown = true;
@@ -546,7 +589,7 @@ public class LectureManager implements BaseManager {
 
     }*/
 
-    public boolean isOverLappedLecture(Lecture lec1, Lecture lec2) {
+    public boolean isOverLappedLecture(Division lec1, Division lec2) {
         // 2개의 강의를 비교하여 시간이 겹치는지 확인
         for (TimeTable table1 : lec1.getTimetable()) {
             for (TimeTable table2 : lec2.getTimetable()) {
@@ -558,10 +601,10 @@ public class LectureManager implements BaseManager {
         return false;
     }
 
-    public List<Lecture> getStudentsLectureList(Student stu) {
-        List<Lecture> ret = new ArrayList<>();
+    public List<Division> getStudentsLectureList(Student stu) {
+        List<Division> ret = new ArrayList<>();
         for (String stuLec : stu.getLectureList()) {
-            for (Lecture lecture : lectures) {
+            for (Division lecture : lectures) {
                 if (stuLec.equals(lecture.getLectureCode())) {
                     ret.add(lecture);
                 }
@@ -571,9 +614,9 @@ public class LectureManager implements BaseManager {
     }
 
 
-    public Lecture getLectureByCode(String lectureCode) {
+    public Division getLectureByCode(String lectureCode) {
 
-        for (Lecture lecture : lectures) {
+        for (Division lecture : lectures) {
             if (lecture.getLectureCode().equals(lectureCode)) {
                 return lecture;
             }
