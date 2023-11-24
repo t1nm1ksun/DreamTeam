@@ -390,6 +390,7 @@ public class DivisionManager implements BaseManager {
         if (Main.timetableManager.getTimetable().isEmpty()) {
             ScannerUtils.print("등록되어 있는 분반이 없습니다.", true);
         } else {
+            displayDivisions();
             ScannerUtils.print("변경할 분반 코드를 입력하세요: ", false);
             DivisionEditMenuHandler.input = ScannerUtils.scanWithPattern(CommonPattern.DIVISION_CODE,
                     CommonPatternError.DIVISION_CODE);
