@@ -284,7 +284,7 @@ public class Read {
             if(minLectureroomLimitItem.get("lectureroomLimit") < divisionLimit){
                 ScannerUtils.print(divisionManager.getCsvFilePath() + "파일에서 분반 코드 " + row.get(0) + "인 분반이 보유한 타임테이블 ID " + minLectureroomLimitItem.get("timetableId")+ "의 강의실 정원보다 해당 분반의 수업 정원이 더 큽니다.", true);
                 ScannerUtils.print("분반 코드: " + row.get(0) + " / 분반 정원: " + row.get(3), true);
-                ScannerUtils.print("타임테이블 ID: " + minLectureroomLimitItem.get("timetableId") + "의 강의실 ID: " + minLectureroomLimitItem.get("lectureroomId") + " / 강의실 정원: " + minLectureroomLimitItem.get("lectureroomLimit"), true);
+                ScannerUtils.print("타임테이블 ID " + minLectureroomLimitItem.get("timetableId") + "의 강의실 ID: " + minLectureroomLimitItem.get("lectureroomId") + " / 강의실 정원: " + minLectureroomLimitItem.get("lectureroomLimit"), true);
                 ScannerUtils.print("분반의 수업 정원은 강의실 정원인 " + minLectureroomLimitItem.get("lectureroomLimit") + "보다 크지 않아야 합니다.", true);
                 return false;
             }
