@@ -222,19 +222,26 @@ public class DivisionManager implements BaseManager {
 
             // 수업 선택
             Main.lectureManager.displayLectures();
-            String lecturecode="";
+            String inputLectureCode="";
+
             do{
                 ScannerUtils.print("\n추가할 분반의 수업을 선택해 주세요: ", false);
                 String input = ScannerUtils.scanWithPattern(CommonPattern.LECTURE_CODE, CommonPatternError.LECTURE_CODE);
-                lecturecode= Main.lectureManager.hasLecture(input).getLectureCode();
-            }while(lecturecode.length()<3);
+                inputLectureCode= Main.lectureManager.hasLecture(input).getLectureCode();
+            }while(inputLectureCode.length()<3);
+
+            // 선택한 수업에 대해 이미 3개의 분반이 존재함
+            if(!checkAddDivisionToLecture(inputLectureCode)) {
+                ScannerUtils.print("해당 수업은 더이상 분반을 추가할 수 없습니다.", true);
+                return;
+            }
 
 
             // 수업 코드 저장
-            dataList[0] = lecturecode;
+            dataList[0] = inputLectureCode;
 
             ScannerUtils.print(
-                    "[" + Main.lectureManager.getLectureByCode(lecturecode).getLectureName() + "수업을(를) 선택하셨습니다.]",
+                    "[" + Main.lectureManager.getLectureByCode(inputLectureCode).getLectureName() + "수업을(를) 선택하셨습니다.]",
                     true);
 
             String input;
@@ -246,7 +253,7 @@ public class DivisionManager implements BaseManager {
             for (int i = 0; i < Main.teacherManager.getTeachers().size(); i++) {
                 Teacher teacher = Main.teacherManager.getTeachers().get(i);
 
-                if (teacher.getSubjectCode().contains(Main.lectureManager.getLectureByCode(lecturecode).getSubjectCode())) {
+                if (teacher.getSubjectCode().contains(Main.lectureManager.getLectureByCode(inputLectureCode).getSubjectCode())) {
                     count++;
                     ScannerUtils.print(count + ") " + teacher.getName() + "    ", false);
                     whichTeacher.add(i);
@@ -371,6 +378,14 @@ public class DivisionManager implements BaseManager {
         }
     }
 
+    private boolean checkAddDivisionToLecture(String inputLectureCode) {
+        int lectureCount = 0;
+        for(Division division : divisions) {
+            if(division.getLectureCode().equals(inputLectureCode)) lectureCount++;
+        }
+        return lectureCount < 3;
+    }
+
     public void editDate() {
         if (Main.timetableManager.getTimetable().isEmpty()) {
             ScannerUtils.print("등록되어 있는 분반이 없습니다.", true);
@@ -490,58 +505,6 @@ public class DivisionManager implements BaseManager {
         Read.writeDivisionCSV(saveData);
     }
 
-
-
-    /*//id같을경우 종료하는 함수
-    public boolean checkSameID() {
-        String subjectecode = "100";
-        String lecturecode = "200";
-        String teachercode = "300";
-        Set<String> checkName = new HashSet<>();
-
-        for (Division lec : lectures) {
-            checkName.add(lec.getLectureCode());
-        }
-        if (checkName.size() != lectures.size()) {
-            ScannerUtils.print("lecture.csv의 특정 ID가 중복 조회되고 있습니다. csv 파일을 확인해주세요.", true);
-            return false;
-        }
-        checkName.clear();
-
-        for (Subject sub : Main.subjectManager.getSubjectss()) {
-            checkName.add(sub.getCode());
-        }
-        if (checkName.size() != Main.subjectManager.getSubjectss().size()) {
-            ScannerUtils.print("subject.csv의 특정 ID가 중복 조회되고 있습니다. csv 파일을 확인해주세요.", true);
-            return false;
-        }
-        checkName.clear();
-
-        for (Teacher tec : Main.teacherManager.getTeachers()) {
-            checkName.add(tec.getCode());
-        }
-        if (checkName.size() != Main.teacherManager.getTeachers().size()) {
-            ScannerUtils.print("teacher.csv의 특정 ID가 중복 조회되고 있습니다. csv 파일을 확인해주세요.", true);
-            return false;
-        }
-        checkName.clear();
-        for (LectureRoom room : Main.lectureroomManager.getRoom()) {
-            checkName.add(room.getCode());
-        }
-        if (checkName.size() != Main.lectureroomManager.getRoom().size()) {
-            ScannerUtils.print("lecture-room.csv의 특정 ID가 중복 조회되고 있습니다. csv 파일을 확인해주세요.", true);
-            return false;
-        }
-        checkName.clear();
-        for (TimeTable table : Main.timetableManager.getTimetable()) {
-            checkName.add(table.getCode());
-        }
-        if (checkName.size() != Main.timetableManager.getTimetable().size()) {
-            ScannerUtils.print("lecture-room.csv의 특정 ID가 중복 조회되고 있습니다. csv 파일을 확인해주세요.", true);
-            return false;
-        }
-        return true;
-    }*/
 
     public boolean showAddableDivisions(List<Division> cmpDivisions) {
         // 학생이 수강하는 수업과 timeTable이 겹치지 않는 수업만 보여줌
