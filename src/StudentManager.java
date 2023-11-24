@@ -325,8 +325,8 @@ public class StudentManager implements BaseManager {
                                 }
 
                                 System.out.print("삭제하려는 분반 코드를 입력하세요 (* 4자, 공백 없이 숫자로만 입력하세요 *): ");
-                                String deleteDivisionCode = ScannerUtils.scanWithPattern(CommonPattern.LECTURE_CODE,
-                                        CommonPatternError.LECTURE_CODE);
+                                String deleteDivisionCode = ScannerUtils.scanWithPattern(CommonPattern.DIVISION_CODE,
+                                        CommonPatternError.DIVISION_CODE);
 
                                 if (Main.divisionManager.hasDivision(deleteDivisionCode) != null) { // 존재하는 수업코드인지 확인
                                     if (findLectureCode(studentToEdit, deleteDivisionCode) != null) { // 수강 중이던 수업이 맞는지 확인
