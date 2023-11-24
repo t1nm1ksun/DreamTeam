@@ -3,9 +3,7 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 public class Read {
     /**
@@ -262,14 +260,60 @@ public class Read {
         return true;
     }
 
-    // TODO: division에서 가지고 있는 타임테이블 ID를 통해서 강의실 ID들을 가져옴
-    // TODO: 강의실의 정원을 가져옴
-    // TODO: 강의실의 정원 중 가장 작은 값과 분반의 최대 정원을 비교하여 분반의 최대 정원 > 강의실 정원 이라면 오류
-    public static boolean validateDivisionHasOverThanRoomLimit(){
-        return false;
+    public static boolean validateDivisionHasOverThanRoomLimit(DivisionManager divisionManager, LectureRoomManager lectureRoomManager, TimeTableManager timeTableManager){
+        List<List<String>> divisionCsv = readCSV(divisionManager.getCsvFilePath());
+
+        for(List<String> row: divisionCsv){
+            List<HashMap<String, Integer>> lectureroomLimitItemList = new ArrayList<>();
+            int minLectureroomLimit = Integer.MAX_VALUE;
+            HashMap<String, Integer> minLectureroomLimitItem = new HashMap<String, Integer>();
+            for(int i = 4; i < row.size(); i++){
+                lectureroomLimitItemList.add(getLectureroomLimitFromTimetableId(lectureRoomManager, timeTableManager, row.get(i)));
+            }
+
+            for(HashMap<String, Integer> item: lectureroomLimitItemList){
+                if(item.get("lectureroomLimit") < minLectureroomLimit){
+                    minLectureroomLimit = item.get("lectureroomLimit");
+                    minLectureroomLimitItem.clear();
+                    minLectureroomLimitItem = item;
+                }
+            }
+
+            int divisionLimit = Integer.parseInt(row.get(3));
+
+            if(minLectureroomLimitItem.get("lectureroomLimit") < divisionLimit){
+                ScannerUtils.print(divisionManager.getCsvFilePath() + "파일에서 분반 코드 " + row.get(0) + "인 분반이 보유한 타임테이블 ID " + minLectureroomLimitItem.get("timetableId")+ "의 강의실 정원보다 해당 분반의 수업 정원이 더 큽니다.", true);
+                ScannerUtils.print("분반 코드: " + row.get(0) + " / 분반 정원: " + row.get(3), true);
+                ScannerUtils.print("타임테이블 ID: " + minLectureroomLimitItem.get("timetableId") + "의 강의실 ID: " + minLectureroomLimitItem.get("lectureroomId") + " / 강의실 정원: " + minLectureroomLimitItem.get("lectureroomLimit"), true);
+                ScannerUtils.print("분반의 수업 정원은 강의실 정원인 " + minLectureroomLimitItem.get("lectureroomLimit") + "보다 크지 않아야 합니다.", true);
+                return false;
+            }
+        }
+
+        return true;
     }
 
-//    private static boolean get
+    private static HashMap<String, Integer> getLectureroomLimitFromTimetableId(LectureRoomManager lectureRoomManager, TimeTableManager timetableManager, String timetableId){
+        List<List<String>> timetableCsv = readCSV(timetableManager.getCsvFilePath());
+        List<List<String>> lectureroomCsv = readCSV(lectureRoomManager.getCsvFilePath());
+
+        String lectureroomId = "";
+        int lectureroomLimit = 0;
+
+        for(List<String> timetable: timetableCsv){
+            if(timetable.get(0).equals(timetableId)) lectureroomId = timetable.get(1);
+        }
+
+        for(List<String> lectureroom: lectureroomCsv){
+            if(lectureroom.get(0).equals(lectureroomId)) lectureroomLimit = Integer.parseInt(lectureroom.get(1));
+        }
+
+        HashMap<String, Integer> checkedValue = new HashMap<String, Integer>();
+        checkedValue.put("lectureroomId", Integer.parseInt(lectureroomId));
+        checkedValue.put("lectureroomLimit", lectureroomLimit);
+        checkedValue.put("timetableId", Integer.parseInt(timetableId));
+        return checkedValue;
+    }
 
     /**
      * csv 쓰기 파일 String 배열을 받아서 넣기!
