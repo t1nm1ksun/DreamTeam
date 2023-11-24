@@ -262,22 +262,14 @@ public class Read {
         return true;
     }
 
-    // TODO: lecture에서 division 개념으로 변경 필요함
-//    public static boolean validateLectureHasOverStudents(BaseManager manager) {
-//        List<List<String>> csv = readCSV(manager.getCsvFilePath());
-//        for (int i = 0; i < csv.size(); i++) {
-//            int maxStudents = Integer.parseInt(csv.get(i).get(3));
-//            int currentStudents = Integer.parseInt(csv.get(i).get(4));
-//            if (maxStudents < currentStudents) {
-//                ScannerUtils.print(
-//                        manager.getCsvFilePath() + "파일의 " + (i + 1) + "번째 줄에서 수업 최대 정원보다 더 많은 인원이 수업을 듣고 있습니다.",
-//                        true);
-//                ScannerUtils.print("최대 정원: " + maxStudents + " / 현재 인원: " + currentStudents, true);
-//                return false;
-//            }
-//        }
-//        return true;
-//    }
+    // TODO: division에서 가지고 있는 타임테이블 ID를 통해서 강의실 ID들을 가져옴
+    // TODO: 강의실의 정원을 가져옴
+    // TODO: 강의실의 정원 중 가장 작은 값과 분반의 최대 정원을 비교하여 분반의 최대 정원 > 강의실 정원 이라면 오류
+    public static boolean validateDivisionHasOverThanRoomLimit(){
+        return false;
+    }
+
+//    private static boolean get
 
     /**
      * csv 쓰기 파일 String 배열을 받아서 넣기!
