@@ -117,39 +117,12 @@ public class DivisionManager implements BaseManager {
 
 
     public void displayTimetable(Division division) {
-        for (TimeTable t : division.getTimetable()) {
-            String divisionDay = "";
-            switch (t.showDivisionDays()) {
-                case "1": {
-                    divisionDay = "월요일";
-                    break;
-                }
-                case "2": {
-                    divisionDay = "화요일";
-                    break;
-                }
-                case "3": {
-                    divisionDay = "수요일";
-                    break;
-                }
-                case "4": {
-                    divisionDay = "목요일";
-                    break;
-                }
-                case "5": {
-                    divisionDay = "금요일";
-                    break;
-                }
-                case "6": {
-                    divisionDay = "토요일";
-                    break;
-                }
-
-            }
+        for (TimeTable table : division.getTimetable()) {
+            String divisionDay = table.showDivisionDays();
 
             ScannerUtils.print(
-                    "[" + t.getCode() + "번 타임테이블: " + t.getRoomId() + "번 강의실 / " + divisionDay + " / "
-                            + t.showDivisionTime()
+                    "[" + table.getCode() + "번 타임테이블: " + table.getRoomId() + "번 강의실 / " + divisionDay + " / "
+                            + table.showDivisionTime()
                             + "] ", true);
         }
     }
