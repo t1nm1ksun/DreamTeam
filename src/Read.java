@@ -231,7 +231,28 @@ public class Read {
                 for (String item : line) {
                     if (item.startsWith("6") && item.length() == 4) {
                         if (timeTableId.contains(item)) {
-                            ScannerUtils.print(manager.getCsvFilePath() + "파일에서 " + item + " 타임테이블 코드가 중복 조회되고 있습니다.",
+                            ScannerUtils.print(manager.getCsvFilePath() + "파일에서 데이터 하나에 " + item + " 타임테이블 코드가 중복 조회되고 있습니다.",
+                                    true);
+                            return false;
+                        }
+                        timeTableId.add(item);
+                    }
+                }
+            }
+        }
+
+        return true;
+    }
+
+    public static boolean validateDivisionCodeDuplicated(List<BaseManager> managerList){
+        for (BaseManager manager : managerList) {
+            List<String> timeTableId = new ArrayList<String>();
+            List<List<String>> csv = readCSV(manager.getCsvFilePath());
+            for (List<String> line : csv) {
+                for (String item : line) {
+                    if (item.startsWith("7") && item.length() == 4) {
+                        if (timeTableId.contains(item)) {
+                            ScannerUtils.print(manager.getCsvFilePath() + "파일에서 데이터 하나에 " + item + " 분반 코드가 중복 조회되고 있습니다.",
                                     true);
                             return false;
                         }
