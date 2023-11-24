@@ -16,7 +16,10 @@ public class CsvValidator {
         if(!Read.validatePhoneNumberDupliacated(Arrays.asList(Main.studentManager))) return false;
         if(!Read.validateTimetableInfoDuplicated(Main.timetableManager)) return false;
         if(!Read.validateTimetableIdDupliacated(Arrays.asList(Main.timetableManager))) return false;
+        if(!Read.validateDivisionCodeDuplicated(Arrays.asList(Main.studentManager))) return false;
         if(!Read.validateDivisionHasOverThanRoomLimit(Main.divisionManager, Main.lectureroomManager, Main.timetableManager)) return false;
+        if(!Read.validateStudentHasDuplicatedLecture(Main.studentManager, Main.divisionManager)) return false;
+        if(!Read.validateStudentCountOverThanDivisionLimit(Main.studentManager, Main.divisionManager)) return false;
         return true;
     }
 

@@ -22,6 +22,7 @@ public class Main {
     public static SubjectManager subjectManager = new SubjectManager();
     public static LectureRoomManager lectureroomManager = new LectureRoomManager();
     public static TeacherManager teacherManager = new TeacherManager();
+
     public static DivisionManager divisionManager = new DivisionManager();
 
     public static void main(String[] args) {
