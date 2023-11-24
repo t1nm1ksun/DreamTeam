@@ -58,11 +58,11 @@ public class StudentManager implements BaseManager {
         if (studentList.isEmpty()) {
             ScannerUtils.print("등록된 학생이 없습니다.", true);
         } else {
-            ScannerUtils.print("   [학생 ID]    [이름]     [휴대폰 번호]     [수강 중인 수업]", true);
+            ScannerUtils.print("   [학생 ID]    [이름]     [휴대폰 번호]     [수강 중인 수업 분반]", true);
             for (Student students : studentList) {
                 ScannerUtils.print("|    " + students.getId() + "      ", false);
-                ScannerUtils.print(students.getName() + "     ", false);
-                ScannerUtils.print(students.getPhoneNum() + "     ", false);
+                ScannerUtils.print(students.getName() + "      ", false);
+                ScannerUtils.print(students.getPhoneNum() + "      ", false);
                 ScannerUtils.print(students.getDivisionCodes() + "", true);
             }
         }
@@ -194,7 +194,7 @@ public class StudentManager implements BaseManager {
 
             if (studentToEdit != null) {
                 System.out.println(studentToEdit.getName() + " 학생의 정보를 변경합니다.");
-                System.out.println("[1.이름  2.전화번호  3.수업 목록  4.나가기]");
+                System.out.println("[1.이름  2.전화번호  3.분반 목록  4.나가기]");
                 System.out.print("변경하고 싶은 학생 정보를 선택하세요 (* 1~4 중 원하는 메뉴의 숫자 하나를 입력하세요 *): ");
                 String menuNum = ScannerUtils.scanWithPattern(CommonPattern.FOUR_CHOICE,
                         CommonPatternError.FOUR_CHOICE);
@@ -226,26 +226,26 @@ public class StudentManager implements BaseManager {
                     }
                     case "3" -> {
                         // 수업 목록 편집
-                        System.out.println("[3. 듣는 수업 목록 편집을 선택하셨습니다.]");
-                        System.out.println("[수강 중인 수업 리스트]");
+                        System.out.println("[3. 듣는 분반 목록 편집을 선택하셨습니다.]");
+                        System.out.println("[수강 중인 분반 리스트]");
 
                         if (showDivisionList(id) != null) {
-                            ScannerUtils.print("   [수업코드]     [분반코드]     [과목코드]    [선생님 ID]     [날짜]     [시간]", true);
+                            ScannerUtils.print("[분반코드]     [수업코드]     [수업제목]    [선생님 ID]   [정원/현원]   [강의실 및 날짜, 시간]", true);
 
                             for (String divisionCode : showDivisionList(id)) {
                                 Main.divisionManager.displayDivision(divisionCode);
                             }
                         } else {
-                            System.out.println("수강 중인 수업이 없습니다.");
+                            System.out.println("수강 중인 분반이 없습니다.");
                         }
 
                         // 수업 추가 또는 삭제 작업 수행
-                        System.out.println("[1.수업 추가 2.수업 삭제]");
+                        System.out.println("[1.분반 추가 2.분반 삭제]");
                         System.out.print("수행할 메뉴를 선택하세요 (* 1,2 중 원하는 메뉴의 숫자 하나를 입력하세요 *): ");
                         String lectureMenuNum = ScannerUtils.scanWithPattern(CommonPattern.TWO_CHOICE,
                                 CommonPatternError.TWO_CHOICE);
                         if (lectureMenuNum.equals("1")) {
-                            System.out.println("1. 수업 추가를 선택하셨습니다.");
+                            System.out.println("1. 분반 추가를 선택하셨습니다.");
 
                             // 선택한 학생이 수강중인 수업들 리스트
                             List<Division> divisions = new ArrayList<>();
@@ -258,7 +258,7 @@ public class StudentManager implements BaseManager {
                                     divisions.add(tmpDivision);
                                 } else {
                                     // 학생이 듣는 수업 리스트 생성 실패시
-                                    ScannerUtils.print("수업 추가에 실패했습니다!", true);
+                                    ScannerUtils.print("분반 추가에 실패했습니다!", true);
                                     return;
                                 }
                             }
@@ -281,7 +281,7 @@ public class StudentManager implements BaseManager {
                                 Division addingDivision = Main.divisionManager.getDivisionByCode(inputDivisionCode);
                                 // 추가하려는 분반이 이미 듣고 있는 분반과 수업 코드가 겹치는지 확인
                                 if(checkDivisionSameLecture(addingDivision, studentToEdit)) {
-                                    ScannerUtils.print("해당 분반은 이미 듣고 있는 수업의 분반입니다. 다른 수업을 선택해주세요", true);
+                                    ScannerUtils.print("해당 분반은 이미 듣고 있는 수업의 분반입니다. 다른 수업을 다시 선택해주세요", true);
                                     return;
                                 }
 
@@ -309,37 +309,37 @@ public class StudentManager implements BaseManager {
                                     ScannerUtils.print("성공적으로 추가되었습니다.", true);
 
                                 } else {
-                                    ScannerUtils.print("수업 추가에 실패했습니다2" + ERRMSG, true);
+                                    ScannerUtils.print("분반 추가에 실패했습니다2" + ERRMSG, true);
                                 }
                             } else {
-                                ScannerUtils.print("수업 추가에 실패했습니다3", true);
+                                ScannerUtils.print("분반 추가에 실패했습니다3", true);
                             }
 
                         } else if (lectureMenuNum.equals("2")) {
-                            System.out.println("2. 수업 삭제를 선택하셨습니다.");
-                            System.out.println("[수강 중인 수업 리스트]");
+                            System.out.println("2.분반 삭제를 선택하셨습니다.");
+                            System.out.println("[수강 중인 분반 리스트]");
 
                             if (showDivisionList(id) != null) {
                                 for (String divisionCode : showDivisionList(id)) {
                                     Main.divisionManager.displayDivision(divisionCode);
                                 }
 
-                                System.out.print("삭제하려는 수업의 코드를 입력하세요 (* 4자, 공백 없이 숫자로만 입력하세요 *): ");
+                                System.out.print("삭제하려는 분반 코드를 입력하세요 (* 4자, 공백 없이 숫자로만 입력하세요 *): ");
                                 String deleteDivisionCode = ScannerUtils.scanWithPattern(CommonPattern.LECTURE_CODE,
                                         CommonPatternError.LECTURE_CODE);
 
                                 if (Main.divisionManager.hasDivision(deleteDivisionCode) != null) { // 존재하는 수업코드인지 확인
                                     if (findLectureCode(studentToEdit, deleteDivisionCode) != null) { // 수강 중이던 수업이 맞는지 확인
                                         studentToEdit.deleteDivisionCode(deleteDivisionCode);
-                                        System.out.println("수업이 삭제되었습니다.");
+                                        System.out.println("분반이 삭제되었습니다.");
                                     } else {
-                                        System.out.println("수강 중인 수업이 아닙니다.");
+                                        System.out.println("수강 중인 분반이 아닙니다.");
                                     }
                                 } else {
-                                    System.out.println("존재하지 않는 수업입니다.");
+                                    System.out.println("존재하지 않는 분반입니다.");
                                 }
                             } else {
-                                System.out.println("수강 중인 수업이 없습니다.");
+                                System.out.println("수강 중인 분반이 없습니다.");
                             }
                         }
                     }

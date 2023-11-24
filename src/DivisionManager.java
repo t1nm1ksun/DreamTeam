@@ -72,12 +72,13 @@ public class DivisionManager implements BaseManager {
     // DivisionManager에서 학생이 수강 중인 분반을 조회하기 위한 메서드
     public void displayDivision(String divisionCode) {
         if (!divisions.isEmpty() && hasDivision(divisionCode) != null) {
+            Lecture tempLecture = Main.lectureManager.getLectureByCode(hasDivision(divisionCode).getLectureCode());
 
-            ScannerUtils.print("|    " + hasDivision(divisionCode).getDivisionCode() + "       ", false);
-            ScannerUtils.print(hasDivision(divisionCode).getLectureCode()+ "         ", false);
-            ScannerUtils.print(hasDivision(divisionCode).getTeacher() + "       ", false);
-            ScannerUtils.print(hasDivision(divisionCode).getLimit() + "       ", false);
-            ScannerUtils.print(hasDivision(divisionCode).getCount() + "       ", false);
+            ScannerUtils.print(hasDivision(divisionCode).getDivisionCode() + "          ", false);
+            ScannerUtils.print(hasDivision(divisionCode).getLectureCode()+ "          ", false);
+            ScannerUtils.print(tempLecture.getLectureName()+ "       ", false);
+            ScannerUtils.print(hasDivision(divisionCode).getTeacher() + "        ", false);
+            ScannerUtils.print(hasDivision(divisionCode).getLimit() + " / " +hasDivision(divisionCode).getCount()+"       ", false);
             for (TimeTable t : hasDivision(divisionCode).getTimetable()) {
                 ScannerUtils.print(
                         t.getRoomId() + " " + t.showDivisionDays() + " " + t.showDivisionTime()
