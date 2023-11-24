@@ -9,7 +9,7 @@ public class Lecture {
 
 
 
-    public Lecture(String LectureCode, String subjectCode,String lectureName) {
+    public Lecture(String LectureCode,String lectureName, String subjectCode) {
         this.subjectCode = subjectCode;
         this.lectureCode = LectureCode;
         this.lectureName = lectureName;
@@ -21,7 +21,6 @@ public class Lecture {
         ScannerUtils.print("수업코드 : " + this.lectureCode, false);
         ScannerUtils.print("    수업이름 :  " + this.lectureName, false);
         ScannerUtils.print("    과목코드 : " + this.subjectCode, false);
-
 
         ScannerUtils.print("", true);
     }

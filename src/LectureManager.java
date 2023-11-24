@@ -45,7 +45,7 @@ public class LectureManager implements BaseManager {
             if (Integer.parseInt(item.get(0)) >= maxCode) {
                 maxCode = max(maxCode, Integer.parseInt(item.get(0)));
             }
-            //TODO: Lecture 생성자 형태에 맞춰서 바꾸기 (승범, 성종)- 성공
+
             Lecture l1 = new Lecture(item.get(0), item.get(1), item.get(2));
             lectures.add(l1);
             maxLecture++;
@@ -79,12 +79,12 @@ public class LectureManager implements BaseManager {
             return false;
         } else {
             System.out.println("[등록된 수업 목록]");
-            ScannerUtils.print("수업코드    수업이름     과목코드", true);
+            ScannerUtils.print("수업코드    과목코드     수업이름", true);
 
             for (Lecture lecture : lectures) {
                 ScannerUtils.print(lecture.getLectureCode() + "       ", false);
-                ScannerUtils.print(lecture.getLectureName()+ "       ", false);
                 ScannerUtils.print(lecture.getSubjectCode() + "       ", false);
+                ScannerUtils.print(lecture.getLectureName()+ "       ", false);
                 ScannerUtils.print("", true);
             }
         }
@@ -137,10 +137,7 @@ public class LectureManager implements BaseManager {
     public void addLecture() {
         ScannerUtils.print("[2. 수업 추가를 선택하셨습니다.]", true);
 
-        String[] dataList = new String[2];
-        List<TimeTable> timetable = new ArrayList<>();
-
-
+        String inputLectureName = "", inputSubjectCode = "";
 
         // 과목 선택
         for (int i = 0; i < Main.subjectManager.getSubjectss().size(); i++) {
@@ -153,7 +150,7 @@ public class LectureManager implements BaseManager {
         String input = ScannerUtils.scanWithPattern(ChoiceNumber, CommonPatternError.LECTURE_CODE);
 
         // 과목 코드 저장
-        dataList[0] = Main.subjectManager.getSubjectss().get(Integer.parseInt(input) - 1).getCode();
+        inputSubjectCode = Main.subjectManager.getSubjectss().get(Integer.parseInt(input) - 1).getCode();
 
         ScannerUtils.print(
                 "[" + Main.subjectManager.getSubjectss().get(Integer.parseInt(input) - 1).getName()
@@ -162,14 +159,15 @@ public class LectureManager implements BaseManager {
 
         // 추가할 수업 제목 작성
         ScannerUtils.print("추가할 수업 제목을 입력해주세요", true);
-        dataList[1] = ScannerUtils.scanWithPattern(CommonPattern.LECTURE_NAME, CommonPatternError.LECTURE_NAME);
+        inputLectureName = ScannerUtils.scanWithPattern(CommonPattern.LECTURE_NAME, CommonPatternError.LECTURE_NAME);
 
         int cmpCode = 2000;
         boolean isNew = false;
         lectures.sort(Comparator.comparing(Lecture::getLectureCode));
+
         for (Lecture lecture : lectures) {
             if (!Integer.toString(cmpCode).equals(lecture.getLectureCode())) {
-                Lecture newLecture = new Lecture(Integer.toString(cmpCode),dataList[0], dataList[1]);
+                Lecture newLecture = new Lecture(Integer.toString(cmpCode),inputLectureName, inputSubjectCode);
                 lectures.add(newLecture);
                 isNew = true;
                 break;
@@ -181,7 +179,7 @@ public class LectureManager implements BaseManager {
 
         if (!isNew) {
             maxCode = max(maxCode, cmpCode);
-            Lecture newLecture = new Lecture(Integer.toString(cmpCode), dataList[0], dataList[1]);
+            Lecture newLecture = new Lecture(Integer.toString(cmpCode),inputLectureName, inputSubjectCode);
             lectures.add(newLecture);
         }
 
