@@ -225,9 +225,9 @@ public class Read {
 
     public static boolean validateTimetableIdDupliacated(List<BaseManager> managerList) {
         for (BaseManager manager : managerList) {
-            List<String> timeTableId = new ArrayList<String>();
             List<List<String>> csv = readCSV(manager.getCsvFilePath());
             for (List<String> line : csv) {
+                List<String> timeTableId = new ArrayList<String>();
                 for (String item : line) {
                     if (item.startsWith("6") && item.length() == 4) {
                         if (timeTableId.contains(item)) {
@@ -271,17 +271,17 @@ public class Read {
 
     public static boolean validateDivisionCodeDuplicated(List<BaseManager> managerList){
         for (BaseManager manager : managerList) {
-            List<String> timeTableId = new ArrayList<String>();
             List<List<String>> csv = readCSV(manager.getCsvFilePath());
             for (List<String> line : csv) {
+                List<String> divisionCode = new ArrayList<String>();
                 for (String item : line) {
                     if (item.startsWith("7") && item.length() == 4) {
-                        if (timeTableId.contains(item)) {
+                        if (divisionCode.contains(item)) {
                             ScannerUtils.print(manager.getCsvFilePath() + "파일에서 데이터 하나에 " + item + " 분반 코드가 중복 조회되고 있습니다.",
                                     true);
                             return false;
                         }
-                        timeTableId.add(item);
+                        divisionCode.add(item);
                     }
                 }
             }
@@ -359,6 +359,42 @@ public class Read {
         checkedValue.put("lectureroomLimit", lectureroomLimit);
         checkedValue.put("timetableId", Integer.parseInt(timetableId));
         return checkedValue;
+    }
+
+    public static boolean validateStudentCountOverThanDivisionLimit(StudentManager studentManager, DivisionManager divisionManager){
+        List<List<String>> divisionCsv = readCSV(divisionManager.getCsvFilePath());
+        List<List<String>> studentCsv = readCSV(studentManager.getCsvFilePath());
+        // MEMO: {divisionCode: {divisionLimit: int, studentCount: int}}
+        HashMap<String, HashMap> DIVISION_INFO_MAPPER = new HashMap<>();
+
+        for(List<String> division: divisionCsv){
+            HashMap<String, Integer> divisionInfo = new HashMap<>();
+            divisionInfo.put("divisionLimit", Integer.parseInt(division.get(3)));
+            divisionInfo.put("studentCount", 0);
+            DIVISION_INFO_MAPPER.put(division.get(0), divisionInfo);
+        }
+
+        for(List<String> student: studentCsv){
+            for(int i = 3; i < student.size(); i++){
+                HashMap<String, Integer> divisionInfo = DIVISION_INFO_MAPPER.get(student.get(i));
+                Integer studentCount = divisionInfo.get("studentCount");
+                divisionInfo.replace("studentCount", studentCount + 1);
+                DIVISION_INFO_MAPPER.replace(student.get(i), divisionInfo);
+            }
+        }
+
+        for(String divisionCode: DIVISION_INFO_MAPPER.keySet()){
+            HashMap<String, Integer> divisionInfo = DIVISION_INFO_MAPPER.get(divisionCode);
+            Integer divisionLimit = divisionInfo.get("divisionLimit");
+            Integer studentCount = divisionInfo.get("studentCount");
+            if(divisionLimit < studentCount){
+                ScannerUtils.print("분반코드: "+divisionCode + "인 분반 수업을 듣는 학생이 분반 수업 정원보다 많습니다.", true);
+                ScannerUtils.print("분반의 수업 정원: " + divisionLimit + " / 수강 학생 수: " + studentCount, true);
+                return false;
+            }
+        }
+
+        return true;
     }
 
     /**
