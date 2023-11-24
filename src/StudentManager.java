@@ -16,7 +16,7 @@ public class StudentManager implements BaseManager {
     @Override
     public List<String> getRegexList() {
         return Arrays.asList(CommonPattern.STUDENT_ID, CommonPattern.STUDENT_NAME, CommonPattern.PHONE_NUMBER,
-                "+" + CommonPattern.LECTURE_CODE);
+                "+" + CommonPattern.DIVISION_CODE);
     }
 
     @Override

@@ -25,7 +25,7 @@ public class Main {
     public static DivisionManager divisionManager = new DivisionManager();
 
     public static void main(String[] args) {
-//        if(!CsvValidator.validate()) return;
+        if(!CsvValidator.validate()) return;
 
         lectureroomManager.makeRooms();
         timetableManager.makeTimetables();

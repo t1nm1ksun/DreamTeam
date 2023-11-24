@@ -21,7 +21,7 @@ public class DivisionManager implements BaseManager {
 
     @Override
     public List<String> getRegexList() {
-        return Arrays.asList(CommonPattern.DIVISION_CODE, CommonPattern.LECTURE_CODE, CommonPattern.TEACHER_ID,
+        return Arrays.asList(CommonPattern.DIVISION_CODE, CommonPattern.LECTURE_CODE, CommonPattern.TEACHER_ID,CommonPattern.ROOM_LIMIT,
                  "+" + CommonPattern.TIMETABLE_CODE);
     }
 
@@ -37,7 +37,7 @@ public class DivisionManager implements BaseManager {
 
 
     public void makeDivisions() {
-        List<List<String>> list = Read.readCSV("src/division.csv");
+        List<List<String>> list = Read.readCSV(getCsvFilePath());
 
         for (List<String> item : list) {
             //csv 파일들을 읽어와서 분반들을 생성함

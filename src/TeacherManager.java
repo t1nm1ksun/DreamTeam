@@ -4,7 +4,6 @@ import java.util.List;
 
 public class TeacherManager implements BaseManager {
     private final List<Teacher> teachers = new ArrayList<>();
-    private final Read read = new Read();
 
     private final List<String[]> saveData = new ArrayList<>(); //프로그램 종료 시 저장 파일
 
@@ -16,7 +15,7 @@ public class TeacherManager implements BaseManager {
 
     @Override
     public List<String> getRegexList() {
-        return Arrays.asList(CommonPattern.TEACHER_ID, CommonPattern.STUDENT_NAME, "+" + CommonPattern.SUBJECT_CODE);
+        return Arrays.asList(CommonPattern.TEACHER_ID, CommonPattern.TEACHER_NAME, "+" + CommonPattern.SUBJECT_CODE);
     }
 
     @Override
@@ -30,7 +29,7 @@ public class TeacherManager implements BaseManager {
     }
 
     public void makeTeachers() {
-        List<List<String>> teacherlist = read.readCSV("src/teacher.csv");
+        List<List<String>> teacherlist = Read.readCSV(getCsvFilePath());
 
         for (List<String> item : teacherlist) {
             List<String> subjectCodeList = new ArrayList<>();

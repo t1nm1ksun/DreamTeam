@@ -25,13 +25,9 @@ public class LectureRoomManager implements BaseManager {
         return true;
     }
 
-    public LectureRoomManager() {
-
-    }
-
     public void makeRooms() {
-        List<List<String>> list = Read.readCSV("src/lecture-room.csv");
-        List<List<String>> stuList = Read.readCSV("src/student.csv");
+        List<List<String>> list = Read.readCSV(getCsvFilePath());
+        List<List<String>> stuList = Read.readCSV(Main.studentManager.getCsvFilePath());
 
         for (List<String> item : list) {
             //csv 파일들을 읽어와서 강의들을 생성함

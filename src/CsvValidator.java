@@ -16,7 +16,7 @@ public class CsvValidator {
         if(!Read.validatePhoneNumberDupliacated(Arrays.asList(Main.studentManager))) return false;
         if(!Read.validateTimetableIdDupliacated(Arrays.asList(Main.lectureManager, Main.teacherManager))) return false;
         if(!Read.validateTimetableInfoDuplicated(Main.timetableManager)) return false;
-        if(!Read.validateLectureHasOverStudents(Main.lectureManager)) return false;
+//        if(!Read.validateLectureHasOverStudents(Main.lectureManager)) return false;
         return true;
     }
 
