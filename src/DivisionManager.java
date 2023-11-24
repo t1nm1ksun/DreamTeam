@@ -390,18 +390,20 @@ public class DivisionManager implements BaseManager {
         if (Main.timetableManager.getTimetable().isEmpty()) {
             ScannerUtils.print("등록되어 있는 분반이 없습니다.", true);
         } else {
+            String input;
+
             displayDivisions();
             ScannerUtils.print("변경할 분반 코드를 입력하세요: ", false);
-            DivisionEditMenuHandler.input = ScannerUtils.scanWithPattern(CommonPattern.DIVISION_CODE,
+            input = ScannerUtils.scanWithPattern(CommonPattern.DIVISION_CODE,
                     CommonPatternError.DIVISION_CODE);
-            while (!hasSelectedDivision(DivisionEditMenuHandler.input)) {
+            while (!hasSelectedDivision(input)) {
                 ScannerUtils.print("존재하지 않습니다. 재입력 바랍니다.", true);
-                DivisionEditMenuHandler.input = ScannerUtils.scanWithPattern(CommonPattern.DIVISION_CODE,
+                input = ScannerUtils.scanWithPattern(CommonPattern.DIVISION_CODE,
                         CommonPatternError.DIVISION_CODE);
             }
 
             //타임 테이블 출력
-            displayTimetable(hasDivision(DivisionEditMenuHandler.input));
+            displayTimetable(hasDivision(input));
 
             ScannerUtils.print("변경할 타임의 타임테이블 코드를 입력하세요 (ex: 6000): ", false);
 
@@ -411,7 +413,7 @@ public class DivisionManager implements BaseManager {
             while(!has){
                 code_toEdit = ScannerUtils.scanWithPattern(CommonPattern.TIMETABLE_CODE,
                         CommonPatternError.TIMETABLE_CODE);
-                for(TimeTable timetable : hasDivision(DivisionEditMenuHandler.input).getTimetable()){
+                for(TimeTable timetable : hasDivision(input).getTimetable()){
                     if(timetable.getCode().equals(code_toEdit)){
                         has=true;
                         break;
@@ -425,7 +427,7 @@ public class DivisionManager implements BaseManager {
             //받아
             TimeTable tb_toEdit = null;
 
-            for (TimeTable tab : hasDivision(DivisionEditMenuHandler.input).getTimetable()) {
+            for (TimeTable tab : hasDivision(input).getTimetable()) {
                 if (tab.getCode().equals(code_toEdit)) {
                     tb_toEdit = tab;
                     break;

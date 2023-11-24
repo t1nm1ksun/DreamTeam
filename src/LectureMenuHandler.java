@@ -12,12 +12,7 @@ public class LectureMenuHandler {
                 clearManageMenu();
             }
             case 3 -> {
-                while(Main.divisionMenu != 5) {
-                    DivisionMenuHandler.handle(divisionManager);
-                }
-
-                //clearDivisionManageMenu();
-                clearManageMenu();
+                DivisionMenuHandler.handle(divisionManager);
             }
             case 4 -> {
                 if (lectureManager.deleteLecture()) {

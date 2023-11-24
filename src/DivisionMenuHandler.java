@@ -18,11 +18,10 @@ public class DivisionMenuHandler {
                 if (divisionManager.deleteDivision()) {
                     ScannerUtils.print("수업이 성공적으로 삭제되었습니다!", true);
                 }
-
                 clearManageMenu();
             }
             case 5 -> {
-                escapeToMainMenu();
+                escapeToLectureMenu();
             }
             default -> {
                 ScannerUtils.print("[1.분반 조회 2.분반 추가 3.분반 시간 관리 4.삭제 5.나가기]", true);
@@ -35,6 +34,11 @@ public class DivisionMenuHandler {
 
     public static void clearManageMenu() {
         Main.divisionMenu = -1;
+    }
+
+    public static void escapeToLectureMenu(){
+        Main.divisionMenu = -1;
+        Main.manageMenu = -1;
     }
 
     public static void escapeToMainMenu() {

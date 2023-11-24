@@ -14,8 +14,6 @@ public class Main {
      */
     public static int divisionMenu;
 
-    public static int divisionEditMenu;
-
     public static TimeTableManager timetableManager = new TimeTableManager();
     public static LectureManager lectureManager = new LectureManager();
     public static StudentManager studentManager = new StudentManager();
