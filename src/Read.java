@@ -244,6 +244,31 @@ public class Read {
         return true;
     }
 
+    public static boolean validateStudentHasDuplicatedLecture(StudentManager studentManager, DivisionManager divisionManager){
+        List<List<String>> studentCsv = readCSV(studentManager.getCsvFilePath());
+        List<List<String>> divisionCsv = readCSV(divisionManager.getCsvFilePath());
+
+        HashMap<String, String> DIVISION_TO_LECTURE_MAPPER = new HashMap<String, String>();
+
+
+        for(List<String> division: divisionCsv){
+            DIVISION_TO_LECTURE_MAPPER.put(division.get(0), division.get(1));
+        }
+
+        for(List<String> student: studentCsv){
+            List<String> lectureCodeList = new ArrayList<>();
+            for(int i = 3; i < student.size(); i++){
+                String lectureCode = DIVISION_TO_LECTURE_MAPPER.get(student.get(i));
+                if(lectureCodeList.contains(lectureCode)){
+                    ScannerUtils.print(studentManager.getCsvFilePath() + "파일에서 ID: " + student.get(0) + " 이름: " + student.get(1) + "인 학생이 " + "수업 코드 " + lectureCode + "인 수업을 여러개 수강 중입니다." ,true);
+                    return false;
+                }
+                lectureCodeList.add(lectureCode);
+            }
+        }
+        return true;
+    }
+
     public static boolean validateDivisionCodeDuplicated(List<BaseManager> managerList){
         for (BaseManager manager : managerList) {
             List<String> timeTableId = new ArrayList<String>();
