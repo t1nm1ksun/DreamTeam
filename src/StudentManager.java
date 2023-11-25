@@ -276,7 +276,10 @@ public class StudentManager implements BaseManager {
                                 ScannerUtils.print("추가하려는 분반의 코드를 입력하세요 (* 4자, 공백 없이 숫자로만 입력하세요 *): ", false);
                                 String inputDivisionCode = ScannerUtils.scanWithPattern(CommonPattern.DIVISION_CODE,
                                         CommonPatternError.DIVISION_CODE);
-
+                                if(Main.divisionManager.hasDivision(inputDivisionCode) == null) {
+                                    ScannerUtils.print("존재하지 않는 분반입니다.", true);
+                                    return;
+                                }
                                 // 입력한 분반 코드를 이용해 분반 생성
                                 Division addingDivision = Main.divisionManager.getDivisionByCode(inputDivisionCode);
                                 // 추가하려는 분반이 이미 듣고 있는 분반과 수업 코드가 겹치는지 확인
