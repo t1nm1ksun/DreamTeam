@@ -5,20 +5,20 @@ public class Student {
     private String id;
     private String name;
     private String phoneNum;
-    private List<String> lectureList = new ArrayList<String>();
+    private List<String> divisionCodes = new ArrayList<String>();
 
-    public Student(String id, String name, String phoneNum, List<String> lectureList) {
+    public Student(String id, String name, String phoneNum, List<String> divisionCodes) {
         this.id = id;
         this.name = name;
         this.phoneNum = phoneNum;
-        this.lectureList = lectureList;
+        this.divisionCodes = divisionCodes;
     }
 
     public Student(String id) {
         this.id = id;
         this.name = "";
         this.phoneNum = "";
-        this.lectureList = null;
+        this.divisionCodes = null;
     }
     
     public Student(String id, String name, String phoneNum) {
@@ -51,24 +51,24 @@ public class Student {
         this.phoneNum = phoneNum;
     }
 
-    public List<String> getLectureList() {
-        return lectureList;
+    public List<String> getDivisionCodes() {
+        return divisionCodes;
     }
 
 
-    public void addLecture(String lectureCode) {
-        this.lectureList.add(lectureCode);
+    public void addDivisionCode(String divisionCode) {
+        this.divisionCodes.add(divisionCode);
     }
 
     public void setLectureList(List<String> lectureList) {
-        this.lectureList = lectureList;
+        this.divisionCodes = lectureList;
     }
 
     public void addLectureList(String lecture) {
-        this.lectureList.add(lecture);
+        this.divisionCodes.add(lecture);
     }
 
-    public void deleteLecture(String lectureCode) {
-        this.lectureList.remove(lectureCode);
+    public void deleteDivisionCode(String divisionCode) {
+        this.divisionCodes.remove(divisionCode);
     }
 }

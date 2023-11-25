@@ -2,14 +2,14 @@ public class TimeTable {
 
     private final String code;
     private final String roomId;
-    private String lectureDays;
-    private String lectureTime;
+    private String divisionDays;
+    private String divisionTime;
 
-    public TimeTable(String code, String roomId, String lectureDays, String lectureTime) {
+    public TimeTable(String code, String roomId, String divisionDays, String divisionTime) {
         this.code = code;
         this.roomId = roomId;
-        this.lectureDays = lectureDays;
-        this.lectureTime = lectureTime;
+        this.divisionDays = divisionDays;
+        this.divisionTime = divisionTime;
     }
 
     public String getCode() {
@@ -20,32 +20,32 @@ public class TimeTable {
         return roomId;
     }
 
-    public String getLectureDays() {
-        return lectureDays;
+    public String getDivisionDays() {
+        return divisionDays;
     }
 
-    public String getLectureTime() {
-        return lectureTime;
+    public String getDivisionTime() {
+        return divisionTime;
     }
     
-    public void setLectureDays(String day) {
-        this.lectureDays = day;
+    public void setDivisionDays(String day) {
+        this.divisionDays = day;
     }
 
-    public void setLectureTime(String time) {
-        this.lectureTime = time;
+    public void setDivisionTime(String time) {
+        this.divisionTime = time;
     }
 
     public void showTimeTable() {
         ScannerUtils.print("    " + this.roomId + " 강의실 ", false);
-        ScannerUtils.print(showLectureDays() + " ", false);
-        ScannerUtils.print(showLectureTime() + " ", false);
+        ScannerUtils.print(showDivisionDays() + " ", false);
+        ScannerUtils.print(showDivisionTime() + " ", false);
         ScannerUtils.print("/ ", false);
     }
 
 
-    public String showLectureDays() {
-        switch (lectureDays) {
+    public String showDivisionDays() {
+        switch (divisionDays) {
             case "1" -> {
                 return "월요일";
             }
@@ -68,8 +68,8 @@ public class TimeTable {
         return null;
     }
 
-    public String showLectureTime() {
-        switch (lectureTime) {
+    public String showDivisionTime() {
+        switch (divisionTime) {
             case "1" -> {
                 return "14:00~16:00";
             }

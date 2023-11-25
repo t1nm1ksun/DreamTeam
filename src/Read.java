@@ -3,9 +3,7 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 public class Read {
     /**
@@ -227,17 +225,63 @@ public class Read {
 
     public static boolean validateTimetableIdDupliacated(List<BaseManager> managerList) {
         for (BaseManager manager : managerList) {
-            List<String> timeTableId = new ArrayList<String>();
             List<List<String>> csv = readCSV(manager.getCsvFilePath());
             for (List<String> line : csv) {
+                List<String> timeTableId = new ArrayList<String>();
                 for (String item : line) {
                     if (item.startsWith("6") && item.length() == 4) {
                         if (timeTableId.contains(item)) {
-                            ScannerUtils.print(manager.getCsvFilePath() + "파일에서 " + item + " 타임테이블 코드가 중복 조회되고 있습니다.",
+                            ScannerUtils.print(manager.getCsvFilePath() + "파일에서 데이터 하나에 " + item + " 타임테이블 코드가 중복 조회되고 있습니다.",
                                     true);
                             return false;
                         }
                         timeTableId.add(item);
+                    }
+                }
+            }
+        }
+
+        return true;
+    }
+
+    public static boolean validateStudentHasDuplicatedLecture(StudentManager studentManager, DivisionManager divisionManager){
+        List<List<String>> studentCsv = readCSV(studentManager.getCsvFilePath());
+        List<List<String>> divisionCsv = readCSV(divisionManager.getCsvFilePath());
+
+        HashMap<String, String> DIVISION_TO_LECTURE_MAPPER = new HashMap<String, String>();
+
+
+        for(List<String> division: divisionCsv){
+            DIVISION_TO_LECTURE_MAPPER.put(division.get(0), division.get(1));
+        }
+
+        for(List<String> student: studentCsv){
+            List<String> lectureCodeList = new ArrayList<>();
+            for(int i = 3; i < student.size(); i++){
+                String lectureCode = DIVISION_TO_LECTURE_MAPPER.get(student.get(i));
+                if(lectureCodeList.contains(lectureCode)){
+                    ScannerUtils.print(studentManager.getCsvFilePath() + "파일에서 ID: " + student.get(0) + " 이름: " + student.get(1) + "인 학생이 " + "수업 코드 " + lectureCode + "인 수업을 여러개 수강 중입니다." ,true);
+                    return false;
+                }
+                lectureCodeList.add(lectureCode);
+            }
+        }
+        return true;
+    }
+
+    public static boolean validateDivisionCodeDuplicated(List<BaseManager> managerList){
+        for (BaseManager manager : managerList) {
+            List<List<String>> csv = readCSV(manager.getCsvFilePath());
+            for (List<String> line : csv) {
+                List<String> divisionCode = new ArrayList<String>();
+                for (String item : line) {
+                    if (item.startsWith("7") && item.length() == 4) {
+                        if (divisionCode.contains(item)) {
+                            ScannerUtils.print(manager.getCsvFilePath() + "파일에서 데이터 하나에 " + item + " 분반 코드가 중복 조회되고 있습니다.",
+                                    true);
+                            return false;
+                        }
+                        divisionCode.add(item);
                     }
                 }
             }
@@ -262,19 +306,94 @@ public class Read {
         return true;
     }
 
-    public static boolean validateLectureHasOverStudents(BaseManager manager) {
-        List<List<String>> csv = readCSV(manager.getCsvFilePath());
-        for (int i = 0; i < csv.size(); i++) {
-            int maxStudents = Integer.parseInt(csv.get(i).get(3));
-            int currentStudents = Integer.parseInt(csv.get(i).get(4));
-            if (maxStudents < currentStudents) {
-                ScannerUtils.print(
-                        manager.getCsvFilePath() + "파일의 " + (i + 1) + "번째 줄에서 수업 최대 정원보다 더 많은 인원이 수업을 듣고 있습니다.",
-                        true);
-                ScannerUtils.print("최대 정원: " + maxStudents + " / 현재 인원: " + currentStudents, true);
+    public static boolean validateDivisionHasOverThanRoomLimit(DivisionManager divisionManager, LectureRoomManager lectureRoomManager, TimeTableManager timeTableManager){
+        List<List<String>> divisionCsv = readCSV(divisionManager.getCsvFilePath());
+
+        for(List<String> row: divisionCsv){
+            List<HashMap<String, Integer>> lectureroomLimitItemList = new ArrayList<>();
+            int minLectureroomLimit = Integer.MAX_VALUE;
+            HashMap<String, Integer> minLectureroomLimitItem = new HashMap<String, Integer>();
+            for(int i = 4; i < row.size(); i++){
+                lectureroomLimitItemList.add(getLectureroomLimitFromTimetableId(lectureRoomManager, timeTableManager, row.get(i)));
+            }
+
+            for(HashMap<String, Integer> item: lectureroomLimitItemList){
+                if(item.get("lectureroomLimit") < minLectureroomLimit){
+                    minLectureroomLimit = item.get("lectureroomLimit");
+                    minLectureroomLimitItem.clear();
+                    minLectureroomLimitItem = item;
+                }
+            }
+
+            int divisionLimit = Integer.parseInt(row.get(3));
+
+            if(minLectureroomLimitItem.get("lectureroomLimit") < divisionLimit){
+                ScannerUtils.print(divisionManager.getCsvFilePath() + "파일에서 분반 코드 " + row.get(0) + "인 분반이 보유한 타임테이블 ID " + minLectureroomLimitItem.get("timetableId")+ "의 강의실 정원보다 해당 분반의 수업 정원이 더 큽니다.", true);
+                ScannerUtils.print("분반 코드: " + row.get(0) + " / 분반 정원: " + row.get(3), true);
+                ScannerUtils.print("타임테이블 ID " + minLectureroomLimitItem.get("timetableId") + "의 강의실 ID: " + minLectureroomLimitItem.get("lectureroomId") + " / 강의실 정원: " + minLectureroomLimitItem.get("lectureroomLimit"), true);
+                ScannerUtils.print("분반의 수업 정원은 강의실 정원인 " + minLectureroomLimitItem.get("lectureroomLimit") + "보다 크지 않아야 합니다.", true);
                 return false;
             }
         }
+
+        return true;
+    }
+
+    private static HashMap<String, Integer> getLectureroomLimitFromTimetableId(LectureRoomManager lectureRoomManager, TimeTableManager timetableManager, String timetableId){
+        List<List<String>> timetableCsv = readCSV(timetableManager.getCsvFilePath());
+        List<List<String>> lectureroomCsv = readCSV(lectureRoomManager.getCsvFilePath());
+
+        String lectureroomId = "";
+        int lectureroomLimit = 0;
+
+        for(List<String> timetable: timetableCsv){
+            if(timetable.get(0).equals(timetableId)) lectureroomId = timetable.get(1);
+        }
+
+        for(List<String> lectureroom: lectureroomCsv){
+            if(lectureroom.get(0).equals(lectureroomId)) lectureroomLimit = Integer.parseInt(lectureroom.get(1));
+        }
+
+        HashMap<String, Integer> checkedValue = new HashMap<String, Integer>();
+        checkedValue.put("lectureroomId", Integer.parseInt(lectureroomId));
+        checkedValue.put("lectureroomLimit", lectureroomLimit);
+        checkedValue.put("timetableId", Integer.parseInt(timetableId));
+        return checkedValue;
+    }
+
+    public static boolean validateStudentCountOverThanDivisionLimit(StudentManager studentManager, DivisionManager divisionManager){
+        List<List<String>> divisionCsv = readCSV(divisionManager.getCsvFilePath());
+        List<List<String>> studentCsv = readCSV(studentManager.getCsvFilePath());
+        // MEMO: {divisionCode: {divisionLimit: int, studentCount: int}}
+        HashMap<String, HashMap> DIVISION_INFO_MAPPER = new HashMap<>();
+
+        for(List<String> division: divisionCsv){
+            HashMap<String, Integer> divisionInfo = new HashMap<>();
+            divisionInfo.put("divisionLimit", Integer.parseInt(division.get(3)));
+            divisionInfo.put("studentCount", 0);
+            DIVISION_INFO_MAPPER.put(division.get(0), divisionInfo);
+        }
+
+        for(List<String> student: studentCsv){
+            for(int i = 3; i < student.size(); i++){
+                HashMap<String, Integer> divisionInfo = DIVISION_INFO_MAPPER.get(student.get(i));
+                Integer studentCount = divisionInfo.get("studentCount");
+                divisionInfo.replace("studentCount", studentCount + 1);
+                DIVISION_INFO_MAPPER.replace(student.get(i), divisionInfo);
+            }
+        }
+
+        for(String divisionCode: DIVISION_INFO_MAPPER.keySet()){
+            HashMap<String, Integer> divisionInfo = DIVISION_INFO_MAPPER.get(divisionCode);
+            Integer divisionLimit = divisionInfo.get("divisionLimit");
+            Integer studentCount = divisionInfo.get("studentCount");
+            if(divisionLimit < studentCount){
+                ScannerUtils.print("분반코드: "+divisionCode + "인 분반 수업을 듣는 학생이 분반 수업 정원보다 많습니다.", true);
+                ScannerUtils.print("분반의 수업 정원: " + divisionLimit + " / 수강 학생 수: " + studentCount, true);
+                return false;
+            }
+        }
+
         return true;
     }
 
@@ -407,6 +526,38 @@ public class Read {
     public static void writeTeacherCSV(List<String[]> dataList) {
         BufferedWriter bufferedwrite = null;
         String filePath = "src/teacher.csv";
+        try {
+            bufferedwrite = Files.newBufferedWriter(Paths.get(filePath));
+            for (String[] data : dataList) {
+                StringBuilder aData = new StringBuilder();
+                for (int j = 0; j < data.length; j++) {
+                    if (j != data.length - 1) {
+                        aData.append(data[j]).append(",");
+                    } else {
+                        aData.append(data[j]);
+                    }
+                }
+                bufferedwrite.write(aData.toString());
+                bufferedwrite.newLine();
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (bufferedwrite != null) {
+                    bufferedwrite.flush();
+                    bufferedwrite.close();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public static void writeDivisionCSV(List<String[]> dataList) {
+        BufferedWriter bufferedwrite = null;
+        String filePath = "src/division.csv";
         try {
             bufferedwrite = Files.newBufferedWriter(Paths.get(filePath));
             for (String[] data : dataList) {

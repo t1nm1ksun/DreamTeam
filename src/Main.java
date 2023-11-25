@@ -12,7 +12,7 @@ public class Main {
     /**
      * 세번째 depth (변경메뉴) 선택 값
      */
-    public static int editMenu;
+    public static int divisionMenu;
 
     public static TimeTableManager timetableManager = new TimeTableManager();
     public static LectureManager lectureManager = new LectureManager();
@@ -21,21 +21,10 @@ public class Main {
     public static LectureRoomManager lectureroomManager = new LectureRoomManager();
     public static TeacherManager teacherManager = new TeacherManager();
 
+    public static DivisionManager divisionManager = new DivisionManager();
+
     public static void main(String[] args) {
-        if (!Read.validateCSVListFormat(Arrays.asList(subjectManager, timetableManager, lectureManager, lectureroomManager, studentManager, teacherManager))) return;
-        if (!Read.validateCSVRef(timetableManager, lectureroomManager, "1", "0")) return;
-        if (!Read.validateCSVRef(lectureManager, timetableManager, "+5", "0")) return;
-        if (!Read.validateCSVRef(timetableManager, lectureroomManager, "1", "0")) return;
-        if (!Read.validateCSVRef(lectureManager, subjectManager, "1", "0")) return;
-        if (!Read.validateCSVRef(lectureManager, teacherManager, "2", "0")) return;
-        if (!Read.validateCSVRef(lectureManager, timetableManager, "+5", "0")) return;
-        if (!Read.validateCSVRef(teacherManager, timetableManager, "+3", "0")) return;
-        if (!Read.validateCSVRef(teacherManager, subjectManager, "2", "0")) return;
-        if (!Read.validateCSVRef(studentManager, lectureManager, "+3", "0")) return;
-        if(!Read.validatePhoneNumberDupliacated(Arrays.asList(studentManager))) return;
-        if(!Read.validateTimetableIdDupliacated(Arrays.asList(lectureManager, teacherManager))) return;
-        if(!Read.validateTimetableInfoDuplicated(timetableManager)) return;
-        if(!Read.validateLectureHasOverStudents(lectureManager)) return;
+        if(!CsvValidator.validate()) return;
 
         lectureroomManager.makeRooms();
         timetableManager.makeTimetables();
@@ -43,17 +32,17 @@ public class Main {
         studentManager.makeStudents();
         subjectManager.makeSubjects();
         teacherManager.makeTeachers();
-
-        //TODO 학생,타임테이블체크도 추가
+        divisionManager.makeDivisions();
 
         while (mainMenu != 3) {
-            MainMenuHandler.handle(lectureManager, studentManager);
+            MainMenuHandler.handle(lectureManager, studentManager, divisionManager);
         }
 
         lectureManager.saveDataFile();
         studentManager.saveDataFile();
         timetableManager.saveDataFile();
         teacherManager.saveDataFile();
+        divisionManager.saveDataFile();
 
         ScannerUtils.print("프로그램이 종료되었습니다.", true);
 

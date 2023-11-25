@@ -1,10 +1,10 @@
 public class MainMenuHandler {
 
-    public static void handle(LectureManager lectureManager, StudentManager studentManager) {
+    public static void handle(LectureManager lectureManager, StudentManager studentManager, DivisionManager divisionManager) {
         switch (Main.mainMenu) {
             case 1 -> {
                 while (Main.mainMenu == 1) {
-                    LectureMenuHandler.handle(lectureManager);
+                    LectureMenuHandler.handle(lectureManager, divisionManager);
                 }
             }
             case 2 -> {
@@ -13,6 +13,7 @@ public class MainMenuHandler {
                 }
             }
             case 3 -> {
+                clearMainMenu();
             }
             default -> {
                 ScannerUtils.print("[1.수업 시간표 관리 2.학생 관리 3.종료]", true);

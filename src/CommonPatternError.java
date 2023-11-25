@@ -24,9 +24,14 @@ public class CommonPatternError {
      */
     public static final String LECTURE_TIME = "[오류: 잘못된 입력입니다. (* 1,2,3,4 중 하나의 숫자를 입력하세요 *)]"; // 수업 시간 에러 메세지
     /**
+     * 수업 이름 에러 메세지
+     */
+    public static final String LECTURE_NAME = "[오류: 잘못된 입력입니다. (* 공백 없이 2~10자 사이의 한글로만 입력하세요 *)]"; // 학생 이름 에러 메세지
+    /**
      * 학생 이름 에러 메세지
      */
     public static final String STUDENT_NAME = "[오류: 잘못된 입력입니다. (* 공백 없이 2~10자 사이의 한글로만 입력하세요 *)]"; // 학생 이름 에러 메세지
+
     /**
      * 전화번호 에러 메세지
      */
@@ -55,4 +60,9 @@ public class CommonPatternError {
      * 타임테이블 에러 메세지
      */
     public static final String TIMETABLE_CODE = "[오류: 잘못된 입력입니다. (* 올바른 형식으로 입력하세요 *)]"; // 타임테이블 에러 메시지
+
+    /**
+     * 분반 코드 에러 메세지
+     */
+    public static final String DIVISION_CODE = "[오류: 잘못된 입력입니다. (* 올바른 형식으로 입력하세요 *)]"; // 분반 코드 에러 메세지
 }

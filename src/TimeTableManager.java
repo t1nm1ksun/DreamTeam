@@ -28,13 +28,9 @@ public class TimeTableManager implements BaseManager {
     public boolean checkIsCsvRowsRequired() {
         return false;
     }
-
-    public TimeTableManager() {
-
-    }
     
     public void makeTimetables() {
-        List<List<String>> list = Read.readCSV("src/timetable.csv");
+        List<List<String>> list = Read.readCSV(getCsvFilePath());
 
         for (List<String> item : list) {
             // csv 파일들을 읽어와서 강의들을 생성함
@@ -67,7 +63,7 @@ public class TimeTableManager implements BaseManager {
 
         for (TimeTable tab : timetables) {
             if (roomId.equals(tab.getRoomId())) {
-                tt[Integer.parseInt(tab.getLectureTime()) - 1][Integer.parseInt(tab.getLectureDays()) - 1] = "O";
+                tt[Integer.parseInt(tab.getDivisionTime()) - 1][Integer.parseInt(tab.getDivisionDays()) - 1] = "O";
             }
         }
 
@@ -85,8 +81,8 @@ public class TimeTableManager implements BaseManager {
     public boolean findTable(String roomId, String day, String lectureTime) { // timetable 포함 여부 판단
         for (TimeTable tab : timetables) {
             if (roomId.equals(tab.getRoomId())) {
-                if (day.equals(tab.getLectureDays())) {
-                    if (lectureTime.equals(tab.getLectureTime())) {
+                if (day.equals(tab.getDivisionDays())) {
+                    if (lectureTime.equals(tab.getDivisionTime())) {
                         return false;
                     }
                 }
@@ -97,27 +93,30 @@ public class TimeTableManager implements BaseManager {
 
     public boolean isOverLappedTime(TimeTable table1, TimeTable table2) {
         // 2개의 타임테이블이 겹치는지 확인
-        return table1.getLectureDays().equals(table2.getLectureDays())
-                && table1.getLectureTime().equals(table2.getLectureTime());
+        return table1.getDivisionDays().equals(table2.getDivisionDays())
+                && table1.getDivisionTime().equals(table2.getDivisionTime());
     }
 
-    public String addTimeTable(String roomId, String day, String lectureTime) {// 타임테이블 추가
+    public String addTimeTable(String roomId, String day, String Time) {// 타임테이블 추가
         int cmpCode = 6000;
-        boolean isNew = false;
+        boolean isMiddle = false;
+
         timetables.sort(Comparator.comparing(TimeTable::getCode));
+
         for (TimeTable table : timetables) {
             if (!Integer.toString(cmpCode).equals(table.getCode())) {
-                TimeTable t1 = new TimeTable(Integer.toString(cmpCode), roomId, day, lectureTime);
+                TimeTable t1 = new TimeTable(Integer.toString(cmpCode), roomId, day, Time);
                 timetables.add(t1);
-                isNew = true;
+                isMiddle = true;
                 break;
             } else {
                 cmpCode++;
             }
+
         }
 
-        if (!isNew) {
-            TimeTable t1 = new TimeTable(Integer.toString(cmpCode), roomId, day, lectureTime);
+        if (!isMiddle) {
+            TimeTable t1 = new TimeTable(Integer.toString(cmpCode), roomId, day, Time);
             timetables.add(t1);
         }
 
@@ -152,9 +151,10 @@ public class TimeTableManager implements BaseManager {
     public void saveDataFile() {
         //lectures 들을 알맞은 형식의 데이터로 전환한 뒤 파일에 저장
         for (TimeTable lec : timetables) {
-            String[] tmpData = {lec.getCode(), lec.getRoomId(), lec.getLectureDays(), lec.getLectureTime()};
+            String[] tmpData = {lec.getCode(), lec.getRoomId(), lec.getDivisionDays(), lec.getDivisionTime()};
             saveData.add(tmpData);
         }
+
         Read.writeTimeTableCSV(saveData);
     }
 

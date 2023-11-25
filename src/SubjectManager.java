@@ -12,7 +12,7 @@ public class SubjectManager implements BaseManager {
 
     @Override
     public List<String> getRegexList() {
-        return Arrays.asList(CommonPattern.SUBJECT_CODE, CommonPattern.STUDENT_NAME);
+        return Arrays.asList(CommonPattern.SUBJECT_CODE, CommonPattern.SUBJECT_NAME);
     }
 
     @Override
@@ -25,15 +25,9 @@ public class SubjectManager implements BaseManager {
         return true;
     }
 
-    public SubjectManager() {
-        //여기서 csv 파일 읽어서 과목들을 생성
-
-    }
-
     public void makeSubjects() {
         subjects = new ArrayList<>();
-        Read read = new Read();
-        List<List<String>> subjectList = read.readCSV("src/subject.csv");
+        List<List<String>> subjectList = Read.readCSV(getCsvFilePath());
         for (List<String> item : subjectList) {
             Subject s1 = new Subject(item.get(0), item.get(1));
             subjects.add(s1);
