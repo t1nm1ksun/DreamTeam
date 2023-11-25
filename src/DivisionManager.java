@@ -95,7 +95,7 @@ public class DivisionManager implements BaseManager {
             return false;
         } else {
             System.out.println("[등록된 분반 목록]");
-            ScannerUtils.print("분반코드    수업코드     수업이름     선생님 ID    정원/현원      강의실, 날짜 및 시간", true);
+            ScannerUtils.print("분반코드     수업코드     수업이름      선생님 ID    정원/현원      강의실, 날짜 및 시간", true);
 
             //TODO: 여기 틀린 부분 있으면 고치기 (승범, 성종)
             for (Division division : divisions) {
