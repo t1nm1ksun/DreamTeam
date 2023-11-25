@@ -2,14 +2,14 @@ import java.util.Arrays;
 
 public class CsvValidator {
     static boolean validate(){
-        boolean isFormatValidated = validateFormat();
-        boolean isRefValidated = validateRef();
-        boolean areInformationsValidated = validateInformations();
-        return isFormatValidated && isRefValidated && areInformationsValidated;
+        if(!validateFormat()) return false;
+        if(!validateRef()) return false;
+        if(!validateInformations()) return false;
+        return true;
     }
 
     private static boolean validateFormat(){
-        return Read.validateCSVListFormat(Arrays.asList(Main.subjectManager, Main.timetableManager, Main.lectureManager, Main.lectureroomManager, Main.studentManager, Main.teacherManager));
+        return Read.validateCSVListFormat(Arrays.asList(Main.subjectManager, Main.timetableManager, Main.lectureManager, Main.lectureroomManager, Main.studentManager, Main.teacherManager, Main.divisionManager));
     }
 
     private static boolean validateInformations(){
