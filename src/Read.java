@@ -244,6 +244,27 @@ public class Read {
         return true;
     }
 
+    public static boolean validateTimetableIdDupliacatedInFile(List<BaseManager> managerList) {
+        for (BaseManager manager : managerList) {
+            List<List<String>> csv = readCSV(manager.getCsvFilePath());
+            List<String> timeTableId = new ArrayList<String>();
+            for (List<String> line : csv) {
+                for (String item : line) {
+                    if (item.startsWith("6") && item.length() == 4) {
+                        if (timeTableId.contains(item)) {
+                            ScannerUtils.print(manager.getCsvFilePath() + "파일에서 데이터 간 " + item + " 타임테이블 코드가 중복 조회되고 있습니다.",
+                                    true);
+                            return false;
+                        }
+                        timeTableId.add(item);
+                    }
+                }
+            }
+        }
+
+        return true;
+    }
+
     public static boolean validateSubjectIdDupliacated(List<BaseManager> managerList) {
         for (BaseManager manager : managerList) {
             List<List<String>> csv = readCSV(manager.getCsvFilePath());
