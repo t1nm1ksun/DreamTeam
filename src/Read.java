@@ -537,34 +537,7 @@ public class Read {
         }
     }
 
-    public static void writeLectureRoomCSV(List<String[]> dataList) {
-        BufferedWriter bufferedwrite = null;
-        ScannerUtils.print(Integer.toString(dataList.size()), true);
-        String filePath = "src/lecture-room.csv";
-        try {
-            bufferedwrite = Files.newBufferedWriter(Paths.get(filePath));
-            for (String[] data : dataList) {
-                //                List<String> data = dataList.get(i);
-                String aData = "";
-                aData = data[0] + "," + data[1] + "," + data[2];
-//                ScannerUtils.print("저장 : " + data[0] + "," + data[1] + "," + data[2], true);
-                bufferedwrite.write(aData);
-                bufferedwrite.newLine();
-            }
 
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                if (bufferedwrite != null) {
-                    bufferedwrite.flush();
-                    bufferedwrite.close();
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-    }
 
     public static void writeTeacherCSV(List<String[]> dataList) {
         BufferedWriter bufferedwrite = null;

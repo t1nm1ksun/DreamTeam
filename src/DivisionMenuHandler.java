@@ -4,21 +4,21 @@ public class DivisionMenuHandler {
         switch (Main.divisionMenu) {
             case 1 -> {
                 divisionManager.displayDivisions();
-                clearManageMenu();
+                clearDivisionMenu();
             }
             case 2 -> {
                 divisionManager.addDivision();
-                clearManageMenu();
+                clearDivisionMenu();
             }
             case 3 -> {
                 divisionManager.editDate();
-                clearManageMenu();
+                clearDivisionMenu();
             }
             case 4 -> {
                 if (divisionManager.deleteDivision()) {
                     ScannerUtils.print("수업이 성공적으로 삭제되었습니다!", true);
                 }
-                clearManageMenu();
+                clearDivisionMenu();
             }
             case 5 -> {
                 escapeToLectureMenu();
@@ -32,7 +32,7 @@ public class DivisionMenuHandler {
         }
     }
 
-    public static void clearManageMenu() {
+    public static void clearDivisionMenu() {
         Main.divisionMenu = -1;
     }
 
@@ -41,9 +41,5 @@ public class DivisionMenuHandler {
         Main.manageMenu = -1;
     }
 
-    public static void escapeToMainMenu() {
-        Main.divisionMenu = -1;
-        Main.manageMenu = -1;
-        Main.mainMenu = -1;
-    }
+  
 }
