@@ -10,7 +10,7 @@ import java.util.List;
 public class DivisionManager implements BaseManager {
 
     private static Integer maxDivisionCode = 8000;
-    private int maxDivision = 0; //수업 생성 막기
+    private int maxDivision = 0; //분반 생성 막기
     private final List<String[]> saveData = new ArrayList<>(); //프로그램 종료 시 저장 파일
     private final List<Division> divisions = new ArrayList<>(); // 분반 목록을 저장할 리스트
 
@@ -579,14 +579,13 @@ public class DivisionManager implements BaseManager {
             }
         }
     }
-    public Division deleteDivisionByLectureCode(String lectrueCode) {
+    public void deleteDivisionByLectureCode(String lectrueCode) {
         // 디비젼 코드를 이용해 deleteDivision을 호출
         for (Division division : divisions) {
             if (division.getLectureCode().equals(lectrueCode)) {
                 deleteDivision(division.getDivisionCode());
             }
         }
-        return null;
     }
 
 }

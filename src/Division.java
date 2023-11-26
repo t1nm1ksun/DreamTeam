@@ -1,7 +1,7 @@
 import java.util.List;
 
 public class Division {
-    private String divisionCode; // 과목 코드
+    private String divisionCode; // 분반 코드
     private String lectureCode; // 수업 코드
     private final List<TimeTable> timetable; //타임 테이블
     private final String limit; // 강의 정원
@@ -16,24 +16,16 @@ public class Division {
     }
     public String getDivisionCode() { return divisionCode;   }
 
-    public void setDivisionCode(String divisionCode) {
-        this.divisionCode = divisionCode;
-    }
+
     public String getLectureCode() {
         return lectureCode;
     }
 
-    public void setLectureCode(String lectureCode) {
-        this.lectureCode = lectureCode;
-    }
 
     public String getTeacher() {
         return teacher;
     }
     // 선생님 정보 설정
-    public void setTeacher(String teacher) {
-        this.teacher = teacher;
-    }
 
 
     public String getLimit() {
@@ -45,12 +37,6 @@ public class Division {
         return takeCoursesStudents.size();
     }
 
-
-
-
-    public void addTimetable(TimeTable timeTable) {
-        this.timetable.add(timeTable);
-    }
 
     // 선생님 정보 반환
 

@@ -25,17 +25,7 @@ public class Lecture {
         ScannerUtils.print("", true);
     }
 
-    // 과목 정보 설정
-    public void setSubjectCode(String subjectCode) {
-        this.subjectCode = subjectCode;
-    }
 
-
-
-    // 수업 코드 정보 설정
-    public void setLectureCode(String lectureCode) {
-        this.lectureCode = lectureCode;
-    }
 
 
 
