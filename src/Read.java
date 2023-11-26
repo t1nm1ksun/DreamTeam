@@ -244,6 +244,48 @@ public class Read {
         return true;
     }
 
+    public static boolean validateTimetableIdDupliacatedInFile(List<BaseManager> managerList) {
+        for (BaseManager manager : managerList) {
+            List<List<String>> csv = readCSV(manager.getCsvFilePath());
+            List<String> timeTableId = new ArrayList<String>();
+            for (List<String> line : csv) {
+                for (String item : line) {
+                    if (item.startsWith("6") && item.length() == 4) {
+                        if (timeTableId.contains(item)) {
+                            ScannerUtils.print(manager.getCsvFilePath() + "파일에서 데이터 간 " + item + " 타임테이블 코드가 중복 조회되고 있습니다.",
+                                    true);
+                            return false;
+                        }
+                        timeTableId.add(item);
+                    }
+                }
+            }
+        }
+
+        return true;
+    }
+
+    public static boolean validateSubjectIdDupliacated(List<BaseManager> managerList) {
+        for (BaseManager manager : managerList) {
+            List<List<String>> csv = readCSV(manager.getCsvFilePath());
+            for (List<String> line : csv) {
+                List<String> subjectId = new ArrayList<String>();
+                for (String item : line) {
+                    if (item.startsWith("1") && item.length() == 4) {
+                        if (subjectId.contains(item)) {
+                            ScannerUtils.print(manager.getCsvFilePath() + "파일에서 데이터 하나에 " + item + " 과목 코드가 중복 조회되고 있습니다.",
+                                    true);
+                            return false;
+                        }
+                        subjectId.add(item);
+                    }
+                }
+            }
+        }
+
+        return true;
+    }
+
     public static boolean validateStudentHasDuplicatedLecture(StudentManager studentManager, DivisionManager divisionManager){
         List<List<String>> studentCsv = readCSV(studentManager.getCsvFilePath());
         List<List<String>> divisionCsv = readCSV(divisionManager.getCsvFilePath());
@@ -305,6 +347,7 @@ public class Read {
         }
         return true;
     }
+
 
     public static boolean validateDivisionHasOverThanRoomLimit(DivisionManager divisionManager, LectureRoomManager lectureRoomManager, TimeTableManager timeTableManager){
         List<List<String>> divisionCsv = readCSV(divisionManager.getCsvFilePath());
