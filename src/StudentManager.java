@@ -391,19 +391,6 @@ public class StudentManager implements BaseManager {
         }
     }
 
-    public boolean checkSameID() {
-        Set<String> checkName = new HashSet<>();
-
-        for (Student std : studentList) {
-            checkName.add(std.getId());
-        }
-        if (checkName.size() != studentList.size()) {
-            ScannerUtils.print("student.csv의 특정 ID가 중복 조회되고 있습니다. csv 파일을 확인해주세요.", true);
-            return false;
-        }
-        return true;
-    }
-
     public void saveDataFile() {
         //lectures 들을 알맞은 형식의 데이터로 전환한 뒤 파일에 저장
         for (Student stu : studentList) {
@@ -415,12 +402,6 @@ public class StudentManager implements BaseManager {
         }
         Read.writeStudentCSV(saveData);
     }
-
-    public List<Student> getStudents(){
-        return studentList;
-    }
-
-
 
     public List<Student> getStudentsByDivisionCode(String divisionCode){
         List<Student> students = new ArrayList<>();

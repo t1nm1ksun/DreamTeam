@@ -53,12 +53,4 @@ public class Teacher {
         return false;
     }
 
-    // TODO: 조만간 처리
-    public void addTimetable(TimeTable timetable){
-        Main.timetableManager.addTimeTable(timetable.getRoomId(), timetable.getDivisionDays(), timetable.getDivisionTime());
-    }
-
-    public void deleteTimetable(TimeTable timetable){
-        Main.timetableManager.deleteTimeTable(timetable.getCode());
-    }
 }

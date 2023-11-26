@@ -41,12 +41,12 @@ public class TimeTableManager implements BaseManager {
         }
     }
 
-    private String displayLectureTime(int lectureTime) {
-        if (lectureTime == 0) {
+    private String displayDivisionTime(int Time) {
+        if (Time == 0) {
             return "14:00~16:00";
-        } else if (lectureTime == 1) {
+        } else if (Time == 1) {
             return "16:00~18:00";
-        } else if (lectureTime == 2) {
+        } else if (Time == 2) {
             return "18:00~20:00";
         } else {
             return "20:00~22:00";
@@ -69,7 +69,7 @@ public class TimeTableManager implements BaseManager {
 
         ScannerUtils.print(roomId + "번 강의실 ㅣ 월 ㅣ 화 ㅣ 수 ㅣ 목 ㅣ 금 ㅣ 토", true);
         for (int i = 0; i < 4; i++) {
-            ScannerUtils.print(displayLectureTime(i) + "   ", false);
+            ScannerUtils.print(displayDivisionTime(i) + "   ", false);
             for (int j = 0; j < 6; j++) {
                 ScannerUtils.print(tt[i][j] + "    ", false);
             }
@@ -78,11 +78,11 @@ public class TimeTableManager implements BaseManager {
         ScannerUtils.print("O: 이미 수업이 존재하는 타임, X: 수업이 존재하지 않음", true);
     }
 
-    public boolean findTable(String roomId, String day, String lectureTime) { // timetable 포함 여부 판단
+    public boolean findTable(String roomId, String day, String Time) { // timetable 포함 여부 판단
         for (TimeTable tab : timetables) {
             if (roomId.equals(tab.getRoomId())) {
                 if (day.equals(tab.getDivisionDays())) {
-                    if (lectureTime.equals(tab.getDivisionTime())) {
+                    if (Time.equals(tab.getDivisionTime())) {
                         return false;
                     }
                 }

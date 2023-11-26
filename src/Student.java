@@ -31,9 +31,6 @@ public class Student {
         return id;
     }
 
-    public void setId(String id) {
-        this.id = id;
-    }
 
     public String getName() {
         return name;
@@ -60,13 +57,7 @@ public class Student {
         this.divisionCodes.add(divisionCode);
     }
 
-    public void setLectureList(List<String> lectureList) {
-        this.divisionCodes = lectureList;
-    }
 
-    public void addLectureList(String lecture) {
-        this.divisionCodes.add(lecture);
-    }
 
     public void deleteDivisionCode(String divisionCode) {
         this.divisionCodes.remove(divisionCode);

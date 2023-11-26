@@ -41,14 +41,6 @@ public class TeacherManager implements BaseManager {
         }
     }
 
-    public String find(String input) {
-        for (Teacher t : teachers) {
-            if (t.getName().equals(input)) {
-                return t.getCode();
-            }
-        }
-        return "";
-    }
 
     public List<Teacher> getTeachers() {
         return teachers;

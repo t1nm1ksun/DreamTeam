@@ -62,15 +62,6 @@ public class LectureManager implements BaseManager {
     }
 
     // StudentManager에서 학생이 수강 중인 수업을 조회하기 위한 메서드
-    public void displayLecture(String lectureCode) {
-        if (!lectures.isEmpty() && hasLecture(lectureCode) != null) {
-            //TODO: Lecture 형식에 맞춰서 수정하기, timeTableManager로 수업 정보 가져오기 (창균, 민석)
-            ScannerUtils.print("|    " + hasLecture(lectureCode).getLectureCode() + "       ", false);
-            ScannerUtils.print(hasLecture(lectureCode).getSubjectCode() + "         ", false);
-            ScannerUtils.print(hasLecture(lectureCode).getLectureName() + "         ", false);
-            ScannerUtils.print("", true);
-        }
-    }
 
     // 모든 수업 목록을 조회하는 메서드
     public boolean displayLectures() {
@@ -186,9 +177,6 @@ public class LectureManager implements BaseManager {
     }
 
 
-    public void editDate() {
-
-    }
 
     public void saveDataFile() {
         //lectures 들을 알맞은 형식의 데이터로 전환한 뒤 파일에 저장
@@ -205,9 +193,7 @@ public class LectureManager implements BaseManager {
         Read.writeLectureCSV(saveData);
     }
 
-    public int getMaxLecture() {
-        return maxLecture;
-    }
+    
 
 
     public Lecture getLectureByCode(String lectureCode) {
