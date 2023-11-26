@@ -1,6 +1,7 @@
 import static java.lang.Math.max;
 import static java.lang.Math.min;
 
+import java.lang.annotation.ElementType;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -202,7 +203,12 @@ public class DivisionManager implements BaseManager {
             do{
                 ScannerUtils.print("\n추가할 분반의 수업을 선택해 주세요: ", false);
                 String input = ScannerUtils.scanWithPattern(CommonPattern.LECTURE_CODE, CommonPatternError.LECTURE_CODE);
-                inputLectureCode= Main.lectureManager.hasLecture(input).getLectureCode();
+                Lecture foundLecture = Main.lectureManager.hasLecture(input);
+                if(foundLecture == null){
+                    ScannerUtils.print("[오류: 존재하지 않는 수업코드 입니다. (* 존재하는 수업 코드를 입력해주세요. *)", false);
+                    continue;
+                }
+                inputLectureCode= foundLecture.getLectureCode();
             }while(inputLectureCode.length()<3);
 
             // 선택한 수업에 대해 이미 3개의 분반이 존재함
